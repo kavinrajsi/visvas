@@ -8,8 +8,21 @@ import styles from './page.module.css'
 export const dynamic = 'force-dynamic'
 
 export const metadata = {
-  title: 'Blog | Visvas',
-  description: 'Read latest insights and tips on real estate and property development.',
+  title: 'Blog & Insights | Visvas',
+  description: 'Read latest insights and tips on real estate and property development in Madurai.',
+  openGraph: {
+    title: 'Blog & Insights | Visvas',
+    description: 'Read latest insights and tips on real estate and property development in Madurai.',
+    type: 'website',
+    url: 'https://www.visvas.in/blog',
+  },
+  twitter: {
+    title: 'Blog & Insights | Visvas',
+    description: 'Read latest insights and tips on real estate and property development in Madurai.',
+  },
+  alternates: {
+    canonical: 'https://www.visvas.in/blog',
+  },
 }
 
 function formatDate(dateStr) {
@@ -107,6 +120,32 @@ export default async function BlogPage({ searchParams }) {
         {/* Sidebar */}
         <BlogSidebar />
       </div>
+
+      {/* JSON-LD Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'CollectionPage',
+            name: 'Blog & Insights',
+            url: 'https://www.visvas.in/blog',
+            description:
+              'Read latest insights and tips on real estate and property development in Madurai.',
+            mainEntity: {
+              '@type': 'ItemList',
+              itemListElement: posts.map((post, idx) => ({
+                '@type': 'ListItem',
+                position: idx + 1,
+                url: `https://www.visvas.in/blog/${post.slug}`,
+                name: post.title,
+                description: post.excerpt,
+                image: post.coverImage?.url,
+              })),
+            },
+          }),
+        }}
+      />
     </div>
   )
 }

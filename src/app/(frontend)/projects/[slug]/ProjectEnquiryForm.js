@@ -11,7 +11,10 @@ export default function ProjectEnquiryForm({ projectName }) {
     email: '',
     budget: '',
     message: '',
+    project: projectName || '',
   })
+  const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState(null)
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target
@@ -21,9 +24,56 @@ export default function ProjectEnquiryForm({ projectName }) {
     }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log('Form submitted:', formData)
+    setLoading(true)
+    setMessage(null)
+
+    try {
+      const response = await fetch('/api/forms/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          formType: 'enquiry',
+          formData: {
+            ...formData,
+          },
+        }),
+      })
+
+      const result = await response.json()
+
+      if (result.success) {
+        setMessage({
+          type: 'success',
+          text: 'Thank you! We will get back to you shortly.',
+        })
+        setFormData({
+          name: '',
+          mobile: '',
+          whatsapp: false,
+          email: '',
+          budget: '',
+          message: '',
+          project: projectName || '',
+        })
+      } else {
+        setMessage({
+          type: 'error',
+          text: result.error || 'Something went wrong. Please try again.',
+        })
+      }
+    } catch (error) {
+      console.error('Form submission error:', error)
+      setMessage({
+        type: 'error',
+        text: 'Network error. Please try again.',
+      })
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -100,12 +150,18 @@ export default function ProjectEnquiryForm({ projectName }) {
           aria-label="Message"
         ></textarea>
 
+        {message && (
+          <p className={`${styles['enquiry-form__message']} ${styles[`enquiry-form__message--${message.type}`]}`}>
+            {message.text}
+          </p>
+        )}
+
         <p className={styles['enquiry-form__disclaimer']}>
           By submitting this form you agree to the Terms and Conditions and Privacy Policy
         </p>
 
-        <button type="submit" className={styles['enquiry-form__btn']}>
-          Send OTP
+        <button type="submit" className={styles['enquiry-form__btn']} disabled={loading}>
+          {loading ? 'Sending...' : 'Send OTP'}
         </button>
       </form>
     </aside>

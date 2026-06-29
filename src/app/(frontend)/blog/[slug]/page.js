@@ -40,13 +40,37 @@ export async function generateMetadata({ params }) {
     }
   }
 
+  const metaTitle = post.metaTitle || post.title
+  const metaDesc = post.metaDescription || post.excerpt
+
   return {
-    title: `${post.metaTitle || post.title} | Visvas Blog`,
-    description: post.metaDescription || post.excerpt,
+    title: `${metaTitle} | Visvas Blog`,
+    description: metaDesc,
     openGraph: {
-      title: post.ogTitle || post.metaTitle || post.title,
-      description: post.ogDescription || post.metaDescription,
+      title: post.ogTitle || metaTitle,
+      description: post.ogDescription || metaDesc,
+      images: [
+        {
+          url: post.ogImage?.url || post.coverImage?.url,
+          width: 1200,
+          height: 630,
+        },
+      ],
+      type: 'article',
+      publishedTime: post.publishedAt,
+    },
+    twitter: {
+      card: post.twitterCard || 'summary_large_image',
+      title: post.twitterTitle || post.ogTitle || metaTitle,
+      description: post.twitterDescription || post.ogDescription || metaDesc,
       image: post.ogImage?.url || post.coverImage?.url,
+    },
+    alternates: {
+      canonical: post.canonicalUrl || `/blog/${params.slug}`,
+    },
+    robots: {
+      index: !post.noIndex,
+      follow: !post.noFollow,
     },
   }
 }
@@ -96,6 +120,66 @@ export default async function BlogDetailPage({ params }) {
         {/* Sidebar */}
         <BlogSidebar />
       </div>
+
+      {/* JSON-LD Schemas */}
+      {post.structuredData && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: post.structuredData,
+          }}
+        />
+      )}
+
+      {!post.structuredData && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Article',
+              headline: post.title,
+              description: post.excerpt,
+              image: post.coverImage?.url || undefined,
+              datePublished: post.publishedAt,
+              author: {
+                '@type': 'Person',
+                name: post.author || 'Visvas',
+              },
+            }),
+          }}
+        />
+      )}
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              {
+                '@type': 'ListItem',
+                position: 1,
+                name: 'Home',
+                item: 'https://www.visvas.in',
+              },
+              {
+                '@type': 'ListItem',
+                position: 2,
+                name: 'Blog',
+                item: 'https://www.visvas.in/blog',
+              },
+              {
+                '@type': 'ListItem',
+                position: 3,
+                name: post.title,
+                item: `https://www.visvas.in/blog/${post.slug}`,
+              },
+            ],
+          }),
+        }}
+      />
     </div>
   )
 }

@@ -282,6 +282,124 @@ const Projects = {
             },
           ],
         },
+        {
+          label: 'SEO',
+          fields: [
+            {
+              name: 'metaTitle',
+              type: 'text',
+              label: 'Meta Title',
+              admin: {
+                placeholder: 'Keep under 60 characters for best results',
+              },
+            },
+            {
+              name: 'metaDescription',
+              type: 'textarea',
+              label: 'Meta Description',
+              admin: {
+                placeholder: 'Keep under 160 characters for best results',
+              },
+            },
+            {
+              name: 'metaKeywords',
+              type: 'text',
+              label: 'Meta Keywords',
+              admin: {
+                placeholder: 'e.g. luxury apartments madurai, villas, ready to move',
+              },
+            },
+            {
+              name: 'canonicalUrl',
+              type: 'text',
+              label: 'Canonical URL',
+              admin: {
+                placeholder: 'https://www.visvas.in/projects/your-project-slug (leave blank to use default)',
+              },
+            },
+            {
+              name: 'noIndex',
+              type: 'checkbox',
+              label: 'No Index',
+              defaultValue: false,
+              admin: {
+                description: 'Tell search engines not to index this page',
+              },
+            },
+            {
+              name: 'noFollow',
+              type: 'checkbox',
+              label: 'No Follow',
+              defaultValue: false,
+              admin: {
+                description: 'Tell search engines not to follow links on this page',
+              },
+            },
+            {
+              name: 'ogTitle',
+              type: 'text',
+              label: 'OG Title (Facebook / WhatsApp / LinkedIn)',
+              admin: {
+                placeholder: 'Defaults to Meta Title if left blank',
+              },
+            },
+            {
+              name: 'ogDescription',
+              type: 'textarea',
+              label: 'OG Description',
+              admin: {
+                placeholder: 'Defaults to Meta Description if left blank',
+              },
+            },
+            {
+              name: 'ogImage',
+              type: 'upload',
+              relationTo: 'media',
+              label: 'OG Share Image',
+              admin: {
+                description: 'Recommended size: 1200×630px. Defaults to Cover Image if left blank.',
+              },
+              filterOptions: {
+                mimeType: { contains: 'image' },
+              },
+            },
+            {
+              name: 'twitterCard',
+              type: 'select',
+              label: 'Twitter Card Type',
+              defaultValue: 'summary_large_image',
+              options: [
+                { label: 'Summary (small image)', value: 'summary' },
+                { label: 'Summary Large Image', value: 'summary_large_image' },
+              ],
+            },
+            {
+              name: 'twitterTitle',
+              type: 'text',
+              label: 'Twitter Title',
+              admin: {
+                placeholder: 'Defaults to OG Title if left blank',
+              },
+            },
+            {
+              name: 'twitterDescription',
+              type: 'textarea',
+              label: 'Twitter Description',
+              admin: {
+                placeholder: 'Defaults to OG Description if left blank',
+              },
+            },
+            {
+              name: 'structuredData',
+              type: 'textarea',
+              label: 'JSON-LD Structured Data',
+              admin: {
+                description: 'Paste raw JSON-LD here for RealEstateListing or custom schema. This will be injected into <script type="application/ld+json"> on the page.',
+                placeholder: '{\n  "@context": "https://schema.org",\n  "@type": "RealEstateListing",\n  "name": "Your Project Name"\n}',
+              },
+            },
+          ],
+        },
       ],
     },
   ],

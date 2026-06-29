@@ -351,6 +351,93 @@ const HomePage = {
           'Mix of text and video testimonials to show in the home page carousel',
       },
     },
+
+    // ── SEO ────────────────────────────────────────────────
+    {
+      name: 'seo',
+      type: 'group',
+      label: 'SEO',
+      fields: [
+        {
+          name: 'metaTitle',
+          type: 'text',
+          label: 'Meta Title',
+          admin: {
+            placeholder: 'Keep under 60 characters for best results',
+          },
+        },
+        {
+          name: 'metaDescription',
+          type: 'textarea',
+          label: 'Meta Description',
+          admin: {
+            placeholder: 'Keep under 160 characters for best results',
+          },
+        },
+        {
+          name: 'ogTitle',
+          type: 'text',
+          label: 'OG Title (Facebook / WhatsApp / LinkedIn)',
+          admin: {
+            placeholder: 'Defaults to Meta Title if left blank',
+          },
+        },
+        {
+          name: 'ogDescription',
+          type: 'textarea',
+          label: 'OG Description',
+          admin: {
+            placeholder: 'Defaults to Meta Description if left blank',
+          },
+        },
+        {
+          name: 'ogImage',
+          type: 'upload',
+          relationTo: 'media',
+          label: 'OG Share Image',
+          admin: {
+            description: 'Recommended size: 1200×630px',
+          },
+          filterOptions: {
+            mimeType: { contains: 'image' },
+          },
+        },
+        {
+          name: 'twitterTitle',
+          type: 'text',
+          label: 'Twitter Title',
+          admin: {
+            placeholder: 'Defaults to OG Title if left blank',
+          },
+        },
+        {
+          name: 'twitterDescription',
+          type: 'textarea',
+          label: 'Twitter Description',
+          admin: {
+            placeholder: 'Defaults to OG Description if left blank',
+          },
+        },
+        {
+          name: 'noIndex',
+          type: 'checkbox',
+          label: 'No Index',
+          defaultValue: false,
+          admin: {
+            description: 'Tell search engines not to index this page',
+          },
+        },
+        {
+          name: 'noFollow',
+          type: 'checkbox',
+          label: 'No Follow',
+          defaultValue: false,
+          admin: {
+            description: 'Tell search engines not to follow links on this page',
+          },
+        },
+      ],
+    },
   ],
 }
 

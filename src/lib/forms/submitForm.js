@@ -1,0 +1,159 @@
+// Generic form submission handler
+// Coordinates: email (Zoho) + storage (JSON/SQLite) + sheets (Google)
+import { sendAdminNotification, sendUserConfirmation } from '@/lib/email/zoho'
+import { storeFormData as storeFormDataDb, getFormData } from '@/lib/storage/nanoDb'
+import { storeFormData as storeFormDataSheets } from '@/lib/storage/googleSheets'
+
+export async function submitForm(formType, formData, options = {}) {
+  const {
+    sendAdminEmail = true,
+    sendUserEmail = true,
+    storeInDb = true,
+    storeInSheets = true,
+    metadata = {},
+  } = options
+
+  const startTime = Date.now()
+  const results = {
+    formType,
+    timestamp: new Date().toISOString(),
+    success: false,
+    email: null,
+    db: null,
+    sheets: null,
+    errors: [],
+  }
+
+  // Get client IP
+  let clientIp = metadata.ip || 'unknown'
+
+  // ========== EMAIL NOTIFICATIONS ==========
+
+  if (sendAdminEmail || sendUserEmail) {
+    const emailData = {
+      formType,
+      formData,
+      timestamp: results.timestamp,
+      email: formData.email,
+      ip: clientIp,
+      id: `${formType}_${Date.now()}`,
+    }
+
+    if (sendAdminEmail) {
+      try {
+        const adminResult = await sendAdminNotification(emailData)
+        results.email = { admin: adminResult }
+        if (!adminResult.success) {
+          results.errors.push(`Admin email failed: ${adminResult.error}`)
+        }
+      } catch (error) {
+        results.errors.push(`Admin email error: ${error.message}`)
+      }
+    }
+
+    if (sendUserEmail && formData.email) {
+      try {
+        const userResult = await sendUserConfirmation(emailData)
+        results.email = { ...results.email, user: userResult }
+        if (!userResult.success) {
+          results.errors.push(`User email failed: ${userResult.error}`)
+        }
+      } catch (error) {
+        results.errors.push(`User email error: ${error.message}`)
+      }
+    }
+  }
+
+  // ========== DATABASE STORAGE ==========
+
+  if (storeInDb) {
+    try {
+      const dbResult = await storeFormDataDb(formType, formData, {
+        ...metadata,
+        source: 'form_submission',
+      })
+      results.db = dbResult
+      if (!dbResult.success) {
+        results.errors.push(`DB storage failed: ${dbResult.error}`)
+      }
+    } catch (error) {
+      results.errors.push(`DB storage error: ${error.message}`)
+    }
+  }
+
+  // ========== GOOGLE SHEETS ==========
+
+  if (storeInSheets) {
+    try {
+      const sheetsResult = await storeFormDataSheets(formType, formData, metadata)
+      results.sheets = sheetsResult
+      if (!sheetsResult.success) {
+        results.errors.push(`Sheets storage failed: ${sheetsResult.error}`)
+      }
+    } catch (error) {
+      results.errors.push(`Sheets storage error: ${error.message}`)
+    }
+  }
+
+  // ========== FINAL RESULT ==========
+
+  const processingTime = Date.now() - startTime
+  results.success = results.errors.length === 0
+  results.processingTime = processingTime
+
+  // Log result
+  console.log(`[FORM] ${formType} submission ${results.success ? 'SUCCESS' : 'FAILED'}`, {
+    timestamp: results.timestamp,
+    email: formData.email,
+    success: results.success,
+    processingTime,
+    errors: results.errors,
+  })
+
+  return results
+}
+
+// Retrieve submitted form data
+export async function getFormSubmissions(formType, limit = 100) {
+  try {
+    return await getFormData(formType, limit)
+  } catch (error) {
+    console.error('[FORM] Error retrieving submissions:', error.message)
+    return { success: false, error: error.message }
+  }
+}
+
+// Validate form data
+export function validateFormData(formType, formData) {
+  const errors = []
+
+  // Common validations
+  if (!formData.name || formData.name.trim().length === 0) {
+    errors.push('Name is required')
+  }
+
+  if (!formData.email || !isValidEmail(formData.email)) {
+    errors.push('Valid email is required')
+  }
+
+  if (!formData.mobile || formData.mobile.trim().length === 0) {
+    errors.push('Mobile number is required')
+  }
+
+  // Form-specific validations
+  if (formType === 'enquiry') {
+    if (!formData.budget || formData.budget.trim().length === 0) {
+      errors.push('Budget is required')
+    }
+  }
+
+  return {
+    valid: errors.length === 0,
+    errors,
+  }
+}
+
+function isValidEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  return emailRegex.test(email)
+}

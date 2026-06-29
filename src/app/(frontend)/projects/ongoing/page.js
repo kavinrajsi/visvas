@@ -10,7 +10,20 @@ export const dynamic = 'force-dynamic'
 
 export const metadata = {
   title: 'Ongoing Projects | Visvas',
-  description: 'View our ongoing real estate development projects.',
+  description: 'Discover our active real estate development projects across premium locations in Madurai.',
+  openGraph: {
+    title: 'Ongoing Projects | Visvas',
+    description: 'Discover our active real estate development projects across premium locations in Madurai.',
+    type: 'website',
+    url: 'https://www.visvas.in/projects/ongoing',
+  },
+  twitter: {
+    title: 'Ongoing Projects | Visvas',
+    description: 'Discover our active real estate development projects across premium locations in Madurai.',
+  },
+  alternates: {
+    canonical: 'https://www.visvas.in/projects/ongoing',
+  },
 }
 
 async function getProjects(searchParams) {
@@ -101,6 +114,34 @@ export default async function OngoingProjectsPage({ searchParams }) {
         <div className={styles['page__empty']}>
           <p>No projects found. Try adjusting your filters.</p>
         </div>
+      )}
+
+      {/* JSON-LD Schema */}
+      {projects.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'CollectionPage',
+              name: 'Ongoing Projects',
+              url: 'https://www.visvas.in/projects/ongoing',
+              description:
+                'Discover our active real estate development projects across premium locations in Madurai.',
+              mainEntity: {
+                '@type': 'ItemList',
+                itemListElement: projects.map((project, idx) => ({
+                  '@type': 'ListItem',
+                  position: idx + 1,
+                  url: `https://www.visvas.in/projects/${project.slug}`,
+                  name: project.name,
+                  description: project.projectDescription,
+                  image: project.coverImage?.url,
+                })),
+              },
+            }),
+          }}
+        />
       )}
     </div>
   )

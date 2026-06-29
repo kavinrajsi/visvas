@@ -25,9 +25,32 @@ export async function generateMetadata({ params: paramsPromise }) {
     return { title: 'Project Not Found' }
   }
 
+  const seo = project.seo || {}
+  const metaTitle = seo.metaTitle || project.name
+  const metaDesc = seo.metaDescription || project.projectDescription || project.name
+
   return {
-    title: `${project.name} | Visvas`,
-    description: project.projectDescription || project.name,
+    title: metaTitle,
+    description: metaDesc,
+    openGraph: {
+      title: seo.ogTitle || metaTitle,
+      description: seo.ogDescription || metaDesc,
+      image: seo.ogImage?.url || project.coverImage?.url,
+      type: 'website',
+    },
+    twitter: {
+      card: seo.twitterCard || 'summary_large_image',
+      title: seo.twitterTitle || seo.ogTitle || metaTitle,
+      description: seo.twitterDescription || seo.ogDescription || metaDesc,
+      image: seo.ogImage?.url || project.coverImage?.url,
+    },
+    alternates: {
+      canonical: seo.canonicalUrl || `/projects/${params.slug}`,
+    },
+    robots: {
+      index: !seo.noIndex,
+      follow: !seo.noFollow,
+    },
   }
 }
 
@@ -261,6 +284,66 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
         </div>
         <ProjectFAQ faqs={faqs} />
       </section>
+
+      {/* JSON-LD Schemas */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'RealEstateListing',
+            name: project.name,
+            description: project.projectDescription || project.name,
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: project.locationAddress || project.location,
+              addressLocality: 'Madurai',
+              addressRegion: 'Tamil Nadu',
+              addressCountry: 'IN',
+            },
+            image: project.coverImage?.url || undefined,
+            offers: {
+              '@type': 'Offer',
+              price: project.priceRangeStartFrom || undefined,
+              priceCurrency: 'INR',
+            },
+            geo: {
+              '@type': 'GeoCoordinates',
+              latitude: '9.9252',
+              longitude: '78.1198',
+            },
+          }),
+        }}
+      />
+
+      {faqs.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'FAQPage',
+              mainEntity: faqs.map((faq) => ({
+                '@type': 'Question',
+                name: faq.question,
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: faq.answer,
+                },
+              })),
+            }),
+          }}
+        />
+      )}
+
+      {project.seo?.structuredData && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: project.seo.structuredData,
+          }}
+        />
+      )}
     </main>
   )
 }

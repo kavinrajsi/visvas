@@ -7,8 +7,24 @@ const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] })
 const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'] })
 
 export const metadata = {
-  title: 'Visvas - Property Solutions',
-  description: 'Visvas Website',
+  metadataBase: new URL('https://www.visvas.in'),
+  title: {
+    default: 'Visvas',
+    template: '%s | Visvas',
+  },
+  description: 'Luxury property developer in Madurai. Build your dream home with Visvas.',
+  openGraph: {
+    type: 'website',
+    locale: 'en_IN',
+    siteName: 'Visvas',
+  },
+  twitter: {
+    card: 'summary_large_image',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 }
 
 export default function FrontendLayout({ children }) {
