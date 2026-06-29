@@ -1,0 +1,204 @@
+/* ========================================
+   Blog Index Page - BEM Convention
+   ======================================== */
+
+.blog-index {
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+/* Hero Section */
+.blog-index__hero {
+  background: linear-gradient(135deg, #1e5f2f 0%, #2a7a3c 100%);
+  color: white;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.blog-index__title {
+  margin: 0 0 12px 0;
+  font-family: 'Raleway', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.blog-index__subtitle {
+  margin: 0;
+  font-family: 'Raleway', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  opacity: 0.9;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Main Layout */
+.blog-index__layout {
+  display: flex;
+  gap: 20px;
+  padding: 40px 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.blog-index__main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.blog-index__sidebar {
+  width: 387px;
+  flex-shrink: 0;
+}
+
+/* Post List */
+.blog-index__post-list {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* Post Card */
+.blog-index__post-card {
+  display: flex;
+  gap: 24px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid #e0e0e0;
+  text-decoration: none;
+  transition: opacity 200ms ease-in-out;
+}
+
+.blog-index__post-card:hover {
+  opacity: 0.8;
+}
+
+.blog-index__post-card:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+/* Post Image */
+.blog-index__post-image {
+  flex-shrink: 0;
+  width: 433px;
+  aspect-ratio: 433 / 220;
+  overflow: hidden;
+  border-radius: 4px;
+  background-color: #f0f0f0;
+}
+
+.blog-index__post-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Post Body */
+.blog-index__post-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 16px;
+}
+
+.blog-index__post-title {
+  margin: 0 0 4px 0;
+  font-family: 'Raleway', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #000000;
+  line-height: 1.22;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.blog-index__post-excerpt {
+  margin: 0;
+  font-family: 'Raleway', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #303030;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.blog-index__post-date {
+  margin: 0;
+  font-family: 'Raleway', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #4b4b4b;
+  line-height: 1.43;
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+  .blog-index__hero {
+    padding: 80px 50px;
+  }
+
+  .blog-index__title {
+    font-size: 40px;
+  }
+
+  .blog-index__layout {
+    padding: 48px 50px;
+    gap: 40px;
+  }
+
+  .blog-index__post-image {
+    width: 500px;
+  }
+}
+
+/* Mobile Responsive */
+@media (max-width: 767px) {
+  .blog-index__layout {
+    flex-direction: column;
+  }
+
+  .blog-index__sidebar {
+    width: 100%;
+    display: none;
+  }
+
+  .blog-index__post-card {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .blog-index__post-image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+  }
+
+  .blog-index__post-body {
+    padding: 16px 0;
+  }
+
+  .blog-index__post-title {
+    font-size: 16px;
+  }
+
+  .blog-index__post-excerpt {
+    font-size: 14px;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .blog-index__post-card {
+    transition: none;
+  }
+}
