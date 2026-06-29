@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import styles from './Header.module.css'
 
@@ -27,6 +28,9 @@ const Logo = () => (
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const dropdownRef = useRef(null)
+  const pathname = usePathname()
 
   // Toggle menu and manage scroll
   const toggleMenu = () => {
@@ -50,11 +54,54 @@ export default function Header() {
   // Close menu when navigation link is clicked
   const closeMenu = () => {
     setIsMenuOpen(false)
+    closeDropdown()
     if (typeof window !== 'undefined') {
       document.documentElement.classList.remove('open-menu')
       document.body.classList.remove('open-menu')
     }
   }
+
+  // Toggle dropdown
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen)
+  }
+
+  // Close dropdown
+  const closeDropdown = () => {
+    setIsDropdownOpen(false)
+  }
+
+  // Click outside dropdown detection
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        closeDropdown()
+      }
+    }
+
+    if (isDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside)
+      }
+    }
+  }, [isDropdownOpen])
+
+  // Keydown listener for Escape
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        closeDropdown()
+      }
+    }
+
+    if (isDropdownOpen) {
+      document.addEventListener('keydown', handleKeyDown)
+      return () => {
+        document.removeEventListener('keydown', handleKeyDown)
+      }
+    }
+  }, [isDropdownOpen])
 
   // Clean up on unmount
   useEffect(() => {
@@ -100,16 +147,38 @@ export default function Header() {
                 Home
               </Link>
             </li>
-            <li className={styles['header__nav-item']}>
+            <li className={styles['header__nav-item']} ref={dropdownRef}>
               <button
                 className={`${styles['header__nav-link']} ${styles['header__nav-link--with-dropdown']}`}
                 aria-haspopup="true"
+                aria-expanded={isDropdownOpen}
+                onClick={toggleDropdown}
               >
                 Projects
-                <svg className={styles['header__dropdown-icon']} width="12" height="11" viewBox="0 0 12 11" fill="none">
+                <svg className={`${styles['header__dropdown-icon']} ${isDropdownOpen ? styles['header__dropdown-icon--open'] : ''}`} width="12" height="11" viewBox="0 0 12 11" fill="none">
                   <path d="M1 1L6 6L11 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                 </svg>
               </button>
+              <ul className={`${styles['header__dropdown']} ${isDropdownOpen ? styles['header__dropdown--open'] : ''}`}>
+                <li className={styles['header__dropdown-item']}>
+                  <Link
+                    href="/projects/ongoing"
+                    className={`${styles['header__dropdown-link']} ${pathname === '/projects/ongoing' ? styles['header__dropdown-link--active'] : ''}`}
+                    onClick={() => { closeMenu(); closeDropdown(); }}
+                  >
+                    Ongoing Projects
+                  </Link>
+                </li>
+                <li className={styles['header__dropdown-item']}>
+                  <Link
+                    href="/projects/completed"
+                    className={`${styles['header__dropdown-link']} ${pathname === '/projects/completed' ? styles['header__dropdown-link--active'] : ''}`}
+                    onClick={() => { closeMenu(); closeDropdown(); }}
+                  >
+                    Completed Projects
+                  </Link>
+                </li>
+              </ul>
             </li>
             <li className={styles['header__nav-item']}>
               <Link
