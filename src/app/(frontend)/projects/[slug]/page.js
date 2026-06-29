@@ -1,11 +1,15 @@
 import { getPayload } from 'payload'
 import { notFound } from 'next/navigation'
 import config from '@payload-config'
+import { RichText } from '@payloadcms/richtext-lexical/react'
 import { STATUS_LABELS, PROJECT_TYPE_LABELS } from '@/app/(frontend)/projects/helpers'
+import ProjectStickyNav from './ProjectStickyNav'
+import ProjectEnquiryForm from './ProjectEnquiryForm'
+import ProjectFAQ from './ProjectFAQ'
+import ProjectMediaTabs from './ProjectMediaTabs'
 import styles from './page.module.css'
 
-export const dynamic = 'auto'
-export const revalidate = 3600 // Revalidate every hour
+export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({ params }) {
   const payload = await getPayload({ config })
@@ -21,8 +25,8 @@ export async function generateMetadata({ params }) {
   }
 
   return {
-    title: `${project.name} | Visvas Projects`,
-    description: project.description?.root?.children?.[0]?.children?.[0]?.text || 'Real estate project by Visvas',
+    title: `${project.name} | Visvas`,
+    description: project.projectDescription || project.name,
   }
 }
 
@@ -46,210 +50,215 @@ export default async function ProjectDetailPage({ params }) {
     notFound()
   }
 
-  const statusLabel = STATUS_LABELS[project.status] || project.status
-  const typeLabel = PROJECT_TYPE_LABELS[project.projectType] || project.projectType
-  const coverImageUrl = project.coverImage?.url || '/placeholder.jpg'
+  const amenities = project.amenities || []
+  const faqs = project.faq || []
+  const transports = project.keyTransports || []
 
   return (
-    <div className={styles['page']}>
-      {/* Hero Section */}
-      <div className={styles['page__hero']}>
+    <main className={styles['project-detail']}>
+      {/* Hero */}
+      <div className={styles['project-detail__hero']}>
         <img
-          src={coverImageUrl}
+          src={project.coverImage?.url || '/placeholder.jpg'}
           alt={project.name}
-          className={styles['page__hero-image']}
+          className={styles['project-detail__hero-img']}
         />
-        <div className={styles['page__hero-overlay']}>
-          <div className={styles['page__hero-content']}>
-            <span className={styles['page__status-badge']}>{statusLabel}</span>
-            <h1 className={styles['page__title']}>{project.name}</h1>
-            <div className={styles['page__location']}>
+      </div>
+
+      {/* Sticky Nav */}
+      <ProjectStickyNav />
+
+      {/* About Section */}
+      <section id="about" className={styles['project-detail__about']}>
+        <div className={styles['project-detail__about-main']}>
+          <div className={styles['project-detail__header']}>
+            <div className={styles['project-detail__location-row']}>
               <svg
-                className={styles['page__location-icon']}
-                width="20"
-                height="28"
-                viewBox="0 0 20 28"
+                className={styles['project-detail__location-icon']}
+                width="16"
+                height="24"
+                viewBox="0 0 16 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M10 0C4.5 0 0 4.5 0 10c0 7 10 18 10 18s10-11 10-18c0-5.5-4.5-10-10-10zm0 14c-2.8 0-5-2.2-5-5s2.2-5 5-5 5 2.2 5 5-2.2 5-5 5z"
-                  fill="white"
-                />
-              </svg>
-              <span>{project.location}</span>
+                aria-hidden="true"
+              />
+              <h2 className={styles['project-detail__location']}>
+                {project.location}
+              </h2>
+            </div>
+            <h1 className={styles['project-detail__name']}>{project.name}</h1>
+          </div>
+
+          {/* Facts Grid */}
+          <div className={styles['project-detail__facts-grid']}>
+            <div className={styles['project-detail__fact']}>
+              <p className={styles['project-detail__fact-label']}>Property Type</p>
+              <p className={styles['project-detail__fact-value']}>
+                {PROJECT_TYPE_LABELS[project.projectType] || project.projectType}
+              </p>
+            </div>
+            <div className={styles['project-detail__fact']}>
+              <p className={styles['project-detail__fact-label']}>Status</p>
+              <p className={styles['project-detail__fact-value']}>
+                {STATUS_LABELS[project.status] || project.status}
+              </p>
+            </div>
+            <div className={styles['project-detail__fact']}>
+              <p className={styles['project-detail__fact-label']}>Area</p>
+              <p className={styles['project-detail__fact-value']}>
+                {project.projectArea} Sq. Ft.
+              </p>
+            </div>
+            <div className={styles['project-detail__fact']}>
+              <p className={styles['project-detail__fact-label']}>RERA NO:</p>
+              <p className={styles['project-detail__fact-value']}>
+                {project.reraNo || 'N/A'}
+              </p>
+            </div>
+            <div className={styles['project-detail__fact']}>
+              <p className={styles['project-detail__fact-label']}>Price range starts from</p>
+              <p className={styles['project-detail__fact-value']}>
+                Rs. {project.priceRangeStartFrom?.toLocaleString() || 'N/A'}
+              </p>
+            </div>
+            <div className={styles['project-detail__fact']}>
+              <p className={styles['project-detail__fact-label']}>Bedrooms & Bathrooms</p>
+              <p className={styles['project-detail__fact-value']}>
+                {project.bhkTypes?.join(', ') || 'N/A'}
+              </p>
             </div>
           </div>
-        </div>
-      </div>
 
-      {/* Quick Facts */}
-      {(project.priceRangeStartFrom || project.projectArea || project.reraNo || project.bhkTypes?.length > 0) && (
-        <div className={styles['page__facts']}>
-          <div className={styles['page__facts-container']}>
-            {project.priceRangeStartFrom && (
-              <div className={styles['page__fact-item']}>
-                <span className={styles['page__fact-label']}>Starting Price</span>
-                <span className={styles['page__fact-value']}>
-                  ₹{(project.priceRangeStartFrom / 1000000).toFixed(2)}Cr+
-                </span>
-              </div>
-            )}
-            {project.projectArea && (
-              <div className={styles['page__fact-item']}>
-                <span className={styles['page__fact-label']}>Project Area</span>
-                <span className={styles['page__fact-value']}>{project.projectArea}</span>
-              </div>
-            )}
-            {project.bhkTypes?.length > 0 && (
-              <div className={styles['page__fact-item']}>
-                <span className={styles['page__fact-label']}>BHK Types</span>
-                <span className={styles['page__fact-value']}>
-                  {project.bhkTypes.join(', ')}
-                </span>
-              </div>
-            )}
-            {project.reraNo && (
-              <div className={styles['page__fact-item']}>
-                <span className={styles['page__fact-label']}>RERA No.</span>
-                <span className={styles['page__fact-value']}>{project.reraNo}</span>
-              </div>
-            )}
+          {/* Project Image */}
+          <div className={styles['project-detail__project-image']}>
+            <img
+              src={project.images?.[0]?.image?.url || '/placeholder.jpg'}
+              alt={`${project.name} - interior`}
+              className={styles['project-detail__project-img']}
+            />
           </div>
         </div>
-      )}
 
-      {/* Main Content */}
-      <div className={styles['page__content']}>
-        {/* Description */}
+        {/* Enquiry Form Sidebar */}
+        <ProjectEnquiryForm projectName={project.name} />
+      </section>
+
+      {/* Description Section */}
+      <section id="description" className={styles['project-detail__description']}>
+        <div className={styles['project-detail__section-label']}>
+          <span aria-hidden="true">✦</span>
+          <span>PROJECT DESCRIPTION</span>
+          <span aria-hidden="true">✦</span>
+        </div>
+        <h2 className={styles['project-detail__desc-heading']}>
+          Discover {project.name}: Your Dream Home Awaits
+        </h2>
+        {project.projectDescription && (
+          <div className={styles['project-detail__desc-content']}>
+            <p>{project.projectDescription}</p>
+          </div>
+        )}
         {project.description && (
-          <section className={styles['page__section']}>
-            <h2 className={styles['page__section-title']}>About This Project</h2>
-            <div className={styles['page__description']}>
-              {/* Payload richtext would render here - placeholder text for now */}
-              {JSON.stringify(project.description).includes('text') && (
-                <p>{project.description.root?.children?.[0]?.children?.[0]?.text || 'Project details...'}</p>
-              )}
-            </div>
-          </section>
+          <div className={styles['project-detail__rich-content']}>
+            <RichText data={project.description} />
+          </div>
         )}
+      </section>
 
-        {/* Amenities */}
-        {project.amenities?.length > 0 && (
-          <section className={styles['page__section']}>
-            <h2 className={styles['page__section-title']}>Amenities</h2>
-            <div className={styles['page__amenities-grid']}>
-              {project.amenities.map((amenity) => (
-                <div key={amenity.id} className={styles['page__amenity-item']}>
-                  {amenity.icon && (
-                    <img
-                      src={amenity.icon}
-                      alt={amenity.name}
-                      className={styles['page__amenity-icon']}
-                    />
-                  )}
-                  <span>{amenity.name}</span>
-                </div>
-              ))}
+      {/* Amenities Section */}
+      <section id="amenities" className={styles['project-detail__amenities']}>
+        <div className={styles['project-detail__section-label']}>
+          <span aria-hidden="true">✦</span>
+          <span>AMENITIES</span>
+          <span aria-hidden="true">✦</span>
+        </div>
+        <div className={styles['project-detail__amenities-grid']}>
+          {amenities.map((amenity, idx) => (
+            <div key={idx} className={styles['project-detail__amenity-card']}>
+              <svg
+                className={styles['project-detail__amenity-icon']}
+                width="64"
+                height="64"
+                viewBox="0 0 64 64"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              />
+              <h3 className={styles['project-detail__amenity-name']}>
+                {amenity.name}
+              </h3>
             </div>
-          </section>
-        )}
+          ))}
+        </div>
+      </section>
 
-        {/* Location */}
-        {(project.locationAddress || project.locationMapUrl) && (
-          <section className={styles['page__section']}>
-            <h2 className={styles['page__section-title']}>Location</h2>
-            {project.locationAddress && (
-              <p className={styles['page__location-address']}>{project.locationAddress}</p>
-            )}
-            {project.locationMapUrl && (
-              <div className={styles['page__map-container']}>
-                <iframe
-                  src={project.locationMapUrl}
-                  width="100%"
-                  height="400"
-                  style={{ border: 0, borderRadius: '4px' }}
-                  allowFullScreen=""
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                ></iframe>
+      {/* Location Section */}
+      <section id="location" className={styles['project-detail__location-section']}>
+        <div className={styles['project-detail__section-label']}>
+          <span aria-hidden="true">✦</span>
+          <span>LOCATION</span>
+          <span aria-hidden="true">✦</span>
+        </div>
+        <div className={styles['project-detail__location-layout']}>
+          <div className={styles['project-detail__location-card']}>
+            <div className={styles['project-detail__address-block']}>
+              <h3 className={styles['project-detail__address-label']}>Address</h3>
+              <p className={styles['project-detail__address-text']}>
+                {project.locationAddress || project.location}
+              </p>
+              <button className={styles['project-detail__direction-btn']}>
+                Get Direction
+              </button>
+            </div>
+
+            {/* Key Transports */}
+            <div className={styles['project-detail__transports']}>
+              <h4 className={styles['project-detail__transport-title']}>Key transport</h4>
+              <div className={styles['project-detail__transport-grid']}>
+                {transports.map((transport, idx) => (
+                  <div key={idx} className={styles['project-detail__transport-item']}>
+                    <p className={styles['project-detail__transport-type']}>
+                      {transport.type}
+                    </p>
+                    <p className={styles['project-detail__transport-name']}>
+                      {transport.name} - {transport.distance}
+                    </p>
+                  </div>
+                ))}
               </div>
-            )}
-          </section>
-        )}
-
-        {/* Nearby Locations */}
-        {project.keyTransports?.length > 0 && (
-          <section className={styles['page__section']}>
-            <h2 className={styles['page__section-title']}>Nearby Locations</h2>
-            <div className={styles['page__transports-grid']}>
-              {project.keyTransports.map((transport, idx) => (
-                <div key={idx} className={styles['page__transport-item']}>
-                  <span className={styles['page__transport-type']}>{transport.type}</span>
-                  <span className={styles['page__transport-name']}>{transport.name}</span>
-                  <span className={styles['page__transport-distance']}>{transport.distance}</span>
-                </div>
-              ))}
             </div>
-          </section>
-        )}
+          </div>
 
-        {/* Floor Plans */}
-        {project.floorPlans?.length > 0 && (
-          <section className={styles['page__section']}>
-            <h2 className={styles['page__section-title']}>Floor Plans</h2>
-            <div className={styles['page__floor-plans-grid']}>
-              {project.floorPlans.map((plan, idx) => (
-                <div key={idx} className={styles['page__floor-plan-item']}>
-                  <img
-                    src={plan.plan?.url}
-                    alt={plan.label || `Floor Plan ${idx + 1}`}
-                    className={styles['page__floor-plan-image']}
-                  />
-                  {plan.label && (
-                    <p className={styles['page__floor-plan-label']}>{plan.label}</p>
-                  )}
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
+          {/* Map Placeholder */}
+          <div className={styles['project-detail__map']}>
+            <img
+              src="/placeholder.jpg"
+              alt="Location map"
+              className={styles['project-detail__map-img']}
+            />
+          </div>
+        </div>
+      </section>
 
-        {/* Gallery */}
-        {project.images?.length > 0 && (
-          <section className={styles['page__section']}>
-            <h2 className={styles['page__section-title']}>Gallery</h2>
-            <div className={styles['page__gallery-grid']}>
-              {project.images.map((img, idx) => (
-                <div key={idx} className={styles['page__gallery-item']}>
-                  <img
-                    src={img.image?.url}
-                    alt={img.caption || `Project image ${idx + 1}`}
-                    className={styles['page__gallery-image']}
-                  />
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
+      {/* Media Section */}
+      <section id="media" className={styles['project-detail__media']}>
+        <div className={styles['project-detail__section-label']}>
+          <span aria-hidden="true">✦</span>
+          <span>MEDIA</span>
+          <span aria-hidden="true">✦</span>
+        </div>
+        <ProjectMediaTabs project={project} />
+      </section>
 
-        {/* FAQ */}
-        {project.faq?.length > 0 && (
-          <section className={styles['page__section']}>
-            <h2 className={styles['page__section-title']}>Frequently Asked Questions</h2>
-            <div className={styles['page__faq-list']}>
-              {project.faq.map((item, idx) => (
-                <details key={idx} className={styles['page__faq-item']}>
-                  <summary className={styles['page__faq-question']}>
-                    {item.question}
-                  </summary>
-                  <p className={styles['page__faq-answer']}>{item.answer}</p>
-                </details>
-              ))}
-            </div>
-          </section>
-        )}
-      </div>
-    </div>
+      {/* FAQs Section */}
+      <section id="faqs" className={styles['project-detail__faqs']}>
+        <div className={styles['project-detail__section-label']}>
+          <span aria-hidden="true">✦</span>
+          <span>FAQs</span>
+          <span aria-hidden="true">✦</span>
+        </div>
+        <ProjectFAQ faqs={faqs} />
+      </section>
+    </main>
   )
 }
