@@ -1,0 +1,43 @@
+import { buildConfig } from 'payload'
+import { postgresAdapter } from '@payloadcms/db-postgres'
+import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { fileURLToPath } from 'url'
+import path from 'path'
+import sharp from 'sharp'
+
+import Users from './src/collections/Users.js'
+import Media from './src/collections/Media.js'
+import TextTestimonials from './src/collections/TextTestimonials.js'
+import VideoTestimonials from './src/collections/VideoTestimonials.js'
+import Amenities from './src/collections/Amenities.js'
+import Projects from './src/collections/Projects.js'
+import BlogCategories from './src/collections/BlogCategories.js'
+import Posts from './src/collections/Posts.js'
+import ImpactPage from './src/globals/ImpactPage.js'
+import AboutPage from './src/globals/AboutPage.js'
+import HomePage from './src/globals/HomePage.js'
+import Policies from './src/collections/Policies.js'
+import ContactPage from './src/globals/ContactPage.js'
+import ContactSubmissions from './src/collections/ContactSubmissions.js'
+
+const filename = fileURLToPath(import.meta.url)
+const dirname = path.dirname(filename)
+
+export default buildConfig({
+  admin: {
+    user: Users.slug,
+  },
+  collections: [Users, Media, Amenities, TextTestimonials, VideoTestimonials, Projects, BlogCategories, Posts, Policies, ContactSubmissions],
+  globals: [ImpactPage, AboutPage, HomePage, ContactPage],
+  editor: lexicalEditor(),
+  secret: process.env.PAYLOAD_SECRET || '',
+  typescript: {
+    outputFile: path.resolve(dirname, 'payload-types.ts'),
+  },
+  db: postgresAdapter({
+    pool: {
+      connectionString: process.env.DATABASE_URL || '',
+    },
+  }),
+  sharp,
+})

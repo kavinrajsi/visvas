@@ -1,0 +1,101 @@
+/* ========================================
+   Projects Listing Page - BEM
+   ======================================== */
+
+.page {
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+.page__hero {
+  background: linear-gradient(135deg, #1e5f2f 0%, #2a7a3c 100%);
+  color: white;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.page__title {
+  margin: 0 0 12px 0;
+  font-family: 'Raleway', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.page__subtitle {
+  margin: 0;
+  font-family: 'Raleway', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  opacity: 0.9;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.page__results-info {
+  padding: 20px;
+  text-align: center;
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.page__count {
+  margin: 0;
+  font-family: 'Raleway', sans-serif;
+  font-size: 14px;
+  color: #4b4b4b;
+}
+
+.page__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  padding: 40px 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.page__empty {
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.page__empty p {
+  margin: 0;
+  font-family: 'Raleway', sans-serif;
+  font-size: 18px;
+  color: #4b4b4b;
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+  .page__hero {
+    padding: 80px 50px;
+  }
+
+  .page__title {
+    font-size: 40px;
+  }
+
+  .page__grid {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 32px;
+    padding: 48px 50px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .page__grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+}
+
+/* Small desktop */
+@media (min-width: 1400px) {
+  .page__grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

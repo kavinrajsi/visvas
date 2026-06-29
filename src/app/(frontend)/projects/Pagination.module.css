@@ -1,0 +1,107 @@
+/* ========================================
+   Pagination Component - BEM
+   ======================================== */
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 40px 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.pagination__button,
+.pagination__page {
+  font-family: 'Raleway', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background-color: white;
+  color: #303030;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 200ms ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.pagination__button:hover:not(.pagination__button--disabled),
+.pagination__page:hover:not(.pagination__page--active) {
+  background-color: #f9f9f9;
+  border-color: #d0d0d0;
+}
+
+.pagination__button:active:not(.pagination__button--disabled),
+.pagination__page:active:not(.pagination__page--active) {
+  background-color: #e0e0e0;
+}
+
+.pagination__button:focus,
+.pagination__page:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(30, 95, 47, 0.2);
+}
+
+/* Active page */
+.pagination__page--active {
+  background-color: #1e5f2f;
+  border-color: #1e5f2f;
+  color: white;
+  cursor: default;
+}
+
+/* Disabled state */
+.pagination__button--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Dots separator */
+.pagination__numbers {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.pagination__dots {
+  color: #303030;
+  padding: 0 8px;
+  font-weight: 600;
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .pagination {
+    gap: 8px;
+    padding: 32px 16px;
+  }
+
+  .pagination__button,
+  .pagination__page {
+    padding: 8px 12px;
+    min-width: 40px;
+    min-height: 40px;
+    font-size: 13px;
+  }
+
+  .pagination__numbers {
+    max-width: 100%;
+    flex-wrap: wrap;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .pagination__button,
+  .pagination__page {
+    transition: none;
+  }
+}

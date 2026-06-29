@@ -1,0 +1,104 @@
+/* ========================================
+   Project Card Component - BEM Convention
+   ======================================== */
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 300ms ease-in-out, box-shadow 300ms ease-in-out;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.project-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.project-card:focus {
+  outline: 2px solid #e4a025;
+  outline-offset: 2px;
+}
+
+/* Image wrap with overlay badge */
+.project-card__image-wrap {
+  position: relative;
+  overflow: hidden;
+  background-color: #f0f0f0;
+  aspect-ratio: 16 / 10;
+}
+
+.project-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 300ms ease-in-out;
+}
+
+.project-card:hover .project-card__image {
+  transform: scale(1.05);
+}
+
+/* Status badge */
+.project-card__badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background-color: #4d443e;
+  color: white;
+  font-family: 'Raleway', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 25px;
+  white-space: nowrap;
+  z-index: 1;
+}
+
+/* Card body */
+.project-card__body {
+  background-color: white;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Location section */
+.project-card__location {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #4b4b4b;
+}
+
+.project-card__location-icon {
+  width: 16px;
+  height: 24px;
+  flex-shrink: 0;
+  color: #4b4b4b;
+}
+
+/* Project title */
+.project-card__title {
+  margin: 0;
+  font-family: 'Raleway', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #303030;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .project-card,
+  .project-card__image {
+    transition: none;
+  }
+}
