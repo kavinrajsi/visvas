@@ -1,21 +1,21 @@
 // Google Sheets integration for form data storage
 
 const GOOGLE_SHEETS_CONFIG = {
-  apiKey: process.env.GOOGLE_SHEETS_API_KEY || 'dummy_google_api_key_abc123xyz',
-  spreadsheetId: process.env.GOOGLE_SHEETS_SPREADSHEET_ID || 'dummy_spreadsheet_id_abc123xyz',
+  apiKey: process.env.GOOGLE_SHEETS_API_KEY,
+  spreadsheetId: process.env.GOOGLE_SHEETS_SPREADSHEET_ID,
   baseUrl: 'https://sheets.googleapis.com/v4/spreadsheets',
 }
 
 export async function appendToSheet(sheetName, rows) {
   try {
-    // Dev mode: log instead of write
-    if (process.env.NODE_ENV === 'development' || GOOGLE_SHEETS_CONFIG.apiKey === 'dummy_google_api_key_abc123xyz') {
-      console.log('[SHEETS] Dev mode - would append to sheet:', {
+    // Missing config: log instead of write
+    if (!GOOGLE_SHEETS_CONFIG.apiKey || !GOOGLE_SHEETS_CONFIG.spreadsheetId) {
+      console.log('[SHEETS] Missing config - would append to sheet:', {
         sheet: sheetName,
         rowCount: rows.length,
         data: rows,
       })
-      return { success: true, updatedRows: rows.length, mode: 'development' }
+      return { success: true, updatedRows: rows.length, mode: 'skipped' }
     }
 
     // Production: send to Google Sheets API

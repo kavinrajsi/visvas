@@ -1,9 +1,9 @@
 // Zeptomail (Zoho Mail) transactional email service
 
 const ZOHO_CONFIG = {
-  apiToken: process.env.ZOHO_ZEPTOMAIL_TOKEN || 'dummy_zoho_token_abc123xyz',
-  senderEmail: process.env.ZOHO_ZEPTOMAIL_SENDER_EMAIL || 'noreply@visvas.in',
-  senderName: 'Visvas Properties',
+  apiToken: process.env.ZOHO_ZEPTOMAIL_TOKEN,
+  senderEmail: process.env.ZOHO_ZEPTOMAIL_SENDER_EMAIL,
+  senderName: process.env.ZOHO_ZEPTOMAIL_SENDER_NAME || 'Visvas Properties',
   apiUrl: 'https://api.zeptomail.com/v1.1/email',
 }
 
@@ -21,9 +21,9 @@ export async function sendEmail({ to, subject, html, bcc = null, replyTo = null 
       ...(replyTo && { reply_to: { address: replyTo } }),
     }
 
-    // Dev mode: log instead of send
-    if (process.env.NODE_ENV === 'development' || ZOHO_CONFIG.apiToken === 'dummy_zoho_token_abc123xyz') {
-      console.log('[EMAIL] Dev mode - email would be sent:', {
+    // Dev/missing config: log instead of send
+    if (!ZOHO_CONFIG.apiToken || !ZOHO_CONFIG.senderEmail) {
+      console.log('[EMAIL] Missing config - email would be sent:', {
         to: payload.to,
         bcc: payload.bcc,
         subject: payload.subject,
@@ -55,7 +55,12 @@ export async function sendEmail({ to, subject, html, bcc = null, replyTo = null 
 }
 
 export async function sendAdminNotification(data) {
-  const adminEmail = process.env.ADMIN_EMAIL || 'admin@visvas.in'
+  const adminEmail = process.env.ADMIN_EMAIL
+  if (!adminEmail) {
+    console.log('[EMAIL] Missing ADMIN_EMAIL env - skipping admin notification')
+    return { success: true, mode: 'skipped' }
+  }
+
   const html = formatAdminEmail(data)
 
   return sendEmail({
@@ -75,7 +80,7 @@ export async function sendUserConfirmation(data) {
     to: data.email,
     subject: `Confirmation: We received your inquiry`,
     html,
-    bcc: process.env.ADMIN_EMAIL || 'admin@visvas.in',
+    bcc: process.env.ADMIN_EMAIL || undefined,
   })
 }
 

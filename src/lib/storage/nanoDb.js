@@ -2,7 +2,7 @@
 import fs from 'fs/promises'
 import path from 'path'
 
-const DB_DIR = process.env.DATABASE_DIR || './data'
+const DB_DIR = process.env.DATABASE_DIR || 'data'
 const DB_TYPE = process.env.DATABASE_TYPE || 'json'
 
 async function ensureDbDir() {
