@@ -11,7 +11,8 @@ import styles from './page.module.css'
 
 export const dynamic = 'force-dynamic'
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata({ params: paramsPromise }) {
+  const params = await paramsPromise
   const payload = await getPayload({ config })
   const result = await payload.find({
     collection: 'projects',
@@ -43,7 +44,8 @@ async function getProject(slug) {
   return result.docs[0]
 }
 
-export default async function ProjectDetailPage({ params }) {
+export default async function ProjectDetailPage({ params: paramsPromise }) {
+  const params = await paramsPromise
   const project = await getProject(params.slug)
 
   if (!project) {
