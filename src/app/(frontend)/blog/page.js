@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import Link from 'next/link'
+import { toImageKitUrl } from '@/lib/image/imageKitUrl'
 import BlogSidebar from './BlogSidebar'
 import Pagination from '@/app/(frontend)/projects/Pagination'
 import styles from './page.module.scss'
@@ -85,7 +86,7 @@ export default async function BlogPage({ searchParams }) {
                 {/* Image */}
                 <div className={styles['blog-index__post-image']}>
                   <Image
-                    src={post.coverImage?.url || '/placeholder.jpg'}
+                    src={toImageKitUrl(post.coverImage?.url)}
                     alt={post.title}
                     className={styles['blog-index__post-img']}
                     fill

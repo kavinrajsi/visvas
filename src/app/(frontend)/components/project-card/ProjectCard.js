@@ -2,12 +2,13 @@ import Image from 'next/image'
 import Link from 'next/link'
 import styles from './ProjectCard.module.scss'
 import { STATUS_LABELS } from '@/app/(frontend)/projects/helpers'
+import { toImageKitUrl } from '@/lib/image/imageKitUrl'
 
 export default function ProjectCard({ project }) {
   if (!project) return null
 
   const statusLabel = STATUS_LABELS[project.status] || project.status
-  const coverImageUrl = project.coverImage?.url || '/placeholder.jpg'
+  const coverImageUrl = toImageKitUrl(project.coverImage?.url)
   const projectName = project.name || 'Untitled Project'
   const location = project.location || 'Location TBD'
 

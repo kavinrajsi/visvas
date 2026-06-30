@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { useState } from 'react'
+import { toImageKitUrl } from '@/lib/image/imageKitUrl'
 import styles from './ProjectMediaTabs.module.scss'
 
 export default function ProjectMediaTabs({ project }) {
@@ -87,7 +88,7 @@ export default function ProjectMediaTabs({ project }) {
           <div className={styles['media-tabs__viewport']}>
             {currentMedia?.image?.url || currentMedia?.plan?.url ? (
               <Image
-                src={currentMedia.image?.url || currentMedia.plan?.url}
+                src={toImageKitUrl(currentMedia.image?.url || currentMedia.plan?.url)}
                 alt={`${activeTab} ${currentIndex + 1}`}
                 className={styles['media-tabs__image']}
                 fill

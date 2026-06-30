@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import ProjectCard from '@/app/(frontend)/components/project-card/ProjectCard'
+import { toImageKitUrl } from '@/lib/image/imageKitUrl'
 import styles from './page.module.scss'
 
 export const revalidate = 300
@@ -20,7 +21,7 @@ export async function generateMetadata() {
     openGraph: {
       title: seo.ogTitle || metaTitle,
       description: seo.ogDescription || metaDesc,
-      image: seo.ogImage?.url || undefined,
+      image: toImageKitUrl(seo.ogImage?.url) || undefined,
     },
     twitter: {
       title: seo.twitterTitle || seo.ogTitle || metaTitle,
@@ -93,7 +94,7 @@ export default async function Home() {
       {hero?.heroImage?.url && (
         <section className={styles['hero']}>
           <Image
-            src={hero.heroImage.url}
+            src={toImageKitUrl(hero.heroImage.url)}
             alt="Visvas Properties"
             className={styles['hero__image']}
             priority
@@ -143,7 +144,7 @@ export default async function Home() {
                 <div key={idx} className={styles['feature-card']}>
                   {card.backgroundImage?.url && (
                     <Image
-                      src={card.backgroundImage.url}
+                      src={toImageKitUrl(card.backgroundImage.url)}
                       alt={card.title}
                       className={styles['feature-card__bg']}
                       fill
@@ -218,7 +219,7 @@ export default async function Home() {
           {commitmentSection.backgroundImage?.url && (
             <div className={styles['commitment__bg']}>
               <Image
-                src={commitmentSection.backgroundImage.url}
+                src={toImageKitUrl(commitmentSection.backgroundImage.url)}
                 alt="Commitment background"
                 fill
                 sizes="100vw"
@@ -233,7 +234,7 @@ export default async function Home() {
                   {item.icon?.url && (
                     <div className={styles['commitment-card__icon']}>
                       <Image
-                        src={item.icon.url}
+                        src={toImageKitUrl(item.icon.url)}
                         alt={item.title}
                         width={48}
                         height={48}

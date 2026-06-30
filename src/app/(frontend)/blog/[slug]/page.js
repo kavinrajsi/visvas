@@ -3,6 +3,7 @@ import { getPayload } from 'payload'
 import { notFound } from 'next/navigation'
 import config from '@payload-config'
 import { RichText } from '@payloadcms/richtext-lexical/react'
+import { toImageKitUrl } from '@/lib/image/imageKitUrl'
 import BlogSidebar from '@/app/(frontend)/blog/BlogSidebar'
 import styles from './page.module.scss'
 import '@/app/(frontend)/blog/[slug]/blog-content.scss'
@@ -62,7 +63,7 @@ export async function generateMetadata({ params }) {
       description: post.ogDescription || metaDesc,
       images: [
         {
-          url: post.ogImage?.url || post.coverImage?.url,
+          url: toImageKitUrl(post.ogImage?.url || post.coverImage?.url),
           width: 1200,
           height: 630,
         },
@@ -74,7 +75,7 @@ export async function generateMetadata({ params }) {
       card: post.twitterCard || 'summary_large_image',
       title: post.twitterTitle || post.ogTitle || metaTitle,
       description: post.twitterDescription || post.ogDescription || metaDesc,
-      image: post.ogImage?.url || post.coverImage?.url,
+      image: toImageKitUrl(post.ogImage?.url || post.coverImage?.url),
     },
     alternates: {
       canonical: post.canonicalUrl || `/blog/${slug}`,
@@ -99,7 +100,7 @@ export default async function BlogDetailPage({ params }) {
       {/* Hero Image */}
       <div className={styles['blog-detail__hero']}>
         <Image
-          src={post.coverImage?.url || '/placeholder.jpg'}
+          src={toImageKitUrl(post.coverImage?.url)}
           alt={post.title}
           className={styles['blog-detail__hero-img']}
           priority

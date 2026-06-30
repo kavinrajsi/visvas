@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import config from '@payload-config'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import { STATUS_LABELS, PROJECT_TYPE_LABELS } from '@/app/(frontend)/projects/helpers'
+import { toImageKitUrl } from '@/lib/image/imageKitUrl'
 import ProjectStickyNav from './ProjectStickyNav'
 import ProjectEnquiryForm from './ProjectEnquiryForm'
 import ProjectFAQ from './ProjectFAQ'
@@ -36,14 +37,14 @@ export async function generateMetadata({ params: paramsPromise }) {
     openGraph: {
       title: seo.ogTitle || metaTitle,
       description: seo.ogDescription || metaDesc,
-      image: seo.ogImage?.url || project.coverImage?.url,
+      image: toImageKitUrl(seo.ogImage?.url || project.coverImage?.url),
       type: 'website',
     },
     twitter: {
       card: seo.twitterCard || 'summary_large_image',
       title: seo.twitterTitle || seo.ogTitle || metaTitle,
       description: seo.twitterDescription || seo.ogDescription || metaDesc,
-      image: seo.ogImage?.url || project.coverImage?.url,
+      image: toImageKitUrl(seo.ogImage?.url || project.coverImage?.url),
     },
     alternates: {
       canonical: seo.canonicalUrl || `/projects/${params.slug}`,
@@ -95,7 +96,7 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
       {/* Hero */}
       <div className={styles['project-detail__hero']}>
         <Image
-          src={project.coverImage?.url || '/placeholder.jpg'}
+          src={toImageKitUrl(project.coverImage?.url)}
           alt={project.name}
           className={styles['project-detail__hero-img']}
           priority
@@ -171,7 +172,7 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
           {/* Project Image */}
           <div className={styles['project-detail__project-image']}>
             <Image
-              src={project.images?.[0]?.image?.url || '/placeholder.jpg'}
+              src={toImageKitUrl(project.images?.[0]?.image?.url)}
               alt={`${project.name} - interior`}
               className={styles['project-detail__project-img']}
               fill
