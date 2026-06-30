@@ -37,6 +37,8 @@ export async function POST(request) {
       )
     }
 
+    console.log('[FORM SUBMIT]', { formType, formData, ip: clientIp })
+
     // Submit form
     const result = await submitForm(formType, formData, {
       sendAdminEmail: true,

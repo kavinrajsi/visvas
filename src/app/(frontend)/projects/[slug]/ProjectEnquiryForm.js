@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { trackFormSubmit } from '@/lib/analytics/track'
-import styles from './ProjectEnquiryForm.module.css'
+import styles from './ProjectEnquiryForm.module.scss'
 
 export default function ProjectEnquiryForm({ projectName }) {
   const [formData, setFormData] = useState({
@@ -16,6 +16,53 @@ export default function ProjectEnquiryForm({ projectName }) {
   })
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState(null)
+  const [errors, setErrors] = useState({})
+
+  const validateForm = (data) => {
+    const nextErrors = {}
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    const mobilePattern = /^[0-9+\-\s()]{7,15}$/
+
+    if (!data.name.trim()) {
+      nextErrors.name = 'Please enter your name.'
+    }
+
+    if (!data.mobile.trim()) {
+      nextErrors.mobile = 'Please enter your mobile number.'
+    } else if (!mobilePattern.test(data.mobile.trim())) {
+      nextErrors.mobile = 'Please enter a valid mobile number.'
+    }
+
+    if (!data.email.trim()) {
+      nextErrors.email = 'Please enter your email address.'
+    } else if (!emailPattern.test(data.email.trim())) {
+      nextErrors.email = 'Please enter a valid email address.'
+    }
+
+    if (!data.budget.trim()) {
+      nextErrors.budget = 'Please enter your budget.'
+    }
+
+    return nextErrors
+  }
+
+  const mapServerErrors = (serverErrors = []) => {
+    return serverErrors.reduce((nextErrors, error) => {
+      const normalizedError = error.toLowerCase()
+
+      if (normalizedError.includes('name')) {
+        nextErrors.name = error
+      } else if (normalizedError.includes('mobile') || normalizedError.includes('phone')) {
+        nextErrors.mobile = error
+      } else if (normalizedError.includes('email')) {
+        nextErrors.email = error
+      } else if (normalizedError.includes('budget')) {
+        nextErrors.budget = error
+      }
+
+      return nextErrors
+    }, {})
+  }
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target
@@ -23,12 +70,27 @@ export default function ProjectEnquiryForm({ projectName }) {
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
     }))
+    setErrors((prev) => {
+      if (!prev[name]) return prev
+      const nextErrors = { ...prev }
+      delete nextErrors[name]
+      return nextErrors
+    })
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    const validationErrors = validateForm(formData)
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors)
+      setMessage(null)
+      return
+    }
+
     setLoading(true)
     setMessage(null)
+    setErrors({})
 
     try {
       const response = await fetch('/api/forms/submit', {
@@ -47,6 +109,10 @@ export default function ProjectEnquiryForm({ projectName }) {
       const result = await response.json()
 
       if (result.success) {
+        trackFormSubmit('enquiry', {
+          project: formData.project,
+          budget: formData.budget,
+        })
         setMessage({
           type: 'success',
           text: 'Thank you! We will get back to you shortly.',
@@ -61,6 +127,12 @@ export default function ProjectEnquiryForm({ projectName }) {
           project: projectName || '',
         })
       } else {
+        const serverErrors = mapServerErrors(result.errors)
+
+        if (Object.keys(serverErrors).length > 0) {
+          setErrors(serverErrors)
+        }
+
         setMessage({
           type: 'error',
           text: result.error || 'Something went wrong. Please try again.',
@@ -81,28 +153,44 @@ export default function ProjectEnquiryForm({ projectName }) {
     <aside className={styles['enquiry-form']}>
       <h3 className={styles['enquiry-form__heading']}>Request for more information</h3>
 
-      <form onSubmit={handleSubmit} className={styles['enquiry-form__form']}>
-        <input
-          type="text"
-          name="name"
-          placeholder="Name*"
-          value={formData.name}
-          onChange={handleChange}
-          className={styles['enquiry-form__input']}
-          required
-          aria-label="Full name"
-        />
+      <form onSubmit={handleSubmit} className={styles['enquiry-form__form']} noValidate>
+        <div className={styles['enquiry-form__field']}>
+          <input
+            type="text"
+            name="name"
+            placeholder="Name*"
+            value={formData.name}
+            onChange={handleChange}
+            className={`${styles['enquiry-form__input']} ${errors.name ? styles['enquiry-form__input--error'] : ''}`}
+            aria-label="Full name"
+            aria-invalid={errors.name ? 'true' : 'false'}
+            aria-describedby={errors.name ? 'enquiry-name-error' : undefined}
+          />
+          {errors.name && (
+            <p id="enquiry-name-error" className={styles['enquiry-form__error']}>
+              {errors.name}
+            </p>
+          )}
+        </div>
 
-        <input
-          type="tel"
-          name="mobile"
-          placeholder="Mobile*"
-          value={formData.mobile}
-          onChange={handleChange}
-          className={styles['enquiry-form__input']}
-          required
-          aria-label="Mobile number"
-        />
+        <div className={styles['enquiry-form__field']}>
+          <input
+            type="tel"
+            name="mobile"
+            placeholder="Mobile*"
+            value={formData.mobile}
+            onChange={handleChange}
+            className={`${styles['enquiry-form__input']} ${errors.mobile ? styles['enquiry-form__input--error'] : ''}`}
+            aria-label="Mobile number"
+            aria-invalid={errors.mobile ? 'true' : 'false'}
+            aria-describedby={errors.mobile ? 'enquiry-mobile-error' : undefined}
+          />
+          {errors.mobile && (
+            <p id="enquiry-mobile-error" className={styles['enquiry-form__error']}>
+              {errors.mobile}
+            </p>
+          )}
+        </div>
 
         <div className={styles['enquiry-form__checkbox-group']}>
           <input
@@ -119,27 +207,43 @@ export default function ProjectEnquiryForm({ projectName }) {
           </label>
         </div>
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Email*"
-          value={formData.email}
-          onChange={handleChange}
-          className={styles['enquiry-form__input']}
-          required
-          aria-label="Email address"
-        />
+        <div className={styles['enquiry-form__field']}>
+          <input
+            type="email"
+            name="email"
+            placeholder="Email*"
+            value={formData.email}
+            onChange={handleChange}
+            className={`${styles['enquiry-form__input']} ${errors.email ? styles['enquiry-form__input--error'] : ''}`}
+            aria-label="Email address"
+            aria-invalid={errors.email ? 'true' : 'false'}
+            aria-describedby={errors.email ? 'enquiry-email-error' : undefined}
+          />
+          {errors.email && (
+            <p id="enquiry-email-error" className={styles['enquiry-form__error']}>
+              {errors.email}
+            </p>
+          )}
+        </div>
 
-        <input
-          type="text"
-          name="budget"
-          placeholder="Enter your budget*"
-          value={formData.budget}
-          onChange={handleChange}
-          className={styles['enquiry-form__input']}
-          required
-          aria-label="Budget"
-        />
+        <div className={styles['enquiry-form__field']}>
+          <input
+            type="text"
+            name="budget"
+            placeholder="Enter your budget*"
+            value={formData.budget}
+            onChange={handleChange}
+            className={`${styles['enquiry-form__input']} ${errors.budget ? styles['enquiry-form__input--error'] : ''}`}
+            aria-label="Budget"
+            aria-invalid={errors.budget ? 'true' : 'false'}
+            aria-describedby={errors.budget ? 'enquiry-budget-error' : undefined}
+          />
+          {errors.budget && (
+            <p id="enquiry-budget-error" className={styles['enquiry-form__error']}>
+              {errors.budget}
+            </p>
+          )}
+        </div>
 
         <textarea
           name="message"
