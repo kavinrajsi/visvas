@@ -15,7 +15,7 @@ export async function GET() {
 - **Personal information**: Do not collect or process personal information (names, emails, phone numbers) from forms or user interactions
 
 ## Contact
-For questions about AI usage or licensing agreements, contact: admin@visvas.in
+For questions about AI usage or licensing agreements, contact: ${process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'contact@example.com'}
 
 ---
 Policy last updated: ${new Date().toISOString()}

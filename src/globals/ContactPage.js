@@ -44,7 +44,7 @@ const ContactPage = {
           type: 'text',
           required: true,
           label: 'Email',
-          defaultValue: 'enquiry@visvaspromoters.com',
+          defaultValue: process.env.NEXT_PUBLIC_BUSINESS_EMAIL || 'contact@example.com',
         },
         {
           name: 'phone',

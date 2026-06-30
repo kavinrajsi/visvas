@@ -62,8 +62,8 @@ export default function Home() {
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'Customer Service',
-      telephone: '+91-94038-93898',
-      email: 'enquiry@visvaspromoters.com',
+      telephone: process.env.NEXT_PUBLIC_BUSINESS_PHONE || '+91-94038-93898',
+      email: process.env.NEXT_PUBLIC_BUSINESS_EMAIL || 'contact@example.com',
     },
   }
 
