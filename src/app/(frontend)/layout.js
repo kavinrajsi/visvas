@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import '../globals.css'
 import '@/app/(frontend)/styles/typography.css'
 import Header from '@/app/(frontend)/components/header/Header'
+import MobileCtaBar from '@/app/(frontend)/components/mobile-cta-bar/MobileCtaBar'
 
 const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] })
 const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'] })
@@ -33,6 +34,7 @@ export default function FrontendLayout({ children }) {
       <body>
         <Header />
         {children}
+        <MobileCtaBar />
       </body>
     </html>
   )

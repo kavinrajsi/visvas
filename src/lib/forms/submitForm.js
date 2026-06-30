@@ -27,6 +27,23 @@ export async function submitForm(formType, formData, options = {}) {
   // Get client IP
   let clientIp = metadata.ip || 'unknown'
 
+  // ========== LOG FORM SUBMISSION ==========
+
+  console.log(
+    '[FORM_SUBMISSION]',
+    JSON.stringify(
+      {
+        formType,
+        timestamp: results.timestamp,
+        ip: clientIp,
+        userAgent: metadata.userAgent,
+        data: formData,
+      },
+      null,
+      2
+    )
+  )
+
   // ========== EMAIL NOTIFICATIONS ==========
 
   if (sendAdminEmail || sendUserEmail) {

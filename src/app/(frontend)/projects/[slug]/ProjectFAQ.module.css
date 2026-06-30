@@ -25,7 +25,7 @@
 }
 
 .faq-item:hover {
-  background-color: #f0f0f0;
+  background-color: var(--color-muted);
 }
 
 .faq-item__header {

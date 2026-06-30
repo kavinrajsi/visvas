@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "payload": "payload",
+    "seed:dummy-blog": "node --env-file=.env.local scripts/seed-dummy-blog.mjs",
     "payload:migrate": "payload migrate",
     "payload:migrate:create": "payload migrate:create",
     "payload:generate:types": "payload generate:types"

@@ -4,7 +4,7 @@
 
 .blog-detail {
   min-height: 100vh;
-  background-color: #ffffff;
+  background-color: var(--color-white);
 }
 
 /* Hero Image */
@@ -12,7 +12,7 @@
   width: 100%;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  background-color: #f0f0f0;
+  background-color: var(--color-muted);
 }
 
 .blog-detail__hero-img {
@@ -51,7 +51,7 @@
   font-family: 'Raleway', sans-serif;
   font-size: 24px;
   font-weight: 500;
-  color: #000000;
+  color: var(--color-heading);
   line-height: 1.25;
 }
 
@@ -60,7 +60,7 @@
   font-family: 'Raleway', sans-serif;
   font-size: 14px;
   font-weight: 500;
-  color: #4b4b4b;
+  color: var(--color-sub);
   line-height: 1.43;
 }
 
@@ -69,7 +69,7 @@
   font-family: 'Raleway', sans-serif;
   font-size: 14px;
   font-weight: 400;
-  color: #4b4b4b;
+  color: var(--color-sub);
   line-height: 1.43;
 }
 

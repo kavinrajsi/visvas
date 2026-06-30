@@ -3,8 +3,8 @@ import { notFound } from 'next/navigation'
 import config from '@payload-config'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import BlogSidebar from '@/app/(frontend)/blog/BlogSidebar'
-import styles from './page.module.css'
-import '@/app/(frontend)/blog/[slug]/blog-content.css'
+import styles from './page.module.scss'
+import '@/app/(frontend)/blog/[slug]/blog-content.scss'
 
 export const dynamic = 'auto'
 export const revalidate = 3600
@@ -126,7 +126,7 @@ export default async function BlogDetailPage({ params }) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: post.structuredData,
+            __html: JSON.stringify(typeof post.structuredData === 'object' ? post.structuredData : JSON.parse(post.structuredData || '{}')),
           }}
         />
       )}

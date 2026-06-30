@@ -1,4 +1,5 @@
 // Google Sheets integration for form data storage
+import { sanitiseFormType } from '@/lib/security/sanitiser'
 
 const GOOGLE_SHEETS_CONFIG = {
   apiKey: process.env.GOOGLE_SHEETS_API_KEY,
@@ -19,12 +20,13 @@ export async function appendToSheet(sheetName, rows) {
     }
 
     // Production: send to Google Sheets API
-    const url = `${GOOGLE_SHEETS_CONFIG.baseUrl}/${GOOGLE_SHEETS_CONFIG.spreadsheetId}/values/${sheetName}:append?key=${GOOGLE_SHEETS_CONFIG.apiKey}`
+    const url = `${GOOGLE_SHEETS_CONFIG.baseUrl}/${GOOGLE_SHEETS_CONFIG.spreadsheetId}/values/${sheetName}:append`
 
     const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${GOOGLE_SHEETS_CONFIG.apiKey}`,
       },
       body: JSON.stringify({
         values: rows,
@@ -51,7 +53,8 @@ export async function appendToSheet(sheetName, rows) {
 
 export async function storeFormData(formType, formData, metadata = {}) {
   const timestamp = new Date().toISOString()
-  const sheetName = `${formType}_responses`
+  const safeFormType = sanitiseFormType(formType)
+  const sheetName = `${safeFormType}_responses`
 
   // Prepare row: [timestamp, name, email, phone, message, metadata...]
   const row = [
@@ -75,7 +78,8 @@ export async function createSheetHeaders(formType) {
   const headers = [
     ['Timestamp', 'Name', 'Email', 'Mobile', 'Message', 'Full Data'],
   ]
-  const sheetName = `${formType}_responses`
+  const safeFormType = sanitiseFormType(formType)
+  const sheetName = `${safeFormType}_responses`
 
   if (process.env.NODE_ENV === 'development') {
     console.log('[SHEETS] Dev mode - would create headers:', { sheet: sheetName, headers })

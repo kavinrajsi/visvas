@@ -1,6 +1,8 @@
 // Local storage: JSON file (primary) + SQLite (optional)
 import fs from 'fs/promises'
 import path from 'path'
+import { createRequire } from 'module'
+import { sanitiseFormType } from '@/lib/security/sanitiser'
 
 const DB_DIR = process.env.DATABASE_DIR || 'data'
 const DB_TYPE = process.env.DATABASE_TYPE || 'json'
@@ -19,7 +21,9 @@ export async function storeFormDataJson(formType, formData, metadata = {}) {
   try {
     await ensureDbDir()
 
-    const filePath = path.join(DB_DIR, `${formType}_submissions.json`)
+    const safeFormType = sanitiseFormType(formType)
+    const filePath = path.join(DB_DIR, `${safeFormType}_submissions.json`)
+    const tempPath = `${filePath}.tmp`
     const timestamp = new Date().toISOString()
     const id = `${formType}_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`
 
@@ -41,7 +45,8 @@ export async function storeFormDataJson(formType, formData, metadata = {}) {
     }
 
     data.push(entry)
-    await fs.writeFile(filePath, JSON.stringify(data, null, 2))
+    await fs.writeFile(tempPath, JSON.stringify(data, null, 2))
+    await fs.rename(tempPath, filePath)
 
     console.log(`[DB] Form data stored (JSON): ${id}`)
     return { success: true, id, filePath }
@@ -55,7 +60,8 @@ export async function getFormDataJson(formType, limit = 100) {
   try {
     await ensureDbDir()
 
-    const filePath = path.join(DB_DIR, `${formType}_submissions.json`)
+    const safeFormType = sanitiseFormType(formType)
+    const filePath = path.join(DB_DIR, `${safeFormType}_submissions.json`)
     const data = await fs.readFile(filePath, 'utf-8')
     const submissions = JSON.parse(data)
 
@@ -77,7 +83,9 @@ async function initSQLite() {
   if (sqliteDb) return
 
   try {
-    const sqlite3 = require('better-sqlite3')
+    const require = createRequire(import.meta.url)
+    const packageName = 'better' + '-sqlite3'
+    const sqlite3 = require(packageName)
     const dbPath = path.join(DB_DIR, 'submissions.db')
 
     sqliteDb = new sqlite3(dbPath)

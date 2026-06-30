@@ -85,24 +85,44 @@ export async function sendUserConfirmation(data) {
 }
 
 function formatAdminEmail(data) {
+  const htmlEscape = (str) => {
+    if (typeof str !== 'string') return String(str)
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;')
+  }
+
   return `
     <h2>New Form Submission</h2>
-    <p><strong>Form Type:</strong> ${data.formType || 'Unknown'}</p>
-    <p><strong>Timestamp:</strong> ${new Date(data.timestamp).toLocaleString()}</p>
+    <p><strong>Form Type:</strong> ${htmlEscape(data.formType || 'Unknown')}</p>
+    <p><strong>Timestamp:</strong> ${htmlEscape(new Date(data.timestamp).toLocaleString())}</p>
     <hr/>
     <h3>Submitted Data:</h3>
-    <pre>${JSON.stringify(data.formData, null, 2)}</pre>
+    <pre>${htmlEscape(JSON.stringify(data.formData, null, 2))}</pre>
     <hr/>
-    <p><strong>IP:</strong> ${data.ip || 'Unknown'}</p>
+    <p><strong>IP:</strong> ${htmlEscape(data.ip || 'Unknown')}</p>
   `
 }
 
 function formatUserEmail(data) {
+  const htmlEscape = (str) => {
+    if (typeof str !== 'string') return String(str)
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;')
+  }
+
   return `
     <h2>Thank You for Your Inquiry</h2>
-    <p>Hi ${data.formData?.name || 'there'},</p>
+    <p>Hi ${htmlEscape(data.formData?.name || 'there')},</p>
     <p>We have received your inquiry and will get back to you shortly.</p>
-    <p><strong>Submission Reference:</strong> ${data.id || 'N/A'}</p>
+    <p><strong>Submission Reference:</strong> ${htmlEscape(data.id || 'N/A')}</p>
     <hr/>
     <p>Best regards,<br/>Visvas Properties Team</p>
   `

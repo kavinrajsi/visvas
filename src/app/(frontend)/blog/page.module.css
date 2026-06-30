@@ -4,13 +4,13 @@
 
 .blog-index {
   min-height: 100vh;
-  background-color: #ffffff;
+  background-color: var(--color-white);
 }
 
 /* Hero Section */
 .blog-index__hero {
-  background: linear-gradient(135deg, #1e5f2f 0%, #2a7a3c 100%);
-  color: white;
+  background: var(--gradient-primary);
+  color: var(--color-white);
   padding: 60px 20px;
   text-align: center;
 }
@@ -67,7 +67,7 @@
   display: flex;
   gap: 24px;
   padding-bottom: 40px;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--color-border);
   text-decoration: none;
   transition: opacity 200ms ease-in-out;
 }
@@ -88,7 +88,7 @@
   aspect-ratio: 433 / 220;
   overflow: hidden;
   border-radius: 4px;
-  background-color: #f0f0f0;
+  background-color: var(--color-muted);
 }
 
 .blog-index__post-img {
@@ -112,7 +112,7 @@
   font-family: 'Raleway', sans-serif;
   font-size: 18px;
   font-weight: 600;
-  color: #000000;
+  color: var(--color-heading);
   line-height: 1.22;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -125,7 +125,7 @@
   font-family: 'Raleway', sans-serif;
   font-size: 16px;
   font-weight: 400;
-  color: #303030;
+  color: var(--color-text);
   line-height: 1.5;
   display: -webkit-box;
   -webkit-line-clamp: 4;
@@ -138,7 +138,7 @@
   font-family: 'Raleway', sans-serif;
   font-size: 14px;
   font-weight: 500;
-  color: #4b4b4b;
+  color: var(--color-sub);
   line-height: 1.43;
 }
 

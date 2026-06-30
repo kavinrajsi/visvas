@@ -7,7 +7,7 @@ import ProjectStickyNav from './ProjectStickyNav'
 import ProjectEnquiryForm from './ProjectEnquiryForm'
 import ProjectFAQ from './ProjectFAQ'
 import ProjectMediaTabs from './ProjectMediaTabs'
-import styles from './page.module.css'
+import styles from './page.module.scss'
 
 export const dynamic = 'force-dynamic'
 
@@ -340,7 +340,7 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: project.seo.structuredData,
+            __html: JSON.stringify(typeof project.seo.structuredData === 'object' ? project.seo.structuredData : JSON.parse(project.seo.structuredData || '{}')),
           }}
         />
       )}

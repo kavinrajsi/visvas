@@ -1,4 +1,7 @@
 import { submitForm, validateFormData } from '@/lib/forms/submitForm'
+import { RateLimiter } from '@/lib/security/rateLimiter'
+
+const rateLimiter = new RateLimiter({ windowMs: 60000, maxRequests: 5 })
 
 export async function POST(request) {
   try {
@@ -12,6 +15,19 @@ export async function POST(request) {
       )
     }
 
+    // Rate limiting
+    const clientIp = request.headers.get('cf-connecting-ip') ||
+                     request.headers.get('x-real-ip') ||
+                     'unknown'
+
+    const rateLimitResult = rateLimiter.check(clientIp)
+    if (!rateLimitResult.allowed) {
+      return Response.json(
+        { success: false, error: 'Too many requests. Please try again later.' },
+        { status: 429, headers: { 'Retry-After': '60' } }
+      )
+    }
+
     // Validate form data
     const validation = validateFormData(formType, formData)
     if (!validation.valid) {
@@ -20,11 +36,6 @@ export async function POST(request) {
         { status: 400 }
       )
     }
-
-    // Get client IP
-    const clientIp = request.headers.get('x-forwarded-for') ||
-                     request.headers.get('x-real-ip') ||
-                     'unknown'
 
     // Submit form
     const result = await submitForm(formType, formData, {
@@ -50,7 +61,6 @@ export async function POST(request) {
         {
           success: false,
           error: 'Form submission failed',
-          errors: result.errors,
         },
         { status: 500 }
       )
@@ -58,16 +68,8 @@ export async function POST(request) {
   } catch (error) {
     console.error('[API] Form submission error:', error.message)
     return Response.json(
-      { success: false, error: error.message },
+      { success: false, error: 'Form submission encountered an error' },
       { status: 500 }
     )
   }
-}
-
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: '1mb',
-    },
-  },
 }

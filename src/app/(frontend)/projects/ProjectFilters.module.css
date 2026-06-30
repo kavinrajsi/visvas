@@ -3,9 +3,9 @@
    ======================================== */
 
 .project-filters {
-  background-color: #f9f9f9;
+  background-color: var(--color-surface-light);
   padding: 24px 20px;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .project-filters__row {
@@ -27,7 +27,7 @@
   font-family: 'Raleway', sans-serif;
   font-size: 14px;
   font-weight: 600;
-  color: #303030;
+  color: var(--color-text);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -37,18 +37,17 @@
   font-family: 'Raleway', sans-serif;
   font-size: 14px;
   padding: 10px 12px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--color-border);
   border-radius: 4px;
-  background-color: white;
-  color: #303030;
+  background-color: var(--color-white);
+  color: var(--color-text);
   transition: border-color 200ms ease-in-out;
 }
 
 .project-filters__input:focus,
 .project-filters__select:focus {
-  outline: none;
-  border-color: #1e5f2f;
-  box-shadow: 0 0 0 2px rgba(30, 95, 47, 0.1);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--shadow-primary-10);
 }
 
 .project-filters__input {
@@ -75,18 +74,17 @@
   font-family: 'Raleway', sans-serif;
   font-size: 14px;
   padding: 10px 12px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--color-border);
   border-radius: 4px;
-  background-color: white;
-  color: #303030;
+  background-color: var(--color-white);
+  color: var(--color-text);
   width: 100px;
   transition: border-color 200ms ease-in-out;
 }
 
 .project-filters__input-small:focus {
-  outline: none;
-  border-color: #1e5f2f;
-  box-shadow: 0 0 0 2px rgba(30, 95, 47, 0.1);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--shadow-primary-10);
 }
 
 /* Remove spinner from number inputs */
@@ -101,30 +99,30 @@
 }
 
 .project-filters__dash {
-  color: #303030;
+  color: var(--color-text);
   font-weight: 600;
 }
 
 .project-filters__clear {
   padding: 10px 20px;
-  background-color: white;
-  border: 1px solid #e0e0e0;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
   border-radius: 4px;
   font-family: 'Raleway', sans-serif;
   font-size: 14px;
   font-weight: 600;
-  color: #303030;
+  color: var(--color-text);
   cursor: pointer;
   transition: background-color 200ms, border-color 200ms;
 }
 
 .project-filters__clear:hover {
-  background-color: #f0f0f0;
-  border-color: #d0d0d0;
+  background-color: var(--color-muted);
+  border-color: var(--color-border-muted);
 }
 
 .project-filters__clear:active {
-  background-color: #e0e0e0;
+  background-color: var(--color-border);
 }
 
 /* Tablet and up */

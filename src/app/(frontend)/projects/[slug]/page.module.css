@@ -13,7 +13,7 @@
   width: 100%;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  background-color: #f0f0f0;
+  background-color: var(--color-muted);
 }
 
 .project-detail__hero-img {
@@ -114,7 +114,7 @@
   width: 100%;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  background-color: #f0f0f0;
+  background-color: var(--color-muted);
   border-radius: 4px;
 }
 
@@ -347,7 +347,7 @@
   width: 100%;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  background-color: #f0f0f0;
+  background-color: var(--color-muted);
   border-radius: 4px;
 }
 

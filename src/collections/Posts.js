@@ -6,7 +6,12 @@ const Posts = {
     defaultColumns: ['title', 'author', 'status', 'publishedAt', 'createdAt'],
   },
   access: {
-    read: () => true,
+    read: ({ req: { user } }) => {
+      if (user) return true
+      return {
+        status: { not_equals: 'draft' }
+      }
+    },
   },
   fields: [
     {

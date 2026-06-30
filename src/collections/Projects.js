@@ -6,7 +6,12 @@ const Projects = {
     defaultColumns: ['name', 'location', 'status', 'projectType', 'createdAt'],
   },
   access: {
-    read: () => true,
+    read: ({ req: { user } }) => {
+      if (user) return true
+      return {
+        status: { not_equals: 'draft' }
+      }
+    },
   },
   fields: [
     {

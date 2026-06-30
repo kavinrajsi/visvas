@@ -8,7 +8,7 @@ const ContactSubmissions = {
   },
   access: {
     read: ({ req: { user } }) => !!user,
-    create: () => true,
+    create: () => false,
   },
   fields: [
     {

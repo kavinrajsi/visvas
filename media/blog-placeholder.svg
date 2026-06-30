@@ -1,0 +1,11 @@
+<svg width="1200" height="675" viewBox="0 0 1200 675" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="675" fill="#F4F1E8"/>
+  <rect x="72" y="72" width="1056" height="531" rx="0" fill="#FFFFFF" stroke="#E0E0E0" stroke-width="4"/>
+  <rect x="132" y="132" width="936" height="278" fill="#DDE8D8"/>
+  <path d="M132 410L376 252L527 354L666 276L1068 410H132Z" fill="#1E5F2F" fill-opacity="0.18"/>
+  <circle cx="917" cy="198" r="54" fill="#E4A025" fill-opacity="0.55"/>
+  <rect x="132" y="464" width="438" height="24" fill="#1E5F2F"/>
+  <rect x="132" y="512" width="684" height="18" fill="#B8B8B8"/>
+  <rect x="132" y="550" width="560" height="18" fill="#D0D0D0"/>
+  <text x="600" y="348" text-anchor="middle" fill="#1E5F2F" font-family="Arial, Helvetica, sans-serif" font-size="44" font-weight="700">Visvas Blog</text>
+</svg>

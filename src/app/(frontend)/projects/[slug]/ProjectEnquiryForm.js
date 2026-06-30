@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { trackFormSubmit } from '@/lib/analytics/track'
 import styles from './ProjectEnquiryForm.module.css'
 
 export default function ProjectEnquiryForm({ projectName }) {
