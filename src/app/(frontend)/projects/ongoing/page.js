@@ -1,12 +1,13 @@
+import { Suspense } from 'react'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import ProjectCard from '@/app/(frontend)/components/project-card/ProjectCard'
 import ProjectFilters from '@/app/(frontend)/projects/ProjectFilters'
 import Pagination from '@/app/(frontend)/projects/Pagination'
 import { buildWhere } from '@/app/(frontend)/projects/helpers'
-import styles from './page.module.css'
+import styles from './page.module.scss'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 300
 
 export const metadata = {
   title: 'Ongoing Projects | Visvas',
@@ -85,7 +86,9 @@ export default async function OngoingProjectsPage({ searchParams }) {
       </div>
 
       {/* Filters */}
-      <ProjectFilters category="ongoing" availableLocations={availableLocations} />
+      <Suspense fallback={null}>
+        <ProjectFilters category="ongoing" availableLocations={availableLocations} />
+      </Suspense>
 
       {/* Results info */}
       <div className={styles['page__results-info']}>

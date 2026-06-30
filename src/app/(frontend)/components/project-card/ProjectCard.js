@@ -1,5 +1,6 @@
+import Image from 'next/image'
 import Link from 'next/link'
-import styles from './ProjectCard.module.css'
+import styles from './ProjectCard.module.scss'
 import { STATUS_LABELS } from '@/app/(frontend)/projects/helpers'
 
 export default function ProjectCard({ project }) {
@@ -13,10 +14,12 @@ export default function ProjectCard({ project }) {
   return (
     <Link href={`/projects/${project.slug}`} className={styles['project-card']}>
       <div className={styles['project-card__image-wrap']}>
-        <img
+        <Image
           src={coverImageUrl}
           alt={projectName}
           className={styles['project-card__image']}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
         <span className={styles['project-card__badge']}>
           {statusLabel}

@@ -2,7 +2,7 @@
 
 import { useSearchParams, useRouter } from 'next/navigation'
 import { useCallback, useState, useEffect } from 'react'
-import styles from './ProjectFilters.module.css'
+import styles from './ProjectFilters.module.scss'
 import { PROJECT_TYPE_LABELS } from './helpers'
 
 export default function ProjectFilters({
@@ -18,14 +18,6 @@ export default function ProjectFilters({
   const [minBudget, setMinBudget] = useState(searchParams.get('minBudget') || '')
   const [maxBudget, setMaxBudget] = useState(searchParams.get('maxBudget') || '')
 
-  // Debounced search handler
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      updateParams({ search })
-    }, 300)
-    return () => clearTimeout(timer)
-  }, [search])
-
   const updateParams = useCallback((updates) => {
     const newParams = new URLSearchParams(searchParams)
 
@@ -38,8 +30,16 @@ export default function ProjectFilters({
     })
 
     newParams.set('page', '1') // Reset to page 1 on filter change
-    router.push(`?${newParams.toString()}`)
+    router.replace(`?${newParams.toString()}`)
   }, [searchParams, router])
+
+  // Debounced search handler
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      updateParams({ search })
+    }, 300)
+    return () => clearTimeout(timer)
+  }, [search, updateParams])
 
   const handleTypeChange = (e) => {
     const newType = e.target.value
@@ -71,7 +71,7 @@ export default function ProjectFilters({
     setLocation('')
     setMinBudget('')
     setMaxBudget('')
-    router.push(`?page=1`)
+    router.replace(`?page=1`)
   }
 
   return (

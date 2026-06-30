@@ -1,11 +1,12 @@
+import Image from 'next/image'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import Link from 'next/link'
 import BlogSidebar from './BlogSidebar'
 import Pagination from '@/app/(frontend)/projects/Pagination'
-import styles from './page.module.css'
+import styles from './page.module.scss'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 1800
 
 export const metadata = {
   title: 'Blog & Insights | Visvas',
@@ -82,10 +83,12 @@ export default async function BlogPage({ searchParams }) {
               >
                 {/* Image */}
                 <div className={styles['blog-index__post-image']}>
-                  <img
+                  <Image
                     src={post.coverImage?.url || '/placeholder.jpg'}
                     alt={post.title}
                     className={styles['blog-index__post-img']}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                 </div>
 

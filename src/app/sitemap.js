@@ -1,15 +1,14 @@
-import type { MetadataRoute } from 'next'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 3600
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.visvas.in'
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+export default async function sitemap() {
   const payload = await getPayload({ config })
 
-  const urls: MetadataRoute.Sitemap = [
+  const urls = [
     {
       url: baseUrl,
       lastModified: new Date(),
@@ -35,6 +34,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const projectsResult = await payload.find({
       collection: 'projects',
       limit: 1000,
+      select: { slug: true, updatedAt: true },
     })
 
     projectsResult.docs.forEach((project) => {
@@ -52,6 +52,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const postsResult = await payload.find({
       collection: 'posts',
       limit: 1000,
+      select: { slug: true, updatedAt: true },
     })
 
     postsResult.docs.forEach((post) => {

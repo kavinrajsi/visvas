@@ -1,7 +1,8 @@
 'use client'
 
+import Image from 'next/image'
 import { useState } from 'react'
-import styles from './ProjectMediaTabs.module.css'
+import styles from './ProjectMediaTabs.module.scss'
 
 export default function ProjectMediaTabs({ project }) {
   const [activeTab, setActiveTab] = useState('photos')
@@ -85,16 +86,20 @@ export default function ProjectMediaTabs({ project }) {
 
           <div className={styles['media-tabs__viewport']}>
             {currentMedia?.image?.url || currentMedia?.plan?.url ? (
-              <img
+              <Image
                 src={currentMedia.image?.url || currentMedia.plan?.url}
                 alt={`${activeTab} ${currentIndex + 1}`}
                 className={styles['media-tabs__image']}
+                fill
+                sizes="(max-width: 768px) 100vw, 80vw"
               />
             ) : (
-              <img
+              <Image
                 src="/placeholder.jpg"
                 alt={`${activeTab} ${currentIndex + 1}`}
                 className={styles['media-tabs__image']}
+                fill
+                sizes="(max-width: 768px) 100vw, 80vw"
               />
             )}
           </div>

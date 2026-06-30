@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { getPayload } from 'payload'
 import { notFound } from 'next/navigation'
 import config from '@payload-config'
@@ -9,7 +10,7 @@ import ProjectFAQ from './ProjectFAQ'
 import ProjectMediaTabs from './ProjectMediaTabs'
 import styles from './page.module.scss'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 3600
 
 export async function generateMetadata({ params: paramsPromise }) {
   const params = await paramsPromise
@@ -54,6 +55,16 @@ export async function generateMetadata({ params: paramsPromise }) {
   }
 }
 
+export async function generateStaticParams() {
+  const payload = await getPayload({ config })
+  const result = await payload.find({
+    collection: 'projects',
+    limit: 1000,
+    select: { slug: true },
+  })
+  return result.docs.map(({ slug }) => ({ slug }))
+}
+
 async function getProject(slug) {
   const payload = await getPayload({ config })
 
@@ -83,10 +94,13 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
     <main className={styles['project-detail']}>
       {/* Hero */}
       <div className={styles['project-detail__hero']}>
-        <img
+        <Image
           src={project.coverImage?.url || '/placeholder.jpg'}
           alt={project.name}
           className={styles['project-detail__hero-img']}
+          priority
+          fill
+          sizes="100vw"
         />
       </div>
 
@@ -156,10 +170,12 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
 
           {/* Project Image */}
           <div className={styles['project-detail__project-image']}>
-            <img
+            <Image
               src={project.images?.[0]?.image?.url || '/placeholder.jpg'}
               alt={`${project.name} - interior`}
               className={styles['project-detail__project-img']}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           </div>
         </div>
@@ -256,10 +272,12 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
 
           {/* Map Placeholder */}
           <div className={styles['project-detail__map']}>
-            <img
+            <Image
               src="/placeholder.jpg"
               alt="Location map"
               className={styles['project-detail__map-img']}
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
           </div>
         </div>

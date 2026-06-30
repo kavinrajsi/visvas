@@ -37,7 +37,7 @@ export async function POST(request) {
       )
     }
 
-    console.log('[FORM SUBMIT]', { formType, formData, ip: clientIp })
+    console.log('[FORM SUBMIT]', { formType, ip: clientIp })
 
     // Submit form
     const result = await submitForm(formType, formData, {

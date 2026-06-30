@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { getPayload } from 'payload'
 import { notFound } from 'next/navigation'
 import config from '@payload-config'
@@ -6,7 +7,6 @@ import BlogSidebar from '@/app/(frontend)/blog/BlogSidebar'
 import styles from './page.module.scss'
 import '@/app/(frontend)/blog/[slug]/blog-content.scss'
 
-export const dynamic = 'auto'
 export const revalidate = 3600
 
 function formatDate(dateStr) {
@@ -16,6 +16,16 @@ function formatDate(dateStr) {
     month: 'short',
     year: 'numeric',
   }).format(new Date(dateStr))
+}
+
+export async function generateStaticParams() {
+  const payload = await getPayload({ config })
+  const result = await payload.find({
+    collection: 'posts',
+    limit: 1000,
+    select: { slug: true },
+  })
+  return result.docs.map(({ slug }) => ({ slug }))
 }
 
 async function getPost(slug) {
@@ -86,10 +96,13 @@ export default async function BlogDetailPage({ params }) {
     <div className={styles['blog-detail']}>
       {/* Hero Image */}
       <div className={styles['blog-detail__hero']}>
-        <img
+        <Image
           src={post.coverImage?.url || '/placeholder.jpg'}
           alt={post.title}
           className={styles['blog-detail__hero-img']}
+          priority
+          fill
+          sizes="100vw"
         />
       </div>
 

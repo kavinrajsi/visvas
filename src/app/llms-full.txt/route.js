@@ -1,7 +1,7 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 3600
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.visvas.in'
 
@@ -77,7 +77,6 @@ Visvas is a luxury property developer based in Madurai, Tamil Nadu, India. We sp
   return new Response(content, {
     headers: {
       'Content-Type': 'text/plain; charset=utf-8',
-      'Cache-Control': 'public, max-age=3600, stale-while-revalidate=86400',
     },
   })
 }
