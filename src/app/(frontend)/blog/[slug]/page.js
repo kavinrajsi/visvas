@@ -42,7 +42,8 @@ async function getPost(slug) {
 }
 
 export async function generateMetadata({ params }) {
-  const post = await getPost(params.slug)
+  const { slug } = await params
+  const post = await getPost(slug)
 
   if (!post) {
     return {
@@ -76,7 +77,7 @@ export async function generateMetadata({ params }) {
       image: post.ogImage?.url || post.coverImage?.url,
     },
     alternates: {
-      canonical: post.canonicalUrl || `/blog/${params.slug}`,
+      canonical: post.canonicalUrl || `/blog/${slug}`,
     },
     robots: {
       index: !post.noIndex,
@@ -86,7 +87,8 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function BlogDetailPage({ params }) {
-  const post = await getPost(params.slug)
+  const { slug } = await params
+  const post = await getPost(slug)
 
   if (!post) {
     notFound()

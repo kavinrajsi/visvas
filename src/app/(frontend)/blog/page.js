@@ -51,11 +51,12 @@ async function getPosts(page = 1) {
 }
 
 export default async function BlogPage({ searchParams }) {
-  const currentPage = Number(searchParams.page) || 1
+  const resolvedSearchParams = await searchParams
+  const currentPage = Number(resolvedSearchParams.page) || 1
   const { docs: posts, totalPages } = await getPosts(currentPage)
 
   const buildPaginationHref = (pageNum) => {
-    const params = new URLSearchParams(searchParams)
+    const params = new URLSearchParams(resolvedSearchParams)
     params.set('page', String(pageNum))
     return `?${params.toString()}`
   }
