@@ -1,4 +1,4 @@
-import styles from './MobileCtaBar.module.css'
+import styles from './MobileCtaBar.module.scss'
 
 export default function MobileCtaBar() {
   return (

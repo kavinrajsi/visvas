@@ -37,6 +37,7 @@
 /* Main Layout */
 .blog-index__layout {
   display: flex;
+  flex-direction: column;
   gap: 20px;
   padding: 40px 20px;
   max-width: 1400px;
@@ -51,8 +52,9 @@
 }
 
 .blog-index__sidebar {
-  width: 387px;
+  width: 100%;
   flex-shrink: 0;
+  display: none;
 }
 
 /* Post List */
@@ -65,6 +67,7 @@
 /* Post Card */
 .blog-index__post-card {
   display: flex;
+  flex-direction: column;
   gap: 24px;
   padding-bottom: 40px;
   border-bottom: 1px solid var(--color-border);
@@ -84,8 +87,8 @@
 /* Post Image */
 .blog-index__post-image {
   flex-shrink: 0;
-  width: 433px;
-  aspect-ratio: 433 / 220;
+  width: 100%;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
   border-radius: 4px;
   background-color: var(--color-muted);
@@ -104,13 +107,13 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 16px;
+  padding: 16px 0;
 }
 
 .blog-index__post-title {
   margin: 0 0 4px 0;
   font-family: 'Raleway', sans-serif;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   color: var(--color-heading);
   line-height: 1.22;
@@ -123,7 +126,7 @@
 .blog-index__post-excerpt {
   margin: 0;
   font-family: 'Raleway', sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
   color: var(--color-text);
   line-height: 1.5;
@@ -153,46 +156,36 @@
   }
 
   .blog-index__layout {
+    flex-direction: row;
     padding: 48px 50px;
     gap: 40px;
   }
 
-  .blog-index__post-image {
-    width: 500px;
-  }
-}
-
-/* Mobile Responsive */
-@media (max-width: 767px) {
-  .blog-index__layout {
-    flex-direction: column;
-  }
-
   .blog-index__sidebar {
-    width: 100%;
-    display: none;
+    width: 387px;
+    display: block;
   }
 
   .blog-index__post-card {
-    flex-direction: column;
-    gap: 0;
+    flex-direction: row;
+    gap: 24px;
   }
 
   .blog-index__post-image {
-    width: 100%;
-    aspect-ratio: 16 / 9;
+    width: 500px;
+    aspect-ratio: 433 / 220;
   }
 
   .blog-index__post-body {
-    padding: 16px 0;
+    padding: 16px;
   }
 
   .blog-index__post-title {
-    font-size: 16px;
+    font-size: 18px;
   }
 
   .blog-index__post-excerpt {
-    font-size: 14px;
+    font-size: 16px;
   }
 }
 

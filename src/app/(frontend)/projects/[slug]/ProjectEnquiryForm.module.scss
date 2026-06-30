@@ -4,18 +4,18 @@
 
 .enquiry-form {
   background-color: var(--color-white);
-  padding: 40px;
+  padding: 24px;
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 40px;
-  max-width: 387px;
+  gap: 24px;
+  max-width: 100%;
 }
 
 .enquiry-form__heading {
   margin: 0;
   font-family: var(--font-body);
-  font-size: var(--text-h5);
+  font-size: 18px;
   font-weight: var(--fw-semibold);
   color: var(--color-heading);
   line-height: var(--lh-h5);
@@ -25,6 +25,12 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+.enquiry-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .enquiry-form__input,
@@ -41,6 +47,11 @@
   transition: border-color 200ms ease-in-out, background-color 200ms ease-in-out;
 }
 
+.enquiry-form__input--error {
+  border: 1px solid var(--color-error-text);
+  background-color: var(--color-error-bg);
+}
+
 .enquiry-form__input::placeholder,
 .enquiry-form__textarea::placeholder {
   color: var(--color-text);
@@ -55,6 +66,15 @@
 .enquiry-form__textarea {
   resize: vertical;
   min-height: 120px;
+}
+
+.enquiry-form__error {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--fw-medium);
+  color: var(--color-error-text);
+  line-height: 18px;
 }
 
 .enquiry-form__checkbox-group {
@@ -137,15 +157,14 @@
   border: 1px solid var(--color-error-border);
 }
 
-/* Mobile */
-@media (max-width: 767px) {
+@media (min-width: 768px) {
   .enquiry-form {
-    max-width: 100%;
-    padding: 24px;
-    gap: 24px;
+    max-width: 387px;
+    padding: 40px;
+    gap: 40px;
   }
 
   .enquiry-form__heading {
-    font-size: 18px;
+    font-size: var(--text-h5);
   }
 }

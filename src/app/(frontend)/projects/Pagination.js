@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import styles from './Pagination.module.css'
+import styles from './Pagination.module.scss'
 
 export default function Pagination({
   currentPage = 1,

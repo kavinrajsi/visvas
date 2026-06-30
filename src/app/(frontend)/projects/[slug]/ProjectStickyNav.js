@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import styles from './ProjectStickyNav.module.css'
+import styles from './ProjectStickyNav.module.scss'
 
 export default function ProjectStickyNav() {
   const [activeSection, setActiveSection] = useState('about')

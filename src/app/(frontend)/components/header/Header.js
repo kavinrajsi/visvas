@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import styles from './Header.module.css'
+import styles from './Header.module.scss'
 
 const Logo = () => (
   <svg width="177" height="40" viewBox="0 0 177 40" fill="none" xmlns="http://www.w3.org/2000/svg" className={styles['header__logo-svg']}>

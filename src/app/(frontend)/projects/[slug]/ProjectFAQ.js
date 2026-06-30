@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import styles from './ProjectFAQ.module.css'
+import styles from './ProjectFAQ.module.scss'
 
 export default function ProjectFAQ({ faqs }) {
   const [openId, setOpenId] = useState(null)

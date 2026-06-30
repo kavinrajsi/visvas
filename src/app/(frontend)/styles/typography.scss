@@ -9,20 +9,20 @@
   --font-display: 'Cormorant Garamond', Georgia, serif;
   --font-body: 'Raleway', sans-serif;
 
-  /* Font sizes — desktop */
-  --text-h2: 48px;
-  --text-h3: 36px;
-  --text-h4: 24px;
-  --text-h5: 20px;
-  --text-h6: 18px;
+  /* Font sizes */
+  --text-h2: 28px;
+  --text-h3: 22px;
+  --text-h4: 20px;
+  --text-h5: 17px;
+  --text-h6: 16px;
   --text-body: 16px;
   --text-sm: 14px;
   --text-xs: 12px;
 
   /* Line heights */
-  --lh-h2: 52px;
-  --lh-h3: 40px;
-  --lh-h4: 30px;
+  --lh-h2: 34px;
+  --lh-h3: 28px;
+  --lh-h4: 26px;
   --lh-h5: 24px;
   --lh-h6: 22px;
   --lh-body: 24px;
@@ -35,26 +35,26 @@
   --fw-bold: 700;
 }
 
-/* Mobile font-size scale */
-@media (max-width: 767px) {
-  :root {
-    --text-h2: 28px;
-    --lh-h2: 34px;
-    --text-h3: 22px;
-    --lh-h3: 28px;
-    --text-h4: 20px;
-    --lh-h4: 26px;
-    --text-h5: 17px;
-    --text-h6: 16px;
-  }
-}
-
 /* Tablet scale */
-@media (min-width: 768px) and (max-width: 1023px) {
+@media (min-width: 768px) {
   :root {
     --text-h2: 36px;
     --lh-h2: 42px;
     --text-h3: 28px;
     --lh-h3: 34px;
+  }
+}
+
+/* Desktop scale */
+@media (min-width: 1024px) {
+  :root {
+    --text-h2: 48px;
+    --lh-h2: 52px;
+    --text-h3: 36px;
+    --lh-h3: 40px;
+    --text-h4: 24px;
+    --lh-h4: 30px;
+    --text-h5: 20px;
+    --text-h6: 18px;
   }
 }

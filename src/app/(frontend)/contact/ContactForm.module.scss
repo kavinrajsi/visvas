@@ -1,0 +1,118 @@
+.contact-form {
+  background-color: white;
+  border-radius: 8px;
+  padding: 40px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+  @media (max-width: 768px) {
+    padding: 24px;
+  }
+
+  &__heading {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--color-heading);
+    margin-bottom: 32px;
+
+    @media (max-width: 768px) {
+      font-size: 20px;
+      margin-bottom: 24px;
+    }
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-input,
+.form-textarea {
+  padding: 12px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--color-heading);
+  transition: border-color 0.3s, background-color 0.3s;
+
+  &::placeholder {
+    color: var(--color-sub);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    background-color: var(--color-surface);
+  }
+
+  &--error {
+    border-color: #dc3545;
+    background-color: #fff5f5;
+  }
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.form-error {
+  font-size: 12px;
+  color: #dc3545;
+  margin-top: 6px;
+}
+
+.form-message {
+  padding: 12px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-bottom: 12px;
+
+  &--success {
+    background-color: var(--color-success-bg);
+    color: var(--color-success-text);
+    border: 1px solid var(--color-success-border);
+  }
+
+  &--error {
+    background-color: var(--color-error-bg);
+    color: var(--color-error-text);
+    border: 1px solid var(--color-error-border);
+  }
+}
+
+.form-disclaimer {
+  font-size: 12px;
+  color: var(--color-sub);
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+.form-btn {
+  padding: 14px 24px;
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 8px;
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-primary-dark);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}

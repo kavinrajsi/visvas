@@ -429,10 +429,10 @@
               transform var(--header-transition-duration) var(--header-transition-timing),
               box-shadow var(--header-transition-duration) var(--header-transition-timing);
   white-space: nowrap;
+  width: 100%;
 
-  /* Full width on mobile */
-  @media (max-width: 1023px) {
-    width: 100%;
+  @media (min-width: 1024px) {
+    width: auto;
   }
 }
 
@@ -513,16 +513,11 @@ body.open-menu {
 .header__dropdown {
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 0 0 0 var(--header-spacing-md);
   display: none;
   background-color: var(--header-color-surface);
-
-  /* Mobile: inline, full-width, indented */
-  @media (max-width: 1023px) {
-    padding-left: var(--header-spacing-md);
-    border-left: 2px solid var(--header-color-primary);
-    margin-top: var(--header-spacing-xs);
-  }
+  border-left: 2px solid var(--header-color-primary);
+  margin-top: var(--header-spacing-xs);
 
   /* Desktop: absolute positioned below trigger */
   @media (min-width: 1024px) {
@@ -530,7 +525,9 @@ body.open-menu {
     top: calc(100% + 8px);
     left: 0;
     min-width: 200px;
+    padding: 0;
     border: 1px solid var(--header-color-border);
+    margin-top: 0;
     z-index: 100;
   }
 }
