@@ -1,7 +1,7 @@
 import { buildConfig } from 'payload'
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { EXPERIMENTAL_TableFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
-import { S3Storage } from '@payloadcms/storage-s3'
+import { s3Storage } from '@payloadcms/storage-s3'
 import { fileURLToPath } from 'url'
 import path from 'path'
 import sharp from 'sharp'
@@ -45,5 +45,20 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URL || '',
     },
   }),
+  plugins: [
+    s3Storage({
+      collections: { media: true },
+      bucket: process.env.R2_BUCKET_NAME || '',
+      config: {
+        endpoint: process.env.R2_ENDPOINT || '',
+        region: 'auto',
+        credentials: {
+          accessKeyId: process.env.R2_ACCESS_KEY || '',
+          secretAccessKey: process.env.R2_SECRET_KEY || '',
+        },
+      },
+      acl: 'public-read',
+    }),
+  ],
   sharp,
 })
