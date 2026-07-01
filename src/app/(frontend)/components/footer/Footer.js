@@ -185,7 +185,9 @@ export default async function Footer() {
 
         <div className={styles["footer__desktop-columns"]}>
           <div className={styles["footer__logo"]}>
-            <Logo />
+            <Link href="/" aria-label="Visvas Properties home">
+              <Logo />
+            </Link>
           </div>
 
           <div className={styles["footer__projects-column"]}>
