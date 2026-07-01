@@ -25,6 +25,27 @@ import ContactSubmissions from './src/collections/ContactSubmissions.js'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+const plugins = []
+
+// Only enable R2 storage if credentials are configured
+if (process.env.R2_BUCKET_NAME && process.env.R2_ENDPOINT && process.env.R2_ACCESS_KEY && process.env.R2_SECRET_KEY) {
+  plugins.push(
+    s3Storage({
+      collections: { media: true },
+      bucket: process.env.R2_BUCKET_NAME,
+      config: {
+        endpoint: process.env.R2_ENDPOINT,
+        region: 'auto',
+        credentials: {
+          accessKeyId: process.env.R2_ACCESS_KEY,
+          secretAccessKey: process.env.R2_SECRET_KEY,
+        },
+      },
+      acl: 'public-read',
+    })
+  )
+}
+
 export default buildConfig({
   admin: {
     user: Users.slug,
@@ -46,21 +67,7 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URL || '',
     },
   }),
-  plugins: [
-    s3Storage({
-      collections: { media: true },
-      bucket: process.env.R2_BUCKET_NAME || '',
-      config: {
-        endpoint: process.env.R2_ENDPOINT || '',
-        region: 'auto',
-        credentials: {
-          accessKeyId: process.env.R2_ACCESS_KEY || '',
-          secretAccessKey: process.env.R2_SECRET_KEY || '',
-        },
-      },
-      acl: 'public-read',
-    }),
-  ],
+  plugins,
   email: async () => ({
     fromName: 'Visvas Properties',
     fromAddress: process.env.ZOHO_ZEPTOMAIL_SENDER_EMAIL || 'noreply@visvas.com',
