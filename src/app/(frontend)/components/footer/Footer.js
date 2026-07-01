@@ -195,19 +195,40 @@ export default async function Footer() {
               Recent Projects
             </h3>
             <ul className={styles["footer__projects-list"]}>
-              {projects.map((project) => (
-                <li
-                  key={project.id}
-                  className={styles["footer__projects-item"]}
-                >
-                  <Link
-                    href={`/projects/${project.slug}`}
-                    className={styles["footer__projects-link"]}
+              {projects.length > 0 ? (
+                projects.map((project) => (
+                  <li
+                    key={project.id}
+                    className={styles["footer__projects-item"]}
                   >
-                    {project.name}
-                  </Link>
-                </li>
-              ))}
+                    <Link
+                      href={`/projects/${project.slug}`}
+                      className={styles["footer__projects-link"]}
+                    >
+                      {project.name}
+                    </Link>
+                  </li>
+                ))
+              ) : (
+                <>
+                  <li className={styles["footer__projects-item"]}>
+                    <Link
+                      href="/projects/ongoing"
+                      className={styles["footer__projects-link"]}
+                    >
+                      Ongoing Projects
+                    </Link>
+                  </li>
+                  <li className={styles["footer__projects-item"]}>
+                    <Link
+                      href="/projects/completed"
+                      className={styles["footer__projects-link"]}
+                    >
+                      Completed Projects
+                    </Link>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
 
