@@ -44,47 +44,51 @@ async function getPost(slug) {
 }
 
 export async function generateMetadata({ params }) {
-  const { slug } = await params
-  const post = await getPost(slug)
+  try {
+    const { slug } = await params
+    const post = await getPost(slug)
 
-  if (!post) {
-    return {
-      title: 'Post Not Found',
+    if (!post) {
+      return {
+        title: 'Post Not Found',
+      }
     }
-  }
 
-  const metaTitle = post.metaTitle || post.title
-  const metaDesc = post.metaDescription || post.excerpt
+    const metaTitle = post.metaTitle || post.title
+    const metaDesc = post.metaDescription || post.excerpt
 
-  return {
-    title: `${metaTitle} | Visvas Blog`,
-    description: metaDesc,
-    openGraph: {
-      title: post.ogTitle || metaTitle,
-      description: post.ogDescription || metaDesc,
-      images: [
-        {
-          url: toImageKitUrl(post.ogImage?.url || post.coverImage?.url),
-          width: 1200,
-          height: 630,
-        },
-      ],
-      type: 'article',
-      publishedTime: post.publishedAt,
-    },
-    twitter: {
-      card: post.twitterCard || 'summary_large_image',
-      title: post.twitterTitle || post.ogTitle || metaTitle,
-      description: post.twitterDescription || post.ogDescription || metaDesc,
-      image: toImageKitUrl(post.ogImage?.url || post.coverImage?.url),
-    },
-    alternates: {
-      canonical: post.canonicalUrl || `/blog/${slug}`,
-    },
-    robots: {
-      index: !post.noIndex,
-      follow: !post.noFollow,
-    },
+    return {
+      title: `${metaTitle} | Visvas Blog`,
+      description: metaDesc,
+      openGraph: {
+        title: post.ogTitle || metaTitle,
+        description: post.ogDescription || metaDesc,
+        images: [
+          {
+            url: toImageKitUrl(post.ogImage?.url || post.coverImage?.url),
+            width: 1200,
+            height: 630,
+          },
+        ],
+        type: 'article',
+        publishedTime: post.publishedAt,
+      },
+      twitter: {
+        card: post.twitterCard || 'summary_large_image',
+        title: post.twitterTitle || post.ogTitle || metaTitle,
+        description: post.twitterDescription || post.ogDescription || metaDesc,
+        image: toImageKitUrl(post.ogImage?.url || post.coverImage?.url),
+      },
+      alternates: {
+        canonical: post.canonicalUrl || `/blog/${slug}`,
+      },
+      robots: {
+        index: !post.noIndex,
+        follow: !post.noFollow,
+      },
+    }
+  } catch {
+    return { title: 'Blog Post | Visvas' }
   }
 }
 

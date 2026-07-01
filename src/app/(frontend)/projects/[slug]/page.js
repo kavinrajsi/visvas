@@ -15,39 +15,40 @@ export const dynamic = 'force-dynamic'
 export const revalidate = 3600
 
 export async function generateMetadata({ params: paramsPromise }) {
-  const params = await paramsPromise
-  const payload = await getPayload({ config })
-  const result = await payload.find({
-    collection: 'projects',
-    where: { slug: { equals: params.slug } },
-    limit: 1,
-  })
+  try {
+    const params = await paramsPromise
+    const payload = await getPayload({ config })
+    const result = await payload.find({
+      collection: 'projects',
+      where: { slug: { equals: params.slug } },
+      limit: 1,
+    })
 
-  const project = result.docs[0]
-  if (!project) {
-    return { title: 'Project Not Found' }
-  }
+    const project = result.docs[0]
+    if (!project) {
+      return { title: 'Project Not Found' }
+    }
 
-  const seo = project.seo || {}
-  const metaTitle = seo.metaTitle || project.name
-  const metaDesc = seo.metaDescription || project.projectDescription || project.name
+    const seo = project.seo || {}
+    const metaTitle = seo.metaTitle || project.name
+    const metaDesc = seo.metaDescription || project.projectDescription || project.name
 
-  return {
-    title: metaTitle,
-    description: metaDesc,
-    openGraph: {
-      title: seo.ogTitle || metaTitle,
-      description: seo.ogDescription || metaDesc,
-      image: toImageKitUrl(seo.ogImage?.url || project.coverImage?.url),
-      type: 'website',
-    },
-    twitter: {
-      card: seo.twitterCard || 'summary_large_image',
-      title: seo.twitterTitle || seo.ogTitle || metaTitle,
-      description: seo.twitterDescription || seo.ogDescription || metaDesc,
-      image: toImageKitUrl(seo.ogImage?.url || project.coverImage?.url),
-    },
-    alternates: {
+    return {
+      title: metaTitle,
+      description: metaDesc,
+      openGraph: {
+        title: seo.ogTitle || metaTitle,
+        description: seo.ogDescription || metaDesc,
+        image: toImageKitUrl(seo.ogImage?.url || project.coverImage?.url),
+        type: 'website',
+      },
+      twitter: {
+        card: seo.twitterCard || 'summary_large_image',
+        title: seo.twitterTitle || seo.ogTitle || metaTitle,
+        description: seo.twitterDescription || seo.ogDescription || metaDesc,
+        image: toImageKitUrl(seo.ogImage?.url || project.coverImage?.url),
+      },
+      alternates: {
       canonical: seo.canonicalUrl || `/projects/${params.slug}`,
     },
     robots: {
@@ -55,16 +56,23 @@ export async function generateMetadata({ params: paramsPromise }) {
       follow: !seo.noFollow,
     },
   }
+  } catch {
+    return { title: 'Project | Visvas' }
+  }
 }
 
 export async function generateStaticParams() {
-  const payload = await getPayload({ config })
-  const result = await payload.find({
-    collection: 'projects',
-    limit: 1000,
-    select: { slug: true },
-  })
-  return result.docs.map(({ slug }) => ({ slug }))
+  try {
+    const payload = await getPayload({ config })
+    const result = await payload.find({
+      collection: 'projects',
+      limit: 1000,
+      select: { slug: true },
+    })
+    return result.docs.map(({ slug }) => ({ slug }))
+  } catch {
+    return []
+  }
 }
 
 async function getProject(slug) {
