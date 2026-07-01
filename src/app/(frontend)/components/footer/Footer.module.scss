@@ -336,11 +336,12 @@
   }
 
   .footer__testimonials-carousel {
-    position: relative;
-    padding-bottom: 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
 
     &__swiper {
-      padding-bottom: 60px;
+      width: 100%;
     }
 
     &__slide {
@@ -351,11 +352,6 @@
       display: flex;
       justify-content: center;
       gap: 16px;
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
     }
 
     &__arrow {
@@ -384,11 +380,6 @@
       display: flex !important;
       justify-content: center;
       gap: 8px;
-      position: absolute;
-      bottom: -50px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
 
       :global(.swiper-pagination-bullet) {
         width: 8px;
