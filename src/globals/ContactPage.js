@@ -78,30 +78,6 @@ const ContactPage = {
             description: 'WhatsApp number (if different from the primary phone)',
           },
         },
-        {
-          name: 'mapImage',
-          type: 'upload',
-          relationTo: 'media',
-          label: 'Location Photo',
-          filterOptions: {
-            mimeType: { contains: 'image' },
-          },
-          admin: {
-            description: 'Location/building photo shown below the contact details (desktop)',
-          },
-        },
-        {
-          name: 'mobileMapImage',
-          type: 'upload',
-          relationTo: 'media',
-          label: 'Mobile Location Photo',
-          filterOptions: {
-            mimeType: { contains: 'image' },
-          },
-          admin: {
-            description: 'Mobile-optimized location photo (optional, falls back to mapImage if not set)',
-          },
-        },
       ],
     },
 

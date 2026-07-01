@@ -1235,14 +1235,6 @@ export interface ContactPage {
      * WhatsApp number (if different from the primary phone)
      */
     whatsapp?: string | null;
-    /**
-     * Location/building photo shown below the contact details (desktop)
-     */
-    mapImage?: (number | null) | Media;
-    /**
-     * Mobile-optimized location photo (optional, falls back to mapImage if not set)
-     */
-    mobileMapImage?: (number | null) | Media;
   };
   contactForm?: {
     /**
@@ -1519,8 +1511,6 @@ export interface ContactPageSelect<T extends boolean = true> {
         email?: T;
         phone?: T;
         whatsapp?: T;
-        mapImage?: T;
-        mobileMapImage?: T;
       };
   contactForm?:
     | T
