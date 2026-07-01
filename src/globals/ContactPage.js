@@ -108,19 +108,6 @@ const ContactPage = {
       ],
     },
 
-    // ── Testimonials Carousel ──────────────────────────────
-    {
-      name: 'featuredTestimonials',
-      type: 'relationship',
-      relationTo: 'testimonials',
-      hasMany: true,
-      label: 'Featured Testimonials',
-      admin: {
-        description:
-          'Testimonials shown in the large-quote carousel on the contact page',
-      },
-    },
-
     // ── SEO ────────────────────────────────────────────────
     {
       name: 'seo',

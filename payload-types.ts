@@ -1246,10 +1246,6 @@ export interface ContactPage {
      */
     disclaimer?: string | null;
   };
-  /**
-   * Testimonials shown in the large-quote carousel on the contact page
-   */
-  featuredTestimonials?: (number | Testimonial)[] | null;
   seo?: {
     metaTitle?: string | null;
     metaDescription?: string | null;
@@ -1496,7 +1492,6 @@ export interface ContactPageSelect<T extends boolean = true> {
         heading?: T;
         disclaimer?: T;
       };
-  featuredTestimonials?: T;
   seo?:
     | T
     | {

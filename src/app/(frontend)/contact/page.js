@@ -30,7 +30,7 @@ export default async function ContactPage() {
   const payload = await getPayload({ config })
   const data = await payload.findGlobal({ slug: 'contact-page', depth: 2 })
 
-  const { heroImage, contactDetails = {}, contactForm = {}, featuredTestimonials = [] } = data || {}
+  const { heroImage, contactDetails = {}, contactForm = {} } = data || {}
 
   const address = contactDetails.address || '84, TPK Main Road, Madurai, Tamil Nadu.'
   const email = contactDetails.email || process.env.NEXT_PUBLIC_BUSINESS_EMAIL || 'contact@example.com'
@@ -111,31 +111,6 @@ export default async function ContactPage() {
         </div>
       </section>
 
-      {/* Testimonials */}
-      {featuredTestimonials?.length > 0 && (
-        <section className={styles['testimonials']}>
-          <h2 className={styles['testimonials__heading']}>
-            Stories Built on Trust
-          </h2>
-          <div className={styles['testimonials__carousel']}>
-            {featuredTestimonials.slice(0, 3).map((testimonial, idx) => (
-              <div key={idx} className={styles['testimonials__item']}>
-                {testimonial.quote && (
-                  <p className={styles['testimonials__quote']}>
-                    "{testimonial.quote}"
-                  </p>
-                )}
-                {testimonial.name && (
-                  <p className={styles['testimonials__author']}>
-                    {testimonial.name}
-                    {testimonial.company && ` — ${testimonial.company}`}
-                  </p>
-                )}
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
     </main>
   )
 }
