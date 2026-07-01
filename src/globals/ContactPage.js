@@ -19,7 +19,20 @@ const ContactPage = {
         mimeType: { contains: 'image' },
       },
       admin: {
-        description: 'Building/property photo shown as the hero background',
+        description: 'Building/property photo shown as the hero background (desktop)',
+      },
+    },
+
+    {
+      name: 'mobileHeroImage',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Mobile Hero Background Image',
+      filterOptions: {
+        mimeType: { contains: 'image' },
+      },
+      admin: {
+        description: 'Mobile-optimized hero background image (optional, falls back to heroImage if not set)',
       },
     },
 
@@ -74,7 +87,19 @@ const ContactPage = {
             mimeType: { contains: 'image' },
           },
           admin: {
-            description: 'Location/building photo shown below the contact details',
+            description: 'Location/building photo shown below the contact details (desktop)',
+          },
+        },
+        {
+          name: 'mobileMapImage',
+          type: 'upload',
+          relationTo: 'media',
+          label: 'Mobile Location Photo',
+          filterOptions: {
+            mimeType: { contains: 'image' },
+          },
+          admin: {
+            description: 'Mobile-optimized location photo (optional, falls back to mapImage if not set)',
           },
         },
       ],

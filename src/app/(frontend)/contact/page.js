@@ -30,7 +30,7 @@ export default async function ContactPage() {
   const payload = await getPayload({ config })
   const data = await payload.findGlobal({ slug: 'contact-page', depth: 2 })
 
-  const { heroImage, contactDetails = {}, contactForm = {} } = data || {}
+  const { heroImage, mobileHeroImage, contactDetails = {}, contactForm = {} } = data || {}
   const { successMessage = {} } = contactForm
 
   const address = contactDetails.address || '84, TPK Main Road, Madurai, Tamil Nadu.'
@@ -43,14 +43,19 @@ export default async function ContactPage() {
       {/* Hero Image */}
       {heroImage?.url && (
         <section className={styles['hero']}>
-          <Image
-            src={heroImage.url}
-            alt="Contact Visvas"
-            className={styles['hero__image']}
-            priority
-            fill
-            sizes="100vw"
-          />
+          <picture>
+            {mobileHeroImage?.url && (
+              <source media="(max-width: 767px)" srcSet={mobileHeroImage.url} />
+            )}
+            <Image
+              src={heroImage.url}
+              alt="Contact Visvas"
+              className={styles['hero__image']}
+              priority
+              fill
+              sizes="100vw"
+            />
+          </picture>
         </section>
       )}
 
@@ -94,12 +99,17 @@ export default async function ContactPage() {
             {/* Map Image */}
             {contactDetails.mapImage?.url && (
               <div className={styles['contact-details__map-image']}>
-                <Image
-                  src={contactDetails.mapImage.url}
-                  alt="Location"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
+                <picture>
+                  {contactDetails.mobileMapImage?.url && (
+                    <source media="(max-width: 767px)" srcSet={contactDetails.mobileMapImage.url} />
+                  )}
+                  <Image
+                    src={contactDetails.mapImage.url}
+                    alt="Location"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
+                </picture>
               </div>
             )}
           </div>

@@ -1214,9 +1214,13 @@ export interface HomePage {
 export interface ContactPage {
   id: number;
   /**
-   * Building/property photo shown as the hero background
+   * Building/property photo shown as the hero background (desktop)
    */
   heroImage: number | Media;
+  /**
+   * Mobile-optimized hero background image (optional, falls back to heroImage if not set)
+   */
+  mobileHeroImage?: (number | null) | Media;
   contactDetails: {
     /**
      * Full mailing address displayed on the contact page
@@ -1232,9 +1236,13 @@ export interface ContactPage {
      */
     whatsapp?: string | null;
     /**
-     * Location/building photo shown below the contact details
+     * Location/building photo shown below the contact details (desktop)
      */
     mapImage?: (number | null) | Media;
+    /**
+     * Mobile-optimized location photo (optional, falls back to mapImage if not set)
+     */
+    mobileMapImage?: (number | null) | Media;
   };
   contactForm?: {
     /**
@@ -1503,6 +1511,7 @@ export interface HomePageSelect<T extends boolean = true> {
  */
 export interface ContactPageSelect<T extends boolean = true> {
   heroImage?: T;
+  mobileHeroImage?: T;
   contactDetails?:
     | T
     | {
@@ -1511,6 +1520,7 @@ export interface ContactPageSelect<T extends boolean = true> {
         phone?: T;
         whatsapp?: T;
         mapImage?: T;
+        mobileMapImage?: T;
       };
   contactForm?:
     | T
