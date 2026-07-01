@@ -353,7 +353,7 @@ export default async function Footer() {
 
         <div className={styles["footer__bottom"]}>
           <p className={styles["footer__copyright"]}>
-            &copy; 2024 Copyrights Visvas promoters
+            &copy; {new Date().getFullYear()} Copyrights Visvas promoters
           </p>
           <p className={styles["footer__credit"]}>
             Made by{" "}
