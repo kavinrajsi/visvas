@@ -117,16 +117,16 @@ export default async function ContactPage() {
           <h2 className={styles['testimonials__heading']}>
             Stories Built on Trust
           </h2>
-          <div className={styles['testimonials-carousel']}>
+          <div className={styles['testimonials__carousel']}>
             {featuredTestimonials.slice(0, 3).map((testimonial, idx) => (
-              <div key={idx} className={styles['testimonial-item']}>
+              <div key={idx} className={styles['testimonials__item']}>
                 {testimonial.quote && (
-                  <p className={styles['testimonial-quote']}>
+                  <p className={styles['testimonials__quote']}>
                     "{testimonial.quote}"
                   </p>
                 )}
                 {testimonial.name && (
-                  <p className={styles['testimonial-author']}>
+                  <p className={styles['testimonials__author']}>
                     {testimonial.name}
                     {testimonial.company && ` — ${testimonial.company}`}
                   </p>

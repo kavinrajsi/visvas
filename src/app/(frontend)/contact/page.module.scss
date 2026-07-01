@@ -166,7 +166,7 @@
   }
 }
 
-.testimonials-carousel {
+.testimonials__carousel {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 32px;
@@ -176,14 +176,14 @@
   }
 }
 
-.testimonial-item {
+.testimonials__item {
   padding: 32px;
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-.testimonial-quote {
+.testimonials__quote {
   font-size: 16px;
   font-style: italic;
   color: var(--color-text);
@@ -191,7 +191,7 @@
   margin-bottom: 20px;
 }
 
-.testimonial-author {
+.testimonials__author {
   font-weight: 600;
   color: var(--color-heading);
   font-size: 14px;
