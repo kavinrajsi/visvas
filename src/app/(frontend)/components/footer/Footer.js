@@ -210,7 +210,7 @@ export default async function Footer() {
           </div>
 
           <div className={styles["footer__quick-links-column"]}>
-            <h3 className={styles["footer__quick-links-heading"]}>
+            <h3 className={`${styles["footer__quick-links-heading"]} gtm-tracking`}>
               Quick links
             </h3>
             <ul className={styles["footer__quick-links-list"]}>
