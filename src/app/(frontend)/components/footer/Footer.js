@@ -182,8 +182,7 @@ export default async function Footer() {
   return (
     <footer className={styles.footer}>
       <div className={styles["footer__container"]}>
-
-        <div className={styles["footer__desktop-columns"]}>
+        <div className={styles["footer_links-columns"]}>
           <div className={styles["footer__logo"]}>
             <Link href="/" aria-label="Visvas Properties home">
               <Logo />
@@ -191,7 +190,9 @@ export default async function Footer() {
           </div>
 
           <div className={styles["footer__projects-column"]}>
-            <h3 className={`${styles["footer__projects-heading"]} gtm-tracking`}>
+            <h3
+              className={`${styles["footer__projects-heading"]} gtm-tracking`}
+            >
               Recent Projects
             </h3>
             <ul className={styles["footer__projects-list"]}>
@@ -247,7 +248,9 @@ export default async function Footer() {
           </div>
 
           <div className={styles["footer__quick-links-column"]}>
-            <h3 className={`${styles["footer__quick-links-heading"]} gtm-tracking`}>
+            <h3
+              className={`${styles["footer__quick-links-heading"]} gtm-tracking`}
+            >
               Quick links
             </h3>
             <ul className={styles["footer__quick-links-list"]}>
@@ -268,15 +271,15 @@ export default async function Footer() {
           </div>
 
           <div className={styles["footer__contact"]}>
-            <a
-              href={`tel:${phone.replace(/\s/g, "")}`}
-              className={styles["footer__contact-phone"]}
-            >
-              {phone}
-            </a>
-            <p className={styles["footer__contact-address"]}>
-              {address}
-            </p>
+            <div className={styles["footer__contact-info"]}>
+              <a
+                href={`tel:${phone.replace(/\s/g, "")}`}
+                className={styles["footer__contact-phone"]}
+              >
+                {phone}
+              </a>
+              <p className={styles["footer__contact-address"]}>{address}</p>
+            </div>
             <div className={styles["footer__social"]}>
               <a
                 href="#"
@@ -317,27 +320,23 @@ export default async function Footer() {
           </div>
         </div>
 
-
-      <div className={styles["footer__bottom"]}>
-        <p className={styles["footer__copyright"]}>
-          &copy; 2024 Copyrights Visvas promoters
-        </p>
-        <p className={styles["footer__credit"]}>
-          Made by{" "}
-          <a
-            href="https://madarth.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles["footer__credit-link"]}
-          >
-            Madarth
-          </a>
-        </p>
+        <div className={styles["footer__bottom"]}>
+          <p className={styles["footer__copyright"]}>
+            &copy; 2024 Copyrights Visvas promoters
+          </p>
+          <p className={styles["footer__credit"]}>
+            Made by{" "}
+            <a
+              href="https://madarth.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles["footer__credit-link"]}
+            >
+              Madarth
+            </a>
+          </p>
+        </div>
       </div>
-
-      </div>
- 
-
     </footer>
   );
 }
