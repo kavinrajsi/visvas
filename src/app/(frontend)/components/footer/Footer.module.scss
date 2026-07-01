@@ -287,6 +287,36 @@
     }
   }
 
+  .footer__testimonials-carousel {
+    position: relative;
+    padding-top: 64px;
+    padding-bottom: 64px;
+    &:before {
+      z-index: 1;
+      content: "";
+      position: absolute;
+      top: -280px;
+      left: 0;
+      width: 140px;
+      height: 200px;
+      background: url("/parrot.gif") no-repeat center center;
+      background-size: cover;
+      z-index: 1;
+    }
+    &:after {
+      z-index: 1;
+      content: "";
+      position: absolute;
+      bottom: 0px;
+      right: 0;
+      width: 140px;
+      height: 200px;
+      background: url("/parrot.gif") no-repeat center center;
+      background-size: cover;
+      z-index: 1;
+      transform: rotateY(180deg);
+    }
+  }
   .footer__testimonials-heading {
     /* Desktop/H3 */
     font-family: "Cormorant Garamond";
@@ -307,41 +337,32 @@
 
   .footer__testimonials-carousel {
     position: relative;
+    padding-bottom: 60px;
 
-    &__viewport {
-      overflow: hidden;
-      width: 100%;
-    }
-
-    &__track {
-      display: flex;
-      gap: 24px;
-      will-change: transform;
+    &__swiper {
+      padding-bottom: 60px;
     }
 
     &__slide {
-      flex: 0 0 auto;
-      width: 100%;
-      @media (min-width: 768px) {
-        width: calc((100% - 24px) / 2);
-      }
-      @media (min-width: 992px) {
-        width: calc((100% - 48px) / 3);
-      }
+      height: auto;
     }
 
     &__arrows {
       display: flex;
       justify-content: center;
       gap: 16px;
-      margin-top: 24px;
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
     }
 
     &__arrow {
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      border: 1px solid #D3D3D3;
+      border: 1px solid #d3d3d3;
       background: #fff;
       cursor: pointer;
       display: flex;
@@ -349,8 +370,8 @@
       justify-content: center;
       transition: background-color 0.2s ease;
 
-      &:hover:not(:disabled) {
-        background: #F5F3EB;
+      &:hover {
+        background: #f5f3eb;
       }
 
       &:disabled {
@@ -360,25 +381,27 @@
     }
 
     &__dots {
-      display: flex;
+      display: flex !important;
       justify-content: center;
       gap: 8px;
-      margin-top: 16px;
-    }
+      position: absolute;
+      bottom: -50px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
 
-    &__dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      border: none;
-      padding: 0;
-      background: #D3D3D3;
-      cursor: pointer;
+      :global(.swiper-pagination-bullet) {
+        width: 8px;
+        height: 8px;
+        background: #d3d3d3;
+        opacity: 1;
+        margin: 0 4px;
 
-      &--active {
-        background: #E09C26;
-        width: 20px;
-        border-radius: 4px;
+        &:global(.swiper-pagination-bullet-active) {
+          background: #e09c26;
+          width: 20px;
+          border-radius: 4px;
+        }
       }
     }
   }
