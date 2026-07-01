@@ -22,7 +22,7 @@
   position: relative;
   overflow: hidden;
   background-color: var(--color-muted);
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 4 / 5;
 }
 
 .project-card__image {
@@ -50,6 +50,14 @@
   border-radius: 25px;
   white-space: nowrap;
   z-index: 1;
+}
+
+.project-card__badge--onsale {
+  background-color: var(--color-card-badge-onsale);
+}
+
+.project-card__badge--completed {
+  background-color: var(--color-card-badge-completed);
 }
 
 /* Card body */

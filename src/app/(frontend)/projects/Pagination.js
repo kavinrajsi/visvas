@@ -35,12 +35,22 @@ export default function Pagination({
       {/* Previous button */}
       <Link
         href={buildHref(currentPage - 1)}
-        className={`${styles['pagination__button']} ${
+        className={`${styles['pagination__button']} ${styles['pagination__button--prev']} ${
           currentPage === 1 ? styles['pagination__button--disabled'] : ''
         }`}
         aria-disabled={currentPage === 1}
+        aria-label="Previous page"
       >
-        ← Previous
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className={styles['pagination__button-icon']}
+        >
+          <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
       </Link>
 
       {/* Page numbers */}
@@ -73,12 +83,22 @@ export default function Pagination({
       {/* Next button */}
       <Link
         href={buildHref(currentPage + 1)}
-        className={`${styles['pagination__button']} ${
+        className={`${styles['pagination__button']} ${styles['pagination__button--next']} ${
           currentPage === totalPages ? styles['pagination__button--disabled'] : ''
         }`}
         aria-disabled={currentPage === totalPages}
+        aria-label="Next page"
       >
-        Next →
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className={styles['pagination__button-icon']}
+        >
+          <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
       </Link>
     </nav>
   )

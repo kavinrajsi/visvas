@@ -30,9 +30,9 @@ export async function generateMetadata({ params: paramsPromise }) {
       return { title: 'Project Not Found' }
     }
 
-    const seo = project.seo || {}
+    const seo = project
     const metaTitle = seo.metaTitle || project.name
-    const metaDesc = seo.metaDescription || project.projectDescription || project.name
+    const metaDesc = seo.metaDescription || project.name
 
     return {
       title: metaTitle,
@@ -131,7 +131,12 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
                 aria-hidden="true"
-              />
+              >
+                <path
+                  d="M8 0C3.6 0 0 3.6 0 8c0 6 8 16 8 16s8-10 8-16c0-4.4-3.6-8-8-8zm0 12c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4z"
+                  fill="currentColor"
+                />
+              </svg>
               <h2 className={styles['project-detail__location']}>
                 {project.location}
               </h2>
@@ -205,11 +210,6 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
         <h2 className={styles['project-detail__desc-heading']}>
           Discover {project.name}: Your Dream Home Awaits
         </h2>
-        {project.projectDescription && (
-          <div className={styles['project-detail__desc-content']}>
-            <p>{project.projectDescription}</p>
-          </div>
-        )}
         {project.description && (
           <div className={styles['project-detail__rich-content']}>
             <RichText data={project.description} />
@@ -227,14 +227,12 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
         <div className={styles['project-detail__amenities-grid']}>
           {amenities.map((amenity, idx) => (
             <div key={idx} className={styles['project-detail__amenity-card']}>
-              <svg
+              <Image
+                src={toImageKitUrl(amenity.icon?.url)}
+                alt={amenity.name}
+                width={64}
+                height={64}
                 className={styles['project-detail__amenity-icon']}
-                width="64"
-                height="64"
-                viewBox="0 0 64 64"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
               />
               <h3 className={styles['project-detail__amenity-name']}>
                 {amenity.name}
@@ -258,9 +256,14 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
               <p className={styles['project-detail__address-text']}>
                 {project.locationAddress || project.location}
               </p>
-              <button className={styles['project-detail__direction-btn']}>
+              <a
+                href={project.locationMapUrl || `https://maps.google.com/?q=${encodeURIComponent(project.locationAddress || project.location)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles['project-detail__direction-btn']}
+              >
                 Get Direction
-              </button>
+              </a>
             </div>
 
             {/* Key Transports */}
@@ -284,7 +287,7 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
           {/* Map Placeholder */}
           <div className={styles['project-detail__map']}>
             <Image
-              src="/placeholder.jpg"
+              src={toImageKitUrl(null)}
               alt="Location map"
               className={styles['project-detail__map-img']}
               fill
@@ -322,7 +325,7 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
             '@context': 'https://schema.org',
             '@type': 'RealEstateListing',
             name: project.name,
-            description: project.projectDescription || project.name,
+            description: project.name,
             address: {
               '@type': 'PostalAddress',
               streetAddress: project.locationAddress || project.location,
@@ -365,11 +368,11 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
         />
       )}
 
-      {project.seo?.structuredData && (
+      {project.structuredData && (
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(typeof project.seo.structuredData === 'object' ? project.seo.structuredData : JSON.parse(project.seo.structuredData || '{}')),
+            __html: JSON.stringify(typeof project.structuredData === 'object' ? project.structuredData : JSON.parse(project.structuredData || '{}')),
           }}
         />
       )}

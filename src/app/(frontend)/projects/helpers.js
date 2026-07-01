@@ -1,5 +1,5 @@
 export const STATUS_LABELS = {
-  upcoming: 'Upcoming',
+  upcoming: 'On Sale',
   under_construction: 'Under Construction',
   ready_to_move: 'Ready to Move',
   completed: 'Completed',

@@ -61,7 +61,7 @@ export default buildConfig({
       acl: 'public-read',
     }),
   ],
-  email: {
+  email: async () => ({
     fromName: 'Visvas Properties',
     fromAddress: process.env.ZOHO_ZEPTOMAIL_SENDER_EMAIL || 'noreply@visvas.com',
     transport: {
@@ -73,6 +73,6 @@ export default buildConfig({
         })
       },
     },
-  },
+  }),
   sharp,
 })

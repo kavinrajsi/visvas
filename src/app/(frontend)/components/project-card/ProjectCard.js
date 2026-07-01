@@ -12,6 +12,13 @@ export default function ProjectCard({ project }) {
   const projectName = project.name || 'Untitled Project'
   const location = project.location || 'Location TBD'
 
+  const badgeModifiers = {
+    upcoming: 'onsale',
+    completed: 'completed',
+  }
+  const badgeModifier = badgeModifiers[project.status] || ''
+  const badgeClass = badgeModifier ? styles[`project-card__badge--${badgeModifier}`] : ''
+
   return (
     <Link href={`/projects/${project.slug}`} className={styles['project-card']}>
       <div className={styles['project-card__image-wrap']}>
@@ -22,7 +29,7 @@ export default function ProjectCard({ project }) {
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
-        <span className={styles['project-card__badge']}>
+        <span className={`${styles['project-card__badge']} ${badgeClass}`}>
           {statusLabel}
         </span>
       </div>
