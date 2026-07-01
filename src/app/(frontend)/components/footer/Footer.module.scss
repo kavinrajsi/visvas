@@ -285,5 +285,37 @@
         }
       }
     }
+
+    .footer__testimonials {
+      width: 100%;
+      padding-top: 32px;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    .footer__testimonials-heading {
+      font-family: "Raleway";
+      font-style: normal;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 24px;
+      color: #303030;
+      margin-bottom: 16px;
+      text-align: center;
+      @media (min-width: 768px) {
+        text-align: left;
+      }
+    }
+
+    .footer__testimonials-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+      @media (min-width: 768px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      @media (min-width: 1024px) {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
   }
 }

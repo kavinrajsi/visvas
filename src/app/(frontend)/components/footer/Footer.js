@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getPayload } from "payload";
 import config from "@payload-config";
+import Testimonial from "../Testimonial";
 import styles from "./Footer.module.scss";
 
 const Logo = () => (
@@ -159,10 +160,24 @@ async function getContactDetails() {
   }
 }
 
+async function getTestimonials() {
+  try {
+    const payload = await getPayload({ config });
+    const result = await payload.find({
+      collection: "testimonials",
+      limit: 100,
+    });
+    return result.docs;
+  } catch {
+    return [];
+  }
+}
+
 export default async function Footer() {
-  const [projects, contactDetails] = await Promise.all([
+  const [projects, contactDetails, testimonials] = await Promise.all([
     getRecentProjects(),
     getContactDetails(),
+    getTestimonials(),
   ]);
 
   const phone =
@@ -319,6 +334,22 @@ export default async function Footer() {
             </div>
           </div>
         </div>
+
+        {testimonials.length > 0 && (
+          <div className={styles["footer__testimonials"]}>
+            <h3 className={`${styles["footer__testimonials-heading"]} gtm-tracking`}>
+              Testimonials
+            </h3>
+            <div className={styles["footer__testimonials-grid"]}>
+              {testimonials.map((testimonial) => (
+                <Testimonial
+                  key={testimonial.id}
+                  testimonial={testimonial}
+                />
+              ))}
+            </div>
+          </div>
+        )}
 
         <div className={styles["footer__bottom"]}>
           <p className={styles["footer__copyright"]}>
