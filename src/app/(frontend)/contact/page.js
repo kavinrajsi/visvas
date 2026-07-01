@@ -31,6 +31,7 @@ export default async function ContactPage() {
   const data = await payload.findGlobal({ slug: 'contact-page', depth: 2 })
 
   const { heroImage, contactDetails = {}, contactForm = {} } = data || {}
+  const { successMessage = {} } = contactForm
 
   const address = contactDetails.address || '84, TPK Main Road, Madurai, Tamil Nadu.'
   const email = contactDetails.email || process.env.NEXT_PUBLIC_BUSINESS_EMAIL || 'contact@example.com'
@@ -107,6 +108,7 @@ export default async function ContactPage() {
           <ContactForm
             heading={contactForm.heading || 'What we can help you with'}
             disclaimer={contactForm.disclaimer || 'By submitting this form you agree to the Terms and Conditions and Privacy Policy'}
+            successMessage={successMessage}
           />
         </div>
       </section>

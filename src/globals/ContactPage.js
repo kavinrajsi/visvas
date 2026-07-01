@@ -105,6 +105,62 @@ const ContactPage = {
             description: 'Small text shown below the Message field',
           },
         },
+        {
+          name: 'successMessage',
+          type: 'group',
+          label: 'Success Message',
+          admin: {
+            description: 'Message shown after form submission',
+          },
+          fields: [
+            {
+              name: 'heading',
+              type: 'text',
+              label: 'Heading',
+              defaultValue: 'Thank you!',
+              admin: {
+                description: 'Heading text (e.g., "Thank you!", "Success!")',
+              },
+            },
+            {
+              name: 'message',
+              type: 'textarea',
+              label: 'Message',
+              defaultValue: 'Your message has been received. We will get back to you soon.',
+              admin: {
+                description: 'Body text of the success message',
+              },
+            },
+            {
+              name: 'link',
+              type: 'group',
+              label: 'Link',
+              admin: {
+                description: 'Optional link shown in the success message',
+              },
+              fields: [
+                {
+                  name: 'text',
+                  type: 'text',
+                  label: 'Link Text',
+                  defaultValue: 'Back to home',
+                  admin: {
+                    description: 'Text displayed for the link',
+                  },
+                },
+                {
+                  name: 'url',
+                  type: 'text',
+                  label: 'Link URL',
+                  defaultValue: '/',
+                  admin: {
+                    description: 'URL the link points to',
+                  },
+                },
+              ],
+            },
+          ],
+        },
       ],
     },
 

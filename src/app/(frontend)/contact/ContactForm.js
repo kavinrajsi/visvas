@@ -5,7 +5,7 @@ import { getAttributionData } from '@/lib/analytics/attribution'
 import { HONEYPOT_FIELD } from '@/lib/security/honeypot'
 import styles from './ContactForm.module.scss'
 
-export default function ContactForm({ heading = 'Contact Form', disclaimer = '' }) {
+export default function ContactForm({ heading = 'Contact Form', disclaimer = '', successMessage = {} }) {
   const [formData, setFormData] = useState({
     name: '',
     mobile: '',
@@ -112,7 +112,9 @@ export default function ContactForm({ heading = 'Contact Form', disclaimer = '' 
       if (result.success) {
         setMessage({
           type: 'success',
-          text: 'Thank you for your message. We will get back to you shortly.',
+          heading: successMessage.heading || 'Thank you!',
+          text: successMessage.message || 'Thank you for your message. We will get back to you shortly.',
+          link: successMessage.link,
         })
         setFormData({
           name: '',
@@ -266,9 +268,15 @@ export default function ContactForm({ heading = 'Contact Form', disclaimer = '' 
         />
 
         {message && (
-          <p className={`${styles['contact-form__message']} ${styles[`contact-form__message--${message.type}`]}`}>
-            {message.text}
-          </p>
+          <div className={`${styles['contact-form__message']} ${styles[`contact-form__message--${message.type}`]}`}>
+            {message.heading && <h4 className={styles['contact-form__message-heading']}>{message.heading}</h4>}
+            <p className={styles['contact-form__message-text']}>{message.text}</p>
+            {message.link?.url && message.link?.text && (
+              <a href={message.link.url} className={styles['contact-form__message-link']}>
+                {message.link.text}
+              </a>
+            )}
+          </div>
         )}
 
         <p className={styles['contact-form__disclaimer']}>

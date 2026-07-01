@@ -1245,6 +1245,32 @@ export interface ContactPage {
      * Small text shown below the Message field
      */
     disclaimer?: string | null;
+    /**
+     * Message shown after form submission
+     */
+    successMessage?: {
+      /**
+       * Heading text (e.g., "Thank you!", "Success!")
+       */
+      heading?: string | null;
+      /**
+       * Body text of the success message
+       */
+      message?: string | null;
+      /**
+       * Optional link shown in the success message
+       */
+      link?: {
+        /**
+         * Text displayed for the link
+         */
+        text?: string | null;
+        /**
+         * URL the link points to
+         */
+        url?: string | null;
+      };
+    };
   };
   seo?: {
     metaTitle?: string | null;
@@ -1491,6 +1517,18 @@ export interface ContactPageSelect<T extends boolean = true> {
     | {
         heading?: T;
         disclaimer?: T;
+        successMessage?:
+          | T
+          | {
+              heading?: T;
+              message?: T;
+              link?:
+                | T
+                | {
+                    text?: T;
+                    url?: T;
+                  };
+            };
       };
   seo?:
     | T
