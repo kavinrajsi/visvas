@@ -52,8 +52,8 @@ export default async function ContactPage() {
               alt="Contact Visvas"
               className={styles['hero__image']}
               priority
-              fill
-              sizes="100vw"
+              width={1920}
+              height={600}
             />
           </picture>
         </section>
