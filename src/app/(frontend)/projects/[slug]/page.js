@@ -5,6 +5,8 @@ import config from '@payload-config'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import { STATUS_LABELS, PROJECT_TYPE_LABELS } from '@/app/(frontend)/projects/helpers'
 import { toImageKitUrl } from '@/lib/image/imageKitUrl'
+import HeroReveal from '@/components/animation/HeroReveal'
+import ScrollReveal from '@/components/animation/ScrollReveal'
 import ProjectStickyNav from './ProjectStickyNav'
 import ProjectEnquiryForm from './ProjectEnquiryForm'
 import ProjectFAQ from './ProjectFAQ'
@@ -104,7 +106,7 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
   return (
     <main className={styles['project-detail']}>
       {/* Hero */}
-      <div className={styles['project-detail__hero']}>
+      <HeroReveal className={styles['project-detail__hero']}>
         <Image
           src={toImageKitUrl(project.coverImage?.url)}
           alt={project.name}
@@ -113,7 +115,7 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
           fill
           sizes="100vw"
         />
-      </div>
+      </HeroReveal>
 
       {/* Sticky Nav */}
       <ProjectStickyNav />
@@ -145,7 +147,7 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
           </div>
 
           {/* Facts Grid */}
-          <div className={styles['project-detail__facts-grid']}>
+          <ScrollReveal className={styles['project-detail__facts-grid']} stagger>
             <div className={styles['project-detail__fact']}>
               <p className={styles['project-detail__fact-label']}>Property Type</p>
               <p className={styles['project-detail__fact-value']}>
@@ -182,7 +184,7 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
                 {project.bhkTypes?.join(', ') || 'N/A'}
               </p>
             </div>
-          </div>
+          </ScrollReveal>
 
           {/* Project Image */}
           <div className={styles['project-detail__project-image']}>
@@ -201,7 +203,7 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
       </section>
 
       {/* Description Section */}
-      <section id="description" className={styles['project-detail__description']}>
+      <ScrollReveal as="section" id="description" className={styles['project-detail__description']}>
         <div className={styles['project-detail__section-label']}>
           <span aria-hidden="true">✦</span>
           <span>PROJECT DESCRIPTION</span>
@@ -215,7 +217,7 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
             <RichText data={project.description} />
           </div>
         )}
-      </section>
+      </ScrollReveal>
 
       {/* Amenities Section */}
       <section id="amenities" className={styles['project-detail__amenities']}>
@@ -224,7 +226,7 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
           <span>AMENITIES</span>
           <span aria-hidden="true">✦</span>
         </div>
-        <div className={styles['project-detail__amenities-grid']}>
+        <ScrollReveal className={styles['project-detail__amenities-grid']} stagger>
           {amenities.map((amenity, idx) => (
             <div key={idx} className={styles['project-detail__amenity-card']}>
               <Image
@@ -239,11 +241,11 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
               </h3>
             </div>
           ))}
-        </div>
+        </ScrollReveal>
       </section>
 
       {/* Location Section */}
-      <section id="location" className={styles['project-detail__location-section']}>
+      <ScrollReveal as="section" id="location" className={styles['project-detail__location-section']}>
         <div className={styles['project-detail__section-label']}>
           <span aria-hidden="true">✦</span>
           <span>LOCATION</span>
@@ -295,27 +297,27 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
             />
           </div>
         </div>
-      </section>
+      </ScrollReveal>
 
       {/* Media Section */}
-      <section id="media" className={styles['project-detail__media']}>
+      <ScrollReveal as="section" id="media" className={styles['project-detail__media']}>
         <div className={styles['project-detail__section-label']}>
           <span aria-hidden="true">✦</span>
           <span>MEDIA</span>
           <span aria-hidden="true">✦</span>
         </div>
         <ProjectMediaTabs project={project} />
-      </section>
+      </ScrollReveal>
 
       {/* FAQs Section */}
-      <section id="faqs" className={styles['project-detail__faqs']}>
+      <ScrollReveal as="section" id="faqs" className={styles['project-detail__faqs']}>
         <div className={styles['project-detail__section-label']}>
           <span aria-hidden="true">✦</span>
           <span>FAQs</span>
           <span aria-hidden="true">✦</span>
         </div>
         <ProjectFAQ faqs={faqs} />
-      </section>
+      </ScrollReveal>
 
       {/* JSON-LD Schemas */}
       <script

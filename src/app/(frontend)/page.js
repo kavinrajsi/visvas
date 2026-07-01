@@ -185,7 +185,7 @@ export default async function Home() {
                   <p className={styles['stat-label']}>{stat.label}</p>
                 </div>
               ))}
-            </div>
+            </ScrollReveal>
           )}
         </section>
       )}
@@ -210,17 +210,17 @@ export default async function Home() {
       {/* Commitment Section */}
       {commitmentSection?.commitments?.length > 0 && (
         <section className={styles['commitment']}>
-          <div className={styles['section-label']}>
+          <ScrollReveal className={styles['section-label']}>
             <span aria-hidden="true">✦</span>
             <span>{commitmentSection.sectionLabel || 'OUR COMMITMENT'}</span>
             <span aria-hidden="true">✦</span>
-          </div>
-          <h2 className={styles['commitment__heading']}>
+          </ScrollReveal>
+          <ScrollReveal className={styles['commitment__heading']}>
             {commitmentSection.heading || 'What makes us different'}
-          </h2>
-          <p className={styles['commitment__description']}>
+          </ScrollReveal>
+          <ScrollReveal className={styles['commitment__description']}>
             {commitmentSection.description}
-          </p>
+          </ScrollReveal>
 
           {commitmentSection.backgroundImage?.url && (
             <div className={styles['commitment__bg']}>
@@ -234,7 +234,7 @@ export default async function Home() {
           )}
 
           {commitmentSection.commitments?.length > 0 && (
-            <div className={styles['commitment-cards']}>
+            <ScrollReveal className={styles['commitment-cards']} stagger>
               {commitmentSection.commitments.map((item, idx) => (
                 <div key={idx} className={styles['commitment-card']}>
                   {item.icon?.url && (
@@ -255,7 +255,7 @@ export default async function Home() {
                   </p>
                 </div>
               ))}
-            </div>
+            </ScrollReveal>
           )}
         </section>
       )}
@@ -263,24 +263,24 @@ export default async function Home() {
       {/* Completed Projects Section */}
       {completedProjectsSection?.featuredProjects?.length > 0 && (
         <section className={styles['completed-projects']}>
-          <div className={styles['section-label']}>
+          <ScrollReveal className={styles['section-label']}>
             <span aria-hidden="true">✦</span>
             <span>{completedProjectsSection.sectionLabel || 'COMPLETED PROJECTS'}</span>
             <span aria-hidden="true">✦</span>
-          </div>
-          <h2 className={styles['section-heading']}>
+          </ScrollReveal>
+          <ScrollReveal className={styles['section-heading']}>
             {completedProjectsSection.heading || 'Top gated communities in Madurai'}
-          </h2>
+          </ScrollReveal>
           {completedProjectsSection.description && (
-            <p className={styles['section-description']}>
+            <ScrollReveal className={styles['section-description']}>
               {completedProjectsSection.description}
-            </p>
+            </ScrollReveal>
           )}
-          <div className={styles['projects-grid']}>
+          <ScrollReveal className={styles['projects-grid']} stagger>
             {completedProjectsSection.featuredProjects.map((project) => (
               <ProjectCard key={project.id} project={project} />
             ))}
-          </div>
+          </ScrollReveal>
           {completedProjectsSection.buttonLabel && (
             <div className={styles['section-cta']}>
               <a href="/projects/completed" className={styles['btn']}>
@@ -294,10 +294,10 @@ export default async function Home() {
       {/* Testimonials Section */}
       {featuredTestimonials?.length > 0 && (
         <section className={styles['testimonials']}>
-          <h2 className={styles['testimonials__heading']}>
+          <ScrollReveal className={styles['testimonials__heading']}>
             {testimonialsSectionHeading}
-          </h2>
-          <div className={styles['testimonials-carousel']}>
+          </ScrollReveal>
+          <ScrollReveal className={styles['testimonials-carousel']} stagger>
             {featuredTestimonials.slice(0, 3).map((testimonial, idx) => (
               <div key={idx} className={styles['testimonial-item']}>
                 {testimonial.quote && (
@@ -313,7 +313,7 @@ export default async function Home() {
                 )}
               </div>
             ))}
-          </div>
+          </ScrollReveal>
         </section>
       )}
 
