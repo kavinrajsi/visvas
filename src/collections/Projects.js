@@ -8,9 +8,7 @@ const Projects = {
   access: {
     read: ({ req: { user } }) => {
       if (user) return true
-      return {
-        status: { not_equals: 'draft' }
-      }
+      return true
     },
   },
   fields: [
