@@ -9,6 +9,7 @@ import styles from './page.module.scss'
 import '@/app/(frontend)/blog/[slug]/blog-content.scss'
 
 export const dynamic = 'force-dynamic'
+export const dynamicParams = false
 export const revalidate = 3600
 
 function formatDate(dateStr) {
