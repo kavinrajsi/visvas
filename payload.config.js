@@ -9,6 +9,7 @@ import { sendEmail } from './src/lib/email/zoho.js'
 
 import Users from './src/collections/Users.js'
 import Media from './src/media/Media.js'
+import Widgets from './src/collections/Widgets.js'
 import Testimonials from './src/collections/Testimonials.js'
 import TextTestimonials from './src/collections/TextTestimonials.js'
 import VideoTestimonials from './src/collections/VideoTestimonials.js'
@@ -54,6 +55,15 @@ export default buildConfig({
       {
         label: 'Media',
         path: '/admin/collections/media',
+      },
+      {
+        label: 'Widgets',
+        children: [
+          {
+            label: 'Widgets',
+            path: '/admin/collections/widgets',
+          },
+        ],
       },
       {
         label: 'Collections',
@@ -123,7 +133,7 @@ export default buildConfig({
       },
     ],
   },
-  collections: [Users, Media, Amenities, Testimonials, TextTestimonials, VideoTestimonials, Projects, BlogCategories, Posts, Policies, ContactSubmissions],
+  collections: [Users, Media, Widgets, Amenities, Testimonials, TextTestimonials, VideoTestimonials, Projects, BlogCategories, Posts, Policies, ContactSubmissions],
   globals: [ImpactPage, AboutPage, HomePage, ContactPage],
   editor: lexicalEditor({
     features: ({ defaultFeatures }) => [
