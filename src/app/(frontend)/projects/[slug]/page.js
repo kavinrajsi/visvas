@@ -11,6 +11,7 @@ import ProjectFAQ from './ProjectFAQ'
 import ProjectMediaTabs from './ProjectMediaTabs'
 import styles from './page.module.scss'
 
+export const dynamic = 'force-dynamic'
 export const revalidate = 3600
 
 export async function generateMetadata({ params: paramsPromise }) {
