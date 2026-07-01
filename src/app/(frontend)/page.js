@@ -5,11 +5,12 @@ import ProjectCard from '@/app/(frontend)/components/project-card/ProjectCard'
 import { toImageKitUrl } from '@/lib/image/imageKitUrl'
 import styles from './page.module.scss'
 
-export const revalidate = 300
+export const dynamic = 'force-dynamic'
 
 export async function generateMetadata() {
-  const payload = await getPayload({ config })
-  const home = await payload.findGlobal({ slug: 'home-page', depth: 0 })
+  try {
+    const payload = await getPayload({ config })
+    const home = await payload.findGlobal({ slug: 'home-page', depth: 0 })
 
   const seo = home?.seo || {}
   const metaTitle = seo.metaTitle || 'Visvas - Luxury Properties in Madurai'
@@ -31,6 +32,9 @@ export async function generateMetadata() {
       index: !seo.noIndex,
       follow: !seo.noFollow,
     },
+  }
+  } catch {
+    return { title: 'Visvas - Luxury Properties in Madurai' }
   }
 }
 
