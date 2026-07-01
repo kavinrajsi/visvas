@@ -11,21 +11,67 @@
   padding: 40px 20px;
 }
 
+.not-found__hero {
+  width: 100%;
+}
+
 .not-found__container {
   text-align: center;
   max-width: 600px;
   display: flex;
   flex-direction: column;
   gap: 24px;
+  margin: 0 auto;
 }
 
-.not-found__heading {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: 72px;
+/* Signboard SVG */
+.not-found__signboard {
+  width: 100%;
+  max-width: 240px;
+  height: auto;
+  margin: 0 auto 16px;
+  animation: idle-sway 4s ease-in-out infinite;
+}
+
+/* Signboard group (pivots for sway) */
+.not-found__signboard-group {
+  transform-origin: 100px 75px;
+  transform-box: fill-box;
+}
+
+@keyframes idle-sway {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(2deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .not-found__signboard {
+    animation: none;
+  }
+}
+
+/* Eyebrow label (matching section-label from page.module.scss) */
+.not-found__eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--color-gold);
+  font-family: var(--font-body);
+  font-size: 12px;
   font-weight: var(--fw-semibold);
-  color: var(--color-primary);
-  line-height: 1;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+
+  span:first-child,
+  span:last-child {
+    font-size: 10px;
+  }
 }
 
 .not-found__title {
@@ -33,7 +79,7 @@
   font-family: var(--font-display);
   font-size: var(--text-h3);
   font-weight: var(--fw-semibold);
-  color: var(--color-text);
+  color: var(--color-heading);
   line-height: var(--lh-h2);
 }
 
@@ -52,6 +98,7 @@
   gap: 16px;
   align-items: center;
   width: 100%;
+  margin-top: 8px;
 }
 
 .not-found__btn,
@@ -77,9 +124,10 @@
   color: var(--color-white);
 }
 
-.not-found__btn:hover {
-  background-color: var(--color-primary);
-  opacity: 0.9;
+.not-found__btn:hover,
+.not-found__btn:focus {
+  background-color: var(--color-primary-dark);
+  outline: none;
 }
 
 .not-found__btn-secondary {
@@ -88,8 +136,10 @@
   border: 1px solid var(--color-border);
 }
 
-.not-found__btn-secondary:hover {
+.not-found__btn-secondary:hover,
+.not-found__btn-secondary:focus {
   background-color: var(--color-border);
+  outline: none;
 }
 
 @media (min-width: 768px) {
@@ -97,8 +147,9 @@
     gap: 32px;
   }
 
-  .not-found__heading {
-    font-size: 120px;
+  .not-found__signboard {
+    max-width: 280px;
+    margin-bottom: 24px;
   }
 
   .not-found__title {
@@ -106,7 +157,10 @@
   }
 
   .not-found__actions {
+    flex-direction: row;
+    justify-content: center;
     width: auto;
+    margin-top: 12px;
   }
 
   .not-found__btn,

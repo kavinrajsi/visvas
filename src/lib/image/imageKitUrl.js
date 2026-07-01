@@ -1,10 +1,8 @@
 const IMAGEKIT_DOMAIN = process.env.NEXT_PUBLIC_IMAGEKIT_DOMAIN
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
 
 export function toImageKitUrl(url, options = {}) {
   if (!url) return '/placeholder.png'
-
-  // If no ImageKit domain configured, return original URL
-  if (!IMAGEKIT_DOMAIN) return url
 
   // If URL is already an ImageKit URL, return as-is
   if (url.includes('ik.imagekit.io')) return url
@@ -12,16 +10,22 @@ export function toImageKitUrl(url, options = {}) {
   // If URL is a full absolute URL (not Payload relative), skip transformation
   if (url.startsWith('http')) return url
 
-  // Transform Payload relative URL to ImageKit
-  // Strip leading slash if present
-  const cleanUrl = url.startsWith('/') ? url.slice(1) : url
+  // If ImageKit domain configured, transform to ImageKit
+  if (IMAGEKIT_DOMAIN) {
+    const cleanUrl = url.startsWith('/') ? url.slice(1) : url
+    const params = new URLSearchParams({
+      tr: options.tr || 'w-800,h-600,c-at_max,f-auto,q-80',
+    })
+    return `${IMAGEKIT_DOMAIN}/${cleanUrl}?${params.toString()}`
+  }
 
-  // Build ImageKit URL with default mobile optimization
-  const params = new URLSearchParams({
-    tr: options.tr || 'w-800,h-600,c-at_max,f-auto,q-80',
-  })
+  // Fallback: return as absolute URL to allow Next.js Image optimization
+  // Needed for Next.js Image component to work with relative Payload URLs
+  if (url.startsWith('/')) {
+    return `${SITE_URL}${url}`
+  }
 
-  return `${IMAGEKIT_DOMAIN}/${cleanUrl}?${params.toString()}`
+  return url
 }
 
 // Responsive image srcSet variants for mobile optimization
