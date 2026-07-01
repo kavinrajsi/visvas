@@ -5,6 +5,7 @@ import { s3Storage } from '@payloadcms/storage-s3'
 import { fileURLToPath } from 'url'
 import path from 'path'
 import sharp from 'sharp'
+import { sendEmail } from './src/lib/email/zoho.js'
 
 import Users from './src/collections/Users.js'
 import Media from './src/collections/Media.js'
@@ -60,5 +61,18 @@ export default buildConfig({
       acl: 'public-read',
     }),
   ],
+  email: {
+    fromName: 'Visvas Properties',
+    fromAddress: process.env.ZOHO_ZEPTOMAIL_SENDER_EMAIL || 'noreply@visvas.com',
+    transport: {
+      send: async (message) => {
+        return await sendEmail({
+          to: message.to,
+          subject: message.subject,
+          html: message.html,
+        })
+      },
+    },
+  },
   sharp,
 })
