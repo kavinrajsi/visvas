@@ -1,6 +1,8 @@
 'use client'
 
 import Image from 'next/image'
+import Star from './Star'
+import QuoteIcon from './QuoteIcon'
 import styles from './Testimonial.module.scss'
 
 export default function Testimonial({ testimonial }) {
@@ -20,18 +22,23 @@ export default function Testimonial({ testimonial }) {
     <div className={styles.testimonial}>
       {type === 'text' && (
         <>
-          <div className={styles.rating}>
-            {'★'.repeat(Math.round(rating))}
+          <div className={styles.testimonial__header}>
+            <div className={styles.testimonial__rating}>
+              {Array.from({ length: Math.round(rating) }).map((_, i) => (
+                <Star key={i} />
+              ))}
+            </div>
+            <QuoteIcon />
           </div>
-          <p className={styles.text}>{textContent}</p>
+          <p className={styles.testimonial__text}>{textContent}</p>
         </>
       )}
 
       {type === 'video' && (
-        <div className={styles.videoWrapper}>
+        <div className={styles.testimonial__videoWrapper}>
           {videoSource === 'upload' && video && (
             <video
-              className={styles.video}
+              className={styles.testimonial__video}
               controls
               poster={poster?.url}
               preload="metadata"
@@ -42,7 +49,7 @@ export default function Testimonial({ testimonial }) {
 
           {videoSource === 'youtube' && youtubeUrl && (
             <iframe
-              className={styles.iframe}
+              className={styles.testimonial__iframe}
               src={getYouTubeEmbedUrl(youtubeUrl)}
               title={`${name} - YouTube`}
               allowFullScreen
@@ -52,7 +59,7 @@ export default function Testimonial({ testimonial }) {
 
           {videoSource === 'vimeo' && vimeoUrl && (
             <iframe
-              className={styles.iframe}
+              className={styles.testimonial__iframe}
               src={getVimeoEmbedUrl(vimeoUrl)}
               title={`${name} - Vimeo`}
               allowFullScreen
@@ -62,9 +69,9 @@ export default function Testimonial({ testimonial }) {
         </div>
       )}
 
-      <div className={styles.info}>
-        <p className={styles.name}>{name}</p>
-        <p className={styles.location}>{location}</p>
+      <div className={styles.testimonial__info}>
+        <p className={styles.testimonial__name}>{name}</p>
+        <p className={styles.testimonial__location}>{location}</p>
       </div>
     </div>
   )
