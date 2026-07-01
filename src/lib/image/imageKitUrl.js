@@ -10,6 +10,9 @@ export function toImageKitUrl(url, options = {}) {
   // If URL is a full absolute URL (not Payload relative), skip transformation
   if (url.startsWith('http')) return url
 
+  // If URL is Payload media endpoint, skip ImageKit transformation (stored in R2)
+  if (url.includes('/api/media/')) return url
+
   // If ImageKit domain configured, transform to ImageKit
   if (IMAGEKIT_DOMAIN) {
     const cleanUrl = url.startsWith('/') ? url.slice(1) : url
@@ -30,7 +33,7 @@ export function toImageKitUrl(url, options = {}) {
 
 // Responsive image srcSet variants for mobile optimization
 export function getImageSrcSet(url) {
-  if (!url || !IMAGEKIT_DOMAIN || url.startsWith('http')) return undefined
+  if (!url || !IMAGEKIT_DOMAIN || url.startsWith('http') || url.includes('/api/media/')) return undefined
 
   const cleanUrl = url.startsWith('/') ? url.slice(1) : url
 
