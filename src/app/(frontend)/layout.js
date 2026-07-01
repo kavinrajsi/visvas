@@ -5,6 +5,8 @@ import '@/app/(frontend)/styles/typography.scss'
 import Header from '@/app/(frontend)/components/header/Header'
 import MobileCtaBar from '@/app/(frontend)/components/mobile-cta-bar/MobileCtaBar'
 
+export const dynamic = 'force-dynamic'
+
 const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] })
 const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'] })
 
