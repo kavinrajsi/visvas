@@ -145,7 +145,7 @@
 @function solve-bexier-x($p1x, $p1y, $p2x, $p2y, $x) {
   $cx: 3 * $p1x;
   $bx: 3 * ($p2x - $p1x) - $cx;
-  $ax: 1 - $cx -$bx;
+  $ax: 1 - $cx - $bx;
 
   $t0: 0;
   $t1: 1;
@@ -213,11 +213,11 @@
     "9": 9
   );
 
-  @for $i from if($minus, 2, 1) through str-length($value) {
+  @for $i from (if($minus, 2, 1)) through str-length($value) {
     $character: str-slice($value, $i, $i);
 
     @if not(index(map-keys($numbers), $character) or $character== ".") {
-      @return to-length(if($minus, -$result, $result), str-slice($value, $i));
+      @return to-length(if($minus, (-$result), $result), str-slice($value, $i));
     }
 
     @if $character== "." {
@@ -230,7 +230,7 @@
     }
   }
 
-  @return if($minus, -$result, $result);
+  @return if($minus, (-$result), $result);
 }
 
 // Explode a string by a delimiter
