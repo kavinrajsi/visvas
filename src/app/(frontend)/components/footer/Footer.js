@@ -212,20 +212,34 @@ export default async function Footer() {
               ) : (
                 <>
                   <li className={styles["footer__projects-item"]}>
-                    <Link
-                      href="/projects/ongoing"
-                      className={styles["footer__projects-link"]}
-                    >
-                      Ongoing Projects
-                    </Link>
+                    <span className={styles["footer__projects-link"]}>
+                      Ajita
+                    </span>
                   </li>
                   <li className={styles["footer__projects-item"]}>
-                    <Link
-                      href="/projects/completed"
-                      className={styles["footer__projects-link"]}
-                    >
-                      Completed Projects
-                    </Link>
+                    <span className={styles["footer__projects-link"]}>
+                      Amita
+                    </span>
+                  </li>
+                  <li className={styles["footer__projects-item"]}>
+                    <span className={styles["footer__projects-link"]}>
+                      Vidhatri
+                    </span>
+                  </li>
+                  <li className={styles["footer__projects-item"]}>
+                    <span className={styles["footer__projects-link"]}>
+                      Agrini
+                    </span>
+                  </li>
+                  <li className={styles["footer__projects-item"]}>
+                    <span className={styles["footer__projects-link"]}>
+                      Vajra
+                    </span>
+                  </li>
+                  <li className={styles["footer__projects-item"]}>
+                    <span className={styles["footer__projects-link"]}>
+                      Vasughara
+                    </span>
                   </li>
                 </>
               )}
