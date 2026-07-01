@@ -14,7 +14,7 @@ export function toImageKitUrl(url, options = {}) {
   if (IMAGEKIT_DOMAIN) {
     const cleanUrl = url.startsWith('/') ? url.slice(1) : url
     const params = new URLSearchParams({
-      tr: options.tr || 'w-800,h-600,c-at_max,f-auto,q-80',
+      tr: options.tr || 'w-800,h-600,c-at_max,f-auto,q-90',
     })
     return `${IMAGEKIT_DOMAIN}/${cleanUrl}?${params.toString()}`
   }
@@ -35,8 +35,8 @@ export function getImageSrcSet(url) {
   const cleanUrl = url.startsWith('/') ? url.slice(1) : url
 
   return {
-    mobile: `${IMAGEKIT_DOMAIN}/${cleanUrl}?tr=w-320,h-240,c-at_max,f-auto,q-75`,
-    tablet: `${IMAGEKIT_DOMAIN}/${cleanUrl}?tr=w-640,h-480,c-at_max,f-auto,q-80`,
-    desktop: `${IMAGEKIT_DOMAIN}/${cleanUrl}?tr=w-1200,h-900,c-at_max,f-auto,q-85`,
+    mobile: `${IMAGEKIT_DOMAIN}/${cleanUrl}?tr=w-320,h-240,c-at_max,f-auto,q-90`,
+    tablet: `${IMAGEKIT_DOMAIN}/${cleanUrl}?tr=w-640,h-480,c-at_max,f-auto,q-90`,
+    desktop: `${IMAGEKIT_DOMAIN}/${cleanUrl}?tr=w-1200,h-900,c-at_max,f-auto,q-90`,
   }
 }
