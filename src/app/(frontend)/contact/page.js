@@ -58,37 +58,41 @@ export default async function ContactPage() {
         <div className={styles['contact-layout']}>
           {/* Details */}
           <div className={styles['contact-details']}>
-            <div className={styles['detail-block']}>
-              <h3 className={styles['detail-label']}>Address</h3>
-              <p className={styles['detail-text']}>{address}</p>
+            <div className={styles['contact-details__row']}>
+              <h3 className={styles['contact-details__label']}>Location</h3>
+              <p className={styles['contact-details__value']}>{address}</p>
             </div>
 
-            <div className={styles['detail-block']}>
-              <h3 className={styles['detail-label']}>Email</h3>
-              <a href={`mailto:${email}`} className={styles['detail-link']}>
+            <div className={styles['contact-details__row']}>
+              <h3 className={styles['contact-details__label']}>Email</h3>
+              <a href={`mailto:${email}`} className={styles['contact-details__link']}>
                 {email}
               </a>
             </div>
 
-            <div className={styles['detail-block']}>
-              <h3 className={styles['detail-label']}>Phone</h3>
-              <a href={`tel:${phone}`} className={styles['detail-link']}>
-                {phone}
-              </a>
+            <div className={styles['contact-details__row']}>
+              <h3 className={styles['contact-details__label']}>Phone Number</h3>
+              <p className={styles['contact-details__value']}>
+                <a href={`tel:${phone}`} className={styles['contact-details__value-link']}>
+                  {phone}
+                </a>
+              </p>
             </div>
 
             {whatsapp && (
-              <div className={styles['detail-block']}>
-                <h3 className={styles['detail-label']}>WhatsApp</h3>
-                <a href={`https://wa.me/${whatsapp}`} className={styles['detail-link']}>
-                  {whatsapp}
-                </a>
+              <div className={styles['contact-details__row']}>
+                <h3 className={styles['contact-details__label']}>Whatsapp Number</h3>
+                <p className={styles['contact-details__value']}>
+                  <a href={`https://wa.me/${whatsapp}`} className={styles['contact-details__value-link']}>
+                    {whatsapp}
+                  </a>
+                </p>
               </div>
             )}
 
             {/* Map Image */}
             {contactDetails.mapImage?.url && (
-              <div className={styles['map-image']}>
+              <div className={styles['contact-details__map-image']}>
                 <Image
                   src={contactDetails.mapImage.url}
                   alt="Location"

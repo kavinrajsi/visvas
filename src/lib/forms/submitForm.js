@@ -158,7 +158,7 @@ export function validateFormData(formType, formData) {
   }
 
   // Form-specific validations
-  if (formType === 'enquiry') {
+  if (formType === 'enquiry' || formType === 'contact') {
     if (!formData.budget || formData.budget.trim().length === 0) {
       errors.push('Budget is required')
     }
