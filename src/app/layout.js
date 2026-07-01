@@ -1,3 +1,9 @@
+import { PostHogProvider } from './providers/PostHogProvider'
+
 export default function Layout({ children }) {
-  return <>{children}</>
+  return (
+    <PostHogProvider>
+      {children}
+    </PostHogProvider>
+  )
 }

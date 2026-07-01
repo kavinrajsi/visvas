@@ -11,8 +11,6 @@ import Users from './src/collections/Users.js'
 import Media from './src/media/Media.js'
 import Widgets from './src/collections/Widgets.js'
 import Testimonials from './src/collections/Testimonials.js'
-import TextTestimonials from './src/collections/TextTestimonials.js'
-import VideoTestimonials from './src/collections/VideoTestimonials.js'
 import Amenities from './src/collections/Amenities.js'
 import Projects from './src/collections/Projects.js'
 import BlogCategories from './src/collections/BlogCategories.js'
@@ -77,14 +75,6 @@ export default buildConfig({
             path: '/admin/collections/testimonials',
           },
           {
-            label: 'Text Testimonials',
-            path: '/admin/collections/text-testimonials',
-          },
-          {
-            label: 'Video Testimonials',
-            path: '/admin/collections/video-testimonials',
-          },
-          {
             label: 'Projects',
             path: '/admin/collections/projects',
           },
@@ -133,7 +123,7 @@ export default buildConfig({
       },
     ],
   },
-  collections: [Users, Media, Widgets, Amenities, Testimonials, TextTestimonials, VideoTestimonials, Projects, BlogCategories, Posts, Policies, ContactSubmissions],
+  collections: [Users, Media, Widgets, Amenities, Testimonials, Projects, BlogCategories, Posts, Policies, ContactSubmissions],
   globals: [ImpactPage, AboutPage, HomePage, ContactPage],
   editor: lexicalEditor({
     features: ({ defaultFeatures }) => [
