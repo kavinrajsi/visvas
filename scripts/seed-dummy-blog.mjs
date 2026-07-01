@@ -24,6 +24,12 @@ const blogPosts = [
       'For first-time buyers, CREDAI-backed events also make it easier to ask direct questions about financing, registration, construction quality, and long-term value. The best project is not only the one that looks attractive on display, but the one that fits your daily life and remains dependable over time.',
       'Visvas uses this type of buyer insight to shape residential communities around trust, location strength, and practical amenities. The goal is simple: help customers move from interest to confident ownership with clear information at every step.',
     ],
+    tableRows: [
+      ['Expo focus', 'Buyer value', 'What to check'],
+      ['Developer stalls', 'Compare many projects quickly', 'Approvals and delivery timelines'],
+      ['Finance desk', 'Understand loan options', 'Interest rate and processing fees'],
+      ['Location shortlist', 'Map daily convenience', 'Schools, hospitals, commute routes'],
+    ],
   },
   {
     title: 'Top Residential Project in Madurai - New Projects for sale',
@@ -37,6 +43,12 @@ const blogPosts = [
       'When comparing residential projects, location should come first. Strong road access, proximity to schools and hospitals, neighborhood growth, water availability, and legal clarity all matter more than surface-level finishes. A project that performs well on these basics usually remains easier to live in and easier to resell.',
       'Amenities should also be evaluated with daily use in mind. Clubhouses, indoor play areas, walking tracks, landscaped spaces, and security systems add value when they are maintained properly and planned for the actual community size.',
       'Visvas focuses on projects that balance aspiration with everyday practicality. The right home in Madurai should support family life today and still feel like a sound investment years from now.',
+    ],
+    tableRows: [
+      ['Project type', 'Best fit', 'Key decision point'],
+      ['Apartment', 'Convenience and shared amenities', 'Maintenance and association quality'],
+      ['Villa', 'Privacy and larger family space', 'Construction quality and layout'],
+      ['Plot', 'Flexible phased investment', 'Title clarity and infrastructure'],
     ],
   },
   {
@@ -52,6 +64,12 @@ const blogPosts = [
       'Commercial plots require an additional layer of thinking. Visibility, frontage, traffic movement, parking possibility, and nearby residential density all influence business potential. For residential plots, peaceful surroundings, schools, hospitals, and commute routes matter more.',
       'Visvas encourages buyers to view land as both a lifestyle decision and a long-term asset. The right plot in the right location can create value through construction, rental use, resale, or future development.',
     ],
+    tableRows: [
+      ['Plot use', 'Primary advantage', 'Due diligence'],
+      ['Residential land', 'Build at your own pace', 'Patta, title, and water access'],
+      ['Commercial land', 'Rental or business potential', 'Frontage and traffic movement'],
+      ['Investment plot', 'Long-term appreciation', 'Neighborhood growth path'],
+    ],
   },
   {
     title: 'Independent Villa for sale in Madurai',
@@ -66,13 +84,22 @@ const blogPosts = [
       'A good villa should also adapt to future needs. Families may need space for elderly parents, children, work-from-home routines, guest rooms, or small garden areas. Independent homes usually make these changes easier than fixed apartment layouts.',
       'Visvas villa communities are planned around practical luxury: strong locations, thoughtful layouts, dependable construction, and spaces that support family life over many years.',
     ],
+    tableRows: [
+      ['Villa feature', 'Why it matters', 'Buyer check'],
+      ['Independent space', 'Privacy and control', 'Plot size and ventilation'],
+      ['Community planning', 'Security with lifestyle comfort', 'Road width and amenities'],
+      ['Future flexibility', 'Room for changing family needs', 'Expansion and maintenance scope'],
+    ],
   },
 ]
 
-function textNode(text) {
+const TEXT_FORMAT_BOLD = 1
+const TEXT_FORMAT_ITALIC = 2
+
+function textNode(text, format = 0) {
   return {
     detail: 0,
-    format: 0,
+    format,
     mode: 'normal',
     style: '',
     text,
@@ -81,23 +108,89 @@ function textNode(text) {
   }
 }
 
-function paragraph(text) {
+function elementNode(type, children, extra = {}) {
   return {
-    children: [textNode(text)],
+    children,
     direction: 'ltr',
     format: '',
     indent: 0,
     textFormat: 0,
     textStyle: '',
-    type: 'paragraph',
+    type,
     version: 1,
+    ...extra,
   }
 }
 
-function richText(paragraphs) {
+function paragraph(children) {
+  return elementNode('paragraph', Array.isArray(children) ? children : [textNode(children)])
+}
+
+function heading(tag, text) {
+  return elementNode('heading', [textNode(text)], { tag })
+}
+
+function uploadNode(media) {
+  return {
+    fields: null,
+    format: '',
+    id: `seeded-upload-${media.id}`,
+    relationTo: 'media',
+    type: 'upload',
+    value: media.id,
+    version: 3,
+  }
+}
+
+function tableCell(text, isHeader = false) {
+  return elementNode('tablecell', [paragraph(text)], {
+    backgroundColor: null,
+    colSpan: 1,
+    headerState: isHeader ? 1 : 0,
+    rowSpan: 1,
+    width: null,
+  })
+}
+
+function tableRow(cells, isHeader = false) {
+  return elementNode('tablerow', cells.map((cell) => tableCell(cell, isHeader)), {
+    height: null,
+  })
+}
+
+function table(rows) {
+  return elementNode('table', rows.map((row, index) => tableRow(row, index === 0)), {
+    colWidths: undefined,
+  })
+}
+
+function richText(postConfig, coverImage) {
+  const nodes = [
+    heading('h1', postConfig.title),
+    paragraph([
+      textNode('This introduction includes '),
+      textNode('bold', TEXT_FORMAT_BOLD),
+      textNode(' and '),
+      textNode('italic', TEXT_FORMAT_ITALIC),
+      textNode(' text so content formatting can be checked in the CMS and frontend renderer.'),
+    ]),
+    heading('h2', 'Market Context'),
+    paragraph(postConfig.paragraphs[0]),
+    heading('h3', 'Buyer Priorities'),
+    paragraph(postConfig.paragraphs[1]),
+    heading('h4', 'Decision Checklist'),
+    paragraph(postConfig.paragraphs[2]),
+    uploadNode(coverImage),
+    heading('h5', 'Quick Comparison Table'),
+    table(postConfig.tableRows),
+    heading('h6', 'Closing Note'),
+    paragraph(postConfig.paragraphs[3]),
+    paragraph(postConfig.paragraphs[4]),
+  ]
+
   return {
     root: {
-      children: paragraphs.map(paragraph),
+      children: nodes,
       direction: 'ltr',
       format: '',
       indent: 0,
@@ -164,7 +257,7 @@ async function upsertPost(payload, category, coverImage, postConfig) {
     slug: postConfig.slug,
     excerpt: postConfig.excerpt,
     coverImage: coverImage.id,
-    content: richText(postConfig.paragraphs),
+    content: richText(postConfig, coverImage),
     author: 'Visvas Team',
     categories: [category.id],
     status: 'published',

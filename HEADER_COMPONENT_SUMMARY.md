@@ -15,7 +15,7 @@ React component with the following features:
 - **Accessibility**: Proper ARIA labels, keyboard navigation support
 - **State Management**: Menu open/close state with scroll locking
 
-### 2. `/src/app/(frontend)/components/header/Header.module.css`
+### 2. `/src/app/(frontend)/components/header/Header.module.scss`
 Comprehensive styling with:
 - **Design Tokens**: CSS custom properties for colors, spacing, typography
 - **Breakpoints**:
@@ -41,7 +41,7 @@ Comprehensive styling with:
 - Added `<Header />` to the layout before `{children}`
 - Updated metadata (title and description)
 
-### 2. `/src/app/globals.css`
+### 2. `/src/app/globals.scss`
 - Added Raleway font import from Google Fonts
 - Updated default font-family to use Raleway
 
@@ -133,9 +133,9 @@ Edit `/src/app/(frontend)/components/header/Header.jsx`, update the navigation i
 ```
 
 #### Update Colors
-Modify the CSS custom properties in `Header.module.css`:
+Modify the CSS custom properties in `Header.module.scss`:
 
-```css
+```scss
 :root {
   --header-color-primary: #your-color;
   --header-color-accent: #your-color;
