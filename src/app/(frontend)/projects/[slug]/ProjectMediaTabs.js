@@ -96,7 +96,7 @@ export default function ProjectMediaTabs({ project }) {
               />
             ) : (
               <Image
-                src="/placeholder.jpg"
+                src="/placeholder.png"
                 alt={`${activeTab} ${currentIndex + 1}`}
                 className={styles['media-tabs__image']}
                 fill

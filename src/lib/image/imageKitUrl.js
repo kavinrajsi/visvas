@@ -1,7 +1,7 @@
 const IMAGEKIT_DOMAIN = process.env.NEXT_PUBLIC_IMAGEKIT_DOMAIN
 
 export function toImageKitUrl(url, options = {}) {
-  if (!url) return '/placeholder.jpg'
+  if (!url) return '/placeholder.png'
 
   // If no ImageKit domain configured, return original URL
   if (!IMAGEKIT_DOMAIN) return url
