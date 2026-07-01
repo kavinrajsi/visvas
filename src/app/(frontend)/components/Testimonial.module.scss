@@ -3,8 +3,9 @@
   flex-direction: column;
   padding: 24px;
   gap: 16px;
-  background: #F5F3EB;
+  background: #f5f3eb;
   min-height: 326px;
+  overflow: hidden;
   &__header {
     display: flex;
     align-items: center;
@@ -71,7 +72,6 @@
   }
 
   &__name {
-    border-top: 1px solid #D3D3D3;
     padding-top: 16px;
     /* Desktop/H6 */
     font-family: "Raleway";
@@ -106,6 +106,16 @@
 }
 
 .testimonial--text {
+  .testimonial__info {
+    display: flex;
+    flex-direction: column;
+
+    flex: 1 0 auto;
+    justify-content: flex-end;
+    .testimonial__name {
+      border-top: 1px solid #d3d3d3;
+    }
+  }
   // Text testimonial styles
 }
 

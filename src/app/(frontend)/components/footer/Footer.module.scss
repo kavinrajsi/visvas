@@ -1,8 +1,8 @@
-@use '../../styles/interpolate' as i;
+@use "../../styles/interpolate" as i;
 
 .footer {
   background-color: #e4a025;
-  padding: 800px 20px 40px 20px;
+  padding: 80px 20px 40px 20px;
   .footer__container {
     background-color: #fff;
     display: flex;
@@ -285,42 +285,101 @@
         }
       }
     }
-
   }
 
+  .footer__testimonials-heading {
+    /* Desktop/H3 */
+    font-family: "Cormorant Garamond";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 40px;
+    /* identical to box height, or 111% */
+    text-align: center;
+    font-feature-settings:
+      "pnum" on,
+      "lnum" on;
 
+    /* Neutral/Heading_text */
+    color: #000000;
+    padding-bottom: 40px;
+  }
 
-    .footer__testimonials {
+  .footer__testimonials-carousel {
+    position: relative;
+
+    &__viewport {
+      overflow: hidden;
       width: 100%;
-      padding-top: 32px;
-      border-top: 1px solid #e0e0e0;
     }
 
-    .footer__testimonials-heading {
-      font-family: "Raleway";
-      font-style: normal;
-      font-weight: 600;
-      font-size: 16px;
-      line-height: 24px;
-      color: #303030;
-      margin-bottom: 16px;
-      text-align: center;
-      @media (min-width: 768px) {
-        text-align: left;
-      }
-    }
-
-    .footer__testimonials-grid {
-      display: grid;
-      grid-template-columns: 1fr;
+    &__track {
+      display: flex;
       gap: 24px;
+      will-change: transform;
+    }
+
+    &__slide {
+      flex: 0 0 auto;
+      width: 100%;
       @media (min-width: 768px) {
-        grid-template-columns: repeat(2, 1fr);
+        width: calc((100% - 24px) / 2);
       }
-      @media (min-width: 1024px) {
-        grid-template-columns: repeat(3, 1fr);
+      @media (min-width: 992px) {
+        width: calc((100% - 48px) / 3);
       }
     }
 
-    
+    &__arrows {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    &__arrow {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid #D3D3D3;
+      background: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.2s ease;
+
+      &:hover:not(:disabled) {
+        background: #F5F3EB;
+      }
+
+      &:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+    }
+
+    &__dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    &__dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      border: none;
+      padding: 0;
+      background: #D3D3D3;
+      cursor: pointer;
+
+      &--active {
+        background: #E09C26;
+        width: 20px;
+        border-radius: 4px;
+      }
+    }
+  }
 }

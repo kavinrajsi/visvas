@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getPayload } from "payload";
 import config from "@payload-config";
-import Testimonial from "../Testimonial";
+import TestimonialsCarousel from "./TestimonialsCarousel";
 import styles from "./Footer.module.scss";
 
 const Logo = () => (
@@ -200,17 +200,10 @@ export default async function Footer() {
 
         {testimonials.length > 0 && (
           <div className={styles["footer__testimonials"]}>
-            <h3 className={`${styles["footer__testimonials-heading"]} gtm-tracking`}>
-              Testimonials
-            </h3>
-            <div className={styles["footer__testimonials-grid"]}>
-              {testimonials.map((testimonial) => (
-                <Testimonial
-                  key={testimonial.id}
-                  testimonial={testimonial}
-                />
-              ))}
-            </div>
+            <h2 className={`${styles["footer__testimonials-heading"]} gtm-tracking`}>
+              Stories Built on Trust
+            </h2>
+            <TestimonialsCarousel testimonials={testimonials} />
           </div>
         )}
         
