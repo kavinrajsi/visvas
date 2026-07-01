@@ -19,7 +19,7 @@ export default function Testimonial({ testimonial }) {
   }
 
   return (
-    <div className={styles.testimonial}>
+    <div className={`${styles.testimonial} ${styles[`testimonial--${type}`]}`}>
       {type === 'text' && (
         <>
           <div className={styles.testimonial__header}>
