@@ -196,6 +196,24 @@ export default async function Footer() {
 
   return (
     <footer className={styles.footer}>
+
+
+        {testimonials.length > 0 && (
+          <div className={styles["footer__testimonials"]}>
+            <h3 className={`${styles["footer__testimonials-heading"]} gtm-tracking`}>
+              Testimonials
+            </h3>
+            <div className={styles["footer__testimonials-grid"]}>
+              {testimonials.map((testimonial) => (
+                <Testimonial
+                  key={testimonial.id}
+                  testimonial={testimonial}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+        
       <div className={styles["footer__container"]}>
         <div className={styles["footer_links-columns"]}>
           <div className={styles["footer__logo"]}>
@@ -334,22 +352,6 @@ export default async function Footer() {
             </div>
           </div>
         </div>
-
-        {testimonials.length > 0 && (
-          <div className={styles["footer__testimonials"]}>
-            <h3 className={`${styles["footer__testimonials-heading"]} gtm-tracking`}>
-              Testimonials
-            </h3>
-            <div className={styles["footer__testimonials-grid"]}>
-              {testimonials.map((testimonial) => (
-                <Testimonial
-                  key={testimonial.id}
-                  testimonial={testimonial}
-                />
-              ))}
-            </div>
-          </div>
-        )}
 
         <div className={styles["footer__bottom"]}>
           <p className={styles["footer__copyright"]}>

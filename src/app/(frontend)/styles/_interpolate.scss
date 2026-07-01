@@ -213,11 +213,13 @@
     "9": 9
   );
 
-  @for $i from (if($minus, 2, 1)) through str-length($value) {
+  $start: if($minus, 2, 1);
+  @for $i from $start through str-length($value) {
     $character: str-slice($value, $i, $i);
 
     @if not(index(map-keys($numbers), $character) or $character== ".") {
-      @return to-length(if($minus, (-$result), $result), str-slice($value, $i));
+      $temp-result: if($minus, (-$result), $result);
+      @return to-length($temp-result, str-slice($value, $i));
     }
 
     @if $character== "." {
@@ -230,7 +232,8 @@
     }
   }
 
-  @return if($minus, (-$result), $result);
+  $final-result: if($minus, (-$result), $result);
+  @return $final-result;
 }
 
 // Explode a string by a delimiter
