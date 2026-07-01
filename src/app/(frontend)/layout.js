@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import '../globals.scss'
 import '@/app/(frontend)/styles/typography.scss'
 import Header from '@/app/(frontend)/components/header/Header'
+import Footer from '@/app/(frontend)/components/footer/Footer'
 import MobileCtaBar from '@/app/(frontend)/components/mobile-cta-bar/MobileCtaBar'
 import AttributionTracker from '@/app/(frontend)/components/AttributionTracker'
 
@@ -108,6 +109,7 @@ export default function FrontendLayout({ children }) {
         <Header />
         <AttributionTracker />
         {children}
+        <Footer />
         <MobileCtaBar />
       </body>
     </html>
