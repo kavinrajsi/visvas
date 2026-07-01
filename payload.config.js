@@ -50,6 +50,78 @@ if (process.env.R2_BUCKET_NAME && process.env.R2_ENDPOINT && process.env.R2_ACCE
 export default buildConfig({
   admin: {
     user: Users.slug,
+    nav: [
+      {
+        label: 'Media',
+        path: '/admin/collections/media',
+      },
+      {
+        label: 'Collections',
+        children: [
+          {
+            label: 'Users',
+            path: '/admin/collections/users',
+          },
+          {
+            label: 'Testimonials',
+            path: '/admin/collections/testimonials',
+          },
+          {
+            label: 'Text Testimonials',
+            path: '/admin/collections/text-testimonials',
+          },
+          {
+            label: 'Video Testimonials',
+            path: '/admin/collections/video-testimonials',
+          },
+          {
+            label: 'Projects',
+            path: '/admin/collections/projects',
+          },
+          {
+            label: 'Blog Categories',
+            path: '/admin/collections/blog-categories',
+          },
+          {
+            label: 'Posts',
+            path: '/admin/collections/posts',
+          },
+          {
+            label: 'Amenities',
+            path: '/admin/collections/amenities',
+          },
+          {
+            label: 'Policies',
+            path: '/admin/collections/policies',
+          },
+          {
+            label: 'Contact Submissions',
+            path: '/admin/collections/contact-submissions',
+          },
+        ],
+      },
+      {
+        label: 'Pages',
+        children: [
+          {
+            label: 'Home',
+            path: '/admin/globals/home-page',
+          },
+          {
+            label: 'About',
+            path: '/admin/globals/about-page',
+          },
+          {
+            label: 'Contact',
+            path: '/admin/globals/contact-page',
+          },
+          {
+            label: 'Impact',
+            path: '/admin/globals/impact-page',
+          },
+        ],
+      },
+    ],
   },
   collections: [Users, Media, Amenities, Testimonials, TextTestimonials, VideoTestimonials, Projects, BlogCategories, Posts, Policies, ContactSubmissions],
   globals: [ImpactPage, AboutPage, HomePage, ContactPage],
