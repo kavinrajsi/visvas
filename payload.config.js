@@ -8,7 +8,8 @@ import sharp from 'sharp'
 import { sendEmail } from './src/lib/email/zoho.js'
 
 import Users from './src/collections/Users.js'
-import Media from './src/collections/Media.js'
+import Media from './src/media/Media.js'
+import Testimonials from './src/collections/Testimonials.js'
 import TextTestimonials from './src/collections/TextTestimonials.js'
 import VideoTestimonials from './src/collections/VideoTestimonials.js'
 import Amenities from './src/collections/Amenities.js'
@@ -50,7 +51,7 @@ export default buildConfig({
   admin: {
     user: Users.slug,
   },
-  collections: [Users, Media, Amenities, TextTestimonials, VideoTestimonials, Projects, BlogCategories, Posts, Policies, ContactSubmissions],
+  collections: [Users, Media, Amenities, Testimonials, TextTestimonials, VideoTestimonials, Projects, BlogCategories, Posts, Policies, ContactSubmissions],
   globals: [ImpactPage, AboutPage, HomePage, ContactPage],
   editor: lexicalEditor({
     features: ({ defaultFeatures }) => [
