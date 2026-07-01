@@ -95,11 +95,46 @@ function formatAdminEmail(data) {
       .replace(/'/g, '&#39;')
   }
 
+  let attributionBlock = ''
+  if (data.attribution) {
+    const { firstTouch, lastTouch, referrerDomain, previousPage } = data.attribution
+    attributionBlock = '<h3>Attribution:</h3>'
+    if (firstTouch) {
+      attributionBlock += `<p><strong>First Touch:</strong><br/>
+        UTM Source: ${htmlEscape(firstTouch.utmSource || '—')}<br/>
+        UTM Medium: ${htmlEscape(firstTouch.utmMedium || '—')}<br/>
+        UTM Campaign: ${htmlEscape(firstTouch.utmCampaign || '—')}<br/>
+        GCLID: ${htmlEscape(firstTouch.gclid || '—')}<br/>
+        FBCLID: ${htmlEscape(firstTouch.fbclid || '—')}<br/>
+        Landing Page: ${htmlEscape(firstTouch.landingPage || '—')}
+      </p>`
+    }
+    if (lastTouch) {
+      attributionBlock += `<p><strong>Last Touch:</strong><br/>
+        UTM Source: ${htmlEscape(lastTouch.utmSource || '—')}<br/>
+        UTM Medium: ${htmlEscape(lastTouch.utmMedium || '—')}<br/>
+        UTM Campaign: ${htmlEscape(lastTouch.utmCampaign || '—')}<br/>
+        GCLID: ${htmlEscape(lastTouch.gclid || '—')}<br/>
+        FBCLID: ${htmlEscape(lastTouch.fbclid || '—')}
+      </p>`
+    }
+    if (referrerDomain) {
+      attributionBlock += `<p><strong>Referrer Domain:</strong> ${htmlEscape(referrerDomain)}</p>`
+    }
+    if (previousPage) {
+      attributionBlock += `<p><strong>Previous Page:</strong> ${htmlEscape(previousPage)}</p>`
+    }
+    attributionBlock += '<hr/>'
+  }
+
+  const spamFlag = data.isSpam ? '<p style="color:red;"><strong>⚠️ FLAGGED AS SPAM (Honeypot triggered)</strong></p><hr/>' : ''
+
   return `
     <h2>New Form Submission</h2>
     <p><strong>Form Type:</strong> ${htmlEscape(data.formType || 'Unknown')}</p>
     <p><strong>Timestamp:</strong> ${htmlEscape(new Date(data.timestamp).toLocaleString())}</p>
-    <hr/>
+    ${spamFlag}
+    ${attributionBlock}
     <h3>Submitted Data:</h3>
     <pre>${htmlEscape(JSON.stringify(data.formData, null, 2))}</pre>
     <hr/>

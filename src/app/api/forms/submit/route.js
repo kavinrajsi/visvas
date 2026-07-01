@@ -1,12 +1,13 @@
 import { submitForm, validateFormData } from '@/lib/forms/submitForm'
 import { RateLimiter } from '@/lib/security/rateLimiter'
+import { isHoneypotTriggered } from '@/lib/security/honeypot'
 
 const rateLimiter = new RateLimiter({ windowMs: 60000, maxRequests: 5 })
 
 export async function POST(request) {
   try {
     const body = await request.json()
-    const { formType, formData } = body
+    const { formType, formData, attribution } = body
 
     if (!formType || !formData) {
       return Response.json(
@@ -37,6 +38,12 @@ export async function POST(request) {
       )
     }
 
+    // Check honeypot
+    const isSpam = isHoneypotTriggered(formData)
+    if (isSpam) {
+      console.log('[SPAM]', { formType, ip: clientIp, email: formData.email })
+    }
+
     console.log('[FORM SUBMIT]', { formType, ip: clientIp })
 
     // Submit form
@@ -45,10 +52,13 @@ export async function POST(request) {
       sendUserEmail: true,
       storeInDb: true,
       storeInSheets: true,
+      storeInPayload: true,
       metadata: {
         ip: clientIp,
         userAgent: request.headers.get('user-agent'),
         referer: request.headers.get('referer'),
+        isSpam,
+        attribution,
       },
     })
 

@@ -3,6 +3,8 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import ProjectCard from '@/app/(frontend)/components/project-card/ProjectCard'
 import { toImageKitUrl } from '@/lib/image/imageKitUrl'
+import HeroReveal from '@/components/animation/HeroReveal'
+import ScrollReveal from '@/components/animation/ScrollReveal'
 import styles from './page.module.scss'
 
 export const dynamic = 'force-dynamic'
@@ -96,7 +98,7 @@ export default async function Home() {
     <main className={styles['home']}>
       {/* Hero Section */}
       {hero?.heroImage?.url && (
-        <section className={styles['hero']}>
+        <HeroReveal className={styles['hero']}>
           <Image
             src={toImageKitUrl(hero.heroImage.url)}
             alt="Visvas Properties"
@@ -105,25 +107,25 @@ export default async function Home() {
             fill
             sizes="100vw"
           />
-        </section>
+        </HeroReveal>
       )}
 
       {/* Latest Projects Section */}
       {latestProjectsSection?.featuredProjects?.length > 0 && (
         <section className={styles['latest-projects']}>
-          <div className={styles['section-label']}>
+          <ScrollReveal className={styles['section-label']}>
             <span aria-hidden="true">✦</span>
             <span>{latestProjectsSection.sectionLabel || 'LATEST PROJECTS'}</span>
             <span aria-hidden="true">✦</span>
-          </div>
-          <h2 className={styles['section-heading']}>
+          </ScrollReveal>
+          <ScrollReveal className={styles['section-heading']}>
             {latestProjectsSection.heading || 'Discover our latest projects'}
-          </h2>
-          <div className={styles['projects-grid']}>
+          </ScrollReveal>
+          <ScrollReveal className={styles['projects-grid']} stagger>
             {latestProjectsSection.featuredProjects.map((project) => (
               <ProjectCard key={project.id} project={project} />
             ))}
-          </div>
+          </ScrollReveal>
           {latestProjectsSection.buttonLabel && (
             <div className={styles['section-cta']}>
               <a href="/projects/ongoing" className={styles['btn']}>
@@ -137,13 +139,13 @@ export default async function Home() {
       {/* Who We Are Section */}
       {whoWeAreSection?.heading && (
         <section className={styles['who-we-are']}>
-          <h2 className={styles['who-we-are__heading']}>
+          <ScrollReveal className={styles['who-we-are__heading']}>
             {whoWeAreSection.heading}
-          </h2>
+          </ScrollReveal>
 
           {/* Feature Cards */}
           {whoWeAreSection.featureCards?.length > 0 && (
-            <div className={styles['feature-cards']}>
+            <ScrollReveal className={styles['feature-cards']} stagger>
               {whoWeAreSection.featureCards.map((card, idx) => (
                 <div key={idx} className={styles['feature-card']}>
                   {card.backgroundImage?.url && (
@@ -168,12 +170,12 @@ export default async function Home() {
                   </div>
                 </div>
               ))}
-            </div>
+            </ScrollReveal>
           )}
 
           {/* Stats Row */}
           {whoWeAreSection.stats?.length > 0 && (
-            <div className={styles['stats-row']}>
+            <ScrollReveal className={styles['stats-row']} stagger>
               {whoWeAreSection.stats.map((stat, idx) => (
                 <div key={idx} className={styles['stat-item']}>
                   <p className={styles['stat-number']}>

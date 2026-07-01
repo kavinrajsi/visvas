@@ -1,8 +1,9 @@
 // Generic form submission handler
-// Coordinates: email (Zoho) + storage (JSON/SQLite) + sheets (Google)
+// Coordinates: email (Zoho) + storage (JSON/SQLite) + sheets (Google) + CMS (Payload)
 import { sendAdminNotification, sendUserConfirmation } from '@/lib/email/zoho'
 import { storeFormData as storeFormDataDb, getFormData } from '@/lib/storage/nanoDb'
 import { storeFormData as storeFormDataSheets } from '@/lib/storage/googleSheets'
+import { storeFormDataPayload } from '@/lib/storage/payloadDb'
 
 export async function submitForm(formType, formData, options = {}) {
   const {
@@ -10,6 +11,7 @@ export async function submitForm(formType, formData, options = {}) {
     sendUserEmail = true,
     storeInDb = true,
     storeInSheets = true,
+    storeInPayload = true,
     metadata = {},
   } = options
 
@@ -21,6 +23,7 @@ export async function submitForm(formType, formData, options = {}) {
     email: null,
     db: null,
     sheets: null,
+    payload: null,
     errors: [],
   }
 
@@ -54,6 +57,8 @@ export async function submitForm(formType, formData, options = {}) {
       email: formData.email,
       ip: clientIp,
       id: `${formType}_${Date.now()}`,
+      isSpam: metadata.isSpam || false,
+      attribution: metadata.attribution,
     }
 
     if (sendAdminEmail) {
@@ -109,6 +114,20 @@ export async function submitForm(formType, formData, options = {}) {
       }
     } catch (error) {
       results.errors.push(`Sheets storage error: ${error.message}`)
+    }
+  }
+
+  // ========== PAYLOAD CMS STORAGE ==========
+
+  if (storeInPayload) {
+    try {
+      const payloadResult = await storeFormDataPayload(formType, formData, metadata)
+      results.payload = payloadResult
+      if (!payloadResult.success) {
+        results.errors.push(`Payload storage failed: ${payloadResult.error}`)
+      }
+    } catch (error) {
+      results.errors.push(`Payload storage error: ${error.message}`)
     }
   }
 

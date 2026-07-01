@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 import { trackFormSubmit } from '@/lib/analytics/track'
+import { getAttributionData } from '@/lib/analytics/attribution'
+import { HONEYPOT_FIELD } from '@/lib/security/honeypot'
 import styles from './ProjectEnquiryForm.module.scss'
 
 export default function ProjectEnquiryForm({ projectName }) {
@@ -13,6 +15,7 @@ export default function ProjectEnquiryForm({ projectName }) {
     budget: '',
     message: '',
     project: projectName || '',
+    [HONEYPOT_FIELD]: '',
   })
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState(null)
@@ -93,6 +96,7 @@ export default function ProjectEnquiryForm({ projectName }) {
     setErrors({})
 
     try {
+      const attribution = getAttributionData()
       const response = await fetch('/api/forms/submit', {
         method: 'POST',
         headers: {
@@ -103,6 +107,7 @@ export default function ProjectEnquiryForm({ projectName }) {
           formData: {
             ...formData,
           },
+          attribution,
         }),
       })
 
@@ -125,6 +130,7 @@ export default function ProjectEnquiryForm({ projectName }) {
           budget: '',
           message: '',
           project: projectName || '',
+          [HONEYPOT_FIELD]: '',
         })
       } else {
         const serverErrors = mapServerErrors(result.errors)
@@ -254,6 +260,17 @@ export default function ProjectEnquiryForm({ projectName }) {
           rows="5"
           aria-label="Message"
         ></textarea>
+
+        <input
+          type="text"
+          name={HONEYPOT_FIELD}
+          value={formData[HONEYPOT_FIELD]}
+          onChange={handleChange}
+          tabIndex={-1}
+          autoComplete="off"
+          aria-hidden="true"
+          style={{ position: 'absolute', left: '-9999px', opacity: 0 }}
+        />
 
         {message && (
           <p className={`${styles['enquiry-form__message']} ${styles[`enquiry-form__message--${message.type}`]}`}>
