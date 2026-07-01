@@ -343,7 +343,7 @@ const HomePage = {
     {
       name: 'featuredTestimonials',
       type: 'relationship',
-      relationTo: ['text-testimonials', 'video-testimonials'],
+      relationTo: 'testimonials',
       hasMany: true,
       label: 'Featured Testimonials',
       admin: {

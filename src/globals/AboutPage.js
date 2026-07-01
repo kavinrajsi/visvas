@@ -194,11 +194,11 @@ const AboutPage = {
     {
       name: 'featuredTestimonials',
       type: 'relationship',
-      relationTo: ['text-testimonials', 'video-testimonials'],
+      relationTo: 'testimonials',
       hasMany: true,
       label: 'Featured Testimonials',
       admin: {
-        description: 'Pick testimonials from the Text or Video Testimonials collections to feature in the carousel',
+        description: 'Pick testimonials to feature in the carousel',
       },
     },
 
