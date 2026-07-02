@@ -1,146 +1,105 @@
-import Image from 'next/image'
-import { getPayload } from 'payload'
-import config from '@payload-config'
-import styles from './page.module.scss'
+import Image from "next/image";
+import { getPayload } from "payload";
+import config from "@payload-config";
+import styles from "./page.module.scss";
 
-export const revalidate = 3600
+export const revalidate = 3600;
 
 export async function generateMetadata() {
-  const payload = await getPayload({ config })
-  const data = await payload.findGlobal({ slug: 'impact-page', depth: 0 })
+  const payload = await getPayload({ config });
+  const data = await payload.findGlobal({ slug: "impact-page", depth: 0 });
 
-  const seo = data?.seo || {}
+  const seo = data?.seo || {};
   return {
-    title: seo.metaTitle || 'Community Impact | Visvas',
-    description: seo.metaDescription || 'Discover our environmental and social impact initiatives.',
+    title: seo.metaTitle || "Community Impact | Visvas",
+    description:
+      seo.metaDescription ||
+      "Discover our environmental and social impact initiatives.",
     openGraph: {
-      title: seo.ogTitle || 'Community Impact | Visvas',
-      description: seo.ogDescription || 'Discover our impact.',
+      title: seo.ogTitle || "Community Impact | Visvas",
+      description: seo.ogDescription || "Discover our impact.",
       image: seo.ogImage?.url || undefined,
     },
-  }
+  };
 }
 
 export default async function CommunityPage() {
-  const payload = await getPayload({ config })
-  const data = await payload.findGlobal({ slug: 'impact-page', depth: 2 })
+  const payload = await getPayload({ config });
+  const data = await payload.findGlobal({ slug: "impact-page", depth: 2 });
 
   const {
     heroImage,
     environmentalSection = {},
     socialSection = {},
     testimonials = [],
-  } = data || {}
+  } = data || {};
 
   return (
-    <main className={styles['community']}>
-      {/* Hero Image */}
-      {heroImage?.url && (
-        <section className={styles['hero']}>
-          <Image
-            src={heroImage.url}
-            alt="Community Impact"
-            className={styles['hero__image']}
-            priority
-            fill
-            sizes="100vw"
-          />
-        </section>
-      )}
-
-      {/* Environmental Section */}
-      {environmentalSection?.heading && (
-        <section className={styles['impact-section']}>
-          <div className={styles['section-label']}>
-            <span aria-hidden="true">✦</span>
-            <span>
-              {environmentalSection.label || 'OUR ENVIRONMENTAL IMPACT'}
-            </span>
-            <span aria-hidden="true">✦</span>
+    <main className={styles["community"]}>
+      <section className={styles["community__hero"]}>
+        <h1 className={styles["community__hero-title"]}>Homes Connected by Community</h1>
+        <p className={styles["community__hero-text"]}>
+          A home is something you buy. A neighbourhood is something you belong
+          to.
+        </p>
+      </section>
+      <section className={styles["community__video-section"]}>
+        <video
+          poster="./video/visvas-community-video-poster.png"
+          loop
+          muted
+          autoPlay
+          playsInline
+          preload="metadata"
+          className={styles["community__video"]}
+        >
+          <source src="./video/visvas-community-video.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </section>
+      <section className={styles["community__about"]}>
+        <div className={styles["community__about-video-section"]}>
+          <video
+            poster="/visvas-community-video-1-poster.png"
+            loop
+            muted
+            autoPlay
+            playsInline
+            preload="metadata"
+            className={styles["community__about-video"]}
+          >
+            <source src="./video/visvas-community-video-1.mp4" type="video/mp4" />
+          </video>
+          <div className={styles["community__about-overlay"]} />
+          <div className={styles["community__about-content"]}>
+            <h2 className={styles["community__about-title"]}>What a Visvas community is</h2>
+            <p className={styles["community__about-text"]}>
+              A hundred homes built to the same standard eventually become something
+              more than buildings. They become a neighbourhood. You know who lives
+              next door. Your children grow up together. Your parents find company
+              on their evening walks.
+            </p>
           </div>
-
-          <div className={styles['impact-layout']}>
-            <div className={styles['impact-content']}>
-              <h2 className={styles['impact-heading']}>
-                {environmentalSection.heading}
-              </h2>
-              <p className={styles['impact-description']}>
-                {environmentalSection.description}
-              </p>
-            </div>
-            {environmentalSection.image?.url && (
-              <div className={styles['impact-image']}>
-                <Image
-                  src={environmentalSection.image.url}
-                  alt={environmentalSection.heading}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-              </div>
-            )}
-          </div>
-        </section>
-      )}
-
-      {/* Social Section */}
-      {socialSection?.heading && (
-        <section className={styles['impact-section']}>
-          <div className={styles['section-label']}>
-            <span aria-hidden="true">✦</span>
-            <span>
-              {socialSection.label || 'OUR SOCIAL IMPACT'}
-            </span>
-            <span aria-hidden="true">✦</span>
-          </div>
-
-          <div className={styles['impact-layout']}>
-            <div className={styles['impact-content']}>
-              <h2 className={styles['impact-heading']}>
-                {socialSection.heading}
-              </h2>
-              <p className={styles['impact-description']}>
-                {socialSection.description}
-              </p>
-            </div>
-            {socialSection.image?.url && (
-              <div className={styles['impact-image']}>
-                <Image
-                  src={socialSection.image.url}
-                  alt={socialSection.heading}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-              </div>
-            )}
-          </div>
-        </section>
-      )}
-
-      {/* Testimonials */}
-      {testimonials?.length > 0 && (
-        <section className={styles['testimonials']}>
-          <h2 className={styles['testimonials__heading']}>
-            Voices from Our Community
-          </h2>
-          <div className={styles['testimonials-carousel']}>
-            {testimonials.map((testimonial, idx) => (
-              <div key={idx} className={styles['testimonial-item']}>
-                {testimonial.quote && (
-                  <p className={styles['testimonial-quote']}>
-                    "{testimonial.quote}"
-                  </p>
-                )}
-                {testimonial.name && (
-                  <p className={styles['testimonial-author']}>
-                    {testimonial.name}
-                    {testimonial.company && ` — ${testimonial.company}`}
-                  </p>
-                )}
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
+        </div>
+        <div className={styles["community__about-right"]} />
+        <Image
+          src="/visvas-community-image-1.png"
+          alt="Visvas community image"
+          width={600}
+          height={400}
+          quality={85}
+          className={styles["community__about-image"]}
+        />
+      </section>
+      <section className={styles["community__shared-life"]}>
+        <h2 className={styles["community__shared-life-title"]}>Built around shared life</h2>
+        <p className={styles["community__shared-life-text"]}>
+          Festivals happen in the open space, together. Children play where you
+          can see them. The walking track fills up in the morning, before the
+          heat. These are not amenities on a brochure. They are the moments that
+          turn neighbours into a community.
+        </p>
+      </section>
     </main>
-  )
+  );
 }

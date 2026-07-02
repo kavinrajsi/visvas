@@ -7,7 +7,7 @@
   padding-left: 16px;
   padding-right: 16px;
 
-  .blog-index__layout{
+  .blog-index__layout {
     display: grid;
     grid-template-columns: 1fr 387px;
     gap: 20px;
@@ -15,45 +15,62 @@
   .blog-index__post-card {
     padding: 0px 0 40px;
     margin-bottom: 40px;
-    border-bottom: 1px solid #E0E0E0;
+    border-bottom: 1px solid #e0e0e0;
     display: grid;
     grid-template-columns: 433px 1fr;
     .blog-index__post-body {
       padding: 16px 24px;
+      display: flex;
+      flex-direction: column;
+      .blog-index__post-content {
+        flex: 1 0 auto;
 
-      .blog-index__post-title {
-        /* Desktop/H6 */
-        font-family: "Raleway";
-        font-style: normal;
-        font-weight: 500;
-        font-size: 18px;
-        line-height: 24px;
-        /* or 133% */
-        font-feature-settings:
-          "pnum" on,
-          "lnum" on;
+        .blog-index__post-title {
+          /* Desktop/H6 */
+          font-family: "Raleway";
+          font-style: normal;
+          font-weight: 500;
+          font-size: 18px;
+          line-height: 24px;
+          /* or 133% */
+          font-feature-settings:
+            "pnum" on,
+            "lnum" on;
 
-        /* Neutral/Heading_text */
-        color: #000000;
+          /* Neutral/Heading_text */
+          color: #000000;
+          padding-bottom: 44px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+        }
+
+        .blog-index__post-excerpt {
+          /* Desktop/B1 */
+          font-family: "Raleway";
+          font-style: normal;
+          font-weight: 400;
+          font-size: 16px;
+          line-height: 24px;
+          /* or 150% */
+          font-feature-settings:
+            "pnum" on,
+            "lnum" on;
+
+          /* Neutral/text-2 */
+          color: #303030;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+        }
       }
-
-      .blog-index__post-excerpt {
-        /* Desktop/B1 */
-        font-family: "Raleway";
-        font-style: normal;
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 24px;
-        /* or 150% */
-        font-feature-settings:
-          "pnum" on,
-          "lnum" on;
-
-        /* Neutral/text-2 */
-        color: #303030;
-      }
-
       .blog-index__post-date {
+        display: block;
+        padding-top: 14px;
         /* Desktop/B2 */
         font-family: "Raleway";
         font-style: normal;
