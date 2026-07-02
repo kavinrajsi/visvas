@@ -294,9 +294,16 @@ async function importProperties() {
     // Build attachment map: id → guid URL
     const attachmentMap = new Map();
     for (const att of attachments) {
-      const id = att['wp:post_id']?.[0];
-      const guid = att.guid?.[0];
-      if (id && guid) attachmentMap.set(id, guid);
+      let id = att['wp:post_id']?.[0];
+      let guid = att.guid?.[0];
+
+      // Handle xml2js quirks: might be object with _ property
+      if (typeof id === 'object' && id !== null) id = id._ || id.toString();
+      if (typeof guid === 'object' && guid !== null) guid = guid._ || guid.toString();
+
+      if (id && guid && typeof id === 'string' && typeof guid === 'string') {
+        attachmentMap.set(id.trim(), guid.trim());
+      }
     }
 
     console.log(`Found ${properties.length} properties, ${attachments.length} attachments\n`);
@@ -381,10 +388,13 @@ async function importProperties() {
         let coverImageId = null;
         const imageIds = [];
 
-        if (thumbnailId && attachmentMap.has(thumbnailId)) {
-          const url = attachmentMap.get(thumbnailId);
-          coverImageId = await uploadImage(payload, url, `${title} - Thumbnail`);
-          if (coverImageId) imageIds.push(coverImageId);
+        const thumbIdStr = thumbnailId ? String(thumbnailId).trim() : null;
+        if (thumbIdStr && attachmentMap.has(thumbIdStr)) {
+          const url = attachmentMap.get(thumbIdStr);
+          if (url && typeof url === 'string') {
+            coverImageId = await uploadImage(payload, url, `${title} - Thumbnail`);
+            if (coverImageId) imageIds.push(coverImageId);
+          }
         }
 
         // Upload floor plan images
