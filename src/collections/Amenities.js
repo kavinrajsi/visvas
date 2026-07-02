@@ -22,15 +22,6 @@ const Amenities = {
       type: 'upload',
       relationTo: 'media',
     },
-    {
-      name: 'svg',
-      type: 'code',
-      required: false,
-      admin: {
-        language: 'xml',
-        description: 'Optional SVG code for the amenity icon',
-      },
-    },
   ],
 }
 
