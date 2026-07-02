@@ -13,6 +13,10 @@ const raleway = Raleway({
   variable: '--font-raleway',
 })
 
+export const metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
+}
+
 export default function Layout({ children }) {
   return (
     <html lang="en" className={`${cormorant.className} ${raleway.className}`}>

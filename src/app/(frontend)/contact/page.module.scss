@@ -38,6 +38,7 @@
       flex-direction: column;
       @media (min-width: 992px) {
         flex-direction: row;
+        justify-content: flex-start;
         align-items: center;
       }
       .contact-details__label {
@@ -51,6 +52,7 @@
           "pnum" on,
           "lnum" on;
         color: #000000;
+        min-width: 170px;
       }
       .contact-details__link,
       .contact-details__value {
@@ -66,7 +68,14 @@
           "lnum" on;
 
         color: #000000;
+        &.contact-details__value--address{
+          max-width: 234px;
+        }
       }
+
+      // .contact-details__value--address {
+      //   word-wrap: break-word;
+      // }
     }
   }
 

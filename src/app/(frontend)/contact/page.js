@@ -77,7 +77,7 @@ export default async function ContactPage() {
             <div className={styles["contact-details__rows"]}>
               <div className={styles["contact-details__row"]}>
                 <h3 className={styles["contact-details__label"]}>Location</h3>
-                <p className={styles["contact-details__value"]}>{address}</p>
+                <p className={`${styles["contact-details__value"]} ${styles["contact-details__value--address"]}`}>{address}</p>
               </div>
 
               <div className={styles["contact-details__row"]}>

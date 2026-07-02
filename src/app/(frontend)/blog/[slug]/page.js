@@ -135,8 +135,10 @@ export default async function BlogDetailPage({ params }) {
           )}
         </div>
 
-        {/* Sidebar */}
-        <BlogSidebar />
+          {/* Sidebar */}
+          <aside className={styles["blog-index__sidebar"]}>
+            <BlogSidebar />
+          </aside>
       </div>
 
       {/* JSON-LD Schemas */}
