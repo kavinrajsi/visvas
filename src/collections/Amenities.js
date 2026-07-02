@@ -20,6 +20,15 @@ const Amenities = {
       relationTo: 'media',
       required: true,
     },
+    {
+      name: 'svg',
+      type: 'code',
+      required: false,
+      admin: {
+        language: 'xml',
+        description: 'Optional SVG code for the amenity icon',
+      },
+    },
   ],
 }
 
