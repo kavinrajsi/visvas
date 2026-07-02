@@ -10,6 +10,24 @@ import styles from './page.module.scss'
 export const dynamic = 'force-dynamic'
 export const revalidate = 300
 
+export const metadata = {
+  title: 'Ongoing Projects | Visvas',
+  description: 'Discover our active real estate development projects across premium locations in Madurai.',
+  openGraph: {
+    title: 'Ongoing Projects | Visvas',
+    description: 'Discover our active real estate development projects across premium locations in Madurai.',
+    type: 'website',
+    url: 'https://www.visvas.in/projects/ongoing',
+  },
+  twitter: {
+    title: 'Ongoing Projects | Visvas',
+    description: 'Discover our active real estate development projects across premium locations in Madurai.',
+  },
+  alternates: {
+    canonical: 'https://www.visvas.in/projects/ongoing',
+  },
+}
+
 async function getProjects(searchParams) {
   const payload = await getPayload({ config })
 

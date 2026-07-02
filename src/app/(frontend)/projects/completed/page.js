@@ -10,6 +10,24 @@ import styles from './page.module.scss'
 export const dynamic = 'force-dynamic'
 export const revalidate = 3600
 
+export const metadata = {
+  title: 'Completed Projects | Visvas',
+  description: 'Explore successfully completed residential and commercial developments in Madurai.',
+  openGraph: {
+    title: 'Completed Projects | Visvas',
+    description: 'Explore successfully completed residential and commercial developments in Madurai.',
+    type: 'website',
+    url: 'https://www.visvas.in/projects/completed',
+  },
+  twitter: {
+    title: 'Completed Projects | Visvas',
+    description: 'Explore successfully completed residential and commercial developments in Madurai.',
+  },
+  alternates: {
+    canonical: 'https://www.visvas.in/projects/completed',
+  },
+}
+
 async function getProjects(searchParams) {
   const payload = await getPayload({ config })
 
