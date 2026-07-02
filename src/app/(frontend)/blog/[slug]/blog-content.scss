@@ -23,10 +23,22 @@
     margin-left: 24px;
   }
 
-  ul,
+  ul {
+    margin: 16px 0;
+    padding-left: 0;
+    list-style-position: inside;
+    list-style: disc;
+
+    li {
+      margin-bottom: 8px;
+    }
+  }
+
   ol {
     margin: 16px 0;
     padding-left: 0;
+    list-style-position: inside;
+    list-style: decimal;
 
     li {
       margin-bottom: 8px;
