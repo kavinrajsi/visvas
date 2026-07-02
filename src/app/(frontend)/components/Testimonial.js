@@ -6,7 +6,8 @@ import QuoteIcon from './QuoteIcon'
 import styles from './Testimonial.module.scss'
 
 export default function Testimonial({ testimonial }) {
-  const { name, location, type, textContent, rating, videoSource, youtubeUrl, vimeoUrl, video, poster } = testimonial
+  if (!testimonial) return null
+  const { name = '', location = '', type = 'text', textContent = '', rating = 0, videoSource, youtubeUrl, vimeoUrl, video, poster } = testimonial
 
   const getYouTubeEmbedUrl = (url) => {
     const videoId = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/)
