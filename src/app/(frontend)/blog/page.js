@@ -10,24 +10,6 @@ import styles from './page.module.scss'
 export const dynamic = 'force-dynamic'
 export const revalidate = 1800
 
-export const metadata = {
-  title: 'Blog & Insights | Visvas',
-  description: 'Read latest insights and tips on real estate and property development in Madurai.',
-  openGraph: {
-    title: 'Blog & Insights | Visvas',
-    description: 'Read latest insights and tips on real estate and property development in Madurai.',
-    type: 'website',
-    url: 'https://www.visvas.in/blog',
-  },
-  twitter: {
-    title: 'Blog & Insights | Visvas',
-    description: 'Read latest insights and tips on real estate and property development in Madurai.',
-  },
-  alternates: {
-    canonical: 'https://www.visvas.in/blog',
-  },
-}
-
 function formatDate(dateStr) {
   if (!dateStr) return ''
   return new Intl.DateTimeFormat('en-GB', {
