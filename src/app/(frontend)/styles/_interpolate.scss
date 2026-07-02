@@ -151,9 +151,9 @@
   $t1: 1;
   $t2: $x;
   $x2: 0;
-  $res: 1000;
+  $res: 0.0001;
 
-  @while ($t0 < $t1 or $break) {
+  @while ($t0 < $t1) {
     $x2: (($ax * $t2 + $bx) * $t2 + $cx) * $t2;
 
     @if (abs($x2 - $x) < $res) {
@@ -213,12 +213,20 @@
     "9": 9
   );
 
-  $start: if($minus, 2, 1);
+  @if $minus {
+    $start: 2;
+  } @else {
+    $start: 1;
+  }
   @for $i from $start through str-length($value) {
     $character: str-slice($value, $i, $i);
 
     @if not(index(map-keys($numbers), $character) or $character== ".") {
-      $temp-result: if($minus, (-$result), $result);
+      @if $minus {
+        $temp-result: (-$result);
+      } @else {
+        $temp-result: $result;
+      }
       @return to-length($temp-result, str-slice($value, $i));
     }
 
@@ -232,8 +240,38 @@
     }
   }
 
-  $final-result: if($minus, (-$result), $result);
+  @if $minus {
+    $final-result: (-$result);
+  } @else {
+    $final-result: $result;
+  }
   @return $final-result;
+}
+
+// Attach unit to a unitless number
+// Credit: Hugo Giraudel | https://www.sassmeister.com/gist/9fa19d254864f33d4a80
+@function to-length($value, $unit) {
+  $units: (
+    "px": 1px,
+    "em": 1em,
+    "rem": 1rem,
+    "cm": 1cm,
+    "mm": 1mm,
+    "in": 1in,
+    "pt": 1pt,
+    "pc": 1pc,
+    "vw": 1vw,
+    "vh": 1vh,
+    "vmin": 1vmin,
+    "vmax": 1vmax,
+    "%": 1%
+  );
+
+  @if not map-has-key($units, $unit) {
+    @error "Invalid unit: '#{$unit}'. Supported units: #{map-keys($units)}";
+  }
+
+  @return $value * map-get($units, $unit);
 }
 
 // Explode a string by a delimiter
