@@ -101,9 +101,13 @@ function getMeta(postmeta, key) {
 
   for (const meta of postmeta) {
     const metaKey = meta['wp:meta_key']?.[0];
-    const metaValue = meta['wp:meta_value']?.[0];
+    let metaValue = meta['wp:meta_value']?.[0];
 
     if (metaKey === key) {
+      // Handle cases where xml2js may return object instead of string
+      if (typeof metaValue === 'object' && metaValue !== null) {
+        metaValue = metaValue._ || metaValue.toString();
+      }
       return metaValue;
     }
   }

@@ -253,7 +253,7 @@ export interface Project {
   name: string;
   location: string;
   status: 'upcoming' | 'under_construction' | 'ready_to_move' | 'completed';
-  projectType: 'apartment' | 'villa' | 'plotted' | 'commercial' | 'mixed_use';
+  projectType: 'studio' | 'apartment' | 'villa' | 'plotted' | 'commercial' | 'mixed_use';
   slug?: string | null;
   coverImage: number | Media;
   reraNo?: string | null;
@@ -278,6 +278,8 @@ export interface Project {
   amenities?: (number | Amenity)[] | null;
   locationAddress?: string | null;
   locationMapUrl?: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
   keyTransports?:
     | {
         type: string;
@@ -286,6 +288,7 @@ export interface Project {
         id?: string | null;
       }[]
     | null;
+  videoUrl?: string | null;
   images?:
     | {
         image: number | Media;
@@ -297,6 +300,10 @@ export interface Project {
     | {
         plan: number | Media;
         label?: string | null;
+        rooms?: number | null;
+        bathrooms?: number | null;
+        size?: string | null;
+        price?: number | null;
         id?: string | null;
       }[]
     | null;
@@ -711,6 +718,8 @@ export interface ProjectsSelect<T extends boolean = true> {
   amenities?: T;
   locationAddress?: T;
   locationMapUrl?: T;
+  latitude?: T;
+  longitude?: T;
   keyTransports?:
     | T
     | {
@@ -719,6 +728,7 @@ export interface ProjectsSelect<T extends boolean = true> {
         distance?: T;
         id?: T;
       };
+  videoUrl?: T;
   images?:
     | T
     | {
@@ -731,6 +741,10 @@ export interface ProjectsSelect<T extends boolean = true> {
     | {
         plan?: T;
         label?: T;
+        rooms?: T;
+        bathrooms?: T;
+        size?: T;
+        price?: T;
         id?: T;
       };
   videos?:

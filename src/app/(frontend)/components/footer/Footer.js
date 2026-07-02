@@ -3,6 +3,7 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 import TestimonialsCarousel from "./TestimonialsCarousel";
 import FooterContactInfo from "./FooterContactInfo";
+import MadarthLink from "./MadarthLink";
 import styles from "./Footer.module.scss";
 
 const Logo = () => (
@@ -301,39 +302,25 @@ export default async function Footer() {
             <FooterContactInfo phone={phone} address={address} />
             <div className={styles["footer__social"]}>
               <a
-                href="#"
-                aria-label="LinkedIn"
-                className={styles["footer__social-icon"]}
-              >
-                <LinkedinIcon />
-              </a>
-              <a
-                href="#"
+                href="https://www.instagram.com/visvas_promoters_madurai"
                 aria-label="Instagram"
                 className={styles["footer__social-icon"]}
               >
                 <InstagramIcon />
               </a>
               <a
-                href="#"
+                href="https://www.facebook.com/visvaspromoters"
                 aria-label="Facebook"
                 className={styles["footer__social-icon"]}
               >
                 <FacebookIcon />
               </a>
               <a
-                href="#"
+                href="https://www.youtube.com/@visvaspromoters"
                 aria-label="YouTube"
                 className={styles["footer__social-icon"]}
               >
                 <YoutubeIcon />
-              </a>
-              <a
-                href="#"
-                aria-label="X (Twitter)"
-                className={styles["footer__social-icon"]}
-              >
-                <XIcon />
               </a>
             </div>
           </div>
@@ -344,15 +331,7 @@ export default async function Footer() {
             &copy; {new Date().getFullYear()} Copyrights Visvas promoters
           </p>
           <p className={styles["footer__credit"]}>
-            Made by{" "}
-            <a
-              href="https://madarth.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles["footer__credit-link"]}
-            >
-              Madarth
-            </a>
+            Made by <MadarthLink />
           </p>
         </div>
       </div>

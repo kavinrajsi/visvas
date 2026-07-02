@@ -11,6 +11,7 @@ import ProjectStickyNav from './ProjectStickyNav'
 import ProjectEnquiryForm from './ProjectEnquiryForm'
 import ProjectFAQ from './ProjectFAQ'
 import ProjectMediaTabs from './ProjectMediaTabs'
+import ProjectPageClient from './ProjectPageClient'
 import styles from './page.module.scss'
 
 export const dynamic = 'force-dynamic'
@@ -100,7 +101,9 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
   const transports = project.keyTransports || []
 
   return (
-    <main className={styles['project-detail']}>
+    <>
+      <ProjectPageClient project={project} />
+      <main className={styles['project-detail']}>
       {/* Hero */}
       <HeroReveal className={styles['project-detail__hero']}>
         <Image
@@ -375,5 +378,6 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
         />
       )}
     </main>
+    </>
   )
 }

@@ -80,6 +80,11 @@ export default async function CompletedProjectsPage({ searchParams: searchParams
 
   return (
     <div className={styles['page']}>
+      <ProjectPageClient
+        category="completed"
+        projectCount={projects.length}
+        filters={searchParams}
+      />
       {/* Hero */}
       <div className={styles['page__hero']}>
         <h1 className={styles['page__title']}>Completed Projects</h1>
