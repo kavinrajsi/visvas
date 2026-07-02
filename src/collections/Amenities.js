@@ -7,6 +7,9 @@ const Amenities = {
   },
   access: {
     read: () => true,
+    create: ({ req: { user } }) => !!user,
+    update: ({ req: { user } }) => !!user,
+    delete: ({ req: { user } }) => !!user,
   },
   fields: [
     {
@@ -18,7 +21,6 @@ const Amenities = {
       name: 'icon',
       type: 'upload',
       relationTo: 'media',
-      required: true,
     },
     {
       name: 'svg',
