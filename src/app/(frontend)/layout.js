@@ -49,7 +49,7 @@ export const viewport = {
 
 export default function FrontendLayout({ children }) {
   return (
-    <html lang="en" className={`${cormorantGaramond.variable} ${raleway.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${cormorantGaramond.variable} ${raleway.variable}`}>
       <head>
         {/* GTM */}
         {process.env.NEXT_PUBLIC_GTM_ID && (
