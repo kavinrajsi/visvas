@@ -229,9 +229,9 @@ export default function Header() {
             <li className={styles["header__nav-item"]}>
               <Link
                 href="/"
-                className={`${styles["header__nav-link"]} ${
+                className={
                   isActive("/") ? styles["header__nav-link--active"] : ""
-                }`}
+                }
               >
                 Home
               </Link>
@@ -240,7 +240,6 @@ export default function Header() {
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 aria-expanded={isDropdownOpen}
-                className={styles["header__nav-link"]}
               >
                 Projects
                 <svg
@@ -283,9 +282,9 @@ export default function Header() {
             <li className={styles["header__nav-item"]}>
               <Link
                 href="/about"
-                className={`${styles["header__nav-link"]} ${
+                className={
                   isActive("/about") ? styles["header__nav-link--active"] : ""
-                }`}
+                }
               >
                 About
               </Link>
@@ -293,11 +292,11 @@ export default function Header() {
             <li className={styles["header__nav-item"]}>
               <Link
                 href="/community"
-                className={`${styles["header__nav-link"]} ${
+                className={
                   isActive("/community")
                     ? styles["header__nav-link--active"]
                     : ""
-                }`}
+                }
               >
                 Community
               </Link>
@@ -316,9 +315,9 @@ export default function Header() {
             <li className={styles["header__nav-item"]}>
               <Link
                 href="/blog"
-                className={`${styles["header__nav-link"]} ${
+                className={
                   isActive("/blog") ? styles["header__nav-link--active"] : ""
-                }`}
+                }
               >
                 Blog
               </Link>
@@ -326,9 +325,9 @@ export default function Header() {
             <li className={styles["header__nav-item"]}>
               <Link
                 href="/contact"
-                className={`${styles["header__nav-link"]} ${
+                className={
                   isActive("/contact") ? styles["header__nav-link--active"] : ""
-                }`}
+                }
               >
                 Contact
               </Link>
