@@ -229,9 +229,9 @@ export default function Header() {
             <li className={styles["header__nav-item"]}>
               <Link
                 href="/"
-                className={
+                className={`${styles["header__nav-link"]} ${
                   isActive("/") ? styles["header__nav-link--active"] : ""
-                }
+                }`}
               >
                 Home
               </Link>
@@ -283,9 +283,9 @@ export default function Header() {
             <li className={styles["header__nav-item"]}>
               <Link
                 href="/about"
-                className={
+                className={`${styles["header__nav-link"]} ${
                   isActive("/about") ? styles["header__nav-link--active"] : ""
-                }
+                }`}
               >
                 About
               </Link>
@@ -293,11 +293,11 @@ export default function Header() {
             <li className={styles["header__nav-item"]}>
               <Link
                 href="/community"
-                className={
+                className={`${styles["header__nav-link"]} ${
                   isActive("/community")
                     ? styles["header__nav-link--active"]
                     : ""
-                }
+                }`}
               >
                 Community
               </Link>
@@ -316,9 +316,9 @@ export default function Header() {
             <li className={styles["header__nav-item"]}>
               <Link
                 href="/blog"
-                className={
+                className={`${styles["header__nav-link"]} ${
                   isActive("/blog") ? styles["header__nav-link--active"] : ""
-                }
+                }`}
               >
                 Blog
               </Link>
@@ -326,9 +326,9 @@ export default function Header() {
             <li className={styles["header__nav-item"]}>
               <Link
                 href="/contact"
-                className={
+                className={`${styles["header__nav-link"]} ${
                   isActive("/contact") ? styles["header__nav-link--active"] : ""
-                }
+                }`}
               >
                 Contact
               </Link>
