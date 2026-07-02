@@ -1,4 +1,5 @@
 import Script from 'next/script'
+import { Cormorant_Garamond, Raleway } from 'next/font/google'
 import '../globals.scss'
 import '@/app/(frontend)/styles/typography.scss'
 import Header from '@/app/(frontend)/components/header/Header'
@@ -7,6 +8,18 @@ import MobileCtaBar from '@/app/(frontend)/components/mobile-cta-bar/MobileCtaBa
 import AttributionTracker from '@/app/(frontend)/components/AttributionTracker'
 
 export const dynamic = 'force-dynamic'
+
+const cormorantGaramond = Cormorant_Garamond({
+  variable: '--font-display',
+  subsets: ['latin'],
+  weight: ['400', '600'],
+})
+
+const raleway = Raleway({
+  variable: '--font-body',
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+})
 
 export const metadata = {
   metadataBase: new URL('https://www.visvas.in'),
@@ -36,7 +49,7 @@ export const viewport = {
 
 export default function FrontendLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${cormorantGaramond.variable} ${raleway.variable}`}>
       <head>
         {/* GTM */}
         {process.env.NEXT_PUBLIC_GTM_ID && (
