@@ -188,7 +188,11 @@
             }
         }
     }
+    .header__nav-list--left {
+        order: -1;
+    }
     .header__nav-list--right {
+        order: 1;
         li:last-child a.header__cta{
             padding: 16px 24px;
             border: 1px solid #ffffff;
