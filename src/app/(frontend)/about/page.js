@@ -2,6 +2,7 @@ import Image from "next/image";
 import { getPayload } from "payload";
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import config from "@payload-config";
+import Counter from "@/components/animation/Counter";
 import styles from "./page.module.scss";
 
 export const revalidate = 3600;
@@ -70,28 +71,28 @@ export default async function AboutPage() {
         <ul className={styles["about__stats-list"]}>
           <li className={styles["about__stats-item"]}>
             <p className={styles["about__stats-number"]}>
-              <span className={styles["about__stats-count"]}>20</span>
+              <Counter value={20} className={styles["about__stats-count"]} />
               <sup className={styles["about__stats-suffix"]}>+</sup>
             </p>
             <p className={styles["about__stats-label"]}>Completed Projects </p>
           </li>
           <li className={styles["about__stats-item"]}>
             <p className={styles["about__stats-number"]}>
-              <span className={styles["about__stats-count"]}>15</span>
+              <Counter value={15} className={styles["about__stats-count"]} />
               <sup className={styles["about__stats-suffix"]}>+</sup>
             </p>
             <p className={styles["about__stats-label"]}>projects in development </p>
           </li>
           <li className={styles["about__stats-item"]}>
             <p className={styles["about__stats-number"]}>
-              <span className={styles["about__stats-count"]}>4000</span>
+              <Counter value={4000} className={styles["about__stats-count"]} />
               <sup className={styles["about__stats-suffix"]}>+</sup>
             </p>
             <p className={styles["about__stats-label"]}>Happy Customers </p>
           </li>
           <li className={styles["about__stats-item"]}>
             <p className={styles["about__stats-number"]}>
-              <span className={styles["about__stats-count"]}>4</span>
+              <Counter value={4} className={styles["about__stats-count"]} />
               <sup className={styles["about__stats-suffix"]}>+</sup>
             </p>
             <p className={styles["about__stats-label"]}>Million Sqft Built</p>
