@@ -82,14 +82,16 @@ export default async function CommunityPage() {
           </div>
         </div>
         <div className={styles["community__about-right"]} />
-        <Image
-          src="/visvas-community-image-1.png"
-          alt="Visvas community image"
-          width={600}
-          height={400}
-          quality={85}
-          className={styles["community__about-image"]}
-        />
+        <div className={styles["community__about-wrapper"]}>
+          <Image
+            src="/visvas-community-image-1.png"
+            alt="Visvas community image"
+            width={600}
+            height={400}
+            quality={85}
+            className={styles["community__about-image"]}
+          />
+        </div>
       </section>
       <section className={styles["community__shared-life"]}>
         <h2 className={styles["community__shared-life-title"]}>Built around shared life</h2>
