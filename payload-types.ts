@@ -316,14 +316,6 @@ export interface Project {
   metaDescription?: string | null;
   metaKeywords?: string | null;
   canonicalUrl?: string | null;
-  /**
-   * Tell search engines not to index this page
-   */
-  noIndex?: boolean | null;
-  /**
-   * Tell search engines not to follow links on this page
-   */
-  noFollow?: boolean | null;
   ogTitle?: string | null;
   ogDescription?: string | null;
   /**
@@ -395,14 +387,6 @@ export interface Post {
   metaDescription?: string | null;
   metaKeywords?: string | null;
   canonicalUrl?: string | null;
-  /**
-   * Tell search engines not to index this page
-   */
-  noIndex?: boolean | null;
-  /**
-   * Tell search engines not to follow links on this page
-   */
-  noFollow?: boolean | null;
   ogTitle?: string | null;
   ogDescription?: string | null;
   /**
@@ -765,8 +749,6 @@ export interface ProjectsSelect<T extends boolean = true> {
   metaDescription?: T;
   metaKeywords?: T;
   canonicalUrl?: T;
-  noIndex?: T;
-  noFollow?: T;
   ogTitle?: T;
   ogDescription?: T;
   ogImage?: T;
@@ -805,8 +787,6 @@ export interface PostsSelect<T extends boolean = true> {
   metaDescription?: T;
   metaKeywords?: T;
   canonicalUrl?: T;
-  noIndex?: T;
-  noFollow?: T;
   ogTitle?: T;
   ogDescription?: T;
   ogImage?: T;
@@ -969,14 +949,6 @@ export interface ImpactPage {
     ogImage?: (number | null) | Media;
     twitterTitle?: string | null;
     twitterDescription?: string | null;
-    /**
-     * Tell search engines not to index this page
-     */
-    noIndex?: boolean | null;
-    /**
-     * Tell search engines not to follow links on this page
-     */
-    noFollow?: boolean | null;
   };
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -1067,14 +1039,6 @@ export interface AboutPage {
     ogImage?: (number | null) | Media;
     twitterTitle?: string | null;
     twitterDescription?: string | null;
-    /**
-     * Tell search engines not to index this page
-     */
-    noIndex?: boolean | null;
-    /**
-     * Tell search engines not to follow links on this page
-     */
-    noFollow?: boolean | null;
   };
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -1195,14 +1159,6 @@ export interface HomePage {
     ogImage?: (number | null) | Media;
     twitterTitle?: string | null;
     twitterDescription?: string | null;
-    /**
-     * Tell search engines not to index this page
-     */
-    noIndex?: boolean | null;
-    /**
-     * Tell search engines not to follow links on this page
-     */
-    noFollow?: boolean | null;
   };
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -1283,14 +1239,6 @@ export interface ContactPage {
     ogImage?: (number | null) | Media;
     twitterTitle?: string | null;
     twitterDescription?: string | null;
-    /**
-     * Tell search engines not to index this page
-     */
-    noIndex?: boolean | null;
-    /**
-     * Tell search engines not to follow links on this page
-     */
-    noFollow?: boolean | null;
   };
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -1335,8 +1283,6 @@ export interface ImpactPageSelect<T extends boolean = true> {
         ogImage?: T;
         twitterTitle?: T;
         twitterDescription?: T;
-        noIndex?: T;
-        noFollow?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -1399,8 +1345,6 @@ export interface AboutPageSelect<T extends boolean = true> {
         ogImage?: T;
         twitterTitle?: T;
         twitterDescription?: T;
-        noIndex?: T;
-        noFollow?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -1490,8 +1434,6 @@ export interface HomePageSelect<T extends boolean = true> {
         ogImage?: T;
         twitterTitle?: T;
         twitterDescription?: T;
-        noIndex?: T;
-        noFollow?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -1540,8 +1482,6 @@ export interface ContactPageSelect<T extends boolean = true> {
         ogImage?: T;
         twitterTitle?: T;
         twitterDescription?: T;
-        noIndex?: T;
-        noFollow?: T;
       };
   updatedAt?: T;
   createdAt?: T;

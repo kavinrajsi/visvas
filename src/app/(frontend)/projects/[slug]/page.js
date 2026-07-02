@@ -54,10 +54,6 @@ export async function generateMetadata({ params: paramsPromise }) {
       alternates: {
       canonical: seo.canonicalUrl || `/projects/${params.slug}`,
     },
-    robots: {
-      index: !seo.noIndex,
-      follow: !seo.noFollow,
-    },
   }
   } catch {
     return { title: 'Project | Visvas' }

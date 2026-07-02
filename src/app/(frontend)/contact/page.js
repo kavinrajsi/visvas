@@ -21,10 +21,6 @@ export async function generateMetadata() {
       description: seo.ogDescription || "Get in touch with Visvas.",
       image: seo.ogImage?.url || undefined,
     },
-    robots: {
-      index: !seo.noIndex,
-      follow: !seo.noFollow,
-    },
   };
 }
 

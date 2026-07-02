@@ -83,10 +83,6 @@ export async function generateMetadata({ params }) {
       alternates: {
         canonical: post.canonicalUrl || `/blog/${slug}`,
       },
-      robots: {
-        index: !post.noIndex,
-        follow: !post.noFollow,
-      },
     }
   } catch {
     return { title: 'Blog Post | Visvas' }

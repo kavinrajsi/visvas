@@ -18,10 +18,6 @@ export async function generateMetadata() {
       description: seo.ogDescription || 'Discover our impact.',
       image: seo.ogImage?.url || undefined,
     },
-    robots: {
-      index: !seo.noIndex,
-      follow: !seo.noFollow,
-    },
   }
 }
 

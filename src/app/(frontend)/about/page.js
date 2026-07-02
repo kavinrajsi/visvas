@@ -19,10 +19,6 @@ export async function generateMetadata() {
       description: seo.ogDescription || 'Learn about Visvas and our mission.',
       image: seo.ogImage?.url || undefined,
     },
-    robots: {
-      index: !seo.noIndex,
-      follow: !seo.noFollow,
-    },
   }
 }
 

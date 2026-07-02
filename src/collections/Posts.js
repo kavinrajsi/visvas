@@ -126,25 +126,6 @@ const Posts = {
                 placeholder: 'https://visvas.in/blog/your-post-slug (leave blank to use default)',
               },
             },
-            // ── Crawl Control ──────────────────────────────
-            {
-              name: 'noIndex',
-              type: 'checkbox',
-              label: 'No Index',
-              defaultValue: false,
-              admin: {
-                description: 'Tell search engines not to index this page',
-              },
-            },
-            {
-              name: 'noFollow',
-              type: 'checkbox',
-              label: 'No Follow',
-              defaultValue: false,
-              admin: {
-                description: 'Tell search engines not to follow links on this page',
-              },
-            },
             // ── Open Graph ─────────────────────────────────
             {
               name: 'ogTitle',

@@ -268,24 +268,6 @@ const AboutPage = {
             placeholder: 'Defaults to OG Description if left blank',
           },
         },
-        {
-          name: 'noIndex',
-          type: 'checkbox',
-          label: 'No Index',
-          defaultValue: false,
-          admin: {
-            description: 'Tell search engines not to index this page',
-          },
-        },
-        {
-          name: 'noFollow',
-          type: 'checkbox',
-          label: 'No Follow',
-          defaultValue: false,
-          admin: {
-            description: 'Tell search engines not to follow links on this page',
-          },
-        },
       ],
     },
   ],

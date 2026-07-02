@@ -30,10 +30,6 @@ export async function generateMetadata() {
       title: seo.twitterTitle || seo.ogTitle || metaTitle,
       description: seo.twitterDescription || seo.ogDescription || metaDesc,
     },
-    robots: {
-      index: !seo.noIndex,
-      follow: !seo.noFollow,
-    },
   }
   } catch {
     return { title: 'Visvas - Luxury Properties in Madurai' }
