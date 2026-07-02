@@ -5,6 +5,21 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import styles from './Header.module.scss'
 
+const MobileLogo = () => (
+  <svg width="215" height="76" viewBox="0 0 215 76" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M34.0281 0L0 76H215L180.972 0H34.0281Z" fill="#F5F3EB"/>
+    <g clipPath="url(#clip0_769_3754)">
+      <path d="M54.1985 13L40.0236 53H80.0138L65.8389 13H54.1985Z" fill="#1B5E30"/>
+      <path d="M70.029 13L60.0167 26.4993L50.0084 13H40V16.461H42.5658L60.0167 39.9985L77.4715 16.461H80.0373V13H70.029Z" fill="#E09C26"/>
+    </g>
+    <defs>
+      <clipPath id="clip0_769_3754">
+        <rect width="140" height="40" fill="white" transform="translate(40 13)"/>
+      </clipPath>
+    </defs>
+  </svg>
+)
+
 const DesktopLogo = () => (
   <svg width="276" height="86" viewBox="0 0 276 86" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M34.0281 0L0 86H276L241.972 0H34.0281Z" fill="#F5F3EB"/>
@@ -27,10 +42,33 @@ const DesktopLogo = () => (
   </svg>
 )
 
+const Hamburger = ({ isOpen }) => (
+  <div className={`${styles['header__hamburger']} ${isOpen ? styles['header__hamburger--open'] : ''}`}>
+    <span></span>
+  </div>
+)
+
 export default function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const dropdownRef = useRef(null)
+  const navRef = useRef(null)
   const pathname = usePathname()
+
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.documentElement.classList.add('open-menu')
+      document.body.classList.add('open-menu')
+    } else {
+      document.documentElement.classList.remove('open-menu')
+      document.body.classList.remove('open-menu')
+    }
+
+    return () => {
+      document.documentElement.classList.remove('open-menu')
+      document.body.classList.remove('open-menu')
+    }
+  }, [isMenuOpen])
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -46,6 +84,7 @@ export default function Header() {
   useEffect(() => {
     const handleEscape = (e) => {
       if (e.key === 'Escape') {
+        setIsMenuOpen(false)
         setIsDropdownOpen(false)
       }
     }
@@ -58,6 +97,95 @@ export default function Header() {
 
   return (
     <header className={styles.header}>
+      {/* Mobile Bar */}
+      <div className={styles['header__mobile-bar']}>
+        <button
+          className={styles['header__hamburger-btn']}
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-expanded={isMenuOpen}
+          aria-label="Toggle menu"
+        >
+          <Hamburger isOpen={isMenuOpen} />
+        </button>
+
+        <Link href="/" className={styles['header__logo--mobile']}>
+          <MobileLogo />
+        </Link>
+
+        <a href="tel:+919543224411" className={styles['header__phone-icon']} aria-label="Call">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.6l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99C3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z" fill="#1B5E30"/>
+          </svg>
+        </a>
+      </div>
+
+      {/* Mobile Drawer */}
+      <nav className={`${styles['header__drawer']} ${isMenuOpen ? styles['header__drawer--open'] : ''}`} ref={navRef}>
+        <ul className={styles['header__drawer-menu']}>
+          <li>
+            <Link href="/" onClick={() => setIsMenuOpen(false)}>
+              Home
+            </Link>
+          </li>
+          <li>
+            <button
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              aria-expanded={isDropdownOpen}
+              className={styles['header__drawer-toggle']}
+            >
+              Projects
+              <svg className={`${styles['header__dropdown-icon']} ${isDropdownOpen ? styles['header__dropdown-icon--open'] : ''}`} width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M3 6L8 11L13 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+            {isDropdownOpen && (
+              <ul className={styles['header__drawer-submenu']}>
+                <li>
+                  <Link href="/projects/ongoing" onClick={() => { setIsMenuOpen(false); setIsDropdownOpen(false); }}>
+                    Ongoing Projects
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/projects/completed" onClick={() => { setIsMenuOpen(false); setIsDropdownOpen(false); }}>
+                    Completed Projects
+                  </Link>
+                </li>
+              </ul>
+            )}
+          </li>
+          <li>
+            <Link href="/about" onClick={() => setIsMenuOpen(false)}>
+              About
+            </Link>
+          </li>
+          <li>
+            <Link href="/community" onClick={() => setIsMenuOpen(false)}>
+              Community
+            </Link>
+          </li>
+          <li>
+            <Link href="/blog" onClick={() => setIsMenuOpen(false)}>
+              Blog
+            </Link>
+          </li>
+          <li>
+            <Link href="/contact" onClick={() => setIsMenuOpen(false)}>
+              Contact
+            </Link>
+          </li>
+        </ul>
+      </nav>
+
+      {/* Mobile Scrim */}
+      {isMenuOpen && (
+        <div
+          className={styles['header__scrim']}
+          onClick={() => setIsMenuOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
+      {/* Desktop Nav */}
       <nav className={styles['header__desktop-nav']}>
         {/* Left menu */}
         <ul className={styles['header__nav-list']}>
