@@ -47,17 +47,34 @@
   }
 
   .contact-form__checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     padding: 10px 16px;
     border-right: 1px solid #ccc;
     cursor: pointer;
     transition: all 0.3s;
 
-    &:hover {
-      background: #f0f0f0;
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      min-width: 18px;
+      border: 2px solid #303030;
+      border-radius: 3px;
+      background: #ffffff;
+      transition: all 0.3s;
+    }
+
+    &:hover::before {
+      border-color: #1e5f2f;
     }
   }
 
-  .contact-form__checkbox:checked + .contact-form__checkbox-label {
+  .contact-form__checkbox:checked + .contact-form__checkbox-label::before {
     background: #becbff;
+    border-color: #becbff;
+    box-shadow: inset 0 0 0 3px #becbff;
   }
 }
