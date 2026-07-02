@@ -11,12 +11,16 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
 import xml2js from 'xml2js';
 import { getPayload } from 'payload';
 import config from '../payload.config.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// Load environment variables from .env.local
+dotenv.config({ path: path.join(__dirname, '../.env.local') });
 
 const PLACEHOLDER_IMAGE_URL = 'https://visvas.vercel.app/og-image.png';
 
@@ -49,6 +53,29 @@ function extractSlug(link) {
 }
 
 /**
+ * Get existing placeholder media document
+ */
+async function getPlaceholderImage(payload) {
+  try {
+    // Find any existing media doc to use as placeholder
+    const existing = await payload.find({
+      collection: 'media',
+      limit: 1,
+    });
+
+    if (existing.docs.length > 0) {
+      return existing.docs[0].id;
+    }
+
+    console.warn('⚠ No media docs found in database');
+    return null;
+  } catch (error) {
+    console.warn('⚠ Could not find placeholder image:', error.message);
+    return null;
+  }
+}
+
+/**
  * Main import function
  */
 async function importWordPress() {
@@ -64,6 +91,15 @@ async function importWordPress() {
   try {
     // Initialize Payload
     const payload = await getPayload({ config });
+
+    // Get placeholder image
+    console.log('Getting placeholder image...');
+    const coverImageId = await getPlaceholderImage(payload);
+    if (!coverImageId) {
+      console.error('✗ No media docs found. Create at least one image in Payload admin first.');
+      process.exit(1);
+    }
+    console.log(`Using media doc ID: ${coverImageId}\n`);
 
     // Parse XML
     const parser = new xml2js.Parser();
@@ -97,7 +133,7 @@ async function importWordPress() {
           excerpt: post['excerpt:encoded']?.[0] || post.title[0].substring(0, 160),
           content: cleanHtml(post['content:encoded']?.[0] || ''),
           author: post['dc:creator']?.[0] || 'Visvas Team',
-          coverImage: PLACEHOLDER_IMAGE_URL,
+          coverImage: coverImageId,
           status: 'published',
           publishedAt,
         };
