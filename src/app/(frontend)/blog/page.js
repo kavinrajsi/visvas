@@ -112,14 +112,14 @@ export default async function BlogPage({ searchParams }) {
                       src={toImageKitUrl(post.coverImage?.url)}
                       alt={post.title}
                       className={styles["blog-index__post-img"]}
-                      width={400}
-                      height={250}
+                      width={434}
+                      height={220}
                     />
                   </div>
 
                   {/* Content */}
                   <div className={styles["blog-index__post-body"]}>
-                    <div>
+                    <div className={styles["blog-index__post-content"]}>
                       <h2 className={styles["blog-index__post-title"]}>
                         {post.title}
                       </h2>
