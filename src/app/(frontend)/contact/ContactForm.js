@@ -284,7 +284,7 @@ export default function ContactForm({ heading = 'Contact Form', disclaimer = '',
         </p>
 
         <button type="submit" className={styles['contact-form__btn']} disabled={loading}>
-          {loading ? 'Sending...' : 'Send OTP'}
+          {loading ? 'Sending...' : 'Submit'}
         </button>
       </form>
     </aside>
