@@ -20,6 +20,7 @@ import AboutPage from './src/globals/AboutPage.js'
 import HomePage from './src/globals/HomePage.js'
 import Policies from './src/collections/Policies.js'
 import ContactPage from './src/globals/ContactPage.js'
+import BlogPage from './src/globals/BlogPage.js'
 import ContactSubmissions from './src/collections/ContactSubmissions.js'
 
 const filename = fileURLToPath(import.meta.url)
@@ -112,6 +113,10 @@ export default buildConfig({
             path: '/admin/globals/about-page',
           },
           {
+            label: 'Blog',
+            path: '/admin/globals/blog-page',
+          },
+          {
             label: 'Contact',
             path: '/admin/globals/contact-page',
           },
@@ -124,7 +129,7 @@ export default buildConfig({
     ],
   },
   collections: [Users, Media, Widgets, Amenities, Testimonials, Projects, BlogCategories, Posts, Policies, ContactSubmissions],
-  globals: [ImpactPage, AboutPage, HomePage, ContactPage],
+  globals: [ImpactPage, AboutPage, HomePage, ContactPage, BlogPage],
   editor: lexicalEditor({
     features: ({ defaultFeatures }) => [
       ...defaultFeatures,

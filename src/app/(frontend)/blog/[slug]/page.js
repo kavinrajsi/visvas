@@ -106,8 +106,8 @@ export default async function BlogDetailPage({ params }) {
           alt={post.title}
           className={styles['blog-detail__hero-img']}
           priority
-          fill
-          sizes="100vw"
+          width={1200}
+          height={600}
         />
       </div>
 

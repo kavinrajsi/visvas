@@ -1,0 +1,60 @@
+.blog-sidebar {
+    background: #ffffff;
+    padding: 16px;
+
+    .blog-sidebar__heading {
+        /* Desktop/H5 */
+        font-family: "Raleway";
+        font-style: normal;
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 24px;
+        /* or 120% */
+        font-feature-settings:
+            "pnum" on,
+            "lnum" on;
+
+        /* Neutral/Heading_text */
+        color: #000000;
+        margin-bottom: 40px;
+    }
+    .blog-sidebar__input {
+        border: 0;
+        box-shadow: none;
+        padding: 16px 24px;
+        width: 100%;
+        margin-bottom: 16px;
+        /* Neutral/surface */
+        background: #f5f5f5;
+
+        /* Desktop/B2 */
+        font-family: "Raleway";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 20px;
+        /* identical to box height, or 143% */
+        font-feature-settings:
+            "pnum" on,
+            "lnum" on;
+
+        /* Neutral/text-2 */
+        color: #303030;
+    }
+    .blog-sidebar__btn {
+        margin-top: 40px;
+        font-family: "Raleway";
+        font-style: normal;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 16px;
+        text-transform: uppercase;
+
+        color: #ffffff;
+        /* Frame 20497 */
+        padding: 16px 24px;
+
+        /* Primary/Temple_Grove_Green */
+        background: #1e5f2f;
+    }
+}

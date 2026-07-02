@@ -62,7 +62,7 @@ export default function BlogSidebar() {
   }
 
   return (
-    <aside className={styles['blog-sidebar']}>
+    <div className={styles['blog-sidebar']}>
       <h3 className={styles['blog-sidebar__heading']}>
         Subscribe to stay informed with curated updates for better living
       </h3>
@@ -116,6 +116,6 @@ export default function BlogSidebar() {
           Subscribe
         </button>
       </form>
-    </aside>
+    </div>
   )
 }

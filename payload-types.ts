@@ -108,12 +108,14 @@ export interface Config {
     'about-page': AboutPage;
     'home-page': HomePage;
     'contact-page': ContactPage;
+    'blog-page': BlogPage;
   };
   globalsSelect: {
     'impact-page': ImpactPageSelect<false> | ImpactPageSelect<true>;
     'about-page': AboutPageSelect<false> | AboutPageSelect<true>;
     'home-page': HomePageSelect<false> | HomePageSelect<true>;
     'contact-page': ContactPageSelect<false> | ContactPageSelect<true>;
+    'blog-page': BlogPageSelect<false> | BlogPageSelect<true>;
   };
   locale: null;
   widgets: {
@@ -1245,6 +1247,33 @@ export interface ContactPage {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-page".
+ */
+export interface BlogPage {
+  id: number;
+  /**
+   * Hero banner image shown on blog listing page (desktop)
+   */
+  heroImage: number | Media;
+  /**
+   * Mobile-optimized hero banner image (optional, falls back to heroImage if not set)
+   */
+  mobileHeroImage?: (number | null) | Media;
+  seo?: {
+    metaTitle?: string | null;
+    metaDescription?: string | null;
+    ogTitle?: string | null;
+    ogDescription?: string | null;
+    /**
+     * Recommended size: 1200×630px
+     */
+    ogImage?: (number | null) | Media;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "impact-page_select".
  */
 export interface ImpactPageSelect<T extends boolean = true> {
@@ -1482,6 +1511,26 @@ export interface ContactPageSelect<T extends boolean = true> {
         ogImage?: T;
         twitterTitle?: T;
         twitterDescription?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-page_select".
+ */
+export interface BlogPageSelect<T extends boolean = true> {
+  heroImage?: T;
+  mobileHeroImage?: T;
+  seo?:
+    | T
+    | {
+        metaTitle?: T;
+        metaDescription?: T;
+        ogTitle?: T;
+        ogDescription?: T;
+        ogImage?: T;
       };
   updatedAt?: T;
   createdAt?: T;
