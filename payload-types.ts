@@ -341,11 +341,7 @@ export interface Project {
 export interface Amenity {
   id: number;
   name: string;
-  icon: number | Media;
-  /**
-   * Optional SVG code for the amenity icon
-   */
-  svg?: string | null;
+  icon?: (number | null) | Media;
   updatedAt: string;
   createdAt: string;
 }
@@ -675,7 +671,6 @@ export interface WidgetsSelect<T extends boolean = true> {
 export interface AmenitiesSelect<T extends boolean = true> {
   name?: T;
   icon?: T;
-  svg?: T;
   updatedAt?: T;
   createdAt?: T;
 }
