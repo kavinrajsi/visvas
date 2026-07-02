@@ -23,7 +23,7 @@ export default function FounderSignature() {
         scrollTrigger: {
           trigger: svgRef.current,
           start: 'top 85%',
-          toggleActions: 'play none none none',
+          toggleActions: 'restart none restart none',
         },
       })
 
