@@ -1,5 +1,4 @@
 import Script from 'next/script'
-import { Geist, Geist_Mono } from 'next/font/google'
 import '../globals.scss'
 import '@/app/(frontend)/styles/typography.scss'
 import Header from '@/app/(frontend)/components/header/Header'
@@ -8,9 +7,6 @@ import MobileCtaBar from '@/app/(frontend)/components/mobile-cta-bar/MobileCtaBa
 import AttributionTracker from '@/app/(frontend)/components/AttributionTracker'
 
 export const dynamic = 'force-dynamic'
-
-const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] })
-const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'] })
 
 export const metadata = {
   metadataBase: new URL('https://www.visvas.in'),
@@ -40,7 +36,7 @@ export const viewport = {
 
 export default function FrontendLayout({ children }) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="en">
       <head>
         {/* GTM */}
         {process.env.NEXT_PUBLIC_GTM_ID && (
