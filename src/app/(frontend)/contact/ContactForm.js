@@ -9,7 +9,7 @@ export default function ContactForm({ heading = 'Contact Form', disclaimer = '',
   const [formData, setFormData] = useState({
     name: '',
     mobile: '',
-    whatsapp: false,
+    whatsapp: true,
     email: '',
     budget: '',
     message: '',
