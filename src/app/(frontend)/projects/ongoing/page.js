@@ -4,6 +4,7 @@ import config from '@payload-config'
 import ProjectCard from '@/app/(frontend)/components/project-card/ProjectCard'
 import ProjectFilters from '@/app/(frontend)/projects/ProjectFilters'
 import Pagination from '@/app/(frontend)/projects/Pagination'
+import ProjectPageClient from '@/app/(frontend)/projects/ProjectPageClient'
 import { buildWhere } from '@/app/(frontend)/projects/helpers'
 import styles from './page.module.scss'
 
@@ -62,7 +63,8 @@ async function getAvailableLocations() {
   return locations
 }
 
-export default async function OngoingProjectsPage({ searchParams }) {
+export default async function OngoingProjectsPage({ searchParams: searchParamsPromise }) {
+  const searchParams = await searchParamsPromise
   const [projectsData, availableLocations] = await Promise.all([
     getProjects(searchParams),
     getAvailableLocations(),
@@ -78,6 +80,11 @@ export default async function OngoingProjectsPage({ searchParams }) {
 
   return (
     <div className={styles['page']}>
+      <ProjectPageClient
+        category="ongoing"
+        projectCount={projects.length}
+        filters={searchParams}
+      />
       {/* Hero */}
       <div className={styles['page__hero']}>
         <h1 className={styles['page__title']}>Ongoing Projects</h1>

@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { trackFormSubmit } from '@/lib/analytics/track'
+import { trackFormSubmission } from '@/lib/gtm/events'
 import { getAttributionData } from '@/lib/analytics/attribution'
 import { HONEYPOT_FIELD } from '@/lib/security/honeypot'
 import styles from './ProjectEnquiryForm.module.scss'
@@ -118,6 +119,17 @@ export default function ProjectEnquiryForm({ projectName }) {
           project: formData.project,
           budget: formData.budget,
         })
+        trackFormSubmission('project_enquiry', {
+          project: formData.project,
+          name: formData.name,
+          email: formData.email,
+          mobile: formData.mobile,
+          budget: formData.budget,
+          whatsapp_opted: formData.whatsapp,
+          message_length: formData.message.length,
+          has_message: formData.message.trim().length > 0,
+          submission_time: new Date().toISOString(),
+        }, 'success')
         setMessage({
           type: 'success',
           text: 'Thank you! We will get back to you shortly.',
@@ -133,6 +145,16 @@ export default function ProjectEnquiryForm({ projectName }) {
           [HONEYPOT_FIELD]: '',
         })
       } else {
+        trackFormSubmission('project_enquiry', {
+          project: formData.project,
+          name: formData.name,
+          email: formData.email,
+          mobile: formData.mobile,
+          budget: formData.budget,
+          error_message: result.error || 'Unknown error',
+          filled_fields: Object.values(formData).filter(v => v && v.toString().trim()).length,
+          submission_time: new Date().toISOString(),
+        }, 'error')
         const serverErrors = mapServerErrors(result.errors)
 
         if (Object.keys(serverErrors).length > 0) {

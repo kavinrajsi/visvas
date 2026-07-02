@@ -1,4 +1,5 @@
 import { getPayload } from 'payload'
+import config from '../payload.config.js'
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -254,12 +255,12 @@ const PROJECTS = [
 
 fs.writeFileSync('/tmp/seed-started.txt', 'Script loaded at ' + new Date().toISOString() + '\n')
 
-const runSeed = async (payloadConfig) => {
+const runSeed = async () => {
   fs.appendFileSync('/tmp/seed-started.txt', 'runSeed called\n')
   console.log('Starting project seed...')
   console.log('Getting payload...')
 
-  const payload = await getPayload({ config: payloadConfig })
+  const payload = await getPayload({ config })
   fs.appendFileSync('/tmp/seed-started.txt', 'Payload loaded\n')
   console.log('Payload loaded')
 
@@ -353,15 +354,6 @@ const runSeed = async (payloadConfig) => {
   }
 }
 
-// Execute immediately
-(async () => {
-  try {
-    const configModule = await import('../payload.config.js')
-    const payloadConfig = configModule.default
-    await runSeed(payloadConfig)
-  } catch (err) {
-    console.error('Failed to load config or run seed:', err.message)
-    fs.appendFileSync('/tmp/seed-started.txt', `Error: ${err.message}\n`)
-    process.exit(1)
-  }
-})()
+// Payload run: execute seed
+await runSeed()
+process.exit(0)

@@ -2,6 +2,7 @@ import Image from "next/image";
 import { getPayload } from "payload";
 import config from "@payload-config";
 import ContactForm from "./ContactForm";
+import ContactPageClient from "./ContactPageClient";
 import styles from "./page.module.scss";
 
 export const revalidate = 3600;
@@ -49,8 +50,10 @@ export default async function ContactPage() {
   const whatsapp = contactDetails.whatsapp || "";
 
   return (
-    <main className={styles["contact"]}>
-      {/* Hero Image */}
+    <>
+      <ContactPageClient phone={phone} email={email} address={address} />
+      <main className={styles["contact"]}>
+        {/* Hero Image */}
       {heroImage?.url && (
         <section className={styles["hero"]}>
           <picture>
@@ -130,5 +133,6 @@ export default async function ContactPage() {
         </div>
       </section>
     </main>
+    </>
   );
 }

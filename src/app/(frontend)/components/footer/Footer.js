@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getPayload } from "payload";
 import config from "@payload-config";
 import TestimonialsCarousel from "./TestimonialsCarousel";
+import FooterContactInfo from "./FooterContactInfo";
 import styles from "./Footer.module.scss";
 
 const Logo = () => (
@@ -297,15 +298,7 @@ export default async function Footer() {
           </div>
 
           <div className={styles["footer__contact"]}>
-            <div className={styles["footer__contact-info"]}>
-              <a
-                href={`tel:${phone.replace(/\s/g, "")}`}
-                className={styles["footer__contact-phone"]}
-              >
-                {phone}
-              </a>
-              <p className={styles["footer__contact-address"]}>{address}</p>
-            </div>
+            <FooterContactInfo phone={phone} address={address} />
             <div className={styles["footer__social"]}>
               <a
                 href="#"

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { getAttributionData } from '@/lib/analytics/attribution'
 import { HONEYPOT_FIELD } from '@/lib/security/honeypot'
+import { trackFormSubmission } from '@/lib/gtm/events'
 import styles from './ContactForm.module.scss'
 
 export default function ContactForm({ heading = 'Contact Form', disclaimer = '', successMessage = {} }) {
@@ -110,6 +111,17 @@ export default function ContactForm({ heading = 'Contact Form', disclaimer = '',
       const result = await response.json()
 
       if (result.success) {
+        trackFormSubmission('contact', {
+          name: formData.name,
+          email: formData.email,
+          mobile: formData.mobile,
+          budget: formData.budget,
+          whatsapp_opted: formData.whatsapp,
+          message_length: formData.message.length,
+          has_message: formData.message.trim().length > 0,
+          submission_time: new Date().toISOString(),
+        }, 'success')
+
         setMessage({
           type: 'success',
           heading: successMessage.heading || 'Thank you!',
@@ -126,6 +138,15 @@ export default function ContactForm({ heading = 'Contact Form', disclaimer = '',
           [HONEYPOT_FIELD]: '',
         })
       } else {
+        trackFormSubmission('contact', {
+          name: formData.name,
+          email: formData.email,
+          mobile: formData.mobile,
+          budget: formData.budget,
+          error_message: result.error || 'Unknown error',
+          filled_fields: Object.values(formData).filter(v => v && v.toString().trim()).length,
+          submission_time: new Date().toISOString(),
+        }, 'error')
         const serverErrors = mapServerErrors(result.errors)
 
         if (Object.keys(serverErrors).length > 0) {

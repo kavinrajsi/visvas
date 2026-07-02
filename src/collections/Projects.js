@@ -45,6 +45,7 @@ const Projects = {
               required: true,
               label: 'Type of Project',
               options: [
+                { label: 'Studio', value: 'studio' },
                 { label: 'Apartment', value: 'apartment' },
                 { label: 'Villa', value: 'villa' },
                 { label: 'Plotted Development', value: 'plotted' },
@@ -160,6 +161,22 @@ const Projects = {
               },
             },
             {
+              name: 'latitude',
+              type: 'number',
+              label: 'Latitude',
+              admin: {
+                placeholder: 'e.g. 9.9877893',
+              },
+            },
+            {
+              name: 'longitude',
+              type: 'number',
+              label: 'Longitude',
+              admin: {
+                placeholder: 'e.g. 78.0204903',
+              },
+            },
+            {
               name: 'keyTransports',
               type: 'array',
               label: 'Key Nearby Locations',
@@ -198,6 +215,14 @@ const Projects = {
         {
           label: 'Media',
           fields: [
+            {
+              name: 'videoUrl',
+              type: 'text',
+              label: 'Video URL',
+              admin: {
+                placeholder: 'e.g. https://www.youtube.com/watch?v=...',
+              },
+            },
             {
               name: 'images',
               type: 'array',
@@ -238,6 +263,29 @@ const Projects = {
                   admin: {
                     placeholder: 'e.g. 2 BHK Floor Plan',
                   },
+                },
+                {
+                  name: 'rooms',
+                  type: 'number',
+                  label: 'Bedrooms',
+                },
+                {
+                  name: 'bathrooms',
+                  type: 'number',
+                  label: 'Bathrooms',
+                },
+                {
+                  name: 'size',
+                  type: 'text',
+                  label: 'Size (with unit)',
+                  admin: {
+                    placeholder: 'e.g. 950 Sq.ft',
+                  },
+                },
+                {
+                  name: 'price',
+                  type: 'number',
+                  label: 'Price (₹)',
                 },
               ],
             },

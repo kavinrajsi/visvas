@@ -1,3 +1,4 @@
+import Script from 'next/script'
 import { Cormorant_Garamond, Raleway } from 'next/font/google'
 import { PostHogProvider } from './providers/PostHogProvider'
 
@@ -18,9 +19,40 @@ export const metadata = {
 }
 
 export default function Layout({ children }) {
+  const GTM_ID = 'GTM-NXHMWWFZ'
+
   return (
     <html lang="en" className={`${cormorant.className} ${raleway.className}`}>
+      <head>
+        {/* Google Tag Manager */}
+        <Script
+          id="gtm-script"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${GTM_ID}');
+            `,
+          }}
+        />
+        <Script
+          src={`https://www.googletagmanager.com/gtm.js?id=${GTM_ID}`}
+          strategy="afterInteractive"
+        />
+      </head>
       <body>
+        {/* Google Tag Manager (noscript) */}
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+            height="0"
+            width="0"
+            style={{ display: 'none', visibility: 'hidden' }}
+            aria-hidden="true"
+          />
+        </noscript>
         <PostHogProvider>
           {children}
         </PostHogProvider>
