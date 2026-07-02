@@ -14,6 +14,8 @@ import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import xml2js from 'xml2js';
 import { getPayload } from 'payload';
+import { convertHTMLToLexical, editorConfigFactory } from '@payloadcms/richtext-lexical';
+import { JSDOM } from 'jsdom';
 import config from '../payload.config.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -41,6 +43,18 @@ function cleanHtml(html) {
   html = html.replace(/\s+on\w+="[^"]*"/gi, '');
 
   return html.trim();
+}
+
+/**
+ * Convert cleaned HTML to Lexical editor JSON
+ */
+function htmlToLexicalJSON(editorConfig, html) {
+  try {
+    return convertHTMLToLexical({ editorConfig, html, JSDOM });
+  } catch (error) {
+    console.error('Failed to convert HTML to Lexical:', error.message);
+    return null;
+  }
 }
 
 /**
@@ -92,6 +106,12 @@ async function importWordPress() {
     // Initialize Payload
     const payload = await getPayload({ config });
 
+    // Get editor config for HTML → Lexical conversion
+    // Posts.content has no custom editor field, uses global default from payload.config.js
+    console.log('Preparing editor config for content conversion...');
+    const editorConfig = await editorConfigFactory.default({ config: payload.config, isRoot: false, parentIsLocalized: false });
+    console.log('Editor config ready\n');
+
     // Get placeholder image
     console.log('Getting placeholder image...');
     const coverImageId = await getPlaceholderImage(payload);
@@ -127,11 +147,14 @@ async function importWordPress() {
         const slug = extractSlug(post.link[0]) || post.title[0].toLowerCase().replace(/\s+/g, '-');
         const publishedAt = post['wp:post_date_gmt'] ? new Date(post['wp:post_date_gmt'][0]) : new Date();
 
+        const cleanedHtml = cleanHtml(post['content:encoded']?.[0] || '');
+        const lexicalContent = htmlToLexicalJSON(editorConfig, cleanedHtml);
+
         const postData = {
           title: post.title[0],
           slug,
           excerpt: post['excerpt:encoded']?.[0] || post.title[0].substring(0, 160),
-          content: cleanHtml(post['content:encoded']?.[0] || ''),
+          content: lexicalContent,
           author: post['dc:creator']?.[0] || 'Visvas Team',
           coverImage: coverImageId,
           status: 'published',
