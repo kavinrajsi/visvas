@@ -74,14 +74,23 @@
   }
 
   .contact-form__checkbox:checked + .contact-form__checkbox-label::before {
-    background: #becbff;
+    background: #becbff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='24px' fill='%231e5f2f'%3E%3Cpath d='M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z'/%3E%3C/svg%3E") center no-repeat;
+    background-size: 16px 16px;
     border-color: #becbff;
-    content: '✓';
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #1e5f2f;
-    font-weight: bold;
-    font-size: 14px;
+  }
+
+
+  .contact-form__disclaimer{
+font-family: 'Raleway';
+font-style: normal;
+font-weight: 500;
+font-size: 12px;
+line-height: 20px;
+/* or 167% */
+font-feature-settings: 'pnum' on, 'lnum' on;
+
+/* Neutral/Sub_text */
+color: #4B4B4B;
+ 
   }
 }
