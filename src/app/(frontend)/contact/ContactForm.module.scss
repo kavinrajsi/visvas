@@ -18,8 +18,15 @@
     padding-bottom: 40px;
   }
   .contact-form__field,
-  .contact-form__checkbox-group{
+  .contact-form__textarea,
+  .contact-form__disclaimer,
+  .contact-form__checkbox-group {
     margin-bottom: 16px;
+    max-width: 100%;
+
+    @media (min-width: 768px) {
+    max-width: 370px;
+    }
   }
   .contact-form__input,
   .contact-form__textarea {
@@ -56,13 +63,27 @@
     cursor: pointer;
     transition: all 0.3s;
 
+    /* Desktop/B2 */
+    font-family: "Raleway";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    /* identical to box height, or 143% */
+    font-feature-settings:
+      "pnum" on,
+      "lnum" on;
+
+    /* Neutral/Sub_text */
+    color: #4b4b4b;
+
     &::before {
-      content: '';
+      content: "";
       display: inline-block;
       width: 24px;
       height: 24px;
       min-width: 18px;
-      border: 1px solid #E0E0E0;
+      border: 1px solid #e0e0e0;
       border-radius: 4px;
       background: #ffffff;
       transition: all 0.3s;
@@ -74,23 +95,40 @@
   }
 
   .contact-form__checkbox:checked + .contact-form__checkbox-label::before {
-    background: #becbff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='24px' fill='%231e5f2f'%3E%3Cpath d='M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z'/%3E%3C/svg%3E") center no-repeat;
+    background: #becbff
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='24px' fill='%231e5f2f'%3E%3Cpath d='M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z'/%3E%3C/svg%3E")
+      center no-repeat;
     background-size: 16px 16px;
     border-color: #becbff;
   }
 
+  .contact-form__disclaimer {
+    font-family: "Raleway";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 20px;
+    /* or 167% */
+    font-feature-settings:
+      "pnum" on,
+      "lnum" on;
 
-  .contact-form__disclaimer{
-font-family: 'Raleway';
-font-style: normal;
-font-weight: 500;
-font-size: 12px;
-line-height: 20px;
-/* or 167% */
-font-feature-settings: 'pnum' on, 'lnum' on;
+    /* Neutral/Sub_text */
+    color: #4b4b4b;
+  }
 
-/* Neutral/Sub_text */
-color: #4B4B4B;
- 
+  .contact-form__btn {
+    /* Enquiry Now */
+    margin-top: calc(40px - 16px);
+    font-family: "Raleway";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 16px;
+    text-transform: uppercase;
+    color: #ffffff;
+    padding: 16px 24px;
+    /* Primary/Temple_Grove_Green */
+    background: #1e5f2f;
   }
 }

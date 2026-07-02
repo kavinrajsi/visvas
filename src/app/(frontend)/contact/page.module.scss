@@ -3,23 +3,44 @@
   margin: 0 auto;
   padding-top: 120px;
   padding-bottom: 120px;
-
+  padding-left: 16px;
+  padding-right: 16px;
+  overflow: hidden;
+  background: red;
   .contact-layout {
-    display: flex;
+    display: grid;
     flex-direction: column;
     gap: 20px;
-    @media (min-width: 992px) {
-      flex-direction: row;
+    grid-template-columns: 1fr;
+    @media (min-width: 768px) {
+      grid-template-columns: 1fr 370px;
+    }
+    @media (min-width: 1200px) {
+      grid-template-columns: 1fr 1fr;
     }
   }
   .contact-details {
-    max-width: 576px;
+    .contact-details__rows {
+      width: 100%;
+      @media (min-width: 768px) {
+        // width: 50%;
+      }
+      @media (min-width: 1200px) {
+        width: 576px;
+      }
+      display: flex;
+      flex-direction: column;
+    }
 
     .contact-details__row {
       padding-bottom: 24px;
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      flex-direction: column;
+      @media (min-width: 992px) {
+        flex-direction: row;
+        align-items: center;
+      }
       .contact-details__label {
         font-family: "Raleway";
         font-style: normal;
@@ -49,10 +70,20 @@
       }
     }
   }
-  iframe{
-    max-width: 660px;
-    width: 100%;
-  }
 
-  
+  .iframe-wrapper {
+    display: flex;
+    // width: 576px;
+    @media (min-width: 768px) {
+      // width: 50%;
+    }
+    @media (min-width: 1200px) {
+      width: 660px;
+    }
+
+    iframe {
+      width: 100%;
+      display: block;
+    }
+  }
 }
