@@ -1,106 +1,129 @@
-'use client'
+"use client";
 
-import { useState, useRef, useEffect } from 'react'
-import { usePathname } from 'next/navigation'
-import Link from 'next/link'
-import styles from './Header.module.scss'
+import { useState, useRef, useEffect } from "react";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
+import styles from "./Header.module.scss";
 
 const MobileLogo = () => (
-  <svg width="215" height="76" viewBox="0 0 215 76" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M34.0281 0L0 76H215L180.972 0H34.0281Z" fill="#F5F3EB"/>
-    <g clipPath="url(#clip0_769_3754)">
-      <path d="M54.1985 13L40.0236 53H80.0138L65.8389 13H54.1985Z" fill="#1B5E30"/>
-      <path d="M70.029 13L60.0167 26.4993L50.0084 13H40V16.461H42.5658L60.0167 39.9985L77.4715 16.461H80.0373V13H70.029Z" fill="#E09C26"/>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="215"
+    height="76"
+    fill="none"
+    viewBox="0 0 215 76"
+  >
+    <path fill="#F5F3EB" d="M34.028 0 0 76h214.75L180.722 0H34.028Z" />
+    <g clip-path="url(#a)">
+      <path fill="#1B5E30" d="M51.544 23 40.893 53h30.049L60.29 23h-8.747Z" />
+      <path
+        fill="#E09C26"
+        d="m63.44 23-7.524 10.124L48.396 23h-7.521v2.596h1.928l13.113 17.653 13.116-17.653h1.928V23h-7.52Z"
+      />
+      <path
+        fill="#1B5E30"
+        d="M106.663 29.867v-.931h-6.686v.952c.725.023 1.81.423 1.813 1.676.024.24.05 12.547.047 13.143-.012 1.173-1.182 1.638-1.857 1.682v.932h6.686v-.953c-.725-.023-1.81-.423-1.813-1.675-.024-.241-.05-12.547-.047-13.144.012-1.173 1.182-1.637 1.857-1.682Zm14.398 8.046c-.97-.776-5.958-2.857-6.984-3.871-1.014-1.003-1.079-2.49-.197-3.555 1.223-1.475 4.911-1.749 6.108.547.212.409.375.841.548 1.267h.929l-.124-3.06c-.109-.082-1.81-.488-2.517-.597-1.914-.29-3.794-.214-5.563.647-1.722.838-2.854 2.114-2.998 4.057-.139 1.896.769 3.269 2.399 4.183 1.035.58 5.274 2.42 6.064 3.228 1.088 1.111 1.374 2.843.602 4.04-.994 1.622-2.751 2.098-4.643 1.851-1.675-.232-2.83-1.458-3.116-2.763-.104-.368-.177-.747-.272-1.114h-1.309v3.151c.9.662 2.562 1.29 3.93 1.508 2.311.247 4.873-.041 6.89-1.67 2.591-2.093 2.759-5.838.25-7.849h.003Zm51.025 0c-.97-.776-5.958-2.857-6.984-3.871-1.014-1.003-1.079-2.49-.198-3.555 1.224-1.475 4.912-1.749 6.108.547.213.409.375.841.549 1.267h.928l-.123-3.06c-.109-.082-1.81-.488-2.518-.597-1.913-.29-3.794-.214-5.563.647-1.722.838-2.854 2.114-2.998 4.057-.139 1.896.769 3.269 2.4 4.183 1.034.58 5.274 2.42 6.064 3.228 1.088 1.111 1.374 2.843.601 4.04-.993 1.622-2.75 2.098-4.643 1.851-1.674-.232-2.83-1.458-3.116-2.763-.103-.368-.177-.747-.271-1.114h-1.309v3.151c.899.662 2.562 1.29 3.93 1.508 2.311.247 4.873-.041 6.889-1.67 2.591-2.093 2.759-5.838.251-7.849h.003ZM95.225 28.92s-5.507 13.462-5.828 14.229h-.183c-.177-.409-5.76-14.229-5.76-14.229h-4.939v.944c1.067.059 1.89.597 2.247 1.47.256.632 4.646 10.98 6.568 15.99h1.654c.339-1.11 4.613-11.383 6.477-15.84.392-.935.99-1.57 2.087-1.605v-.959h-2.323Zm45.844 0s-5.506 13.462-5.828 14.229h-.183c-.176-.409-5.76-14.229-5.76-14.229h-4.938v.944c1.067.059 1.89.597 2.246 1.47.257.632 4.647 10.98 6.569 15.99h1.653c.339-1.11 4.614-11.383 6.477-15.84.392-.935.991-1.57 2.087-1.605v-.959h-2.323Zm15.814 15.99c-.257-.632-4.646-10.98-6.569-15.99h-1.653c-.339 1.109-4.614 11.383-6.477 15.84-.392.934-.991 1.57-2.087 1.605v.958h2.323s1.294-3.16 2.662-6.508h6.476c1.354 3.345 2.63 6.508 2.63 6.508h4.938v-.944c-1.067-.058-1.89-.596-2.246-1.47h.003Zm-11.338-5.227c1.303-3.187 2.553-6.235 2.7-6.588h.183c.082.19 1.347 3.316 2.674 6.588h-5.557Zm6.382-12.259h-4.882v-.838h4.882v.838Z"
+      />
     </g>
     <defs>
-      <clipPath id="clip0_769_3754">
-        <rect width="140" height="40" fill="white" transform="translate(40 13)"/>
+      <clipPath id="a">
+        <path fill="#fff" d="M40.875 23h133v30h-133z" />
       </clipPath>
     </defs>
   </svg>
-)
+);
 
 const DesktopLogo = () => (
-  <svg width="276" height="86" viewBox="0 0 276 86" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M34.0281 0L0 86H276L241.972 0H34.0281Z" fill="#F5F3EB"/>
-    <g clipPath="url(#clip0_769_3754)">
-      <path d="M64.1985 23L50.0236 63H90.0138L75.8389 23H64.1985Z" fill="#1B5E30"/>
-      <path d="M80.029 23L70.0167 36.4993L60.0084 23H50V26.461H52.5658L70.0167 49.9985L87.4715 26.461H90.0373V23H80.029Z" fill="#E09C26"/>
-      <path d="M137.552 32.1563V30.9138H128.654V32.1837C129.62 32.2151 131.063 32.7482 131.067 34.4179C131.099 34.7393 131.134 51.147 131.13 51.9427C131.114 53.5066 129.557 54.1259 128.658 54.1847V55.4272H137.556V54.1573C136.591 54.1259 135.147 53.5928 135.144 51.9231C135.112 51.6017 135.077 35.194 135.081 34.3983C135.096 32.8344 136.654 32.2151 137.552 32.1563Z" fill="#1B5E30"/>
-      <path d="M156.714 42.8844C155.423 41.8496 148.785 39.0745 147.42 37.7222C146.07 36.3856 145.984 34.4023 147.157 32.9833C148.785 31.0157 153.693 30.6512 155.286 33.7124C155.568 34.2572 155.784 34.8334 156.016 35.4018H157.251L157.087 31.3214C156.942 31.2117 154.678 30.6707 153.736 30.5257C151.19 30.1377 148.687 30.2396 146.333 31.388C144.042 32.5051 142.535 34.2063 142.343 36.7972C142.158 39.3253 143.367 41.1558 145.536 42.3748C146.914 43.147 152.555 45.6007 153.607 46.6786C155.054 48.1602 155.435 50.4689 154.407 52.0642C153.085 54.2278 150.747 54.8628 148.228 54.5336C145.999 54.2239 144.461 52.5894 144.081 50.8491C143.944 50.3591 143.846 49.8535 143.72 49.3635H141.978V53.5654C143.175 54.4473 145.387 55.2861 147.208 55.5762C150.284 55.9054 153.693 55.5213 156.377 53.3498C159.825 50.559 160.049 45.5654 156.71 42.8844H156.714Z" fill="#1B5E30"/>
-      <path d="M224.619 42.8844C223.328 41.8496 216.69 39.0745 215.324 37.7222C213.975 36.3856 213.888 34.4023 215.061 32.9833C216.69 31.0157 221.598 30.6512 223.19 33.7124C223.473 34.2572 223.689 34.8334 223.92 35.4018H225.156L224.991 31.3214C224.846 31.2117 222.582 30.6707 221.641 30.5257C219.094 30.1377 216.591 30.2396 214.237 31.388C211.946 32.5051 210.44 34.2063 210.247 36.7972C210.063 39.3253 211.271 41.1558 213.441 42.3748C214.818 43.147 220.46 45.6007 221.511 46.6786C222.959 48.1602 223.34 50.4689 222.312 52.0642C220.989 54.2278 218.651 54.8628 216.132 54.5336C213.904 54.2239 212.366 52.5894 211.985 50.8491C211.848 50.3591 211.75 49.8535 211.625 49.3635H209.883V53.5654C211.079 54.4473 213.292 55.2861 215.112 55.5762C218.188 55.9054 221.598 55.5213 224.281 53.3498C227.73 50.559 227.953 45.5654 224.615 42.8844H224.619Z" fill="#1B5E30"/>
-      <path d="M122.33 30.8942C122.33 30.8942 115.001 48.8422 114.574 49.8653H114.33C114.095 49.3204 106.664 30.8942 106.664 30.8942H100.093V32.1524C101.513 32.2308 102.608 32.9481 103.082 34.1122C103.424 34.9549 109.265 48.7521 111.823 55.4312H114.024C114.476 53.9534 120.164 40.2543 122.644 34.3121C123.166 33.0657 123.962 32.219 125.422 32.172V30.8942H122.33Z" fill="#1B5E30"/>
-      <path d="M183.341 30.8942C183.341 30.8942 176.013 48.8422 175.585 49.8653H175.342C175.106 49.3204 167.676 30.8942 167.676 30.8942H161.104V32.1524C162.524 32.2308 163.619 32.9481 164.094 34.1122C164.435 34.9549 170.277 48.7521 172.835 55.4312H175.036C175.487 53.9534 181.176 40.2543 183.655 34.3121C184.177 33.0657 184.974 32.219 186.433 32.172V30.8942H183.341Z" fill="#1B5E30"/>
-      <path d="M204.386 52.2131C204.045 51.3704 198.203 37.5732 195.645 30.8942H193.444C192.993 32.3719 187.304 46.071 184.824 52.0132C184.303 53.2597 183.506 54.1063 182.047 54.1534V55.4312H185.138C185.138 55.4312 186.861 51.2175 188.681 46.7531H197.301C199.101 51.2136 200.8 55.4312 200.8 55.4312H207.372V54.173C205.951 54.0946 204.857 53.3773 204.382 52.2131H204.386ZM189.297 45.244C191.031 40.9951 192.695 36.9304 192.891 36.4601H193.134C193.244 36.7148 194.927 40.8814 196.692 45.244H189.297Z" fill="#1B5E30"/>
-      <path d="M197.791 28.8991H191.294V27.782H197.791V28.8991Z" fill="#1B5E30"/>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="276"
+    height="86"
+    fill="none"
+    viewBox="0 0 276 86"
+  >
+    <path fill="#F5F3EB" d="M34.028 0 0 86h276L241.972 0H34.028Z" />
+    <g clip-path="url(#a)">
+      <path fill="#1B5E30" d="M64.198 23 50.024 63h39.99L75.839 23h-11.64Z" />
+      <path
+        fill="#E09C26"
+        d="M80.029 23 70.017 36.5 60.008 23H50v3.461h2.566l17.45 23.538L87.473 26.46h2.565V23H80.03Z"
+      />
+      <path
+        fill="#1B5E30"
+        d="M137.552 32.156v-1.242h-8.898v1.27c.966.031 2.409.564 2.413 2.234.032.321.067 16.729.063 17.525-.016 1.564-1.573 2.183-2.472 2.242v1.242h8.898v-1.27c-.965-.031-2.409-.564-2.412-2.234-.032-.321-.067-16.729-.063-17.525.015-1.564 1.573-2.183 2.471-2.242Zm19.162 10.728c-1.291-1.034-7.929-3.81-9.294-5.162-1.35-1.336-1.436-3.32-.263-4.739 1.628-1.967 6.536-2.332 8.129.73.282.544.498 1.12.73 1.689h1.235l-.164-4.08c-.145-.11-2.409-.651-3.351-.796-2.546-.388-5.049-.286-7.403.862-2.291 1.117-3.798 2.818-3.99 5.41-.185 2.527 1.024 4.358 3.193 5.577 1.378.772 7.019 3.226 8.071 4.304 1.447 1.481 1.828 3.79.8 5.385-1.322 2.164-3.66 2.799-6.179 2.47-2.229-.31-3.767-1.945-4.147-3.685-.137-.49-.235-.995-.361-1.485h-1.742v4.201c1.197.882 3.409 1.721 5.23 2.011 3.076.33 6.485-.055 9.169-2.226 3.448-2.791 3.672-7.785.333-10.466h.004Zm67.905 0c-1.291-1.034-7.929-3.81-9.295-5.162-1.349-1.336-1.436-3.32-.263-4.739 1.629-1.967 6.537-2.332 8.129.73.283.544.499 1.12.73 1.689h1.236l-.165-4.08c-.145-.11-2.409-.651-3.35-.796-2.547-.388-5.05-.286-7.404.862-2.291 1.117-3.797 2.818-3.99 5.41-.184 2.527 1.024 4.358 3.194 5.577 1.377.772 7.019 3.226 8.07 4.304 1.448 1.481 1.829 3.79.801 5.385-1.323 2.164-3.661 2.799-6.18 2.47-2.228-.31-3.766-1.945-4.147-3.685-.137-.49-.235-.995-.36-1.485h-1.742v4.201c1.196.882 3.409 1.721 5.229 2.011 3.076.33 6.486-.055 9.169-2.226 3.449-2.791 3.672-7.785.334-10.466h.004ZM122.33 30.894s-7.329 17.948-7.756 18.971h-.244c-.235-.545-7.666-18.97-7.666-18.97h-6.571v1.257c1.42.079 2.515.796 2.989 1.96.342.843 6.183 14.64 8.741 21.32h2.201c.452-1.479 6.14-15.178 8.62-21.12.522-1.246 1.318-2.093 2.778-2.14v-1.278h-3.092Zm61.011 0s-7.328 17.948-7.756 18.971h-.243c-.236-.545-7.666-18.97-7.666-18.97h-6.572v1.257c1.42.079 2.515.796 2.99 1.96.341.843 6.183 14.64 8.741 21.32h2.201c.451-1.479 6.14-15.178 8.619-21.12.522-1.246 1.319-2.093 2.778-2.14v-1.278h-3.092Zm21.045 21.319c-.341-.843-6.183-14.64-8.741-21.319h-2.201c-.451 1.478-6.14 15.177-8.62 21.12-.521 1.246-1.318 2.092-2.777 2.14v1.277h3.091s1.723-4.213 3.543-8.678h8.62c1.8 4.46 3.499 8.678 3.499 8.678h6.572v-1.258c-1.421-.078-2.515-.796-2.99-1.96h.004Zm-15.089-6.969c1.734-4.249 3.398-8.314 3.594-8.784h.243c.11.255 1.793 4.421 3.558 8.784h-7.395Zm8.494-16.344h-6.497v-1.118h6.497v1.117Z"
+      />
     </g>
     <defs>
-      <clipPath id="clip0_769_3754">
-        <rect width="177" height="40" fill="white" transform="translate(50 23)"/>
+      <clipPath id="a">
+        <path fill="#fff" d="M50 23h177v40H50z" />
       </clipPath>
     </defs>
   </svg>
-)
+);
 
 const Hamburger = ({ isOpen }) => (
-  <div className={`${styles['header__hamburger']} ${isOpen ? styles['header__hamburger--open'] : ''}`}>
+  <div
+    className={`${styles["header__hamburger"]} ${isOpen ? styles["header__hamburger--open"] : ""}`}
+  >
+    <span></span>
+    <span></span>
     <span></span>
   </div>
-)
+);
 
 export default function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-  const dropdownRef = useRef(null)
-  const navRef = useRef(null)
-  const pathname = usePathname()
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+  const navRef = useRef(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     if (isMenuOpen) {
-      document.documentElement.classList.add('open-menu')
-      document.body.classList.add('open-menu')
+      document.documentElement.classList.add("open-menu");
+      document.body.classList.add("open-menu");
     } else {
-      document.documentElement.classList.remove('open-menu')
-      document.body.classList.remove('open-menu')
+      document.documentElement.classList.remove("open-menu");
+      document.body.classList.remove("open-menu");
     }
 
     return () => {
-      document.documentElement.classList.remove('open-menu')
-      document.body.classList.remove('open-menu')
-    }
-  }, [isMenuOpen])
+      document.documentElement.classList.remove("open-menu");
+      document.body.classList.remove("open-menu");
+    };
+  }, [isMenuOpen]);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setIsDropdownOpen(false)
+        setIsDropdownOpen(false);
       }
-    }
+    };
 
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   useEffect(() => {
     const handleEscape = (e) => {
-      if (e.key === 'Escape') {
-        setIsMenuOpen(false)
-        setIsDropdownOpen(false)
+      if (e.key === "Escape") {
+        setIsMenuOpen(false);
+        setIsDropdownOpen(false);
       }
-    }
+    };
 
-    document.addEventListener('keydown', handleEscape)
-    return () => document.removeEventListener('keydown', handleEscape)
-  }, [])
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, []);
 
-  const isActive = (href) => pathname === href
+  const isActive = (href) => pathname === href;
 
   return (
     <header className={styles.header}>
       {/* Mobile Bar */}
-      <div className={styles['header__mobile-bar']}>
+      <div className={styles["header__mobile-bar"]}>
         <button
-          className={styles['header__hamburger-btn']}
+          className={styles["header__hamburger-btn"]}
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-expanded={isMenuOpen}
           aria-label="Toggle menu"
@@ -108,67 +131,107 @@ export default function Header() {
           <Hamburger isOpen={isMenuOpen} />
         </button>
 
-        <Link href="/" className={styles['header__logo--mobile']}>
+        <Link href="/" className={styles["header__logo--mobile"]}>
           <MobileLogo />
         </Link>
 
-        <a href="tel:+919543224411" className={styles['header__phone-icon']} aria-label="Call">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.6l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99C3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z" fill="#1B5E30"/>
+        <a
+          href="tel:+919543224411"
+          className={styles["header__phone-icon"]}
+          aria-label="Call"
+        >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.6l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99C3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"
+              fill="#1B5E30"
+            />
           </svg>
         </a>
       </div>
 
       {/* Mobile Drawer */}
-      <nav className={`${styles['header__drawer']} ${isMenuOpen ? styles['header__drawer--open'] : ''}`} ref={navRef}>
-        <ul className={styles['header__drawer-menu']}>
-          <li>
+      <nav
+        className={`${styles["header__drawer"]} ${isMenuOpen ? styles["header__drawer--open"] : ""}`}
+        ref={navRef}
+      >
+        <ul className={styles["header__drawer-menu"]}>
+          <li className={styles["header__drawer-item"]}>
             <Link href="/" onClick={() => setIsMenuOpen(false)}>
               Home
             </Link>
           </li>
-          <li>
+          <li className={styles["header__drawer-item"]}>
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               aria-expanded={isDropdownOpen}
-              className={styles['header__drawer-toggle']}
+              className={styles["header__drawer-toggle"]}
             >
               Projects
-              <svg className={`${styles['header__dropdown-icon']} ${isDropdownOpen ? styles['header__dropdown-icon--open'] : ''}`} width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M3 6L8 11L13 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <svg
+                className={`${styles["header__dropdown-icon"]} ${isDropdownOpen ? styles["header__dropdown-icon--open"] : ""}`}
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+              >
+                <path
+                  d="M3 6L8 11L13 6"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
               </svg>
             </button>
             {isDropdownOpen && (
-              <ul className={styles['header__drawer-submenu']}>
-                <li>
-                  <Link href="/projects/ongoing" onClick={() => { setIsMenuOpen(false); setIsDropdownOpen(false); }}>
+              <ul className={styles["header__drawer-submenu"]}>
+                <li className={styles["header__drawer-item"]}>
+                  <Link
+                    href="/projects/ongoing"
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      setIsDropdownOpen(false);
+                    }}
+                  >
                     Ongoing Projects
                   </Link>
                 </li>
-                <li>
-                  <Link href="/projects/completed" onClick={() => { setIsMenuOpen(false); setIsDropdownOpen(false); }}>
+                <li className={styles["header__drawer-item"]}>
+                  <Link
+                    href="/projects/completed"
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      setIsDropdownOpen(false);
+                    }}
+                  >
                     Completed Projects
                   </Link>
                 </li>
               </ul>
             )}
           </li>
-          <li>
+          <li className={styles["header__drawer-item"]}>
             <Link href="/about" onClick={() => setIsMenuOpen(false)}>
               About
             </Link>
           </li>
-          <li>
+          <li className={styles["header__drawer-item"]}>
             <Link href="/community" onClick={() => setIsMenuOpen(false)}>
               Community
             </Link>
           </li>
-          <li>
+          <li className={styles["header__drawer-item"]}>
             <Link href="/blog" onClick={() => setIsMenuOpen(false)}>
               Blog
             </Link>
           </li>
-          <li>
+          <li className={styles["header__drawer-item"]}>
             <Link href="/contact" onClick={() => setIsMenuOpen(false)}>
               Contact
             </Link>
@@ -179,83 +242,128 @@ export default function Header() {
       {/* Mobile Scrim */}
       {isMenuOpen && (
         <div
-          className={styles['header__scrim']}
+          className={styles["header__scrim"]}
           onClick={() => setIsMenuOpen(false)}
           aria-hidden="true"
         />
       )}
 
       {/* Desktop Nav */}
-      <nav className={styles['header__desktop-nav']}>
+      <nav className={styles["header__desktop-nav"]}>
         {/* Left menu */}
-        <ul className={styles['header__nav-list']}>
-          <li>
-            <Link href="/" className={isActive('/') ? styles['header__nav-link--active'] : ''}>
+        <ul
+          className={`${styles["header__nav-list"]} ${styles["header__nav-list--left"]}`}
+        >
+          <li className={styles["header__nav-item"]}>
+            <Link
+              href="/"
+              className={
+                isActive("/") ? styles["header__nav-link--active"] : ""
+              }
+            >
               Home
             </Link>
           </li>
-          <li ref={dropdownRef} className={styles['header__nav-item']}>
+          <li ref={dropdownRef} className={styles["header__nav-item"]}>
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               aria-expanded={isDropdownOpen}
-              className={styles['header__nav-link']}
+              className={styles["header__nav-link"]}
             >
               Projects
-              <svg className={`${styles['header__dropdown-icon']} ${isDropdownOpen ? styles['header__dropdown-icon--open'] : ''}`} width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M3 6L8 11L13 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <svg
+                className={`${styles["header__dropdown-icon"]} ${isDropdownOpen ? styles["header__dropdown-icon--open"] : ""}`}
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+              >
+                <path
+                  d="M3 6L8 11L13 6"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
               </svg>
             </button>
             {isDropdownOpen && (
-              <ul className={styles['header__dropdown']}>
+              <ul className={styles["header__dropdown"]}>
                 <li>
-                  <Link href="/projects/ongoing" className={styles['header__dropdown-link']}>
+                  <Link
+                    href="/projects/ongoing"
+                    className={styles["header__dropdown-link"]}
+                  >
                     Ongoing Projects
                   </Link>
                 </li>
                 <li>
-                  <Link href="/projects/completed" className={styles['header__dropdown-link']}>
+                  <Link
+                    href="/projects/completed"
+                    className={styles["header__dropdown-link"]}
+                  >
                     Completed Projects
                   </Link>
                 </li>
               </ul>
             )}
           </li>
-          <li>
-            <Link href="/about" className={isActive('/about') ? styles['header__nav-link--active'] : ''}>
+          <li className={styles["header__nav-item"]}>
+            <Link
+              href="/about"
+              className={
+                isActive("/about") ? styles["header__nav-link--active"] : ""
+              }
+            >
               About
             </Link>
           </li>
-          <li>
-            <Link href="/community" className={isActive('/community') ? styles['header__nav-link--active'] : ''}>
+          <li className={styles["header__nav-item"]}>
+            <Link
+              href="/community"
+              className={
+                isActive("/community") ? styles["header__nav-link--active"] : ""
+              }
+            >
               Community
             </Link>
           </li>
         </ul>
 
         {/* Center logo */}
-        <Link href="/" className={styles['header__logo']}>
+        <Link href="/" className={styles["header__logo"]}>
           <DesktopLogo />
         </Link>
 
         {/* Right menu */}
-        <ul className={styles['header__nav-list--right']}>
-          <li>
-            <Link href="/blog" className={isActive('/blog') ? styles['header__nav-link--active'] : ''}>
+        <ul
+          className={`${styles["header__nav-list"]} ${styles["header__nav-list--right"]}`}
+        >
+          <li className={styles["header__nav-item"]}>
+            <Link
+              href="/blog"
+              className={
+                isActive("/blog") ? styles["header__nav-link--active"] : ""
+              }
+            >
               Blog
             </Link>
           </li>
-          <li>
-            <Link href="/contact" className={isActive('/contact') ? styles['header__nav-link--active'] : ''}>
+          <li className={styles["header__nav-item"]}>
+            <Link
+              href="/contact"
+              className={
+                isActive("/contact") ? styles["header__nav-link--active"] : ""
+              }
+            >
               Contact
             </Link>
           </li>
-          <li>
-            <button className={styles['header__cta']}>
-              Enquiry
-            </button>
+          <li className={styles["header__nav-item"]}>
+            <button className={styles["header__cta"]}>Enquiry</button>
           </li>
         </ul>
       </nav>
     </header>
-  )
+  );
 }
