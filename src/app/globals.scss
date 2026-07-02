@@ -300,3 +300,10 @@ strong,
 b {
   font-weight: 500;
 }
+
+
+html{
+  &.open-menu{
+   overflow: hidden;
+  }
+}
