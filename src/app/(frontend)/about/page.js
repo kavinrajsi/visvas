@@ -49,7 +49,14 @@ export default async function AboutPage() {
         </p>
       </section>
       <section className={styles["about__hero-image"]}>
-        <img src="./river.png" alt="" className={styles["about__hero-image-img"]} />
+        <Image
+          src="/river.png"
+          alt="Visvas heritage river view"
+          width={1400}
+          height={600}
+          quality={85}
+          className={styles["about__hero-image-img"]}
+        />
       </section>
       <section className={styles["about__intro"]}>
         <h2 className={styles["about__intro-title"]}>Who we are</h2>
