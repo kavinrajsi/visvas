@@ -229,13 +229,6 @@ export default function ProjectFilters({
           )}
         </div>
 
-        {/* Search Button */}
-        <button
-          onClick={() => setOpenDropdown(null)}
-          className={styles['project-filters__search-btn']}
-        >
-          Search
-        </button>
       </div>
     </div>
   )

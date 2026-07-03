@@ -264,6 +264,7 @@ export default function Header() {
                     <Link
                       href="/projects/ongoing"
                       className={styles["header__dropdown-link"]}
+                      onClick={() => setIsDropdownOpen(false)}
                     >
                       Ongoing Projects
                     </Link>
@@ -272,6 +273,7 @@ export default function Header() {
                     <Link
                       href="/projects/completed"
                       className={styles["header__dropdown-link"]}
+                      onClick={() => setIsDropdownOpen(false)}
                     >
                       Completed Projects
                     </Link>

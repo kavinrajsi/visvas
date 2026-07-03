@@ -116,7 +116,7 @@ export default async function AboutPage() {
             src="/temple.png"
             alt="Visvas community image"
             width={720}
-            height={525}
+            height={360}
             quality={85}
             className={styles["about__values-image"]}
           />
