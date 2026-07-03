@@ -11,9 +11,28 @@ export const revalidate = 3600;
 
 export async function generateMetadata() {
   const payload = await getPayload({ config });
-  const data = await payload.findGlobal({ slug: "contact-page", depth: 0 });
+  const data = await payload.findGlobal({ slug: "contact-page", depth: 2 });
 
   const seo = data?.seo || {};
+  const links = [];
+
+  if (data?.heroImage?.url) {
+    links.push({
+      rel: "preload",
+      as: "image",
+      href: data.heroImage.url,
+    });
+  }
+
+  if (data?.mobileHeroImage?.url) {
+    links.push({
+      rel: "preload",
+      as: "image",
+      href: data.mobileHeroImage.url,
+      media: "(max-width: 767px)",
+    });
+  }
+
   return {
     title: seo.metaTitle || "Contact | Visvas",
     description:
@@ -24,6 +43,7 @@ export async function generateMetadata() {
       description: seo.ogDescription || "Get in touch with Visvas.",
       image: seo.ogImage?.url || undefined,
     },
+    links,
   };
 }
 
