@@ -1,0 +1,17 @@
+.banner {
+  width: 100%;
+  overflow: hidden;
+
+  &__picture {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  &__image {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+}

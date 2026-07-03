@@ -287,6 +287,85 @@ const HomePage = {
       ],
     },
 
+    // ── How We Build Section ───────────────────────────────
+    {
+      name: 'howWeBuildSection',
+      type: 'group',
+      label: 'How We Build Section',
+      fields: [
+        {
+          name: 'sectionLabel',
+          type: 'text',
+          label: 'Section Label',
+          defaultValue: 'OUR PROCESS',
+          admin: {
+            description: 'Small label shown above the heading',
+          },
+        },
+        {
+          name: 'heading',
+          type: 'text',
+          required: true,
+          label: 'Heading',
+          defaultValue: 'How We Build',
+        },
+        {
+          name: 'description',
+          type: 'textarea',
+          label: 'Description',
+          admin: {
+            placeholder: 'Brief description of the building process',
+          },
+        },
+        {
+          name: 'steps',
+          type: 'array',
+          label: 'Process Steps',
+          admin: {
+            description: 'Steps shown in the process timeline (e.g. Planning, Design, Construction, Delivery)',
+          },
+          fields: [
+            {
+              name: 'stepNumber',
+              type: 'number',
+              required: true,
+              label: 'Step Number',
+              admin: {
+                placeholder: 'e.g. 1, 2, 3, 4',
+              },
+            },
+            {
+              name: 'title',
+              type: 'text',
+              required: true,
+              label: 'Step Title',
+              admin: {
+                placeholder: 'e.g. Planning & Design',
+              },
+            },
+            {
+              name: 'description',
+              type: 'textarea',
+              required: true,
+              label: 'Step Description',
+            },
+            {
+              name: 'icon',
+              type: 'upload',
+              relationTo: 'media',
+              label: 'Step Icon',
+              filterOptions: {
+                mimeType: { contains: 'image' },
+              },
+              admin: {
+                description: 'Icon for this step (SVG or PNG)',
+              },
+            },
+          ],
+        },
+      ],
+    },
+
     // ── Completed Projects Section ─────────────────────────
     {
       name: 'completedProjectsSection',

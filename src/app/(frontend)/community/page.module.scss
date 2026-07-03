@@ -1,3 +1,5 @@
+@import '../styles/interpolate';
+
 .community__hero {
     padding-top: 80px;
     padding-bottom: 80px;
@@ -15,7 +17,7 @@
             "lnum" on;
 
         /* Primary/Temple_Grove_Green */
-        color: #1e5f2f;
+        color: var(--color-primary);
         padding-bottom: 16px;
     }
     .community__hero-text {
@@ -32,7 +34,7 @@
             "lnum" on;
 
         /* Neutral/text-2 */
-        color: #303030;
+        color: var(--color-text);
     }
 }
 
@@ -44,7 +46,7 @@
     margin-right: auto;
     margin-top: 80px;
     margin-bottom: 80px;
-    background-color: #b95827;
+    background-color: var(--color-card-badge-completed);
     position: relative;
 
     .community__about-video-sectionWrapper {
@@ -84,7 +86,7 @@
         .community__about-right {
             width: 35%;
             height: 100%;
-            background-color: #b95827;
+            background-color: var(--color-card-badge-completed);
         }
     }
 
@@ -121,7 +123,7 @@
                     "pnum" on,
                     "lnum" on;
                 /* Neutral/White */
-                color: #ffffff;
+                color: var(--color-white);
                 text-align: center;
             }
             .community__about-text {
@@ -138,7 +140,7 @@
                     "lnum" on;
 
                 /* Neutral/White */
-                color: #ffffff;
+                color: var(--color-white);
                 text-align: center;
             }
         }
@@ -177,7 +179,7 @@
             "lnum" on;
 
         /* Primary/Temple_Grove_Green */
-        color: #1e5f2f;
+        color: var(--color-primary);
         padding-bottom: 16px;
     }
     .community__shared-life-text {
@@ -194,6 +196,6 @@
             "lnum" on;
 
         /* Neutral/text-2 */
-        color: #303030;
+        color: var(--color-text);
     }
 }

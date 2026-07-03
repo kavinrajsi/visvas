@@ -1,0 +1,99 @@
+.latest-projects {
+  padding: 80px 40px;
+  max-width: 100%;
+
+  @media (max-width: 768px) {
+    padding: 60px 20px;
+  }
+
+  &__container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  &__header {
+    text-align: center;
+    margin-bottom: 60px;
+
+    @media (max-width: 768px) {
+      margin-bottom: 48px;
+    }
+  }
+
+  &__cta {
+    text-align: center;
+    margin-top: 48px;
+  }
+}
+
+.section-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--color-gold);
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+
+  span:first-child,
+  span:last-child {
+    font-size: 10px;
+  }
+}
+
+.section-heading {
+  font-size: 42px;
+  font-weight: 600;
+  color: var(--color-heading);
+  text-align: center;
+  margin-bottom: 20px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+
+  @media (max-width: 768px) {
+    font-size: 28px;
+    margin-bottom: 16px;
+  }
+}
+
+.section-description {
+  color: var(--color-text);
+  text-align: center;
+  margin-bottom: 0;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  margin-bottom: 24px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+.btn {
+  display: inline-block;
+  padding: 14px 40px;
+  background-color: var(--color-primary);
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: var(--color-primary-dark);
+  }
+}

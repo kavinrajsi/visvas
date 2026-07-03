@@ -1,6 +1,11 @@
 import Image from 'next/image'
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import Banner from '@/app/(frontend)/components/banner/Banner'
+import LatestProjectsSection from '@/app/(frontend)/components/latest-projects/LatestProjectsSection'
+import CompletedProjectsSection from '@/app/(frontend)/components/completed-projects/CompletedProjectsSection'
+import WhoWeAreSection from '@/app/(frontend)/components/who-we-are/WhoWeAreSection'
+import HowWeBuildSection from '@/app/(frontend)/components/how-we-build/HowWeBuildSection'
 import ProjectCard from '@/app/(frontend)/components/project-card/ProjectCard'
 import { toImageKitUrl } from '@/lib/image/imageKitUrl'
 import HeroReveal from '@/components/animation/HeroReveal'
@@ -38,12 +43,13 @@ export async function generateMetadata() {
 
 export default async function Home() {
   const payload = await getPayload({ config })
-  const home = await payload.findGlobal({ slug: 'home-page', depth: 2 })
+  const home = await payload.findGlobal({ slug: 'home-page', depth: 3 })
 
   const {
     hero = {},
     latestProjectsSection = {},
     whoWeAreSection = {},
+    howWeBuildSection = {},
     ongoingProjectsSection = {},
     commitmentSection = {},
     completedProjectsSection = {},
@@ -92,226 +98,11 @@ export default async function Home() {
 
   return (
     <main className={styles['home']}>
-      {/* Hero Section */}
-      {hero?.heroImage?.url && (
-        <HeroReveal className={styles['hero']}>
-          <Image
-            src={toImageKitUrl(hero.heroImage.url)}
-            alt="Visvas Properties"
-            className={styles['hero__image']}
-            priority
-            fill
-            sizes="100vw"
-          />
-        </HeroReveal>
-      )}
-
-      {/* Latest Projects Section */}
-      {latestProjectsSection?.featuredProjects?.length > 0 && (
-        <section className={styles['latest-projects']}>
-          <ScrollReveal className={styles['section-label']}>
-            <span aria-hidden="true">✦</span>
-            <span>{latestProjectsSection.sectionLabel || 'LATEST PROJECTS'}</span>
-            <span aria-hidden="true">✦</span>
-          </ScrollReveal>
-          <ScrollReveal className={styles['section-heading']}>
-            {latestProjectsSection.heading || 'Discover our latest projects'}
-          </ScrollReveal>
-          <ScrollReveal className={styles['projects-grid']} stagger>
-            {latestProjectsSection.featuredProjects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
-            ))}
-          </ScrollReveal>
-          {latestProjectsSection.buttonLabel && (
-            <div className={styles['section-cta']}>
-              <a href="/projects/ongoing" className={styles['btn']}>
-                {latestProjectsSection.buttonLabel}
-              </a>
-            </div>
-          )}
-        </section>
-      )}
-
-      {/* Who We Are Section */}
-      {whoWeAreSection?.heading && (
-        <section className={styles['who-we-are']}>
-          <ScrollReveal className={styles['who-we-are__heading']}>
-            {whoWeAreSection.heading}
-          </ScrollReveal>
-
-          {/* Feature Cards */}
-          {whoWeAreSection.featureCards?.length > 0 && (
-            <ScrollReveal className={styles['feature-cards']} stagger>
-              {whoWeAreSection.featureCards.map((card, idx) => (
-                <div key={idx} className={styles['feature-card']}>
-                  {card.backgroundImage?.url && (
-                    <Image
-                      src={toImageKitUrl(card.backgroundImage.url)}
-                      alt={card.title}
-                      className={styles['feature-card__bg']}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                    />
-                  )}
-                  <div className={styles['feature-card__content']}>
-                    <h3 className={styles['feature-card__title']}>{card.title}</h3>
-                    <p className={styles['feature-card__description']}>
-                      {card.description}
-                    </p>
-                    {card.buttonLabel && (
-                      <a href="#" className={styles['feature-card__btn']}>
-                        {card.buttonLabel}
-                      </a>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </ScrollReveal>
-          )}
-
-          {/* Stats Row */}
-          {whoWeAreSection.stats?.length > 0 && (
-            <ScrollReveal className={styles['stats-row']} stagger>
-              {whoWeAreSection.stats.map((stat, idx) => (
-                <div key={idx} className={styles['stat-item']}>
-                  <p className={styles['stat-number']}>
-                    {stat.number}
-                    {stat.suffix && <span>{stat.suffix}</span>}
-                  </p>
-                  <p className={styles['stat-label']}>{stat.label}</p>
-                </div>
-              ))}
-            </ScrollReveal>
-          )}
-        </section>
-      )}
-
-      {/* Ongoing Projects Section */}
-      {ongoingProjectsSection?.projects?.length > 0 && (
-        <section className={styles['ongoing-projects']}>
-          <h2 className={styles['section-heading']}>
-            {ongoingProjectsSection.heading || 'Ongoing Projects'}
-          </h2>
-          {/* Map placeholder + list would go here */}
-          <div className={styles['projects-list']}>
-            {ongoingProjectsSection.projects.slice(0, 3).map((project) => (
-              <div key={project.id} className={styles['project-item']}>
-                <a href={`/projects/${project.slug}`}>{project.name}</a>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* Commitment Section */}
-      {commitmentSection?.commitments?.length > 0 && (
-        <section className={styles['commitment']}>
-          <ScrollReveal className={styles['section-label']}>
-            <span aria-hidden="true">✦</span>
-            <span>{commitmentSection.sectionLabel || 'OUR COMMITMENT'}</span>
-            <span aria-hidden="true">✦</span>
-          </ScrollReveal>
-          <ScrollReveal className={styles['commitment__heading']}>
-            {commitmentSection.heading || 'What makes us different'}
-          </ScrollReveal>
-          <ScrollReveal className={styles['commitment__description']}>
-            {commitmentSection.description}
-          </ScrollReveal>
-
-          {commitmentSection.backgroundImage?.url && (
-            <div className={styles['commitment__bg']}>
-              <Image
-                src={toImageKitUrl(commitmentSection.backgroundImage.url)}
-                alt="Commitment background"
-                fill
-                sizes="100vw"
-              />
-            </div>
-          )}
-
-          {commitmentSection.commitments?.length > 0 && (
-            <ScrollReveal className={styles['commitment-cards']} stagger>
-              {commitmentSection.commitments.map((item, idx) => (
-                <div key={idx} className={styles['commitment-card']}>
-                  {item.icon?.url && (
-                    <div className={styles['commitment-card__icon']}>
-                      <Image
-                        src={toImageKitUrl(item.icon.url)}
-                        alt={item.title}
-                        width={48}
-                        height={48}
-                      />
-                    </div>
-                  )}
-                  <h3 className={styles['commitment-card__title']}>
-                    {item.title}
-                  </h3>
-                  <p className={styles['commitment-card__description']}>
-                    {item.description}
-                  </p>
-                </div>
-              ))}
-            </ScrollReveal>
-          )}
-        </section>
-      )}
-
-      {/* Completed Projects Section */}
-      {completedProjectsSection?.featuredProjects?.length > 0 && (
-        <section className={styles['completed-projects']}>
-          <ScrollReveal className={styles['section-label']}>
-            <span aria-hidden="true">✦</span>
-            <span>{completedProjectsSection.sectionLabel || 'COMPLETED PROJECTS'}</span>
-            <span aria-hidden="true">✦</span>
-          </ScrollReveal>
-          <ScrollReveal className={styles['section-heading']}>
-            {completedProjectsSection.heading || 'Top gated communities in Madurai'}
-          </ScrollReveal>
-          {completedProjectsSection.description && (
-            <ScrollReveal className={styles['section-description']}>
-              {completedProjectsSection.description}
-            </ScrollReveal>
-          )}
-          <ScrollReveal className={styles['projects-grid']} stagger>
-            {completedProjectsSection.featuredProjects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
-            ))}
-          </ScrollReveal>
-          {completedProjectsSection.buttonLabel && (
-            <div className={styles['section-cta']}>
-              <a href="/projects/completed" className={styles['btn']}>
-                {completedProjectsSection.buttonLabel}
-              </a>
-            </div>
-          )}
-        </section>
-      )}
-
-      {/* Testimonials Section */}
-      {featuredTestimonials?.length > 0 && (
-        <section className={styles['testimonials']}>
-          <ScrollReveal className={styles['testimonials__heading']}>
-            {testimonialsSectionHeading}
-          </ScrollReveal>
-          <ScrollReveal className={styles['testimonials-carousel']} stagger>
-            {featuredTestimonials.slice(0, 3).map((testimonial, idx) => (
-              <div key={idx} className={styles['testimonial-item']}>
-                {testimonial.quote && (
-                  <p className={styles['testimonial-quote']}>
-                    "{testimonial.quote}"
-                  </p>
-                )}
-                {testimonial.name && (
-                  <p className={styles['testimonial-author']}>
-                    {testimonial.name}
-                    {testimonial.company && ` — ${testimonial.company}`}
-                  </p>
-                )}
-              </div>
-            ))}
-          </ScrollReveal>
-        </section>
-      )}
+      <Banner />
+      <LatestProjectsSection />
+      <CompletedProjectsSection />
+      <HowWeBuildSection section={howWeBuildSection} />
+      <WhoWeAreSection section={whoWeAreSection} />
 
       {/* JSON-LD Schemas */}
       <script

@@ -1146,6 +1146,29 @@ export interface HomePage {
         }[]
       | null;
   };
+  howWeBuildSection: {
+    /**
+     * Small label shown above the heading
+     */
+    sectionLabel?: string | null;
+    heading: string;
+    description?: string | null;
+    /**
+     * Steps shown in the process timeline (e.g. Planning, Design, Construction, Delivery)
+     */
+    steps?:
+      | {
+          stepNumber: number;
+          title: string;
+          description: string;
+          /**
+           * Icon for this step (SVG or PNG)
+           */
+          icon?: (number | null) | Media;
+          id?: string | null;
+        }[]
+      | null;
+  };
   completedProjectsSection: {
     /**
      * Small label shown above the heading (e.g. COMPLETED PROJECTS)
@@ -1453,6 +1476,22 @@ export interface HomePageSelect<T extends boolean = true> {
               icon?: T;
               title?: T;
               description?: T;
+              id?: T;
+            };
+      };
+  howWeBuildSection?:
+    | T
+    | {
+        sectionLabel?: T;
+        heading?: T;
+        description?: T;
+        steps?:
+          | T
+          | {
+              stepNumber?: T;
+              title?: T;
+              description?: T;
+              icon?: T;
               id?: T;
             };
       };

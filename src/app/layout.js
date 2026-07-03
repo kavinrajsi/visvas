@@ -24,6 +24,21 @@ export default function Layout({ children }) {
   return (
     <html lang="en" className={`${cormorant.className} ${raleway.className}`}>
       <head>
+        {/* Preload banner images for first contentful paint optimization */}
+        <link
+          rel="preload"
+          as="image"
+          href="/banner-home-desktop.png"
+          type="image/png"
+          media="(min-width: 769px)"
+        />
+        <link
+          rel="preload"
+          as="image"
+          href="/banner-home-mobile.png"
+          type="image/png"
+          media="(max-width: 768px)"
+        />
         {/* Google Tag Manager */}
         <Script
           id="gtm-script"

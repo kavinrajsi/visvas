@@ -1,3 +1,5 @@
+@import '../styles/interpolate';
+
 .about__hero {
     max-width: 660px;
     margin-left: auto;
@@ -20,7 +22,7 @@
             "lnum" on;
 
         /* Primary/Temple_Grove_Green */
-        color: #1e5f2f;
+        color: var(--color-primary);
         padding-bottom: 16px;
     }
     .about__hero-text {
@@ -37,12 +39,12 @@
             "lnum" on;
 
         /* Neutral/text-2 */
-        color: #303030;
+        color: var(--color-text);
     }
 }
 
 .about__intro {
-    background-color: #1e5f2f;
+    background-color: var(--color-primary);
     padding-left: 16px;
     padding-right: 16px;
     padding-top: 80px;
@@ -66,7 +68,7 @@
             "lnum" on;
 
         /* Neutral/White */
-        color: #ffffff;
+        color: var(--color-white);
         padding-bottom: 16px;
     }
     .about__intro-text {
@@ -83,7 +85,7 @@
             "lnum" on;
 
         /* Neutral/White */
-        color: #ffffff;
+        color: var(--color-white);
     }
 }
 
@@ -102,7 +104,7 @@
         text-align: center;
         .about__stats-item {
             &:not(:last-child){
-            border-right: 1px solid #e0e0e0;
+            border-right: 1px solid var(--color-border);
             }
         }
         .about__stats-number {
@@ -124,7 +126,7 @@
                 "lnum" on;
 
             /* Secondary/Turmeric_gold */
-            color: #000000;
+            color: var(--color-heading);
         }
         .about__stats-suffix {
             /* Desktop/H1 */
@@ -138,7 +140,7 @@
                 "lnum" on;
 
             /* Secondary/Turmeric_gold */
-            color: #e4a025;
+            color: var(--color-gold);
         }
         .about__stats-label {
             /* Desktop/H5 */
@@ -154,7 +156,7 @@
                 "lnum" on;
 
             /* Neutral/Heading_text */
-            color: #000000;
+            color: var(--color-heading);
         }
     }
 }
@@ -182,22 +184,22 @@
             z-index: -2;
         }
         &.about__values-block--mission {
-            background-color: #e4a025;
+            background-color: var(--color-gold);
             &::before {
                 left: 50%;
-                background-color: #e4a025;
+                background-color: var(--color-gold);
             }
         }
         &.about__values-block--vision {
-            background-color: #b95827;
+            background-color: var(--color-card-badge-completed);
             .about__values-title,
             .about__values-text {
-                color: #fff;
+                color: var(--color-white);
             }
 
             &::before {
                 left: -50%;
-                background-color: #b95827;
+                background-color: var(--color-card-badge-completed);
             }
         }
         .about__values-title {
@@ -214,7 +216,7 @@
                 "lnum" on;
 
             /* Neutral/Heading_text */
-            color: #000000;
+            color: var(--color-heading);
             padding-bottom: 16px;
         }
         .about__values-text {
@@ -231,7 +233,7 @@
                 "lnum" on;
 
             /* Neutral/text-2 */
-            color: #303030;
+            color: var(--color-text);
         }
     }
     .about__values-image-wrapper {
@@ -274,7 +276,7 @@
                 "lnum" on;
 
             /* Neutral/Heading_text */
-            color: #000000;
+            color: var(--color-heading);
             padding-bottom: 24px;
         }
         .about__founder-text {
@@ -291,7 +293,7 @@
                 "lnum" on;
 
             /* Neutral/text-2 */
-            color: #303030;
+            color: var(--color-text);
             padding-bottom: 24px;
         }
         .about__founder-signature {
