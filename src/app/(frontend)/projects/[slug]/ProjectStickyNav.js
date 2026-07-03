@@ -19,7 +19,7 @@ export default function ProjectStickyNav() {
       })
     }, observerOptions)
 
-    const sections = ['about', 'description', 'amenities', 'location', 'media', 'faqs']
+    const sections = ['about', 'amenities', 'location', 'media', 'faqs']
     sections.forEach((id) => {
       const el = document.getElementById(id)
       if (el) observer.observe(el)
@@ -39,7 +39,7 @@ export default function ProjectStickyNav() {
   return (
     <nav className={styles['sticky-nav']}>
       <div className={styles['sticky-nav__links']}>
-        {['about', 'description', 'amenities', 'location', 'media', 'faqs'].map((id) => (
+        {['about', 'amenities', 'location', 'media', 'faqs'].map((id) => (
           <button
             key={id}
             onClick={() => handleNavClick(id)}

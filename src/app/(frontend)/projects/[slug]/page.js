@@ -231,8 +231,8 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
               <Image
                 src={toImageKitUrl(amenity.icon?.url)}
                 alt={amenity.name}
-                width={64}
-                height={64}
+                width={100}
+                height={100}
                 className={styles['project-detail__amenity-icon']}
               />
               <h3 className={styles['project-detail__amenity-name']}>
@@ -285,15 +285,37 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
             </div>
           </div>
 
-          {/* Map Placeholder */}
+          {/* Map Section */}
           <div className={styles['project-detail__map']}>
-            <Image
-              src={toImageKitUrl(null)}
-              alt="Location map"
-              className={styles['project-detail__map-img']}
-              fill
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
+            {project.latitude && project.longitude ? (
+              <iframe
+                className={styles['project-detail__map-embed']}
+                src={`https://www.google.com/maps?q=${project.latitude},${project.longitude}&output=embed`}
+                title={`${project.name} location map`}
+                loading="lazy"
+                style={{ border: 'none' }}
+                allowFullScreen=""
+                aria-label={`Map showing location of ${project.name}`}
+              />
+            ) : project.locationMapUrl ? (
+              <iframe
+                className={styles['project-detail__map-embed']}
+                src={`${project.locationMapUrl}${project.locationMapUrl.includes('?') ? '&' : '?'}output=embed`}
+                title={`${project.name} location map`}
+                loading="lazy"
+                style={{ border: 'none' }}
+                allowFullScreen=""
+                aria-label={`Map showing location of ${project.name}`}
+              />
+            ) : (
+              <Image
+                src={toImageKitUrl(null)}
+                alt="Location map placeholder"
+                className={styles['project-detail__map-img']}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            )}
           </div>
         </div>
       </ScrollReveal>

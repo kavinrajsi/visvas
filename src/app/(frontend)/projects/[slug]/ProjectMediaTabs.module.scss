@@ -1,5 +1,7 @@
 /* ========================================
-   Media Tabs Component - BEM
+   Media Tabs Component - BEM Carousel
+   Mobile-First: Single slide + dots
+   Desktop 768px+: 3-up peek carousel
    ======================================== */
 
 .media-tabs {
@@ -44,15 +46,90 @@
   color: var(--color-white);
 }
 
+/* Carousel Container */
 .media-tabs__carousel {
-  display: grid;
-  grid-template-columns: 32px 1fr 32px;
-  gap: 12px;
-  align-items: center;
+  position: relative;
   width: 100%;
 }
 
+/* Slide Track — Mobile: single slide centered, Desktop: 3-up with peek */
+.media-tabs__track {
+  display: flex;
+  gap: 0;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Individual Slide */
+.media-tabs__slide {
+  flex: 0 0 100%;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background-color: var(--color-muted);
+  border-radius: 4px;
+  opacity: 0.5;
+  transition: opacity 300ms ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.media-tabs__slide--active {
+  opacity: 1;
+  flex: 0 0 100%;
+}
+
+/* Peek Slides (prev/next) — Hidden on mobile, visible on desktop */
+.media-tabs__slide--prev,
+.media-tabs__slide--next {
+  display: none;
+}
+
+/* Desktop 768px+: 3-up peek layout */
+@media (min-width: 768px) {
+  .media-tabs__track {
+    justify-content: center;
+    gap: 20px;
+    padding: 0;
+  }
+
+  .media-tabs__slide {
+    flex: 0 0 calc((100% - 20px) / 3);
+    opacity: 0.5;
+  }
+
+  .media-tabs__slide--active {
+    flex: 0 0 calc((100% - 20px) * 0.6);
+    opacity: 1;
+  }
+
+  .media-tabs__slide--prev,
+  .media-tabs__slide--next {
+    display: flex;
+    flex: 0 0 calc((100% - 20px) * 0.2);
+  }
+}
+
+/* Image and Video Content */
+.media-tabs__image,
+.media-tabs__video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.media-tabs__video {
+  background-color: var(--color-muted);
+}
+
+/* Arrow Buttons */
 .media-tabs__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
   width: 32px;
   height: 32px;
   display: flex;
@@ -65,35 +142,63 @@
   color: var(--color-text);
   cursor: pointer;
   transition: background-color 200ms ease-in-out;
+  z-index: 10;
 }
 
 .media-tabs__arrow:hover {
   background-color: var(--color-border);
 }
 
-.media-tabs__viewport {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  background-color: var(--color-muted);
-  border-radius: 4px;
+.media-tabs__arrow--prev {
+  left: 12px;
 }
 
-.media-tabs__image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+.media-tabs__arrow--next {
+  right: 12px;
 }
 
-.media-tabs__counter {
-  margin: 0;
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  font-weight: var(--fw-medium);
-  color: var(--color-sub);
-  line-height: var(--lh-sm);
-  text-align: center;
+@media (min-width: 768px) {
+  .media-tabs__arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+  }
+
+  .media-tabs__arrow--prev {
+    left: 20px;
+  }
+
+  .media-tabs__arrow--next {
+    right: 20px;
+  }
+}
+
+/* Dot Pagination */
+.media-tabs__dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.media-tabs__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-border);
+  border: none;
+  cursor: pointer;
+  transition: background-color 200ms ease-in-out;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.media-tabs__dot:hover {
+  background-color: var(--color-sub);
+}
+
+.media-tabs__dot--active {
+  background-color: var(--color-primary);
 }
 
 @media (min-width: 768px) {
@@ -101,15 +206,14 @@
     gap: 24px;
   }
 
-  .media-tabs__carousel {
-    grid-template-columns: 40px 1fr 40px;
-    gap: 20px;
+  .media-tabs__dots {
+    margin-top: 24px;
+    gap: 12px;
   }
 
-  .media-tabs__arrow {
-    width: 40px;
-    height: 40px;
-    font-size: 24px;
+  .media-tabs__dot {
+    width: 10px;
+    height: 10px;
   }
 
   .media-tabs__btn {

@@ -22,14 +22,75 @@ export default function ProjectMediaTabs({ project }) {
   }
 
   const mediaList = getMediaList()
+  const len = mediaList.length
+
+  // Handle edge cases for slide indices
+  const prevIndex = len > 1 ? (currentIndex - 1 + len) % len : currentIndex
+  const nextIndex = len > 1 ? (currentIndex + 1) % len : currentIndex
   const currentMedia = mediaList[currentIndex]
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev === 0 ? mediaList.length - 1 : prev - 1))
+    if (len > 1) {
+      setCurrentIndex((prev) => (prev === 0 ? len - 1 : prev - 1))
+    }
   }
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev === mediaList.length - 1 ? 0 : prev + 1))
+    if (len > 1) {
+      setCurrentIndex((prev) => (prev === len - 1 ? 0 : prev + 1))
+    }
+  }
+
+  const handleDotClick = (index) => {
+    setCurrentIndex(index)
+  }
+
+  const handleTabSwitch = (tabName) => {
+    setActiveTab(tabName)
+    setCurrentIndex(0)
+  }
+
+  // Render single slide (used for mobile and videos tab single-view)
+  const renderSlide = (media, isActive = true, isVideo = false) => {
+    if (!media) return null
+
+    if (isVideo && media.video?.url) {
+      return (
+        <video
+          key={`video-${mediaList.indexOf(media)}`}
+          className={styles['media-tabs__video']}
+          controls
+          controlsList="nodownload"
+          preload="metadata"
+        >
+          <source src={media.video.url} type={media.video.mimeType || 'video/mp4'} />
+          Your browser does not support the video tag.
+        </video>
+      )
+    }
+
+    const imageUrl = isVideo ? media.video?.url : (media.image?.url || media.plan?.url)
+    if (!imageUrl) {
+      return (
+        <Image
+          src="/placeholder.png"
+          alt={`${activeTab} placeholder`}
+          className={styles['media-tabs__image']}
+          fill
+          sizes="(max-width: 768px) 100vw, 60vw"
+        />
+      )
+    }
+
+    return (
+      <Image
+        src={toImageKitUrl(imageUrl)}
+        alt={`${activeTab} ${currentIndex + 1}`}
+        className={styles['media-tabs__image']}
+        fill
+        sizes="(max-width: 768px) 100vw, 60vw"
+      />
+    )
   }
 
   return (
@@ -40,10 +101,7 @@ export default function ProjectMediaTabs({ project }) {
           className={`${styles['media-tabs__btn']} ${
             activeTab === 'photos' ? styles['media-tabs__btn--active'] : ''
           }`}
-          onClick={() => {
-            setActiveTab('photos')
-            setCurrentIndex(0)
-          }}
+          onClick={() => handleTabSwitch('photos')}
         >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" />
           Photos
@@ -52,10 +110,7 @@ export default function ProjectMediaTabs({ project }) {
           className={`${styles['media-tabs__btn']} ${
             activeTab === 'plans' ? styles['media-tabs__btn--active'] : ''
           }`}
-          onClick={() => {
-            setActiveTab('plans')
-            setCurrentIndex(0)
-          }}
+          onClick={() => handleTabSwitch('plans')}
         >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" />
           Plans
@@ -64,62 +119,81 @@ export default function ProjectMediaTabs({ project }) {
           className={`${styles['media-tabs__btn']} ${
             activeTab === 'videos' ? styles['media-tabs__btn--active'] : ''
           }`}
-          onClick={() => {
-            setActiveTab('videos')
-            setCurrentIndex(0)
-          }}
+          onClick={() => handleTabSwitch('videos')}
         >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" />
           Videos
         </button>
       </div>
 
-      {/* Carousel */}
-      {mediaList.length > 0 && (
-        <div className={styles['media-tabs__carousel']}>
-          <button
-            className={styles['media-tabs__arrow']}
-            onClick={handlePrev}
-            aria-label="Previous image"
-          >
-            ‹
-          </button>
+      {/* Carousel Container */}
+      {len > 0 && (
+        <>
+          <div className={styles['media-tabs__carousel']}>
+            {/* Prev Arrow */}
+            {len > 1 && (
+              <button
+                className={`${styles['media-tabs__arrow']} ${styles['media-tabs__arrow--prev']}`}
+                onClick={handlePrev}
+                aria-label="Previous slide"
+              >
+                ‹
+              </button>
+            )}
 
-          <div className={styles['media-tabs__viewport']}>
-            {currentMedia?.image?.url || currentMedia?.plan?.url ? (
-              <Image
-                src={toImageKitUrl(currentMedia.image?.url || currentMedia.plan?.url)}
-                alt={`${activeTab} ${currentIndex + 1}`}
-                className={styles['media-tabs__image']}
-                fill
-                sizes="(max-width: 768px) 100vw, 80vw"
-              />
-            ) : (
-              <Image
-                src="/placeholder.png"
-                alt={`${activeTab} ${currentIndex + 1}`}
-                className={styles['media-tabs__image']}
-                fill
-                sizes="(max-width: 768px) 100vw, 80vw"
-              />
+            {/* Track + Slides */}
+            <div className={styles['media-tabs__track']}>
+              {/* Mobile + Videos tab single view: show only active slide */}
+              <div
+                className={`${styles['media-tabs__slide']} ${styles['media-tabs__slide--active']}`}
+                key={`slide-active-${currentIndex}`}
+              >
+                {renderSlide(currentMedia, true, activeTab === 'videos')}
+              </div>
+
+              {/* Desktop 3-up peek: render prev, active, next (hidden on mobile via CSS) */}
+              {len > 1 && (
+                <>
+                  <div className={`${styles['media-tabs__slide']} ${styles['media-tabs__slide--prev']}`} key={`slide-prev-${prevIndex}`}>
+                    {renderSlide(mediaList[prevIndex], false, activeTab === 'videos')}
+                  </div>
+                  <div className={`${styles['media-tabs__slide']} ${styles['media-tabs__slide--active']}`} key={`slide-active-desktop-${currentIndex}`}>
+                    {renderSlide(currentMedia, true, activeTab === 'videos')}
+                  </div>
+                  <div className={`${styles['media-tabs__slide']} ${styles['media-tabs__slide--next']}`} key={`slide-next-${nextIndex}`}>
+                    {renderSlide(mediaList[nextIndex], false, activeTab === 'videos')}
+                  </div>
+                </>
+              )}
+            </div>
+
+            {/* Next Arrow */}
+            {len > 1 && (
+              <button
+                className={`${styles['media-tabs__arrow']} ${styles['media-tabs__arrow--next']}`}
+                onClick={handleNext}
+                aria-label="Next slide"
+              >
+                ›
+              </button>
             )}
           </div>
 
-          <button
-            className={styles['media-tabs__arrow']}
-            onClick={handleNext}
-            aria-label="Next image"
-          >
-            ›
-          </button>
-        </div>
-      )}
-
-      {/* Counter */}
-      {mediaList.length > 0 && (
-        <p className={styles['media-tabs__counter']}>
-          {currentIndex + 1} / {mediaList.length}
-        </p>
+          {/* Dot Pagination */}
+          <div className={styles['media-tabs__dots']}>
+            {mediaList.map((_, index) => (
+              <button
+                key={`dot-${index}`}
+                className={`${styles['media-tabs__dot']} ${
+                  index === currentIndex ? styles['media-tabs__dot--active'] : ''
+                }`}
+                onClick={() => handleDotClick(index)}
+                aria-label={`Go to slide ${index + 1}`}
+                aria-current={index === currentIndex ? 'true' : 'false'}
+              />
+            ))}
+          </div>
+        </>
       )}
     </div>
   )
