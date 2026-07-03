@@ -77,28 +77,36 @@ export default async function AboutPage() {
               <Counter value={20} className={styles["about__stats-count"]} />
               <sup className={styles["about__stats-suffix"]}>+</sup>
             </p>
-            <p className={styles["about__stats-label"]}>Completed Projects </p>
+            <p className={styles["about__stats-label"]}>Completed <br />Projects </p>
           </li>
           <li className={styles["about__stats-item"]}>
             <p className={styles["about__stats-number"]}>
               <Counter value={15} className={styles["about__stats-count"]} />
               <sup className={styles["about__stats-suffix"]}>+</sup>
             </p>
-            <p className={styles["about__stats-label"]}>projects in development </p>
+            <p className={styles["about__stats-label"]}>Projects in  <br />development </p>
           </li>
           <li className={styles["about__stats-item"]}>
             <p className={styles["about__stats-number"]}>
               <Counter value={4000} className={styles["about__stats-count"]} />
               <sup className={styles["about__stats-suffix"]}>+</sup>
             </p>
-            <p className={styles["about__stats-label"]}>Happy Customers </p>
+            <p className={styles["about__stats-label"]}>Happy <br />Customers </p>
           </li>
           <li className={styles["about__stats-item"]}>
             <p className={styles["about__stats-number"]}>
               <Counter value={4} className={styles["about__stats-count"]} />
               <sup className={styles["about__stats-suffix"]}>+</sup>
             </p>
-            <p className={styles["about__stats-label"]}>Million Sqft Built</p>
+            <p className={styles["about__stats-label"]}>Million Sqft <br />Built</p>
+          </li>
+          <li className={styles["about__stats-item"]}>
+            <p className={styles["about__stats-number"]}>
+              <Counter value={40} className={styles["about__stats-count"]} />
+              <p className={styles["about__stats-count"]}>lakh</p>
+              <sup className={styles["about__stats-suffix"]}>+</sup>
+            </p>
+            <p className={styles["about__stats-label"]}>Sqft Built</p>
           </li>
         </ul>
       </section>

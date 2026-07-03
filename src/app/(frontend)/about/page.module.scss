@@ -1,20 +1,23 @@
-@import '../styles/interpolate';
+@import "../styles/interpolate";
 
 .about__hero {
     max-width: 660px;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 16px;
-    padding-right: 16px;
     padding-top: 80px;
     padding-bottom: 80px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    @include interpolate("max-width", 568px, 372px, 992px, 700px);
     .about__hero-title {
         /* Desktop/H2 */
         font-family: "Cormorant Garamond";
         font-style: normal;
         font-weight: 600;
-        font-size: 48px;
-        line-height: 52px;
+        // font-size: 48px;
+        // line-height: 52px;
+        @include interpolate("font-size", 568px, 30px, 1200px, 48px);
+        @include interpolate("line-height", 568px, 32px, 1200px, 52px);
         /* identical to box height, or 108% */
         text-align: center;
         font-feature-settings:
@@ -30,8 +33,10 @@
         font-family: "Raleway";
         font-style: normal;
         font-weight: 500;
-        font-size: 18px;
-        line-height: 24px;
+        // font-size: 18px;
+        // line-height: 24px;
+        @include interpolate("font-size", 568px, 16px, 1200px, 18px);
+        @include interpolate("line-height", 568px, 24px, 1200px, 24px);
         /* or 133% */
         text-align: center;
         font-feature-settings:
@@ -98,13 +103,50 @@
     padding-top: 120px;
     padding-bottom: 120px;
     .about__stats-list {
+        text-align: center;
         display: grid;
         gap: 20px;
-        grid-template-columns: repeat(4, 1fr);
-        text-align: center;
+        grid-template-columns: repeat(2, 1fr);
+        @media (min-width: 576px) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        @media (min-width: 768px) {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
         .about__stats-item {
-            &:not(:last-child){
-            border-right: 1px solid var(--color-border);
+            @media (min-width: 768px) {
+                border-right: 1px solid var(--color-border);
+
+                @media (min-width: 992px) {
+                    br {
+                        display: none;
+                    }
+                }
+            }
+            &:nth-child(3) {
+                br {
+                    display: none;
+                    @media (min-width: 768px) {
+                        display: block;
+
+                        @media (min-width: 992px) {
+                            display: none;
+                        }
+                    }
+                }
+            }
+            &:nth-child(4) {
+                display: none;
+                @media (min-width: 768px) {
+                    display: block;
+                    border-right: 0px solid var(--color-border);
+                }
+            }
+            &:nth-child(5) {
+                @media (min-width: 768px) {
+                    display: none;
+                }
             }
         }
         .about__stats-number {
@@ -118,9 +160,10 @@
             font-family: "Cormorant Garamond";
             font-style: normal;
             font-weight: 600;
-            font-size: 58px;
-            line-height: 62px;
-            /* identical to box height, or 107% */
+            // font-size: 58px;
+            // line-height: 62px;
+            @include interpolate("font-size", 568px, 40px, 1200px, 58px);
+            @include interpolate("line-height", 568px, 48px, 1200px, 62px);
             font-feature-settings:
                 "pnum" on,
                 "lnum" on;
@@ -128,13 +171,15 @@
             /* Secondary/Turmeric_gold */
             color: var(--color-heading);
         }
-        .about__stats-suffix {
+        sup.about__stats-suffix {
             /* Desktop/H1 */
             font-family: "Cormorant Garamond";
             font-style: normal;
             font-weight: 600;
             font-size: 58px;
             line-height: 30px;
+            @include interpolate("font-size", 568px, 40px, 1200px, 58px);
+            @include interpolate("line-height", 568px, 20px, 1200px, 30px);
             font-feature-settings:
                 "pnum" on,
                 "lnum" on;
@@ -149,6 +194,8 @@
             font-weight: 600;
             font-size: 20px;
             line-height: 24px;
+            @include interpolate("font-size", 568px, 16px, 1200px, 20px);
+            @include interpolate("line-height", 568px, 24px, 1200px, 24px);
             /* identical to box height, or 120% */
             text-align: center;
             font-feature-settings:
@@ -163,35 +210,57 @@
 
 .about__values {
     max-width: 1339px;
-    margin-right: auto;
-    margin-left: auto;
-    display: flex;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0px;
     align-items: center;
-    justify-content: space-between;
-    gap: 0;
+
+    // Mobile (<568px)
+    // Mission
+    // Vision
+    // Image
+
     .about__values-block {
-        max-width: 290px;
-        padding: 80px 40px;
         position: relative;
         z-index: -1;
-        height: 350px;
-        &::before {
-            content: "";
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            z-index: -2;
+        height: auto;
+        padding: 40px;
+        @media (min-width: 568px) {
+            height: 290px;
         }
+        @media (min-width: 992px) {
+            max-width: 290px;
+            height: 350px;
+            padding: 80px 40px;
+        }
+
+        @media (min-width: 992px) {
+            &::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                z-index: -2;
+            }
+        }
+
         &.about__values-block--mission {
+            order: 1;
             background-color: var(--color-gold);
+
             &::before {
                 left: 50%;
                 background-color: var(--color-gold);
             }
         }
+
         &.about__values-block--vision {
+            order: 2;
             background-color: var(--color-card-badge-completed);
+
             .about__values-title,
             .about__values-text {
                 color: var(--color-white);
@@ -202,47 +271,100 @@
                 background-color: var(--color-card-badge-completed);
             }
         }
+
         .about__values-title {
-            /* Desktop/H4 */
             font-family: "Raleway";
             font-style: normal;
             font-weight: 500;
             font-size: 24px;
             line-height: 30px;
-            /* identical to box height, or 125% */
             text-align: center;
             font-feature-settings:
                 "pnum" on,
                 "lnum" on;
-
-            /* Neutral/Heading_text */
             color: var(--color-heading);
             padding-bottom: 16px;
         }
+
         .about__values-text {
-            /* Desktop/B1 */
             font-family: "Raleway";
             font-style: normal;
             font-weight: 400;
             font-size: 16px;
             line-height: 24px;
-            /* or 150% */
             text-align: center;
             font-feature-settings:
                 "pnum" on,
                 "lnum" on;
-
-            /* Neutral/text-2 */
             color: var(--color-text);
         }
     }
+
     .about__values-image-wrapper {
+        order: 3;
         position: relative;
         z-index: 1;
+        justify-self: center;
+
         .about__values-image {
-            height: 380px;
             display: block;
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
             clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
+
+            @media (min-width: 992px) {
+                height: 380px;
+            }
+        }
+    }
+
+    // =========================
+    // Tablet (568px - 991px)
+    // Mission | Vision
+    //      Image
+    // =========================
+    @media (min-width: 568px) {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0;
+
+        .about__values-block--mission {
+            order: 1;
+        }
+
+        .about__values-block--vision {
+            order: 2;
+        }
+
+        .about__values-image-wrapper {
+            order: 3;
+            grid-column: 1 / -1;
+            justify-self: center;
+        }
+    }
+
+    // =========================
+    // Desktop (992px+)
+    // Mission | Image | Vision
+    // =========================
+    @media (min-width: 992px) {
+        grid-template-columns: 290px minmax(0, 720px) 290px;
+        justify-content: center;
+        align-items: center;
+        gap: 0;
+
+        .about__values-block--mission {
+            order: 1;
+        }
+
+        .about__values-image-wrapper {
+            order: 2;
+            grid-column: auto;
+            justify-self: center;
+        }
+
+        .about__values-block--vision {
+            order: 3;
         }
     }
 }
@@ -258,7 +380,14 @@
     gap: 20px;
     position: relative;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+    align-items: center;
+    @media (min-width: 992px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    @media (min-width: 1200px) {
+        justify-content: space-between;
+    }
     align-items: center;
     .about__founder-content {
         max-width: 506px;
