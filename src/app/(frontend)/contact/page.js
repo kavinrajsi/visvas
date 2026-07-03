@@ -1,9 +1,7 @@
 import Image from "next/image";
 import { getPayload } from "payload";
 import config from "@payload-config";
-import HeroReveal from "@/components/animation/HeroReveal";
-import ScrollReveal from "@/components/animation/ScrollReveal";
-import ContactFormAnimated from "./ContactFormAnimated";
+import ContactForm from "./ContactForm";
 import ContactPageClient from "./ContactPageClient";
 import styles from "./page.module.scss";
 
@@ -68,86 +66,78 @@ export default async function ContactPage() {
     <>
       <ContactPageClient phone={phone} email={email} address={address} />
       <main className={styles["contact"]}>
-        <HeroReveal>
-          <section className={styles["hero"]}>
-            <picture>
-              <source media="(max-width: 767px)" srcSet="/banner-contact-mobile.png" />
-              <Image
-                src="/banner-contact-desktop.png"
-                alt="Contact Visvas"
-                className={styles["hero__image"]}
-                priority
-                width={1920}
-                height={600}
-              />
-            </picture>
-          </section>
-        </HeroReveal>
+        <section className={styles["hero"]}>
+          <picture>
+            <source media="(max-width: 767px)" srcSet="/banner-contact-mobile.png" />
+            <Image
+              src="/banner-contact-desktop.png"
+              alt="Contact Visvas"
+              className={styles["hero__image"]}
+              priority
+              width={1920}
+              height={600}
+            />
+          </picture>
+        </section>
 
       {/* Contact Details + Form Layout */}
       <section className={styles["contact-section"]}>
         <div className={styles["contact-layout"]}>
           {/* Details */}
           <div className={styles["contact-details"]}>
-            <ScrollReveal stagger={true} y={30}>
-              <div className={styles["contact-details__rows"]}>
-                <div className={styles["contact-details__row"]}>
-                  <h3 className={styles["contact-details__label"]}>Location</h3>
-                  <p className={`${styles["contact-details__value"]} ${styles["contact-details__value--address"]}`}>{address}</p>
-                </div>
+            <div className={styles["contact-details__rows"]}>
+              <div className={styles["contact-details__row"]}>
+                <h3 className={styles["contact-details__label"]}>Location</h3>
+                <p className={`${styles["contact-details__value"]} ${styles["contact-details__value--address"]}`}>{address}</p>
+              </div>
 
-                <div className={styles["contact-details__row"]}>
-                  <h3 className={styles["contact-details__label"]}>Email</h3>
+              <div className={styles["contact-details__row"]}>
+                <h3 className={styles["contact-details__label"]}>Email</h3>
+                <a
+                  href={`mailto:${email}`}
+                  className={styles["contact-details__link"]}
+                >
+                  {email}
+                </a>
+              </div>
+
+              <div className={styles["contact-details__row"]}>
+                <h3 className={styles["contact-details__label"]}>
+                  Phone Number
+                </h3>
+                <p className={styles["contact-details__value"]}>
                   <a
-                    href={`mailto:${email}`}
-                    className={styles["contact-details__link"]}
+                    href={`tel:${phone}`}
+                    className={styles["contact-details__value-link"]}
                   >
-                    {email}
+                    {phone}
                   </a>
-                </div>
-
-                <div className={styles["contact-details__row"]}>
-                  <h3 className={styles["contact-details__label"]}>
-                    Phone Number
-                  </h3>
-                  <p className={styles["contact-details__value"]}>
-                    <a
-                      href={`tel:${phone}`}
-                      className={styles["contact-details__value-link"]}
-                    >
-                      {phone}
-                    </a>
-                  </p>
-                </div>
+                </p>
               </div>
-            </ScrollReveal>
+            </div>
 
-            <ScrollReveal y={40}>
-              <div className={styles["iframe-wrapper"]}>
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3930.303152296404!2d78.10083417530177!3d9.908689974598648!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b00cf83b914e0a7%3A0x96cb8e879688f32b!2sVisvas%20Promoters%20P%20Ltd!5e0!3m2!1sen!2sin!4v1782937499457!5m2!1sen!2sin"
-                  width="600"
-                  height="452"
-                  style={{ border: "0" }}
-                  allowFullScreen=""
-                  loading="lazy"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                ></iframe>
-              </div>
-            </ScrollReveal>
+            <div className={styles["iframe-wrapper"]}>
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3930.303152296404!2d78.10083417530177!3d9.908689974598648!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b00cf83b914e0a7%3A0x96cb8e879688f32b!2sVisvas%20Promoters%20P%20Ltd!5e0!3m2!1sen!2sin!4v1782937499457!5m2!1sen!2sin"
+                width="600"
+                height="452"
+                style={{ border: "0" }}
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="strict-origin-when-cross-origin"
+              ></iframe>
+            </div>
           </div>
 
           {/* Form */}
-          <ScrollReveal y={40}>
-            <ContactFormAnimated
-              heading={contactForm.heading || "What we can help you with"}
-              disclaimer={
-                contactForm.disclaimer ||
-                "By submitting this form you agree to the Terms and Conditions and Privacy Policy"
-              }
-              successMessage={successMessage}
-            />
-          </ScrollReveal>
+          <ContactForm
+            heading={contactForm.heading || "What we can help you with"}
+            disclaimer={
+              contactForm.disclaimer ||
+              "By submitting this form you agree to the Terms and Conditions and Privacy Policy"
+            }
+            successMessage={successMessage}
+          />
         </div>
       </section>
     </main>
