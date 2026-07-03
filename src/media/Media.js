@@ -11,7 +11,7 @@ const Media = {
     },
   ],
   upload: {
-    disableLocalStorage: true,
+    disableLocalStorage: false,
   },
 }
 
