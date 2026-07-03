@@ -89,7 +89,7 @@ export default async function CompletedProjectsPage({ searchParams: searchParams
       {/* Banner */}
       <div className={styles['page__banner']}>
         <Image
-          src="/banner-project-desktop.webp"
+          src="/banner-project-desktop.png"
           alt="Completed Projects"
           width={1440}
           height={454}
