@@ -100,9 +100,9 @@ export default async function Home() {
     <main className={styles['home']}>
       <Banner />
       <LatestProjectsSection />
-      <CompletedProjectsSection />
+      <WhoWeAreSection />
       <HowWeBuildSection section={howWeBuildSection} />
-      <WhoWeAreSection section={whoWeAreSection} />
+      <CompletedProjectsSection />
 
       {/* JSON-LD Schemas */}
       <script
