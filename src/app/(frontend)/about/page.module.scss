@@ -255,11 +255,11 @@
     padding-right: 16px;
     padding-top: 120px;
     padding-bottom: 160px;
-gap: 20px;
-position: relative;
-display: grid;
-grid-template-columns: repeat(2, 1fr);
-align-items: center;
+    gap: 20px;
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
     .about__founder-content {
         max-width: 506px;
         .about__founder-name {
@@ -296,7 +296,7 @@ align-items: center;
             color: #303030;
             padding-bottom: 24px;
         }
-        .about__founder-signature{
+        .about__founder-signature {
             text-align: center;
         }
     }
