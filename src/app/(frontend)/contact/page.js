@@ -14,24 +14,19 @@ export async function generateMetadata() {
   const data = await payload.findGlobal({ slug: "contact-page", depth: 2 });
 
   const seo = data?.seo || {};
-  const links = [];
-
-  if (data?.heroImage?.url) {
-    links.push({
+  const links = [
+    {
       rel: "preload",
       as: "image",
-      href: data.heroImage.url,
-    });
-  }
-
-  if (data?.mobileHeroImage?.url) {
-    links.push({
+      href: "/banner-contact-desktop.png",
+    },
+    {
       rel: "preload",
       as: "image",
-      href: data.mobileHeroImage.url,
+      href: "/banner-contact-mobile.png",
       media: "(max-width: 767px)",
-    });
-  }
+    },
+  ];
 
   return {
     title: seo.metaTitle || "Contact | Visvas",
@@ -52,8 +47,6 @@ export default async function ContactPage() {
   const data = await payload.findGlobal({ slug: "contact-page", depth: 2 });
 
   const {
-    heroImage,
-    mobileHeroImage,
     contactDetails = {},
     contactForm = {},
   } = data || {};
@@ -75,16 +68,12 @@ export default async function ContactPage() {
     <>
       <ContactPageClient phone={phone} email={email} address={address} />
       <main className={styles["contact"]}>
-        {/* Hero Image */}
-      {heroImage?.url && (
         <HeroReveal>
           <section className={styles["hero"]}>
             <picture>
-              {mobileHeroImage?.url && (
-                <source media="(max-width: 767px)" srcSet={mobileHeroImage.url} />
-              )}
+              <source media="(max-width: 767px)" srcSet="/banner-contact-mobile.png" />
               <Image
-                src={heroImage.url}
+                src="/banner-contact-desktop.png"
                 alt="Contact Visvas"
                 className={styles["hero__image"]}
                 priority
@@ -94,7 +83,6 @@ export default async function ContactPage() {
             </picture>
           </section>
         </HeroReveal>
-      )}
 
       {/* Contact Details + Form Layout */}
       <section className={styles["contact-section"]}>
