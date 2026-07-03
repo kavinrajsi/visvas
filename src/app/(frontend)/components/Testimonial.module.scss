@@ -38,6 +38,8 @@
 
     /* Neutral/text-2 */
     color: #303030;
+    height: 161px;
+    overflow: hidden;
   }
 
   &__videoWrapper {
@@ -45,7 +47,6 @@
     width: 100%;
     aspect-ratio: 16 / 9;
     overflow: hidden;
-    border-radius: 6px;
     background: var(--color-muted);
   }
 
@@ -107,11 +108,9 @@
 
 .testimonial--text {
   .testimonial__info {
-    display: flex;
-    flex-direction: column;
-
-    flex: 1 0 auto;
-    justify-content: flex-end;
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: flex-end;
     .testimonial__name {
       border-top: 1px solid #d3d3d3;
     }

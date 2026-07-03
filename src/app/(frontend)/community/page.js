@@ -47,7 +47,7 @@ export default async function CommunityPage() {
       </section>
       <section className={styles["community__video-section"]}>
         <video
-          poster="./video/visvas-community-video-poster.png"
+          poster="/video/visvas-community-video-poster.png"
           loop
           muted
           autoPlay
@@ -55,7 +55,7 @@ export default async function CommunityPage() {
           preload="metadata"
           className={styles["community__video"]}
         >
-          <source src="./video/visvas-community-video.mp4" type="video/mp4" />
+          <source src="/video/visvas-community-video.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       </section>
@@ -63,7 +63,7 @@ export default async function CommunityPage() {
         <div className={styles["community__about-video-sectionWrapper"]}>
           <div className={styles["community__about-video-section"]}>
             <video
-              poster="/visvas-community-video-1-poster.png"
+              poster="/video/visvas-community-video-1-poster.png"
               loop
               muted
               autoPlay
@@ -72,7 +72,7 @@ export default async function CommunityPage() {
               className={styles["community__about-video"]}
             >
               <source
-                src="./video/visvas-community-video-1.mp4"
+                src="/video/visvas-community-video-1.mp4"
                 type="video/mp4"
               />
             </video>

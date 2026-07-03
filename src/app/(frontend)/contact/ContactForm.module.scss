@@ -58,7 +58,7 @@
 
   .contact-form__checkbox-label {
     display: inline-flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 8px;
     cursor: pointer;
     transition: all 0.3s;
@@ -88,18 +88,14 @@
       background: #ffffff;
       transition: all 0.3s;
     }
-
-    &:hover::before {
-      border-color: #1e5f2f;
-    }
   }
 
   .contact-form__checkbox:checked + .contact-form__checkbox-label::before {
-    background: #becbff
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='24px' fill='%231e5f2f'%3E%3Cpath d='M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z'/%3E%3C/svg%3E")
+    background: rgba($color: #1e5f2f, $alpha: 0.6)
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='24px' fill='%23ffffff'%3E%3Cpath d='M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z'/%3E%3C/svg%3E")
       center no-repeat;
     background-size: 16px 16px;
-    border-color: #becbff;
+    border-color: #1e5f2f;
   }
 
   .contact-form__disclaimer {

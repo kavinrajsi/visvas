@@ -1,15 +1,20 @@
-@import '../styles/interpolate';
+@import "../styles/interpolate";
 
 .community__hero {
     padding-top: 80px;
     padding-bottom: 80px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    @include interpolate("max-width", 568px, 372px, 992px, 700px);
     .community__hero-title {
         /* Desktop/H2 */
         font-family: "Cormorant Garamond";
         font-style: normal;
         font-weight: 600;
-        font-size: 48px;
-        line-height: 52px;
+        @include interpolate("font-size", 568px, 30px, 1200px, 48px);
+        @include interpolate("line-height", 568px, 32px, 1200px, 52px);
         /* identical to box height, or 108% */
         text-align: center;
         font-feature-settings:
@@ -25,8 +30,10 @@
         font-family: "Raleway";
         font-style: normal;
         font-weight: 500;
-        font-size: 18px;
-        line-height: 24px;
+        // font-size: 18px;
+        // line-height: 24px;
+        @include interpolate("font-size", 568px, 16px, 1200px, 18px);
+        @include interpolate("line-height", 568px, 24px, 1200px, 24px);
         /* identical to box height, or 133% */
         text-align: center;
         font-feature-settings:
@@ -38,6 +45,20 @@
     }
 }
 
+.community__video-section {
+    width: 100%;
+    position: relative;
+    display: block;
+
+    .community__video {
+        width: 100%;
+        display: block;
+        @include interpolate("height", 568px, 600px, 1200px, 700px);
+        object-fit: cover;
+        aspect-ratio: 16 / 9;
+    }
+}
+
 .community__about {
     position: relative;
     overflow: hidden;
@@ -46,26 +67,22 @@
     margin-right: auto;
     margin-top: 80px;
     margin-bottom: 80px;
+    padding-left: 20px;
+    padding-right: 20px;
     background-color: var(--color-card-badge-completed);
     position: relative;
-
+    overflow: hidden;
     .community__about-video-sectionWrapper {
         position: absolute;
         left: 0;
         right: 0;
         top: 0;
         z-index: 1;
-        width: 100%;
         height: 100%;
         display: flex;
         z-index: 0;
-
-        .community__about-video-section {
-            position: relative;
-            width: 65%;
-            height: 100%;
-            overflow: hidden;
-            clip-path: polygon(0 0, 100% 0, 90% 100%, 0 100%);
+        @media (min-width: 992px) {
+            width: calc(100% - 40px);
         }
 
         .community__about-video {
@@ -83,10 +100,25 @@
             z-index: 1;
         }
 
-        .community__about-right {
-            width: 35%;
+        .community__about-video-section {
+            position: relative;
+            width: 100%;
             height: 100%;
-            background-color: var(--color-card-badge-completed);
+            overflow: hidden;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 75%);
+            @media (min-width: 992px) {
+                width: 65%;
+                clip-path: polygon(0 0, 100% 0, 90% 100%, 0 100%);
+            }
+        }
+
+        .community__about-right {
+            @media (min-width: 992px) {
+                display: none;
+                width: 35%;
+                height: 100%;
+                background-color: var(--color-card-badge-completed);
+            }
         }
     }
 
@@ -97,7 +129,12 @@
         align-items: center;
         justify-content: center;
         gap: 8px;
-        z-index: 3;
+        flex-direction: column;
+        @media (min-width: 992px) {
+            flex-direction: row;
+            padding-top: 104px;
+            padding-bottom: 104px;
+        }
 
         .community__about-content {
             position: relative;
@@ -110,6 +147,11 @@
             align-items: center;
             text-align: center;
             // padding: 60px;
+            padding-top: 120px;
+            padding-bottom: 74px;
+            @media (min-width: 992px) {
+                padding: 0px;
+            }
 
             .community__about-title {
                 /* Desktop/H3 */
@@ -125,6 +167,7 @@
                 /* Neutral/White */
                 color: var(--color-white);
                 text-align: center;
+                padding-bottom: 16px;
             }
             .community__about-text {
                 /* Desktop/B1 */
@@ -146,25 +189,25 @@
         }
 
         .community__about-image {
-            // width: 100%;
             height: auto;
             display: block;
-            clip-path: polygon(
-                10% 0%,
-                /* top-left */ 90% 0%,
-                /* top-right */ 100% 100%,
-                /* bottom-right */ 0% 100% /* bottom-left */
-            );
+            clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
+            padding-bottom: 80px;
+            @media (min-width: 992px) {
+                padding-bottom: 0px;
+            }
         }
     }
 }
 
 .community__shared-life {
-    max-width: 886px;
     margin-left: auto;
     margin-right: auto;
     padding-top: 160px;
     padding-bottom: 160px;
+    padding-left: 20px;
+    padding-right: 20px;
+    @include interpolate("max-width", 568px, 400px, 992px, 886px);
     .community__shared-life-title {
         /* Desktop/H3 */
         font-family: "Cormorant Garamond";

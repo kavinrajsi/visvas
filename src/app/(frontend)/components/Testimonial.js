@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import Star from './Star'
 import QuoteIcon from './QuoteIcon'
+import CustomVideoPlayer from './CustomVideoPlayer'
 import styles from './Testimonial.module.scss'
 
 export default function Testimonial({ testimonial }) {
@@ -38,14 +39,12 @@ export default function Testimonial({ testimonial }) {
       {type === 'video' && (
         <div className={styles.testimonial__videoWrapper}>
           {videoSource === 'upload' && video && (
-            <video
-              className={styles.testimonial__video}
-              controls
+            <CustomVideoPlayer
+              src={video.url}
               poster={poster?.url}
-              preload="metadata"
-            >
-              <source src={video.url} type={video.mimeType} />
-            </video>
+              className={styles.testimonial__video}
+              id={testimonial.id}
+            />
           )}
 
           {videoSource === 'youtube' && youtubeUrl && (
