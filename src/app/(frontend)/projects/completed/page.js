@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { Suspense } from 'react'
 import { getPayload } from 'payload'
 import config from '@payload-config'
@@ -85,25 +86,23 @@ export default async function CompletedProjectsPage({ searchParams: searchParams
         projectCount={projects.length}
         filters={searchParams}
       />
-      {/* Hero */}
-      <div className={styles['page__hero']}>
-        <h1 className={styles['page__title']}>Completed Projects</h1>
-        <p className={styles['page__subtitle']}>
-          Explore our successfully completed residential and commercial developments
-        </p>
+      {/* Banner */}
+      <div className={styles['page__banner']}>
+        <Image
+          src="/banner-project-desktop.webp"
+          alt="Completed Projects"
+          width={1440}
+          height={454}
+          quality={85}
+          priority
+          className={styles['page__banner-image']}
+        />
       </div>
 
       {/* Filters */}
       <Suspense fallback={null}>
         <ProjectFilters category="completed" availableLocations={availableLocations} />
       </Suspense>
-
-      {/* Results info */}
-      <div className={styles['page__results-info']}>
-        <p className={styles['page__count']}>
-          Showing projects page {currentPage} of {totalPages}
-        </p>
-      </div>
 
       {/* Grid */}
       {projects.length > 0 ? (
