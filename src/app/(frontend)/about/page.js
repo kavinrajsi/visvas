@@ -61,12 +61,14 @@ export default async function AboutPage() {
         />
       </section>
       <section className={styles["about__intro"]}>
+        <div className={styles["about__intro-content"]}>
         <h2 className={styles["about__intro-title"]}>Who we are</h2>
         <p className={styles["about__intro-text"]}>
           Visvas means trust. We do not say it. We build so you feel it and
           decide to stay. We are the one who already knows what your family will
           need three years after possession, and has built for it.
         </p>
+        </div>
       </section>
       <section className={styles["about__stats"]}>
         <ul className={styles["about__stats-list"]}>
@@ -102,7 +104,7 @@ export default async function AboutPage() {
       </section>
 
       <section className={styles["about__values"]}>
-        <div className={styles["about__values-block"]}>
+        <div className={`${styles["about__values-block"]} ${styles["about__values-block--mission"]}`}>
           <h2 className={styles["about__values-title"]}>Mission</h2>
           <p className={styles["about__values-text"]}>
             So families never have to regret the most important decision of
@@ -119,7 +121,7 @@ export default async function AboutPage() {
             className={styles["about__values-image"]}
           />
         </div>
-        <div className={styles["about__values-block"]}>
+        <div className={`${styles["about__values-block"]} ${styles["about__values-block--vision"]}`}>
           <h2 className={styles["about__values-title"]}>Vision</h2>
           <p className={styles["about__values-text"]}>
             To be the builder families trust without question. Not because of

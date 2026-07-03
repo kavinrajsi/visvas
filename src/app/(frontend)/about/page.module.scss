@@ -1,232 +1,303 @@
-.about {
-    overflow-x: hidden;
-
-    .about__hero {
-        padding: 80px 16px;
-        max-width: 886px;
-        margin: 0 auto;
+.about__hero {
+    max-width: 660px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 80px;
+    padding-bottom: 80px;
+    .about__hero-title {
+        /* Desktop/H2 */
+        font-family: "Cormorant Garamond";
+        font-style: normal;
+        font-weight: 600;
+        font-size: 48px;
+        line-height: 52px;
+        /* identical to box height, or 108% */
         text-align: center;
+        font-feature-settings:
+            "pnum" on,
+            "lnum" on;
 
-        .about__hero-title {
+        /* Primary/Temple_Grove_Green */
+        color: #1e5f2f;
+        padding-bottom: 16px;
+    }
+    .about__hero-text {
+        /* Desktop/H6 */
+        font-family: "Raleway";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 24px;
+        /* or 133% */
+        text-align: center;
+        font-feature-settings:
+            "pnum" on,
+            "lnum" on;
+
+        /* Neutral/text-2 */
+        color: #303030;
+    }
+}
+
+.about__intro {
+    background-color: #1e5f2f;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 80px;
+    padding-bottom: 80px;
+    .about__intro-content {
+        max-width: 886px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .about__intro-title {
+        /* Desktop/H3 */
+        font-family: "Cormorant Garamond";
+        font-style: normal;
+        font-weight: 600;
+        font-size: 36px;
+        line-height: 40px;
+        /* identical to box height, or 111% */
+        text-align: center;
+        font-feature-settings:
+            "pnum" on,
+            "lnum" on;
+
+        /* Neutral/White */
+        color: #ffffff;
+        padding-bottom: 16px;
+    }
+    .about__intro-text {
+        /* Desktop/B1 */
+        font-family: "Raleway";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        /* or 150% */
+        text-align: center;
+        font-feature-settings:
+            "pnum" on,
+            "lnum" on;
+
+        /* Neutral/White */
+        color: #ffffff;
+    }
+}
+
+.about__stats {
+    max-width: 1340px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 120px;
+    padding-bottom: 120px;
+    .about__stats-list {
+        display: grid;
+        gap: 20px;
+        grid-template-columns: repeat(4, 1fr);
+        text-align: center;
+        .about__stats-item {
+            border-right: 1px solid #e0e0e0;
+        }
+        .about__stats-number {
+            position: relative;
+            display: flex;
+            align-items: start;
+            justify-content: center;
+        }
+        .about__stats-count {
+            /* Desktop/H1 */
             font-family: "Cormorant Garamond";
             font-style: normal;
             font-weight: 600;
-            font-size: 48px;
-            line-height: 52px;
-            text-align: center;
-            font-feature-settings: "pnum" on, "lnum" on;
-            color: #1e5f2f;
-            padding-bottom: 16px;
-        }
+            font-size: 58px;
+            line-height: 62px;
+            /* identical to box height, or 107% */
+            font-feature-settings:
+                "pnum" on,
+                "lnum" on;
 
-        .about__hero-text {
+            /* Secondary/Turmeric_gold */
+            color: #000000;
+        }
+        .about__stats-suffix {
+            /* Desktop/H1 */
+            font-family: "Cormorant Garamond";
+            font-style: normal;
+            font-weight: 600;
+            font-size: 58px;
+            line-height: 30px;
+            font-feature-settings:
+                "pnum" on,
+                "lnum" on;
+
+            /* Secondary/Turmeric_gold */
+            color: #e4a025;
+        }
+        .about__stats-label {
+            /* Desktop/H5 */
+            font-family: "Raleway";
+            font-style: normal;
+            font-weight: 600;
+            font-size: 20px;
+            line-height: 24px;
+            /* identical to box height, or 120% */
+            text-align: center;
+            font-feature-settings:
+                "pnum" on,
+                "lnum" on;
+
+            /* Neutral/Heading_text */
+            color: #000000;
+        }
+    }
+}
+
+.about__values {
+    max-width: 1339px;
+    margin-right: auto;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0;
+    .about__values-block {
+        max-width: 290px;
+        padding: 80px 40px;
+        position: relative;
+        z-index: -1;
+        &::before {
+            content: "";
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            z-index: -2;
+        }
+        &.about__values-block--mission {
+            background-color: #e4a025;
+            &::before {
+                left: 30%;
+                background-color: #e4a025;
+            }
+        }
+        &.about__values-block--vision {
+            background-color: #b95827;
+            .about__values-title,
+            .about__values-text {
+                color: #fff;
+            }
+
+            &::before {
+                left: -30%;
+                background-color: #b95827;
+            }
+        }
+        .about__values-title {
+            /* Desktop/H4 */
             font-family: "Raleway";
             font-style: normal;
             font-weight: 500;
-            font-size: 18px;
-            line-height: 24px;
+            font-size: 24px;
+            line-height: 30px;
+            /* identical to box height, or 125% */
             text-align: center;
-            font-feature-settings: "pnum" on, "lnum" on;
+            font-feature-settings:
+                "pnum" on,
+                "lnum" on;
+
+            /* Neutral/Heading_text */
+            color: #000000;
+            padding-bottom: 16px;
+        }
+        .about__values-text {
+            /* Desktop/B1 */
+            font-family: "Raleway";
+            font-style: normal;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 24px;
+            /* or 150% */
+            text-align: center;
+            font-feature-settings:
+                "pnum" on,
+                "lnum" on;
+
+            /* Neutral/text-2 */
             color: #303030;
         }
     }
-
-    .about__hero-image {
-        max-width: 1340px;
-        margin: 0 auto;
-        padding-bottom: 80px;
-
-        .about__hero-image-img {
-            display: block;
-            width: 100%;
+    .about__values-image-wrapper {
+        position: relative;
+        z-index: 1;
+        .about__values-image {
             height: auto;
+            display: block;
+            clip-path: polygon(
+                10% 0%,
+                /* top-left */ 90% 0%,
+                /* top-right */ 100% 100%,
+                /* bottom-right */ 0% 100% /* bottom-left */
+            );
         }
     }
+}
 
-    .about__intro {
-        max-width: 886px;
-        margin: 0 auto;
-        padding-bottom: 80px;
-        text-align: center;
-
-        .about__intro-title {
+.about__founder {
+    max-width: 1114px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 120px;
+    padding-bottom: 160px;
+gap: 20px;
+position: relative;
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+align-items: center;
+    .about__founder-content {
+        max-width: 506px;
+        .about__founder-name {
+            /* Desktop/H3 */
             font-family: "Cormorant Garamond";
             font-style: normal;
             font-weight: 600;
             font-size: 36px;
             line-height: 40px;
+            /* identical to box height, or 111% */
             text-align: center;
-            font-feature-settings: "pnum" on, "lnum" on;
-            color: #1e5f2f;
-            padding-bottom: 16px;
-        }
+            font-feature-settings:
+                "pnum" on,
+                "lnum" on;
 
-        .about__intro-text {
+            /* Neutral/Heading_text */
+            color: #000000;
+            padding-bottom: 24px;
+        }
+        .about__founder-text {
+            /* Desktop/B1 */
             font-family: "Raleway";
             font-style: normal;
             font-weight: 400;
             font-size: 16px;
             line-height: 24px;
+            /* or 150% */
             text-align: center;
-            font-feature-settings: "pnum" on, "lnum" on;
+            font-feature-settings:
+                "pnum" on,
+                "lnum" on;
+
+            /* Neutral/text-2 */
             color: #303030;
+            padding-bottom: 24px;
         }
-    }
-
-    .about__stats {
-        max-width: 1340px;
-        margin: 0 auto;
-        padding-bottom: 80px;
-
-        .about__stats-list {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 40px;
-        }
-
-        .about__stats-item {
+        .about__founder-signature{
             text-align: center;
-        }
-
-        .about__stats-number {
-            display: flex;
-            align-items: flex-start;
-            justify-content: center;
-        }
-
-        .about__stats-count {
-            font-family: "Cormorant Garamond";
-            font-style: normal;
-            font-weight: 600;
-            font-size: 48px;
-            line-height: 52px;
-            font-feature-settings: "pnum" on, "lnum" on;
-            color: #1e5f2f;
-        }
-
-        .about__stats-suffix {
-            font-size: 24px;
-            line-height: 1;
-            vertical-align: super;
-            color: #1e5f2f;
-            font-family: "Cormorant Garamond";
-            font-style: normal;
-            font-weight: 600;
-            font-feature-settings: "pnum" on, "lnum" on;
-        }
-
-        .about__stats-label {
-            font-family: "Raleway";
-            font-style: normal;
-            font-weight: 400;
-            font-size: 16px;
-            line-height: 24px;
-            font-feature-settings: "pnum" on, "lnum" on;
-            color: #303030;
-            padding-top: 8px;
-        }
-    }
-
-    .about__values {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 40px;
-        max-width: 1340px;
-        margin: 0 auto;
-        padding: 80px 16px;
-
-        .about__values-block {
-            max-width: 360px;
-            text-align: center;
-
-            .about__values-title {
-                font-family: "Cormorant Garamond";
-                font-style: normal;
-                font-weight: 600;
-                font-size: 36px;
-                line-height: 40px;
-                text-align: center;
-                font-feature-settings: "pnum" on, "lnum" on;
-                color: #1e5f2f;
-                padding-bottom: 16px;
-            }
-
-            .about__values-text {
-                font-family: "Raleway";
-                font-style: normal;
-                font-weight: 400;
-                font-size: 16px;
-                line-height: 24px;
-                text-align: center;
-                font-feature-settings: "pnum" on, "lnum" on;
-                color: #303030;
-            }
-        }
-
-        .about__values-image-wrapper {
-            flex-shrink: 0;
-
-            .about__values-image {
-                display: block;
-                height: auto;
-                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
-            }
-        }
-    }
-
-    .about__founder {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 60px;
-        max-width: 1340px;
-        margin: 0 auto;
-        padding: 80px 16px 160px;
-
-        .about__founder-image-wrapper {
-            flex-shrink: 0;
-
-            .about__founder-image {
-                display: block;
-            }
-        }
-
-        .about__founder-content {
-            max-width: 546px;
-
-            .about__founder-name {
-                font-family: "Cormorant Garamond";
-                font-style: normal;
-                font-weight: 600;
-                font-size: 36px;
-                line-height: 40px;
-                text-align: center;
-                font-feature-settings: "pnum" on, "lnum" on;
-                color: #1e5f2f;
-                padding-bottom: 16px;
-            }
-
-            .about__founder-text {
-                font-family: "Raleway";
-                font-style: normal;
-                font-weight: 400;
-                font-size: 16px;
-                line-height: 24px;
-                font-feature-settings: "pnum" on, "lnum" on;
-                color: #303030;
-                padding-bottom: 24px;
-            }
-
-            .about__founder-signature {
-                display: block;
-
-                svg {
-                    display: block;
-                    width: 240px;
-                    height: 100px;
-                }
-            }
         }
     }
 }
