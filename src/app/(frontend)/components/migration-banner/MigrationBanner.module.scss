@@ -2,7 +2,12 @@
   background-color: var(--color-gold);
   padding: 12px 16px;
   text-align: center;
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1100;
+  width: 100%;
 }
 
 .migration-banner__text {
