@@ -1,0 +1,24 @@
+.migration-banner {
+  background-color: var(--color-gold);
+  padding: 12px 16px;
+  text-align: center;
+  position: relative;
+}
+
+.migration-banner__text {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-heading);
+  line-height: 1.5;
+}
+
+@media (min-width: 768px) {
+  .migration-banner {
+    padding: 16px 24px;
+  }
+
+  .migration-banner__text {
+    font-size: 16px;
+  }
+}
