@@ -11,10 +11,10 @@ import { toImageKitUrl } from "@/lib/image/imageKitUrl";
 import HeroReveal from "@/components/animation/HeroReveal";
 import ScrollReveal from "@/components/animation/ScrollReveal";
 import ProjectStickyNav from "./ProjectStickyNav";
-import ProjectEnquiryForm from "./ProjectEnquiryForm";
 import ProjectFAQ from "./ProjectFAQ";
 import ProjectMediaTabs from "./ProjectMediaTabs";
 import ProjectPageClient from "./ProjectPageClient";
+import ProjectEnquiryCTA from "./ProjectEnquiryCTA";
 import styles from "./page.module.scss";
 
 export const dynamic = "force-dynamic";
@@ -120,7 +120,7 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
         </HeroReveal>
 
         {/* Sticky Nav */}
-        <ProjectStickyNav />
+        <ProjectStickyNav projectName={project.name} />
 
         {/* About Section */}
         <section id="about" className={styles["project-detail__about"]}>
@@ -211,8 +211,8 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
             </div>
           </div>
 
-          {/* Enquiry Form Sidebar */}
-          <ProjectEnquiryForm projectName={project.name} />
+          {/* Enquiry CTA Card Sidebar */}
+          <ProjectEnquiryCTA projectName={project.name} />
         </section>
 
         {/* Description Section */}

@@ -193,9 +193,14 @@
     }
     .header__nav-list--right {
         order: 1;
-        li:last-child a.header__cta {
+        li:last-child .header__cta {
             padding: 16px 24px;
             border: 1px solid #ffffff;
+            background: none;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: inherit;
+            color: inherit;
         }
     }
 

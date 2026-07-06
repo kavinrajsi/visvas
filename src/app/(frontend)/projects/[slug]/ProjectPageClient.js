@@ -19,25 +19,5 @@ export default function ProjectPageClient({ project }) {
     })
   }, [project])
 
-  useEffect(() => {
-    // Track when enquiry form becomes visible
-    const form = document.querySelector('[class*="enquiry-form"]')
-    if (form) {
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            trackEvent('enquiry_form_visible', {
-              project_name: project?.name,
-              project_slug: project?.slug,
-            })
-          }
-        },
-        { threshold: 0.5 }
-      )
-      observer.observe(form)
-      return () => observer.disconnect()
-    }
-  }, [project])
-
   return null
 }

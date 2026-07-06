@@ -1,9 +1,11 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useEnquiryModal } from '@/app/(frontend)/components/enquiry-modal/EnquiryModalProvider'
 import styles from './ProjectStickyNav.module.scss'
 
-export default function ProjectStickyNav() {
+export default function ProjectStickyNav({ projectName }) {
+  const { openEnquiryModal } = useEnquiryModal()
   const [activeSection, setActiveSection] = useState('about')
 
   useEffect(() => {
@@ -52,7 +54,9 @@ export default function ProjectStickyNav() {
         ))}
       </div>
       <div className={styles['sticky-nav__actions']}>
-        <button className={styles['sticky-nav__link']}>Enquire</button>
+        <button className={styles['sticky-nav__link']} onClick={() => openEnquiryModal(projectName)}>
+          Enquire
+        </button>
         <button className={styles['sticky-nav__link']}>Chat</button>
       </div>
     </nav>

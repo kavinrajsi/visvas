@@ -1,0 +1,257 @@
+@import "../../styles/interpolate";
+
+.enquiry-modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1200;
+  padding: 0;
+
+  @media (min-width: 768px) {
+    align-items: center;
+  }
+}
+
+.enquiry-modal-card {
+  background-color: #ffffff;
+  width: 100%;
+  max-height: 100vh;
+  overflow-y: auto;
+  position: relative;
+
+  @media (min-width: 768px) {
+    width: auto;
+    max-width: 488px;
+    max-height: 90vh;
+    border-radius: 8px;
+  }
+}
+
+.enquiry-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 16px;
+  border-bottom: 1px solid #e0e0e0;
+  position: sticky;
+  top: 0;
+  background-color: #ffffff;
+  z-index: 1;
+
+  @media (min-width: 768px) {
+    padding: 32px;
+    border-bottom: none;
+  }
+}
+
+.enquiry-modal__heading {
+  margin: 0;
+  @include interpolate("font-size", 568px, 18px, 1200px, 20px);
+  @include interpolate("line-height", 568px, 24px, 1200px, 24px);
+  font-family: "Raleway";
+  font-weight: 600;
+  color: #000000;
+  flex: 1;
+}
+
+.enquiry-modal__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #000000;
+  transition: color 0.2s;
+
+  &:hover,
+  &:focus-visible {
+    color: #303030;
+    outline: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #1e5f2f;
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+.enquiry-modal__form {
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  @media (min-width: 768px) {
+    padding: 0 32px 32px 32px;
+    gap: 24px;
+  }
+}
+
+.enquiry-modal__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.enquiry-modal__input,
+.enquiry-modal__textarea {
+  width: 100%;
+  background-color: #f5f5f5;
+  padding: 16px 24px;
+  border: none;
+  border-radius: 0;
+  font-family: "Raleway";
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  color: #303030;
+  transition: background-color 0.2s;
+
+  &::placeholder {
+    color: #303030;
+  }
+
+  &:focus {
+    outline: 2px solid #1e5f2f;
+    outline-offset: -2px;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &--error {
+    border: 2px solid #d32f2f;
+    padding: 14px 22px;
+  }
+}
+
+.enquiry-modal__textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.enquiry-modal__checkbox-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.enquiry-modal__checkbox {
+  display: none;
+}
+
+.enquiry-modal__checkbox-label {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 8px;
+  cursor: pointer;
+  font-family: "Raleway";
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  color: #4b4b4b;
+  user-select: none;
+
+  &::before {
+    content: "";
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    background: #ffffff;
+    transition: all 0.3s;
+  }
+}
+
+.enquiry-modal__checkbox:checked + .enquiry-modal__checkbox-label::before {
+  background: rgba(30, 95, 47, 0.6) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='24px' fill='%23ffffff'%3E%3Cpath d='M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z'/%3E%3C/svg%3E") center no-repeat;
+  background-size: 16px 16px;
+  border-color: #1e5f2f;
+}
+
+.enquiry-modal__error {
+  font-family: "Raleway";
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: #d32f2f;
+}
+
+.enquiry-modal__message {
+  font-family: "Raleway";
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 18px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin: 0;
+
+  &--success {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+  }
+
+  &--error {
+    background-color: #ffebee;
+    color: #c62828;
+  }
+}
+
+.enquiry-modal__disclaimer {
+  font-family: "Raleway";
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 18px;
+  color: #4b4b4b;
+  margin: 0;
+}
+
+.enquiry-modal__btn {
+  padding: 16px 24px;
+  background-color: #1e5f2f;
+  border: none;
+  border-radius: 0;
+  font-family: "Raleway";
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 16px;
+  text-transform: uppercase;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover:not(:disabled) {
+    background-color: #164a28;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #000000;
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+html.enquiry-modal-open {
+  overflow: hidden;
+}
+
+body.enquiry-modal-open {
+  overflow: hidden;
+}

@@ -1,6 +1,11 @@
+'use client'
+
+import { useEnquiryModal } from '@/app/(frontend)/components/enquiry-modal/EnquiryModalProvider'
 import styles from './MobileCtaBar.module.scss'
 
 export default function MobileCtaBar() {
+  const { openEnquiryModal } = useEnquiryModal()
+
   return (
     <nav className={styles['mobile-cta']} aria-label="Mobile quick actions">
       <a
@@ -10,13 +15,14 @@ export default function MobileCtaBar() {
       >
         Call Us
       </a>
-      <a
+      <button
         className={styles['mobile-cta__link']}
-        href="/contact"
+        onClick={() => openEnquiryModal()}
         aria-label="Open enquiry form"
+        type="button"
       >
         Enquiry Now
-      </a>
+      </button>
     </nav>
   )
 }

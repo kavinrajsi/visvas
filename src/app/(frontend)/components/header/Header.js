@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { useEnquiryModal } from "@/app/(frontend)/components/enquiry-modal/EnquiryModalProvider";
 import styles from "./Header.module.scss";
 
 const MobileLogo = () => (
@@ -141,6 +142,7 @@ export default function Header() {
   const dropdownRef = useRef(null);
   const navRef = useRef(null);
   const pathname = usePathname();
+  const { openEnquiryModal } = useEnquiryModal();
 
   useEffect(() => {
     if (isMenuOpen) {
@@ -335,7 +337,9 @@ export default function Header() {
               </Link>
             </li>
             <li className={styles["header__nav-item"]}>
-              <Link href="/contact" className={styles["header__cta"]}>Enquiry Now</Link>
+              <button className={styles["header__cta"]} onClick={() => openEnquiryModal()}>
+                Enquiry Now
+              </button>
             </li>
           </ul>
         </div>

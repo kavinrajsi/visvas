@@ -18,6 +18,9 @@
   min-height: 56px;
   padding: 16px 24px calc(16px + env(safe-area-inset-bottom));
   border-right: 1px solid var(--color-border);
+  border-top: none;
+  border-bottom: none;
+  border-left: none;
   color: var(--color-white);
   font-family: 'Raleway', Arial, Helvetica, sans-serif;
   font-size: 14px;
@@ -27,6 +30,7 @@
   text-transform: uppercase;
   white-space: nowrap;
   background-color: var(--color-primary);
+  cursor: pointer;
 }
 
 .mobile-cta__link:last-child {
