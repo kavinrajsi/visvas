@@ -22,7 +22,7 @@ export default function Layout({ children }) {
   const GTM_ID = 'GTM-NXHMWWFZ'
 
   return (
-    <html lang="en" className={`${cormorant.className} ${raleway.className}`}>
+    <html lang="en" className={`${cormorant.className} ${raleway.className} MigrationBanner`}>
       <head>
         {/* Preload banner images for first contentful paint optimization */}
         <link

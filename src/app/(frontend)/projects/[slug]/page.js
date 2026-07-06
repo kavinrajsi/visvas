@@ -1,41 +1,44 @@
-import Image from 'next/image'
-import { getPayload } from 'payload'
-import { notFound } from 'next/navigation'
-import config from '@payload-config'
-import { RichText } from '@payloadcms/richtext-lexical/react'
-import { STATUS_LABELS, PROJECT_TYPE_LABELS } from '@/app/(frontend)/projects/helpers'
-import { toImageKitUrl } from '@/lib/image/imageKitUrl'
-import HeroReveal from '@/components/animation/HeroReveal'
-import ScrollReveal from '@/components/animation/ScrollReveal'
-import ProjectStickyNav from './ProjectStickyNav'
-import ProjectEnquiryForm from './ProjectEnquiryForm'
-import ProjectFAQ from './ProjectFAQ'
-import ProjectMediaTabs from './ProjectMediaTabs'
-import ProjectPageClient from './ProjectPageClient'
-import styles from './page.module.scss'
+import Image from "next/image";
+import { getPayload } from "payload";
+import { notFound } from "next/navigation";
+import config from "@payload-config";
+import { RichText } from "@payloadcms/richtext-lexical/react";
+import {
+  STATUS_LABELS,
+  PROJECT_TYPE_LABELS,
+} from "@/app/(frontend)/projects/helpers";
+import { toImageKitUrl } from "@/lib/image/imageKitUrl";
+import HeroReveal from "@/components/animation/HeroReveal";
+import ScrollReveal from "@/components/animation/ScrollReveal";
+import ProjectStickyNav from "./ProjectStickyNav";
+import ProjectEnquiryForm from "./ProjectEnquiryForm";
+import ProjectFAQ from "./ProjectFAQ";
+import ProjectMediaTabs from "./ProjectMediaTabs";
+import ProjectPageClient from "./ProjectPageClient";
+import styles from "./page.module.scss";
 
-export const dynamic = 'force-dynamic'
-export const dynamicParams = false
-export const revalidate = 3600
+export const dynamic = "force-dynamic";
+export const dynamicParams = false;
+export const revalidate = 3600;
 
 export async function generateMetadata({ params: paramsPromise }) {
   try {
-    const params = await paramsPromise
-    const payload = await getPayload({ config })
+    const params = await paramsPromise;
+    const payload = await getPayload({ config });
     const result = await payload.find({
-      collection: 'projects',
+      collection: "projects",
       where: { slug: { equals: params.slug } },
       limit: 1,
-    })
+    });
 
-    const project = result.docs[0]
+    const project = result.docs[0];
     if (!project) {
-      return { title: 'Project Not Found' }
+      return { title: "Project Not Found" };
     }
 
-    const seo = project
-    const metaTitle = seo.metaTitle || project.name
-    const metaDesc = seo.metaDescription || project.name
+    const seo = project;
+    const metaTitle = seo.metaTitle || project.name;
+    const metaDesc = seo.metaDescription || project.name;
 
     return {
       title: metaTitle,
@@ -44,362 +47,797 @@ export async function generateMetadata({ params: paramsPromise }) {
         title: seo.ogTitle || metaTitle,
         description: seo.ogDescription || metaDesc,
         image: toImageKitUrl(seo.ogImage?.url || project.coverImage?.url),
-        type: 'website',
+        type: "website",
       },
       twitter: {
-        card: seo.twitterCard || 'summary_large_image',
+        card: seo.twitterCard || "summary_large_image",
         title: seo.twitterTitle || seo.ogTitle || metaTitle,
         description: seo.twitterDescription || seo.ogDescription || metaDesc,
         image: toImageKitUrl(seo.ogImage?.url || project.coverImage?.url),
       },
       alternates: {
-      canonical: seo.canonicalUrl || `/projects/${params.slug}`,
-    },
-  }
+        canonical: seo.canonicalUrl || `/projects/${params.slug}`,
+      },
+    };
   } catch {
-    return { title: 'Project | Visvas' }
+    return { title: "Project | Visvas" };
   }
 }
 
 export async function generateStaticParams() {
   try {
-    const payload = await getPayload({ config })
+    const payload = await getPayload({ config });
     const result = await payload.find({
-      collection: 'projects',
+      collection: "projects",
       limit: 1000,
       select: { slug: true },
-    })
-    return result.docs.map(({ slug }) => ({ slug }))
+    });
+    return result.docs.map(({ slug }) => ({ slug }));
   } catch {
-    return []
+    return [];
   }
 }
 
 async function getProject(slug) {
-  const payload = await getPayload({ config })
+  const payload = await getPayload({ config });
 
   const result = await payload.find({
-    collection: 'projects',
+    collection: "projects",
     where: { slug: { equals: slug } },
     depth: 2,
     limit: 1,
-  })
+  });
 
-  return result.docs[0]
+  return result.docs[0];
 }
 
 export default async function ProjectDetailPage({ params: paramsPromise }) {
-  const params = await paramsPromise
-  const project = await getProject(params.slug)
+  const params = await paramsPromise;
+  const project = await getProject(params.slug);
 
   if (!project) {
-    notFound()
+    notFound();
   }
 
-  const amenities = project.amenities || []
-  const faqs = project.faq || []
-  const transports = project.keyTransports || []
+  const amenities = project.amenities || [];
+  const faqs = project.faq || [];
+  const transports = project.keyTransports || [];
 
   return (
     <>
       <ProjectPageClient project={project} />
-      <main className={styles['project-detail']}>
-      {/* Hero */}
-      <HeroReveal className={styles['project-detail__hero']}>
-        <Image
-          src={toImageKitUrl(project.coverImage?.url)}
-          alt={project.name}
-          className={styles['project-detail__hero-img']}
-          priority
-          fill
-          sizes="100vw"
-        />
-      </HeroReveal>
+      <main className={styles["project-detail"]}>
+        {/* Hero */}
+        <HeroReveal className={styles["project-detail__hero"]}>
+          <Image
+            src={toImageKitUrl(project.coverImage?.url)}
+            alt={project.name}
+            className={styles["project-detail__hero-img"]}
+            priority
+            width={1920}
+            height={600}
+          />
+        </HeroReveal>
 
-      {/* Sticky Nav */}
-      <ProjectStickyNav />
+        {/* Sticky Nav */}
+        <ProjectStickyNav />
 
-      {/* About Section */}
-      <section id="about" className={styles['project-detail__about']}>
-        <div className={styles['project-detail__about-main']}>
-          <div className={styles['project-detail__header']}>
-            <div className={styles['project-detail__location-row']}>
+        {/* About Section */}
+        <section id="about" className={styles["project-detail__about"]}>
+          <div className={styles["project-detail__about-main"]}>
+            <div className={styles["project-detail__header"]}>
+              <div className={styles["project-detail__location-row"]}>
+                <svg
+                  className={styles["project-detail__location-icon"]}
+                  width="16"
+                  height="24"
+                  viewBox="0 0 16 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M8 0C3.6 0 0 3.6 0 8c0 6 8 16 8 16s8-10 8-16c0-4.4-3.6-8-8-8zm0 12c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4z"
+                    fill="currentColor"
+                  />
+                </svg>
+                <p className={styles["project-detail__location"]}>
+                  {project.location}
+                </p>
+              </div>
+              <h1 className={styles["project-detail__name"]}>{project.name}</h1>
+            </div>
+
+            {/* Facts Grid */}
+            <ScrollReveal
+              className={styles["project-detail__facts-grid"]}
+              stagger
+            >
+              <div className={styles["project-detail__fact"]}>
+                <p className={styles["project-detail__fact-label"]}>
+                  Property Type
+                </p>
+                <p className={styles["project-detail__fact-value"]}>
+                  {PROJECT_TYPE_LABELS[project.projectType] ||
+                    project.projectType}
+                </p>
+              </div>
+              <div className={styles["project-detail__fact"]}>
+                <p className={styles["project-detail__fact-label"]}>Status</p>
+                <p className={styles["project-detail__fact-value"]}>
+                  {STATUS_LABELS[project.status] || project.status}
+                </p>
+              </div>
+              <div className={styles["project-detail__fact"]}>
+                <p className={styles["project-detail__fact-label"]}>Area</p>
+                <p className={styles["project-detail__fact-value"]}>
+                  {project.projectArea} Sq. Ft.
+                </p>
+              </div>
+              <div className={styles["project-detail__fact"]}>
+                <p className={styles["project-detail__fact-label"]}>RERA NO:</p>
+                <p className={styles["project-detail__fact-value"]}>
+                  {project.reraNo || "N/A"}
+                </p>
+              </div>
+              <div className={styles["project-detail__fact"]}>
+                <p className={styles["project-detail__fact-label"]}>
+                  Price range starts from
+                </p>
+                <p className={styles["project-detail__fact-value"]}>
+                  Rs. {project.priceRangeStartFrom?.toLocaleString() || "N/A"}
+                </p>
+              </div>
+              <div className={styles["project-detail__fact"]}>
+                <p className={styles["project-detail__fact-label"]}>
+                  Bedrooms & Bathrooms
+                </p>
+                <p className={styles["project-detail__fact-value"]}>
+                  {project.bhkTypes?.join(", ") || "N/A"}
+                </p>
+              </div>
+            </ScrollReveal>
+
+            {/* Project Image */}
+            <div className={styles["project-detail__project-image"]}>
+              <Image
+                src={toImageKitUrl(project.images?.[0]?.image?.url)}
+                alt={`${project.name} - interior`}
+                className={styles["project-detail__project-img"]}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                width={800}
+                height={600}
+              />
+            </div>
+          </div>
+
+          {/* Enquiry Form Sidebar */}
+          <ProjectEnquiryForm projectName={project.name} />
+        </section>
+
+        {/* Description Section */}
+        <ScrollReveal
+          as="section"
+          id="description"
+          className={styles["project-detail__description"]}
+        >
+          {project.description && (
+            <div className={styles["project-detail__rich-content"]}>
+              <RichText data={project.description} />
+            </div>
+          )}
+        </ScrollReveal>
+
+        {/* Amenities Section */}
+        <section id="amenities" className={styles["project-detail__amenities"]}>
+
+          <div className={styles["project-detail__section-title"]}>
+            <span
+              className={styles["project-detail__section-icon"]}
+              aria-hidden="true"
+            >
               <svg
-                className={styles['project-detail__location-icon']}
-                width="16"
-                height="24"
-                viewBox="0 0 16 24"
+                width="33"
+                height="33"
+                viewBox="0 0 33 33"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
               >
                 <path
-                  d="M8 0C3.6 0 0 3.6 0 8c0 6 8 16 8 16s8-10 8-16c0-4.4-3.6-8-8-8zm0 12c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4z"
-                  fill="currentColor"
+                  d="M18.4395 18.07C18.2095 18.07 18.0195 18.26 18.0195 18.49C18.0195 18.72 18.2095 18.91 18.4395 18.91C18.5395 18.91 18.6295 18.87 18.6995 18.82C19.1295 19.36 20.0895 20.52 21.3195 21.75C23.0095 23.44 24.5695 24.63 24.5695 24.63C24.5695 24.63 23.3895 23.07 21.6895 21.38C20.4595 20.15 19.3095 19.19 18.7595 18.76C18.8195 18.69 18.8495 18.6 18.8495 18.5C18.8495 18.27 18.6595 18.08 18.4295 18.08L18.4395 18.07Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M17.0608 15.94C17.5308 15.77 18.0008 16.02 18.4408 15.94C18.7908 15.88 19.1708 15.3 18.8808 14.91C18.8808 14.91 18.6408 14.62 18.6608 14.8C18.7108 15.15 18.5308 15.37 18.2208 15.46C17.8508 15.57 17.3208 15.47 16.9308 15.52C16.9008 15.52 16.8708 15.53 16.8408 15.54C16.8408 15.51 16.8508 15.49 16.8608 15.46C16.9108 15.07 16.8108 14.55 16.9208 14.17C17.0108 13.86 17.2308 13.68 17.5808 13.73C17.7608 13.76 17.4708 13.51 17.4708 13.51C17.0808 13.22 16.5008 13.6 16.4308 13.95C16.3508 14.39 16.6008 14.85 16.4308 15.33C16.3908 15.45 16.3008 15.56 16.2008 15.59C16.0908 15.56 16.0008 15.45 15.9608 15.33C15.7908 14.86 16.0408 14.39 15.9608 13.95C15.9008 13.6 15.3208 13.22 14.9308 13.51C14.9308 13.51 14.6408 13.75 14.8108 13.73C15.1608 13.68 15.3808 13.86 15.4708 14.17C15.5808 14.54 15.4808 15.07 15.5308 15.46C15.5308 15.49 15.5408 15.52 15.5508 15.55C15.5208 15.55 15.5008 15.54 15.4708 15.53C15.0808 15.48 14.5608 15.58 14.1808 15.47C13.8708 15.38 13.6908 15.16 13.7408 14.81C13.7708 14.63 13.5208 14.92 13.5208 14.92C13.2308 15.31 13.6108 15.89 13.9608 15.95C14.3908 16.03 14.8608 15.78 15.3408 15.95C15.4608 15.99 15.5708 16.08 15.6008 16.19C15.5708 16.3 15.4608 16.39 15.3408 16.43C14.8708 16.6 14.4008 16.35 13.9608 16.43C13.6108 16.49 13.2308 17.07 13.5208 17.46C13.5208 17.46 13.7608 17.75 13.7408 17.58C13.6908 17.23 13.8708 17.01 14.1808 16.92C14.5508 16.81 15.0808 16.91 15.4708 16.86C15.5008 16.86 15.5308 16.85 15.5608 16.84C15.5608 16.87 15.5508 16.89 15.5408 16.92C15.4908 17.31 15.5908 17.83 15.4808 18.21C15.3908 18.51 15.1708 18.7 14.8208 18.65C14.6408 18.62 14.9308 18.87 14.9308 18.87C15.3208 19.16 15.9008 18.78 15.9708 18.43C16.0508 18 15.8008 17.53 15.9708 17.05C16.0108 16.93 16.1008 16.82 16.2008 16.79C16.3108 16.82 16.4008 16.93 16.4408 17.05C16.6108 17.52 16.3608 17.99 16.4408 18.43C16.5008 18.78 17.0808 19.16 17.4708 18.87C17.4708 18.87 17.7608 18.63 17.5908 18.65C17.2408 18.7 17.0208 18.52 16.9308 18.21C16.8208 17.84 16.9308 17.31 16.8708 16.92C16.8708 16.89 16.8608 16.86 16.8508 16.83C16.8808 16.83 16.9008 16.84 16.9308 16.85C17.3208 16.9 17.8408 16.8 18.2208 16.91C18.5308 17 18.7108 17.22 18.6608 17.57C18.6308 17.75 18.8808 17.46 18.8808 17.46C19.1708 17.07 18.7908 16.49 18.4408 16.43C18.0108 16.35 17.5408 16.6 17.0608 16.43C16.9408 16.39 16.8308 16.3 16.8008 16.19C16.8308 16.08 16.9408 15.99 17.0608 15.95V15.94Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M24.6203 7.82001C24.6203 7.82001 23.0603 9.00001 21.3703 10.7C20.1403 11.93 19.1803 13.08 18.7503 13.63C18.6803 13.57 18.5903 13.54 18.4903 13.54C18.2603 13.54 18.0703 13.73 18.0703 13.96C18.0703 14.19 18.2603 14.38 18.4903 14.38C18.7203 14.38 18.9103 14.19 18.9103 13.96C18.9103 13.86 18.8803 13.77 18.8203 13.7C19.3603 13.26 20.5203 12.31 21.7503 11.08C23.4403 9.39001 24.6303 7.83001 24.6303 7.83001L24.6203 7.82001Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M10.7001 11.02C11.9301 12.25 13.0801 13.21 13.6301 13.64C13.5701 13.71 13.5401 13.8 13.5401 13.9C13.5401 14.13 13.7301 14.32 13.9601 14.32C14.1901 14.32 14.3801 14.13 14.3801 13.9C14.3801 13.67 14.1901 13.48 13.9601 13.48C13.8601 13.48 13.7701 13.51 13.7001 13.57C13.2701 13.03 12.3101 11.87 11.0801 10.64C9.39008 8.95001 7.83008 7.76001 7.83008 7.76001C7.83008 7.76001 9.01008 9.32001 10.7101 11.01L10.7001 11.02Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M7.76977 24.56C7.76977 24.56 9.32977 23.38 11.0198 21.68C12.2498 20.45 13.2098 19.3 13.6398 18.75C13.7098 18.81 13.7998 18.84 13.8998 18.84C14.1298 18.84 14.3198 18.65 14.3198 18.42C14.3198 18.19 14.1298 18 13.8998 18C13.6698 18 13.4798 18.19 13.4798 18.42C13.4798 18.52 13.5198 18.61 13.5698 18.68C13.0298 19.11 11.8698 20.07 10.6398 21.3C8.94977 22.99 7.75977 24.55 7.75977 24.55L7.76977 24.56Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M20.2254 2L16.1492 7.49582L12.0746 2H8V3.40906H9.04461L16.1492 12.9916L23.2554 3.40906H24.3V2H20.2254Z"
+                  fill="#E09C26"
+                />
+                <path
+                  d="M2 12.1496L7.32723 16.1008L2 20.0504V24H3.36584V22.9874L12.6545 16.1008L3.36584 9.21256V8.2H2V12.1496Z"
+                  fill="#E09C26"
+                />
+                <path
+                  d="M30 12.1496L24.6728 16.1008L30 20.0504V24H28.6342V22.9874L19.3455 16.1008L28.6342 9.21256V8.2H30V12.1496Z"
+                  fill="#E09C26"
+                />
+                <path
+                  d="M20.2254 30.0001L16.1492 24.5042L12.0746 30.0001H8V28.591H9.04461L16.1492 19.0084L23.2554 28.591H24.3V30.0001H20.2254Z"
+                  fill="#E09C26"
                 />
               </svg>
-              <h2 className={styles['project-detail__location']}>
-                {project.location}
-              </h2>
-            </div>
-            <h1 className={styles['project-detail__name']}>{project.name}</h1>
-          </div>
-
-          {/* Facts Grid */}
-          <ScrollReveal className={styles['project-detail__facts-grid']} stagger>
-            <div className={styles['project-detail__fact']}>
-              <p className={styles['project-detail__fact-label']}>Property Type</p>
-              <p className={styles['project-detail__fact-value']}>
-                {PROJECT_TYPE_LABELS[project.projectType] || project.projectType}
-              </p>
-            </div>
-            <div className={styles['project-detail__fact']}>
-              <p className={styles['project-detail__fact-label']}>Status</p>
-              <p className={styles['project-detail__fact-value']}>
-                {STATUS_LABELS[project.status] || project.status}
-              </p>
-            </div>
-            <div className={styles['project-detail__fact']}>
-              <p className={styles['project-detail__fact-label']}>Area</p>
-              <p className={styles['project-detail__fact-value']}>
-                {project.projectArea} Sq. Ft.
-              </p>
-            </div>
-            <div className={styles['project-detail__fact']}>
-              <p className={styles['project-detail__fact-label']}>RERA NO:</p>
-              <p className={styles['project-detail__fact-value']}>
-                {project.reraNo || 'N/A'}
-              </p>
-            </div>
-            <div className={styles['project-detail__fact']}>
-              <p className={styles['project-detail__fact-label']}>Price range starts from</p>
-              <p className={styles['project-detail__fact-value']}>
-                Rs. {project.priceRangeStartFrom?.toLocaleString() || 'N/A'}
-              </p>
-            </div>
-            <div className={styles['project-detail__fact']}>
-              <p className={styles['project-detail__fact-label']}>Bedrooms & Bathrooms</p>
-              <p className={styles['project-detail__fact-value']}>
-                {project.bhkTypes?.join(', ') || 'N/A'}
-              </p>
-            </div>
-          </ScrollReveal>
-
-          {/* Project Image */}
-          <div className={styles['project-detail__project-image']}>
-            <Image
-              src={toImageKitUrl(project.images?.[0]?.image?.url)}
-              alt={`${project.name} - interior`}
-              className={styles['project-detail__project-img']}
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            />
-          </div>
-        </div>
-
-        {/* Enquiry Form Sidebar */}
-        <ProjectEnquiryForm projectName={project.name} />
-      </section>
-
-      {/* Description Section */}
-      <ScrollReveal as="section" id="description" className={styles['project-detail__description']}>
-        <div className={styles['project-detail__section-label']}>
-          <span aria-hidden="true">✦</span>
-          <span>PROJECT DESCRIPTION</span>
-          <span aria-hidden="true">✦</span>
-        </div>
-        <h2 className={styles['project-detail__desc-heading']}>
-          Discover {project.name}: Your Dream Home Awaits
-        </h2>
-        {project.description && (
-          <div className={styles['project-detail__rich-content']}>
-            <RichText data={project.description} />
-          </div>
-        )}
-      </ScrollReveal>
-
-      {/* Amenities Section */}
-      <section id="amenities" className={styles['project-detail__amenities']}>
-        <div className={styles['project-detail__section-label']}>
-          <span aria-hidden="true">✦</span>
-          <span>AMENITIES</span>
-          <span aria-hidden="true">✦</span>
-        </div>
-        <ScrollReveal className={styles['project-detail__amenities-grid']} stagger>
-          {amenities.map((amenity, idx) => (
-            <div key={idx} className={styles['project-detail__amenity-card']}>
-              <Image
-                src={toImageKitUrl(amenity.icon?.url)}
-                alt={amenity.name}
-                width={100}
-                height={100}
-                className={styles['project-detail__amenity-icon']}
-              />
-              <h3 className={styles['project-detail__amenity-name']}>
-                {amenity.name}
-              </h3>
-            </div>
-          ))}
-        </ScrollReveal>
-      </section>
-
-      {/* Location Section */}
-      <ScrollReveal as="section" id="location" className={styles['project-detail__location-section']}>
-        <div className={styles['project-detail__section-label']}>
-          <span aria-hidden="true">✦</span>
-          <span>LOCATION</span>
-          <span aria-hidden="true">✦</span>
-        </div>
-        <div className={styles['project-detail__location-layout']}>
-          <div className={styles['project-detail__location-card']}>
-            <div className={styles['project-detail__address-block']}>
-              <h3 className={styles['project-detail__address-label']}>Address</h3>
-              <p className={styles['project-detail__address-text']}>
-                {project.locationAddress || project.location}
-              </p>
-              <a
-                href={project.locationMapUrl || `https://maps.google.com/?q=${encodeURIComponent(project.locationAddress || project.location)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles['project-detail__direction-btn']}
+            </span>
+            <span className={styles["project-detail__section-label"]}>
+              AMENITIES
+            </span>
+            <span
+              className={styles["project-detail__section-icon"]}
+              aria-hidden="true"
+            >
+              <svg
+                width="33"
+                height="33"
+                viewBox="0 0 33 33"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
               >
-                Get Direction
-              </a>
-            </div>
+                <path
+                  d="M18.4395 18.07C18.2095 18.07 18.0195 18.26 18.0195 18.49C18.0195 18.72 18.2095 18.91 18.4395 18.91C18.5395 18.91 18.6295 18.87 18.6995 18.82C19.1295 19.36 20.0895 20.52 21.3195 21.75C23.0095 23.44 24.5695 24.63 24.5695 24.63C24.5695 24.63 23.3895 23.07 21.6895 21.38C20.4595 20.15 19.3095 19.19 18.7595 18.76C18.8195 18.69 18.8495 18.6 18.8495 18.5C18.8495 18.27 18.6595 18.08 18.4295 18.08L18.4395 18.07Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M17.0608 15.94C17.5308 15.77 18.0008 16.02 18.4408 15.94C18.7908 15.88 19.1708 15.3 18.8808 14.91C18.8808 14.91 18.6408 14.62 18.6608 14.8C18.7108 15.15 18.5308 15.37 18.2208 15.46C17.8508 15.57 17.3208 15.47 16.9308 15.52C16.9008 15.52 16.8708 15.53 16.8408 15.54C16.8408 15.51 16.8508 15.49 16.8608 15.46C16.9108 15.07 16.8108 14.55 16.9208 14.17C17.0108 13.86 17.2308 13.68 17.5808 13.73C17.7608 13.76 17.4708 13.51 17.4708 13.51C17.0808 13.22 16.5008 13.6 16.4308 13.95C16.3508 14.39 16.6008 14.85 16.4308 15.33C16.3908 15.45 16.3008 15.56 16.2008 15.59C16.0908 15.56 16.0008 15.45 15.9608 15.33C15.7908 14.86 16.0408 14.39 15.9608 13.95C15.9008 13.6 15.3208 13.22 14.9308 13.51C14.9308 13.51 14.6408 13.75 14.8108 13.73C15.1608 13.68 15.3808 13.86 15.4708 14.17C15.5808 14.54 15.4808 15.07 15.5308 15.46C15.5308 15.49 15.5408 15.52 15.5508 15.55C15.5208 15.55 15.5008 15.54 15.4708 15.53C15.0808 15.48 14.5608 15.58 14.1808 15.47C13.8708 15.38 13.6908 15.16 13.7408 14.81C13.7708 14.63 13.5208 14.92 13.5208 14.92C13.2308 15.31 13.6108 15.89 13.9608 15.95C14.3908 16.03 14.8608 15.78 15.3408 15.95C15.4608 15.99 15.5708 16.08 15.6008 16.19C15.5708 16.3 15.4608 16.39 15.3408 16.43C14.8708 16.6 14.4008 16.35 13.9608 16.43C13.6108 16.49 13.2308 17.07 13.5208 17.46C13.5208 17.46 13.7608 17.75 13.7408 17.58C13.6908 17.23 13.8708 17.01 14.1808 16.92C14.5508 16.81 15.0808 16.91 15.4708 16.86C15.5008 16.86 15.5308 16.85 15.5608 16.84C15.5608 16.87 15.5508 16.89 15.5408 16.92C15.4908 17.31 15.5908 17.83 15.4808 18.21C15.3908 18.51 15.1708 18.7 14.8208 18.65C14.6408 18.62 14.9308 18.87 14.9308 18.87C15.3208 19.16 15.9008 18.78 15.9708 18.43C16.0508 18 15.8008 17.53 15.9708 17.05C16.0108 16.93 16.1008 16.82 16.2008 16.79C16.3108 16.82 16.4008 16.93 16.4408 17.05C16.6108 17.52 16.3608 17.99 16.4408 18.43C16.5008 18.78 17.0808 19.16 17.4708 18.87C17.4708 18.87 17.7608 18.63 17.5908 18.65C17.2408 18.7 17.0208 18.52 16.9308 18.21C16.8208 17.84 16.9308 17.31 16.8708 16.92C16.8708 16.89 16.8608 16.86 16.8508 16.83C16.8808 16.83 16.9008 16.84 16.9308 16.85C17.3208 16.9 17.8408 16.8 18.2208 16.91C18.5308 17 18.7108 17.22 18.6608 17.57C18.6308 17.75 18.8808 17.46 18.8808 17.46C19.1708 17.07 18.7908 16.49 18.4408 16.43C18.0108 16.35 17.5408 16.6 17.0608 16.43C16.9408 16.39 16.8308 16.3 16.8008 16.19C16.8308 16.08 16.9408 15.99 17.0608 15.95V15.94Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M24.6203 7.82001C24.6203 7.82001 23.0603 9.00001 21.3703 10.7C20.1403 11.93 19.1803 13.08 18.7503 13.63C18.6803 13.57 18.5903 13.54 18.4903 13.54C18.2603 13.54 18.0703 13.73 18.0703 13.96C18.0703 14.19 18.2603 14.38 18.4903 14.38C18.7203 14.38 18.9103 14.19 18.9103 13.96C18.9103 13.86 18.8803 13.77 18.8203 13.7C19.3603 13.26 20.5203 12.31 21.7503 11.08C23.4403 9.39001 24.6303 7.83001 24.6303 7.83001L24.6203 7.82001Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M10.7001 11.02C11.9301 12.25 13.0801 13.21 13.6301 13.64C13.5701 13.71 13.5401 13.8 13.5401 13.9C13.5401 14.13 13.7301 14.32 13.9601 14.32C14.1901 14.32 14.3801 14.13 14.3801 13.9C14.3801 13.67 14.1901 13.48 13.9601 13.48C13.8601 13.48 13.7701 13.51 13.7001 13.57C13.2701 13.03 12.3101 11.87 11.0801 10.64C9.39008 8.95001 7.83008 7.76001 7.83008 7.76001C7.83008 7.76001 9.01008 9.32001 10.7101 11.01L10.7001 11.02Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M7.76977 24.56C7.76977 24.56 9.32977 23.38 11.0198 21.68C12.2498 20.45 13.2098 19.3 13.6398 18.75C13.7098 18.81 13.7998 18.84 13.8998 18.84C14.1298 18.84 14.3198 18.65 14.3198 18.42C14.3198 18.19 14.1298 18 13.8998 18C13.6698 18 13.4798 18.19 13.4798 18.42C13.4798 18.52 13.5198 18.61 13.5698 18.68C13.0298 19.11 11.8698 20.07 10.6398 21.3C8.94977 22.99 7.75977 24.55 7.75977 24.55L7.76977 24.56Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M20.2254 2L16.1492 7.49582L12.0746 2H8V3.40906H9.04461L16.1492 12.9916L23.2554 3.40906H24.3V2H20.2254Z"
+                  fill="#E09C26"
+                />
+                <path
+                  d="M2 12.1496L7.32723 16.1008L2 20.0504V24H3.36584V22.9874L12.6545 16.1008L3.36584 9.21256V8.2H2V12.1496Z"
+                  fill="#E09C26"
+                />
+                <path
+                  d="M30 12.1496L24.6728 16.1008L30 20.0504V24H28.6342V22.9874L19.3455 16.1008L28.6342 9.21256V8.2H30V12.1496Z"
+                  fill="#E09C26"
+                />
+                <path
+                  d="M20.2254 30.0001L16.1492 24.5042L12.0746 30.0001H8V28.591H9.04461L16.1492 19.0084L23.2554 28.591H24.3V30.0001H20.2254Z"
+                  fill="#E09C26"
+                />
+              </svg>
+            </span>
+          </div>
+          <ScrollReveal
+            className={styles["project-detail__amenities-grid"]}
+            stagger
+          >
+            {amenities.map((amenity, idx) => (
+              <div key={idx} className={styles["project-detail__amenity-card"]}>
+                <Image
+                  src={toImageKitUrl(amenity.icon?.url)}
+                  alt={amenity.name}
+                  width={100}
+                  height={100}
+                  className={styles["project-detail__amenity-icon"]}
+                />
+                <h3 className={styles["project-detail__amenity-name"]}>
+                  {amenity.name}
+                </h3>
+              </div>
+            ))}
+          </ScrollReveal>
+        </section>
 
-            {/* Key Transports */}
-            <div className={styles['project-detail__transports']}>
-              <h4 className={styles['project-detail__transport-title']}>Key transport</h4>
-              <div className={styles['project-detail__transport-grid']}>
-                {transports.map((transport, idx) => (
-                  <div key={idx} className={styles['project-detail__transport-item']}>
-                    <p className={styles['project-detail__transport-type']}>
-                      {transport.type}
-                    </p>
-                    <p className={styles['project-detail__transport-name']}>
-                      {transport.name} - {transport.distance}
-                    </p>
-                  </div>
-                ))}
+        {/* Location Section */}
+        <ScrollReveal
+          as="section"
+          id="location"
+          className={styles["project-detail__location-section"]}
+        >
+
+          <div className={styles["project-detail__section-title"]}>
+            <span
+              className={styles["project-detail__section-icon"]}
+              aria-hidden="true"
+            >
+              <svg
+                width="33"
+                height="33"
+                viewBox="0 0 33 33"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M18.4395 18.07C18.2095 18.07 18.0195 18.26 18.0195 18.49C18.0195 18.72 18.2095 18.91 18.4395 18.91C18.5395 18.91 18.6295 18.87 18.6995 18.82C19.1295 19.36 20.0895 20.52 21.3195 21.75C23.0095 23.44 24.5695 24.63 24.5695 24.63C24.5695 24.63 23.3895 23.07 21.6895 21.38C20.4595 20.15 19.3095 19.19 18.7595 18.76C18.8195 18.69 18.8495 18.6 18.8495 18.5C18.8495 18.27 18.6595 18.08 18.4295 18.08L18.4395 18.07Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M17.0608 15.94C17.5308 15.77 18.0008 16.02 18.4408 15.94C18.7908 15.88 19.1708 15.3 18.8808 14.91C18.8808 14.91 18.6408 14.62 18.6608 14.8C18.7108 15.15 18.5308 15.37 18.2208 15.46C17.8508 15.57 17.3208 15.47 16.9308 15.52C16.9008 15.52 16.8708 15.53 16.8408 15.54C16.8408 15.51 16.8508 15.49 16.8608 15.46C16.9108 15.07 16.8108 14.55 16.9208 14.17C17.0108 13.86 17.2308 13.68 17.5808 13.73C17.7608 13.76 17.4708 13.51 17.4708 13.51C17.0808 13.22 16.5008 13.6 16.4308 13.95C16.3508 14.39 16.6008 14.85 16.4308 15.33C16.3908 15.45 16.3008 15.56 16.2008 15.59C16.0908 15.56 16.0008 15.45 15.9608 15.33C15.7908 14.86 16.0408 14.39 15.9608 13.95C15.9008 13.6 15.3208 13.22 14.9308 13.51C14.9308 13.51 14.6408 13.75 14.8108 13.73C15.1608 13.68 15.3808 13.86 15.4708 14.17C15.5808 14.54 15.4808 15.07 15.5308 15.46C15.5308 15.49 15.5408 15.52 15.5508 15.55C15.5208 15.55 15.5008 15.54 15.4708 15.53C15.0808 15.48 14.5608 15.58 14.1808 15.47C13.8708 15.38 13.6908 15.16 13.7408 14.81C13.7708 14.63 13.5208 14.92 13.5208 14.92C13.2308 15.31 13.6108 15.89 13.9608 15.95C14.3908 16.03 14.8608 15.78 15.3408 15.95C15.4608 15.99 15.5708 16.08 15.6008 16.19C15.5708 16.3 15.4608 16.39 15.3408 16.43C14.8708 16.6 14.4008 16.35 13.9608 16.43C13.6108 16.49 13.2308 17.07 13.5208 17.46C13.5208 17.46 13.7608 17.75 13.7408 17.58C13.6908 17.23 13.8708 17.01 14.1808 16.92C14.5508 16.81 15.0808 16.91 15.4708 16.86C15.5008 16.86 15.5308 16.85 15.5608 16.84C15.5608 16.87 15.5508 16.89 15.5408 16.92C15.4908 17.31 15.5908 17.83 15.4808 18.21C15.3908 18.51 15.1708 18.7 14.8208 18.65C14.6408 18.62 14.9308 18.87 14.9308 18.87C15.3208 19.16 15.9008 18.78 15.9708 18.43C16.0508 18 15.8008 17.53 15.9708 17.05C16.0108 16.93 16.1008 16.82 16.2008 16.79C16.3108 16.82 16.4008 16.93 16.4408 17.05C16.6108 17.52 16.3608 17.99 16.4408 18.43C16.5008 18.78 17.0808 19.16 17.4708 18.87C17.4708 18.87 17.7608 18.63 17.5908 18.65C17.2408 18.7 17.0208 18.52 16.9308 18.21C16.8208 17.84 16.9308 17.31 16.8708 16.92C16.8708 16.89 16.8608 16.86 16.8508 16.83C16.8808 16.83 16.9008 16.84 16.9308 16.85C17.3208 16.9 17.8408 16.8 18.2208 16.91C18.5308 17 18.7108 17.22 18.6608 17.57C18.6308 17.75 18.8808 17.46 18.8808 17.46C19.1708 17.07 18.7908 16.49 18.4408 16.43C18.0108 16.35 17.5408 16.6 17.0608 16.43C16.9408 16.39 16.8308 16.3 16.8008 16.19C16.8308 16.08 16.9408 15.99 17.0608 15.95V15.94Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M24.6203 7.82001C24.6203 7.82001 23.0603 9.00001 21.3703 10.7C20.1403 11.93 19.1803 13.08 18.7503 13.63C18.6803 13.57 18.5903 13.54 18.4903 13.54C18.2603 13.54 18.0703 13.73 18.0703 13.96C18.0703 14.19 18.2603 14.38 18.4903 14.38C18.7203 14.38 18.9103 14.19 18.9103 13.96C18.9103 13.86 18.8803 13.77 18.8203 13.7C19.3603 13.26 20.5203 12.31 21.7503 11.08C23.4403 9.39001 24.6303 7.83001 24.6303 7.83001L24.6203 7.82001Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M10.7001 11.02C11.9301 12.25 13.0801 13.21 13.6301 13.64C13.5701 13.71 13.5401 13.8 13.5401 13.9C13.5401 14.13 13.7301 14.32 13.9601 14.32C14.1901 14.32 14.3801 14.13 14.3801 13.9C14.3801 13.67 14.1901 13.48 13.9601 13.48C13.8601 13.48 13.7701 13.51 13.7001 13.57C13.2701 13.03 12.3101 11.87 11.0801 10.64C9.39008 8.95001 7.83008 7.76001 7.83008 7.76001C7.83008 7.76001 9.01008 9.32001 10.7101 11.01L10.7001 11.02Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M7.76977 24.56C7.76977 24.56 9.32977 23.38 11.0198 21.68C12.2498 20.45 13.2098 19.3 13.6398 18.75C13.7098 18.81 13.7998 18.84 13.8998 18.84C14.1298 18.84 14.3198 18.65 14.3198 18.42C14.3198 18.19 14.1298 18 13.8998 18C13.6698 18 13.4798 18.19 13.4798 18.42C13.4798 18.52 13.5198 18.61 13.5698 18.68C13.0298 19.11 11.8698 20.07 10.6398 21.3C8.94977 22.99 7.75977 24.55 7.75977 24.55L7.76977 24.56Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M20.2254 2L16.1492 7.49582L12.0746 2H8V3.40906H9.04461L16.1492 12.9916L23.2554 3.40906H24.3V2H20.2254Z"
+                  fill="#E09C26"
+                />
+                <path
+                  d="M2 12.1496L7.32723 16.1008L2 20.0504V24H3.36584V22.9874L12.6545 16.1008L3.36584 9.21256V8.2H2V12.1496Z"
+                  fill="#E09C26"
+                />
+                <path
+                  d="M30 12.1496L24.6728 16.1008L30 20.0504V24H28.6342V22.9874L19.3455 16.1008L28.6342 9.21256V8.2H30V12.1496Z"
+                  fill="#E09C26"
+                />
+                <path
+                  d="M20.2254 30.0001L16.1492 24.5042L12.0746 30.0001H8V28.591H9.04461L16.1492 19.0084L23.2554 28.591H24.3V30.0001H20.2254Z"
+                  fill="#E09C26"
+                />
+              </svg>
+            </span>
+            <span className={styles["project-detail__section-label"]}>
+              LOCATION
+            </span>
+            <span
+              className={styles["project-detail__section-icon"]}
+              aria-hidden="true"
+            >
+              <svg
+                width="33"
+                height="33"
+                viewBox="0 0 33 33"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M18.4395 18.07C18.2095 18.07 18.0195 18.26 18.0195 18.49C18.0195 18.72 18.2095 18.91 18.4395 18.91C18.5395 18.91 18.6295 18.87 18.6995 18.82C19.1295 19.36 20.0895 20.52 21.3195 21.75C23.0095 23.44 24.5695 24.63 24.5695 24.63C24.5695 24.63 23.3895 23.07 21.6895 21.38C20.4595 20.15 19.3095 19.19 18.7595 18.76C18.8195 18.69 18.8495 18.6 18.8495 18.5C18.8495 18.27 18.6595 18.08 18.4295 18.08L18.4395 18.07Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M17.0608 15.94C17.5308 15.77 18.0008 16.02 18.4408 15.94C18.7908 15.88 19.1708 15.3 18.8808 14.91C18.8808 14.91 18.6408 14.62 18.6608 14.8C18.7108 15.15 18.5308 15.37 18.2208 15.46C17.8508 15.57 17.3208 15.47 16.9308 15.52C16.9008 15.52 16.8708 15.53 16.8408 15.54C16.8408 15.51 16.8508 15.49 16.8608 15.46C16.9108 15.07 16.8108 14.55 16.9208 14.17C17.0108 13.86 17.2308 13.68 17.5808 13.73C17.7608 13.76 17.4708 13.51 17.4708 13.51C17.0808 13.22 16.5008 13.6 16.4308 13.95C16.3508 14.39 16.6008 14.85 16.4308 15.33C16.3908 15.45 16.3008 15.56 16.2008 15.59C16.0908 15.56 16.0008 15.45 15.9608 15.33C15.7908 14.86 16.0408 14.39 15.9608 13.95C15.9008 13.6 15.3208 13.22 14.9308 13.51C14.9308 13.51 14.6408 13.75 14.8108 13.73C15.1608 13.68 15.3808 13.86 15.4708 14.17C15.5808 14.54 15.4808 15.07 15.5308 15.46C15.5308 15.49 15.5408 15.52 15.5508 15.55C15.5208 15.55 15.5008 15.54 15.4708 15.53C15.0808 15.48 14.5608 15.58 14.1808 15.47C13.8708 15.38 13.6908 15.16 13.7408 14.81C13.7708 14.63 13.5208 14.92 13.5208 14.92C13.2308 15.31 13.6108 15.89 13.9608 15.95C14.3908 16.03 14.8608 15.78 15.3408 15.95C15.4608 15.99 15.5708 16.08 15.6008 16.19C15.5708 16.3 15.4608 16.39 15.3408 16.43C14.8708 16.6 14.4008 16.35 13.9608 16.43C13.6108 16.49 13.2308 17.07 13.5208 17.46C13.5208 17.46 13.7608 17.75 13.7408 17.58C13.6908 17.23 13.8708 17.01 14.1808 16.92C14.5508 16.81 15.0808 16.91 15.4708 16.86C15.5008 16.86 15.5308 16.85 15.5608 16.84C15.5608 16.87 15.5508 16.89 15.5408 16.92C15.4908 17.31 15.5908 17.83 15.4808 18.21C15.3908 18.51 15.1708 18.7 14.8208 18.65C14.6408 18.62 14.9308 18.87 14.9308 18.87C15.3208 19.16 15.9008 18.78 15.9708 18.43C16.0508 18 15.8008 17.53 15.9708 17.05C16.0108 16.93 16.1008 16.82 16.2008 16.79C16.3108 16.82 16.4008 16.93 16.4408 17.05C16.6108 17.52 16.3608 17.99 16.4408 18.43C16.5008 18.78 17.0808 19.16 17.4708 18.87C17.4708 18.87 17.7608 18.63 17.5908 18.65C17.2408 18.7 17.0208 18.52 16.9308 18.21C16.8208 17.84 16.9308 17.31 16.8708 16.92C16.8708 16.89 16.8608 16.86 16.8508 16.83C16.8808 16.83 16.9008 16.84 16.9308 16.85C17.3208 16.9 17.8408 16.8 18.2208 16.91C18.5308 17 18.7108 17.22 18.6608 17.57C18.6308 17.75 18.8808 17.46 18.8808 17.46C19.1708 17.07 18.7908 16.49 18.4408 16.43C18.0108 16.35 17.5408 16.6 17.0608 16.43C16.9408 16.39 16.8308 16.3 16.8008 16.19C16.8308 16.08 16.9408 15.99 17.0608 15.95V15.94Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M24.6203 7.82001C24.6203 7.82001 23.0603 9.00001 21.3703 10.7C20.1403 11.93 19.1803 13.08 18.7503 13.63C18.6803 13.57 18.5903 13.54 18.4903 13.54C18.2603 13.54 18.0703 13.73 18.0703 13.96C18.0703 14.19 18.2603 14.38 18.4903 14.38C18.7203 14.38 18.9103 14.19 18.9103 13.96C18.9103 13.86 18.8803 13.77 18.8203 13.7C19.3603 13.26 20.5203 12.31 21.7503 11.08C23.4403 9.39001 24.6303 7.83001 24.6303 7.83001L24.6203 7.82001Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M10.7001 11.02C11.9301 12.25 13.0801 13.21 13.6301 13.64C13.5701 13.71 13.5401 13.8 13.5401 13.9C13.5401 14.13 13.7301 14.32 13.9601 14.32C14.1901 14.32 14.3801 14.13 14.3801 13.9C14.3801 13.67 14.1901 13.48 13.9601 13.48C13.8601 13.48 13.7701 13.51 13.7001 13.57C13.2701 13.03 12.3101 11.87 11.0801 10.64C9.39008 8.95001 7.83008 7.76001 7.83008 7.76001C7.83008 7.76001 9.01008 9.32001 10.7101 11.01L10.7001 11.02Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M7.76977 24.56C7.76977 24.56 9.32977 23.38 11.0198 21.68C12.2498 20.45 13.2098 19.3 13.6398 18.75C13.7098 18.81 13.7998 18.84 13.8998 18.84C14.1298 18.84 14.3198 18.65 14.3198 18.42C14.3198 18.19 14.1298 18 13.8998 18C13.6698 18 13.4798 18.19 13.4798 18.42C13.4798 18.52 13.5198 18.61 13.5698 18.68C13.0298 19.11 11.8698 20.07 10.6398 21.3C8.94977 22.99 7.75977 24.55 7.75977 24.55L7.76977 24.56Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M20.2254 2L16.1492 7.49582L12.0746 2H8V3.40906H9.04461L16.1492 12.9916L23.2554 3.40906H24.3V2H20.2254Z"
+                  fill="#E09C26"
+                />
+                <path
+                  d="M2 12.1496L7.32723 16.1008L2 20.0504V24H3.36584V22.9874L12.6545 16.1008L3.36584 9.21256V8.2H2V12.1496Z"
+                  fill="#E09C26"
+                />
+                <path
+                  d="M30 12.1496L24.6728 16.1008L30 20.0504V24H28.6342V22.9874L19.3455 16.1008L28.6342 9.21256V8.2H30V12.1496Z"
+                  fill="#E09C26"
+                />
+                <path
+                  d="M20.2254 30.0001L16.1492 24.5042L12.0746 30.0001H8V28.591H9.04461L16.1492 19.0084L23.2554 28.591H24.3V30.0001H20.2254Z"
+                  fill="#E09C26"
+                />
+              </svg>
+            </span>
+          </div>
+          <div className={styles["project-detail__location-layout"]}>
+            <div className={styles["project-detail__location-card"]}>
+              <div className={styles["project-detail__address-blockWrapper"]}>
+                 <div className={styles["project-detail__address-block"]}>
+                <h3 className={styles["project-detail__address-label"]}>
+                  Address
+                </h3>
+                <p className={styles["project-detail__address-text"]}>
+                  {project.locationAddress || project.location}
+                </p>
+                </div>
+                <a
+                  href={
+                    project.locationMapUrl ||
+                    `https://maps.google.com/?q=${encodeURIComponent(project.locationAddress || project.location)}`
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles["project-detail__direction-btn"]}
+                >
+                  Get Direction
+                </a>
+              </div>
+
+              {/* Key Transports */}
+              <div className={styles["project-detail__transports"]}>
+                <h4 className={styles["project-detail__transport-title"]}>
+                  Key transport
+                </h4>
+                <div className={styles["project-detail__transport-grid"]}>
+                  {transports.map((transport, idx) => (
+                    <div
+                      key={idx}
+                      className={styles["project-detail__transport-item"]}
+                    >
+                      <p className={styles["project-detail__transport-type"]}>
+                        {transport.type}
+                      </p>
+                      <p className={styles["project-detail__transport-name"]}>
+                        {transport.name} - {transport.distance}
+                      </p>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
+
+            {/* Map Section */}
+            <div className={styles["project-detail__map"]}>
+              {project.latitude && project.longitude ? (
+                <iframe
+                  className={styles["project-detail__map-embed"]}
+                  src={`https://www.google.com/maps?q=${project.latitude},${project.longitude}&output=embed`}
+                  title={`${project.name} location map`}
+                  loading="lazy"
+                  style={{ border: "none" }}
+                  allowFullScreen=""
+                  aria-label={`Map showing location of ${project.name}`}
+                />
+              ) : project.locationMapUrl ? (
+                <iframe
+                  className={styles["project-detail__map-embed"]}
+                  src={`${project.locationMapUrl}${project.locationMapUrl.includes("?") ? "&" : "?"}output=embed`}
+                  title={`${project.name} location map`}
+                  loading="lazy"
+                  style={{ border: "none" }}
+                  allowFullScreen=""
+                  aria-label={`Map showing location of ${project.name}`}
+                />
+              ) : (
+                <Image
+                  src={toImageKitUrl(null)}
+                  alt="Location map placeholder"
+                  className={styles["project-detail__map-img"]}
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  width={800}
+                  height={600}
+                />
+              )}
+            </div>
           </div>
+        </ScrollReveal>
 
-          {/* Map Section */}
-          <div className={styles['project-detail__map']}>
-            {project.latitude && project.longitude ? (
-              <iframe
-                className={styles['project-detail__map-embed']}
-                src={`https://www.google.com/maps?q=${project.latitude},${project.longitude}&output=embed`}
-                title={`${project.name} location map`}
-                loading="lazy"
-                style={{ border: 'none' }}
-                allowFullScreen=""
-                aria-label={`Map showing location of ${project.name}`}
-              />
-            ) : project.locationMapUrl ? (
-              <iframe
-                className={styles['project-detail__map-embed']}
-                src={`${project.locationMapUrl}${project.locationMapUrl.includes('?') ? '&' : '?'}output=embed`}
-                title={`${project.name} location map`}
-                loading="lazy"
-                style={{ border: 'none' }}
-                allowFullScreen=""
-                aria-label={`Map showing location of ${project.name}`}
-              />
-            ) : (
-              <Image
-                src={toImageKitUrl(null)}
-                alt="Location map placeholder"
-                className={styles['project-detail__map-img']}
-                fill
-                sizes="(max-width: 768px) 100vw, 50vw"
-              />
-            )}
+        {/* Media Section */}
+        <ScrollReveal
+          as="section"
+          id="media"
+          className={styles["project-detail__media"]}
+        >
+
+          <div className={styles["project-detail__section-title"]}>
+            <span
+              className={styles["project-detail__section-icon"]}
+              aria-hidden="true"
+            >
+              <svg
+                width="33"
+                height="33"
+                viewBox="0 0 33 33"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M18.4395 18.07C18.2095 18.07 18.0195 18.26 18.0195 18.49C18.0195 18.72 18.2095 18.91 18.4395 18.91C18.5395 18.91 18.6295 18.87 18.6995 18.82C19.1295 19.36 20.0895 20.52 21.3195 21.75C23.0095 23.44 24.5695 24.63 24.5695 24.63C24.5695 24.63 23.3895 23.07 21.6895 21.38C20.4595 20.15 19.3095 19.19 18.7595 18.76C18.8195 18.69 18.8495 18.6 18.8495 18.5C18.8495 18.27 18.6595 18.08 18.4295 18.08L18.4395 18.07Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M17.0608 15.94C17.5308 15.77 18.0008 16.02 18.4408 15.94C18.7908 15.88 19.1708 15.3 18.8808 14.91C18.8808 14.91 18.6408 14.62 18.6608 14.8C18.7108 15.15 18.5308 15.37 18.2208 15.46C17.8508 15.57 17.3208 15.47 16.9308 15.52C16.9008 15.52 16.8708 15.53 16.8408 15.54C16.8408 15.51 16.8508 15.49 16.8608 15.46C16.9108 15.07 16.8108 14.55 16.9208 14.17C17.0108 13.86 17.2308 13.68 17.5808 13.73C17.7608 13.76 17.4708 13.51 17.4708 13.51C17.0808 13.22 16.5008 13.6 16.4308 13.95C16.3508 14.39 16.6008 14.85 16.4308 15.33C16.3908 15.45 16.3008 15.56 16.2008 15.59C16.0908 15.56 16.0008 15.45 15.9608 15.33C15.7908 14.86 16.0408 14.39 15.9608 13.95C15.9008 13.6 15.3208 13.22 14.9308 13.51C14.9308 13.51 14.6408 13.75 14.8108 13.73C15.1608 13.68 15.3808 13.86 15.4708 14.17C15.5808 14.54 15.4808 15.07 15.5308 15.46C15.5308 15.49 15.5408 15.52 15.5508 15.55C15.5208 15.55 15.5008 15.54 15.4708 15.53C15.0808 15.48 14.5608 15.58 14.1808 15.47C13.8708 15.38 13.6908 15.16 13.7408 14.81C13.7708 14.63 13.5208 14.92 13.5208 14.92C13.2308 15.31 13.6108 15.89 13.9608 15.95C14.3908 16.03 14.8608 15.78 15.3408 15.95C15.4608 15.99 15.5708 16.08 15.6008 16.19C15.5708 16.3 15.4608 16.39 15.3408 16.43C14.8708 16.6 14.4008 16.35 13.9608 16.43C13.6108 16.49 13.2308 17.07 13.5208 17.46C13.5208 17.46 13.7608 17.75 13.7408 17.58C13.6908 17.23 13.8708 17.01 14.1808 16.92C14.5508 16.81 15.0808 16.91 15.4708 16.86C15.5008 16.86 15.5308 16.85 15.5608 16.84C15.5608 16.87 15.5508 16.89 15.5408 16.92C15.4908 17.31 15.5908 17.83 15.4808 18.21C15.3908 18.51 15.1708 18.7 14.8208 18.65C14.6408 18.62 14.9308 18.87 14.9308 18.87C15.3208 19.16 15.9008 18.78 15.9708 18.43C16.0508 18 15.8008 17.53 15.9708 17.05C16.0108 16.93 16.1008 16.82 16.2008 16.79C16.3108 16.82 16.4008 16.93 16.4408 17.05C16.6108 17.52 16.3608 17.99 16.4408 18.43C16.5008 18.78 17.0808 19.16 17.4708 18.87C17.4708 18.87 17.7608 18.63 17.5908 18.65C17.2408 18.7 17.0208 18.52 16.9308 18.21C16.8208 17.84 16.9308 17.31 16.8708 16.92C16.8708 16.89 16.8608 16.86 16.8508 16.83C16.8808 16.83 16.9008 16.84 16.9308 16.85C17.3208 16.9 17.8408 16.8 18.2208 16.91C18.5308 17 18.7108 17.22 18.6608 17.57C18.6308 17.75 18.8808 17.46 18.8808 17.46C19.1708 17.07 18.7908 16.49 18.4408 16.43C18.0108 16.35 17.5408 16.6 17.0608 16.43C16.9408 16.39 16.8308 16.3 16.8008 16.19C16.8308 16.08 16.9408 15.99 17.0608 15.95V15.94Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M24.6203 7.82001C24.6203 7.82001 23.0603 9.00001 21.3703 10.7C20.1403 11.93 19.1803 13.08 18.7503 13.63C18.6803 13.57 18.5903 13.54 18.4903 13.54C18.2603 13.54 18.0703 13.73 18.0703 13.96C18.0703 14.19 18.2603 14.38 18.4903 14.38C18.7203 14.38 18.9103 14.19 18.9103 13.96C18.9103 13.86 18.8803 13.77 18.8203 13.7C19.3603 13.26 20.5203 12.31 21.7503 11.08C23.4403 9.39001 24.6303 7.83001 24.6303 7.83001L24.6203 7.82001Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M10.7001 11.02C11.9301 12.25 13.0801 13.21 13.6301 13.64C13.5701 13.71 13.5401 13.8 13.5401 13.9C13.5401 14.13 13.7301 14.32 13.9601 14.32C14.1901 14.32 14.3801 14.13 14.3801 13.9C14.3801 13.67 14.1901 13.48 13.9601 13.48C13.8601 13.48 13.7701 13.51 13.7001 13.57C13.2701 13.03 12.3101 11.87 11.0801 10.64C9.39008 8.95001 7.83008 7.76001 7.83008 7.76001C7.83008 7.76001 9.01008 9.32001 10.7101 11.01L10.7001 11.02Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M7.76977 24.56C7.76977 24.56 9.32977 23.38 11.0198 21.68C12.2498 20.45 13.2098 19.3 13.6398 18.75C13.7098 18.81 13.7998 18.84 13.8998 18.84C14.1298 18.84 14.3198 18.65 14.3198 18.42C14.3198 18.19 14.1298 18 13.8998 18C13.6698 18 13.4798 18.19 13.4798 18.42C13.4798 18.52 13.5198 18.61 13.5698 18.68C13.0298 19.11 11.8698 20.07 10.6398 21.3C8.94977 22.99 7.75977 24.55 7.75977 24.55L7.76977 24.56Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M20.2254 2L16.1492 7.49582L12.0746 2H8V3.40906H9.04461L16.1492 12.9916L23.2554 3.40906H24.3V2H20.2254Z"
+                  fill="#E09C26"
+                />
+                <path
+                  d="M2 12.1496L7.32723 16.1008L2 20.0504V24H3.36584V22.9874L12.6545 16.1008L3.36584 9.21256V8.2H2V12.1496Z"
+                  fill="#E09C26"
+                />
+                <path
+                  d="M30 12.1496L24.6728 16.1008L30 20.0504V24H28.6342V22.9874L19.3455 16.1008L28.6342 9.21256V8.2H30V12.1496Z"
+                  fill="#E09C26"
+                />
+                <path
+                  d="M20.2254 30.0001L16.1492 24.5042L12.0746 30.0001H8V28.591H9.04461L16.1492 19.0084L23.2554 28.591H24.3V30.0001H20.2254Z"
+                  fill="#E09C26"
+                />
+              </svg>
+            </span>
+            <span className={styles["project-detail__section-label"]}>
+              MEDIA
+            </span>
+            <span
+              className={styles["project-detail__section-icon"]}
+              aria-hidden="true"
+            >
+              <svg
+                width="33"
+                height="33"
+                viewBox="0 0 33 33"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M18.4395 18.07C18.2095 18.07 18.0195 18.26 18.0195 18.49C18.0195 18.72 18.2095 18.91 18.4395 18.91C18.5395 18.91 18.6295 18.87 18.6995 18.82C19.1295 19.36 20.0895 20.52 21.3195 21.75C23.0095 23.44 24.5695 24.63 24.5695 24.63C24.5695 24.63 23.3895 23.07 21.6895 21.38C20.4595 20.15 19.3095 19.19 18.7595 18.76C18.8195 18.69 18.8495 18.6 18.8495 18.5C18.8495 18.27 18.6595 18.08 18.4295 18.08L18.4395 18.07Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M17.0608 15.94C17.5308 15.77 18.0008 16.02 18.4408 15.94C18.7908 15.88 19.1708 15.3 18.8808 14.91C18.8808 14.91 18.6408 14.62 18.6608 14.8C18.7108 15.15 18.5308 15.37 18.2208 15.46C17.8508 15.57 17.3208 15.47 16.9308 15.52C16.9008 15.52 16.8708 15.53 16.8408 15.54C16.8408 15.51 16.8508 15.49 16.8608 15.46C16.9108 15.07 16.8108 14.55 16.9208 14.17C17.0108 13.86 17.2308 13.68 17.5808 13.73C17.7608 13.76 17.4708 13.51 17.4708 13.51C17.0808 13.22 16.5008 13.6 16.4308 13.95C16.3508 14.39 16.6008 14.85 16.4308 15.33C16.3908 15.45 16.3008 15.56 16.2008 15.59C16.0908 15.56 16.0008 15.45 15.9608 15.33C15.7908 14.86 16.0408 14.39 15.9608 13.95C15.9008 13.6 15.3208 13.22 14.9308 13.51C14.9308 13.51 14.6408 13.75 14.8108 13.73C15.1608 13.68 15.3808 13.86 15.4708 14.17C15.5808 14.54 15.4808 15.07 15.5308 15.46C15.5308 15.49 15.5408 15.52 15.5508 15.55C15.5208 15.55 15.5008 15.54 15.4708 15.53C15.0808 15.48 14.5608 15.58 14.1808 15.47C13.8708 15.38 13.6908 15.16 13.7408 14.81C13.7708 14.63 13.5208 14.92 13.5208 14.92C13.2308 15.31 13.6108 15.89 13.9608 15.95C14.3908 16.03 14.8608 15.78 15.3408 15.95C15.4608 15.99 15.5708 16.08 15.6008 16.19C15.5708 16.3 15.4608 16.39 15.3408 16.43C14.8708 16.6 14.4008 16.35 13.9608 16.43C13.6108 16.49 13.2308 17.07 13.5208 17.46C13.5208 17.46 13.7608 17.75 13.7408 17.58C13.6908 17.23 13.8708 17.01 14.1808 16.92C14.5508 16.81 15.0808 16.91 15.4708 16.86C15.5008 16.86 15.5308 16.85 15.5608 16.84C15.5608 16.87 15.5508 16.89 15.5408 16.92C15.4908 17.31 15.5908 17.83 15.4808 18.21C15.3908 18.51 15.1708 18.7 14.8208 18.65C14.6408 18.62 14.9308 18.87 14.9308 18.87C15.3208 19.16 15.9008 18.78 15.9708 18.43C16.0508 18 15.8008 17.53 15.9708 17.05C16.0108 16.93 16.1008 16.82 16.2008 16.79C16.3108 16.82 16.4008 16.93 16.4408 17.05C16.6108 17.52 16.3608 17.99 16.4408 18.43C16.5008 18.78 17.0808 19.16 17.4708 18.87C17.4708 18.87 17.7608 18.63 17.5908 18.65C17.2408 18.7 17.0208 18.52 16.9308 18.21C16.8208 17.84 16.9308 17.31 16.8708 16.92C16.8708 16.89 16.8608 16.86 16.8508 16.83C16.8808 16.83 16.9008 16.84 16.9308 16.85C17.3208 16.9 17.8408 16.8 18.2208 16.91C18.5308 17 18.7108 17.22 18.6608 17.57C18.6308 17.75 18.8808 17.46 18.8808 17.46C19.1708 17.07 18.7908 16.49 18.4408 16.43C18.0108 16.35 17.5408 16.6 17.0608 16.43C16.9408 16.39 16.8308 16.3 16.8008 16.19C16.8308 16.08 16.9408 15.99 17.0608 15.95V15.94Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M24.6203 7.82001C24.6203 7.82001 23.0603 9.00001 21.3703 10.7C20.1403 11.93 19.1803 13.08 18.7503 13.63C18.6803 13.57 18.5903 13.54 18.4903 13.54C18.2603 13.54 18.0703 13.73 18.0703 13.96C18.0703 14.19 18.2603 14.38 18.4903 14.38C18.7203 14.38 18.9103 14.19 18.9103 13.96C18.9103 13.86 18.8803 13.77 18.8203 13.7C19.3603 13.26 20.5203 12.31 21.7503 11.08C23.4403 9.39001 24.6303 7.83001 24.6303 7.83001L24.6203 7.82001Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M10.7001 11.02C11.9301 12.25 13.0801 13.21 13.6301 13.64C13.5701 13.71 13.5401 13.8 13.5401 13.9C13.5401 14.13 13.7301 14.32 13.9601 14.32C14.1901 14.32 14.3801 14.13 14.3801 13.9C14.3801 13.67 14.1901 13.48 13.9601 13.48C13.8601 13.48 13.7701 13.51 13.7001 13.57C13.2701 13.03 12.3101 11.87 11.0801 10.64C9.39008 8.95001 7.83008 7.76001 7.83008 7.76001C7.83008 7.76001 9.01008 9.32001 10.7101 11.01L10.7001 11.02Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M7.76977 24.56C7.76977 24.56 9.32977 23.38 11.0198 21.68C12.2498 20.45 13.2098 19.3 13.6398 18.75C13.7098 18.81 13.7998 18.84 13.8998 18.84C14.1298 18.84 14.3198 18.65 14.3198 18.42C14.3198 18.19 14.1298 18 13.8998 18C13.6698 18 13.4798 18.19 13.4798 18.42C13.4798 18.52 13.5198 18.61 13.5698 18.68C13.0298 19.11 11.8698 20.07 10.6398 21.3C8.94977 22.99 7.75977 24.55 7.75977 24.55L7.76977 24.56Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M20.2254 2L16.1492 7.49582L12.0746 2H8V3.40906H9.04461L16.1492 12.9916L23.2554 3.40906H24.3V2H20.2254Z"
+                  fill="#E09C26"
+                />
+                <path
+                  d="M2 12.1496L7.32723 16.1008L2 20.0504V24H3.36584V22.9874L12.6545 16.1008L3.36584 9.21256V8.2H2V12.1496Z"
+                  fill="#E09C26"
+                />
+                <path
+                  d="M30 12.1496L24.6728 16.1008L30 20.0504V24H28.6342V22.9874L19.3455 16.1008L28.6342 9.21256V8.2H30V12.1496Z"
+                  fill="#E09C26"
+                />
+                <path
+                  d="M20.2254 30.0001L16.1492 24.5042L12.0746 30.0001H8V28.591H9.04461L16.1492 19.0084L23.2554 28.591H24.3V30.0001H20.2254Z"
+                  fill="#E09C26"
+                />
+              </svg>
+            </span>
           </div>
-        </div>
-      </ScrollReveal>
+          <ProjectMediaTabs project={project} />
+        </ScrollReveal>
 
-      {/* Media Section */}
-      <ScrollReveal as="section" id="media" className={styles['project-detail__media']}>
-        <div className={styles['project-detail__section-label']}>
-          <span aria-hidden="true">✦</span>
-          <span>MEDIA</span>
-          <span aria-hidden="true">✦</span>
-        </div>
-        <ProjectMediaTabs project={project} />
-      </ScrollReveal>
+        {/* FAQs Section */}
+        <ScrollReveal
+          as="section"
+          id="faqs"
+          className={styles["project-detail__faqs"]}
+        >
 
-      {/* FAQs Section */}
-      <ScrollReveal as="section" id="faqs" className={styles['project-detail__faqs']}>
-        <div className={styles['project-detail__section-label']}>
-          <span aria-hidden="true">✦</span>
-          <span>FAQs</span>
-          <span aria-hidden="true">✦</span>
-        </div>
-        <ProjectFAQ faqs={faqs} />
-      </ScrollReveal>
+          <div className={styles["project-detail__section-title"]}>
+            <span
+              className={styles["project-detail__section-icon"]}
+              aria-hidden="true"
+            >
+              <svg
+                width="33"
+                height="33"
+                viewBox="0 0 33 33"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M18.4395 18.07C18.2095 18.07 18.0195 18.26 18.0195 18.49C18.0195 18.72 18.2095 18.91 18.4395 18.91C18.5395 18.91 18.6295 18.87 18.6995 18.82C19.1295 19.36 20.0895 20.52 21.3195 21.75C23.0095 23.44 24.5695 24.63 24.5695 24.63C24.5695 24.63 23.3895 23.07 21.6895 21.38C20.4595 20.15 19.3095 19.19 18.7595 18.76C18.8195 18.69 18.8495 18.6 18.8495 18.5C18.8495 18.27 18.6595 18.08 18.4295 18.08L18.4395 18.07Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M17.0608 15.94C17.5308 15.77 18.0008 16.02 18.4408 15.94C18.7908 15.88 19.1708 15.3 18.8808 14.91C18.8808 14.91 18.6408 14.62 18.6608 14.8C18.7108 15.15 18.5308 15.37 18.2208 15.46C17.8508 15.57 17.3208 15.47 16.9308 15.52C16.9008 15.52 16.8708 15.53 16.8408 15.54C16.8408 15.51 16.8508 15.49 16.8608 15.46C16.9108 15.07 16.8108 14.55 16.9208 14.17C17.0108 13.86 17.2308 13.68 17.5808 13.73C17.7608 13.76 17.4708 13.51 17.4708 13.51C17.0808 13.22 16.5008 13.6 16.4308 13.95C16.3508 14.39 16.6008 14.85 16.4308 15.33C16.3908 15.45 16.3008 15.56 16.2008 15.59C16.0908 15.56 16.0008 15.45 15.9608 15.33C15.7908 14.86 16.0408 14.39 15.9608 13.95C15.9008 13.6 15.3208 13.22 14.9308 13.51C14.9308 13.51 14.6408 13.75 14.8108 13.73C15.1608 13.68 15.3808 13.86 15.4708 14.17C15.5808 14.54 15.4808 15.07 15.5308 15.46C15.5308 15.49 15.5408 15.52 15.5508 15.55C15.5208 15.55 15.5008 15.54 15.4708 15.53C15.0808 15.48 14.5608 15.58 14.1808 15.47C13.8708 15.38 13.6908 15.16 13.7408 14.81C13.7708 14.63 13.5208 14.92 13.5208 14.92C13.2308 15.31 13.6108 15.89 13.9608 15.95C14.3908 16.03 14.8608 15.78 15.3408 15.95C15.4608 15.99 15.5708 16.08 15.6008 16.19C15.5708 16.3 15.4608 16.39 15.3408 16.43C14.8708 16.6 14.4008 16.35 13.9608 16.43C13.6108 16.49 13.2308 17.07 13.5208 17.46C13.5208 17.46 13.7608 17.75 13.7408 17.58C13.6908 17.23 13.8708 17.01 14.1808 16.92C14.5508 16.81 15.0808 16.91 15.4708 16.86C15.5008 16.86 15.5308 16.85 15.5608 16.84C15.5608 16.87 15.5508 16.89 15.5408 16.92C15.4908 17.31 15.5908 17.83 15.4808 18.21C15.3908 18.51 15.1708 18.7 14.8208 18.65C14.6408 18.62 14.9308 18.87 14.9308 18.87C15.3208 19.16 15.9008 18.78 15.9708 18.43C16.0508 18 15.8008 17.53 15.9708 17.05C16.0108 16.93 16.1008 16.82 16.2008 16.79C16.3108 16.82 16.4008 16.93 16.4408 17.05C16.6108 17.52 16.3608 17.99 16.4408 18.43C16.5008 18.78 17.0808 19.16 17.4708 18.87C17.4708 18.87 17.7608 18.63 17.5908 18.65C17.2408 18.7 17.0208 18.52 16.9308 18.21C16.8208 17.84 16.9308 17.31 16.8708 16.92C16.8708 16.89 16.8608 16.86 16.8508 16.83C16.8808 16.83 16.9008 16.84 16.9308 16.85C17.3208 16.9 17.8408 16.8 18.2208 16.91C18.5308 17 18.7108 17.22 18.6608 17.57C18.6308 17.75 18.8808 17.46 18.8808 17.46C19.1708 17.07 18.7908 16.49 18.4408 16.43C18.0108 16.35 17.5408 16.6 17.0608 16.43C16.9408 16.39 16.8308 16.3 16.8008 16.19C16.8308 16.08 16.9408 15.99 17.0608 15.95V15.94Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M24.6203 7.82001C24.6203 7.82001 23.0603 9.00001 21.3703 10.7C20.1403 11.93 19.1803 13.08 18.7503 13.63C18.6803 13.57 18.5903 13.54 18.4903 13.54C18.2603 13.54 18.0703 13.73 18.0703 13.96C18.0703 14.19 18.2603 14.38 18.4903 14.38C18.7203 14.38 18.9103 14.19 18.9103 13.96C18.9103 13.86 18.8803 13.77 18.8203 13.7C19.3603 13.26 20.5203 12.31 21.7503 11.08C23.4403 9.39001 24.6303 7.83001 24.6303 7.83001L24.6203 7.82001Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M10.7001 11.02C11.9301 12.25 13.0801 13.21 13.6301 13.64C13.5701 13.71 13.5401 13.8 13.5401 13.9C13.5401 14.13 13.7301 14.32 13.9601 14.32C14.1901 14.32 14.3801 14.13 14.3801 13.9C14.3801 13.67 14.1901 13.48 13.9601 13.48C13.8601 13.48 13.7701 13.51 13.7001 13.57C13.2701 13.03 12.3101 11.87 11.0801 10.64C9.39008 8.95001 7.83008 7.76001 7.83008 7.76001C7.83008 7.76001 9.01008 9.32001 10.7101 11.01L10.7001 11.02Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M7.76977 24.56C7.76977 24.56 9.32977 23.38 11.0198 21.68C12.2498 20.45 13.2098 19.3 13.6398 18.75C13.7098 18.81 13.7998 18.84 13.8998 18.84C14.1298 18.84 14.3198 18.65 14.3198 18.42C14.3198 18.19 14.1298 18 13.8998 18C13.6698 18 13.4798 18.19 13.4798 18.42C13.4798 18.52 13.5198 18.61 13.5698 18.68C13.0298 19.11 11.8698 20.07 10.6398 21.3C8.94977 22.99 7.75977 24.55 7.75977 24.55L7.76977 24.56Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M20.2254 2L16.1492 7.49582L12.0746 2H8V3.40906H9.04461L16.1492 12.9916L23.2554 3.40906H24.3V2H20.2254Z"
+                  fill="#E09C26"
+                />
+                <path
+                  d="M2 12.1496L7.32723 16.1008L2 20.0504V24H3.36584V22.9874L12.6545 16.1008L3.36584 9.21256V8.2H2V12.1496Z"
+                  fill="#E09C26"
+                />
+                <path
+                  d="M30 12.1496L24.6728 16.1008L30 20.0504V24H28.6342V22.9874L19.3455 16.1008L28.6342 9.21256V8.2H30V12.1496Z"
+                  fill="#E09C26"
+                />
+                <path
+                  d="M20.2254 30.0001L16.1492 24.5042L12.0746 30.0001H8V28.591H9.04461L16.1492 19.0084L23.2554 28.591H24.3V30.0001H20.2254Z"
+                  fill="#E09C26"
+                />
+              </svg>
+            </span>
+            <span className={styles["project-detail__section-label"]}>
+              FAQs
+            </span>
+            <span
+              className={styles["project-detail__section-icon"]}
+              aria-hidden="true"
+            >
+              <svg
+                width="33"
+                height="33"
+                viewBox="0 0 33 33"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M18.4395 18.07C18.2095 18.07 18.0195 18.26 18.0195 18.49C18.0195 18.72 18.2095 18.91 18.4395 18.91C18.5395 18.91 18.6295 18.87 18.6995 18.82C19.1295 19.36 20.0895 20.52 21.3195 21.75C23.0095 23.44 24.5695 24.63 24.5695 24.63C24.5695 24.63 23.3895 23.07 21.6895 21.38C20.4595 20.15 19.3095 19.19 18.7595 18.76C18.8195 18.69 18.8495 18.6 18.8495 18.5C18.8495 18.27 18.6595 18.08 18.4295 18.08L18.4395 18.07Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M17.0608 15.94C17.5308 15.77 18.0008 16.02 18.4408 15.94C18.7908 15.88 19.1708 15.3 18.8808 14.91C18.8808 14.91 18.6408 14.62 18.6608 14.8C18.7108 15.15 18.5308 15.37 18.2208 15.46C17.8508 15.57 17.3208 15.47 16.9308 15.52C16.9008 15.52 16.8708 15.53 16.8408 15.54C16.8408 15.51 16.8508 15.49 16.8608 15.46C16.9108 15.07 16.8108 14.55 16.9208 14.17C17.0108 13.86 17.2308 13.68 17.5808 13.73C17.7608 13.76 17.4708 13.51 17.4708 13.51C17.0808 13.22 16.5008 13.6 16.4308 13.95C16.3508 14.39 16.6008 14.85 16.4308 15.33C16.3908 15.45 16.3008 15.56 16.2008 15.59C16.0908 15.56 16.0008 15.45 15.9608 15.33C15.7908 14.86 16.0408 14.39 15.9608 13.95C15.9008 13.6 15.3208 13.22 14.9308 13.51C14.9308 13.51 14.6408 13.75 14.8108 13.73C15.1608 13.68 15.3808 13.86 15.4708 14.17C15.5808 14.54 15.4808 15.07 15.5308 15.46C15.5308 15.49 15.5408 15.52 15.5508 15.55C15.5208 15.55 15.5008 15.54 15.4708 15.53C15.0808 15.48 14.5608 15.58 14.1808 15.47C13.8708 15.38 13.6908 15.16 13.7408 14.81C13.7708 14.63 13.5208 14.92 13.5208 14.92C13.2308 15.31 13.6108 15.89 13.9608 15.95C14.3908 16.03 14.8608 15.78 15.3408 15.95C15.4608 15.99 15.5708 16.08 15.6008 16.19C15.5708 16.3 15.4608 16.39 15.3408 16.43C14.8708 16.6 14.4008 16.35 13.9608 16.43C13.6108 16.49 13.2308 17.07 13.5208 17.46C13.5208 17.46 13.7608 17.75 13.7408 17.58C13.6908 17.23 13.8708 17.01 14.1808 16.92C14.5508 16.81 15.0808 16.91 15.4708 16.86C15.5008 16.86 15.5308 16.85 15.5608 16.84C15.5608 16.87 15.5508 16.89 15.5408 16.92C15.4908 17.31 15.5908 17.83 15.4808 18.21C15.3908 18.51 15.1708 18.7 14.8208 18.65C14.6408 18.62 14.9308 18.87 14.9308 18.87C15.3208 19.16 15.9008 18.78 15.9708 18.43C16.0508 18 15.8008 17.53 15.9708 17.05C16.0108 16.93 16.1008 16.82 16.2008 16.79C16.3108 16.82 16.4008 16.93 16.4408 17.05C16.6108 17.52 16.3608 17.99 16.4408 18.43C16.5008 18.78 17.0808 19.16 17.4708 18.87C17.4708 18.87 17.7608 18.63 17.5908 18.65C17.2408 18.7 17.0208 18.52 16.9308 18.21C16.8208 17.84 16.9308 17.31 16.8708 16.92C16.8708 16.89 16.8608 16.86 16.8508 16.83C16.8808 16.83 16.9008 16.84 16.9308 16.85C17.3208 16.9 17.8408 16.8 18.2208 16.91C18.5308 17 18.7108 17.22 18.6608 17.57C18.6308 17.75 18.8808 17.46 18.8808 17.46C19.1708 17.07 18.7908 16.49 18.4408 16.43C18.0108 16.35 17.5408 16.6 17.0608 16.43C16.9408 16.39 16.8308 16.3 16.8008 16.19C16.8308 16.08 16.9408 15.99 17.0608 15.95V15.94Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M24.6203 7.82001C24.6203 7.82001 23.0603 9.00001 21.3703 10.7C20.1403 11.93 19.1803 13.08 18.7503 13.63C18.6803 13.57 18.5903 13.54 18.4903 13.54C18.2603 13.54 18.0703 13.73 18.0703 13.96C18.0703 14.19 18.2603 14.38 18.4903 14.38C18.7203 14.38 18.9103 14.19 18.9103 13.96C18.9103 13.86 18.8803 13.77 18.8203 13.7C19.3603 13.26 20.5203 12.31 21.7503 11.08C23.4403 9.39001 24.6303 7.83001 24.6303 7.83001L24.6203 7.82001Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M10.7001 11.02C11.9301 12.25 13.0801 13.21 13.6301 13.64C13.5701 13.71 13.5401 13.8 13.5401 13.9C13.5401 14.13 13.7301 14.32 13.9601 14.32C14.1901 14.32 14.3801 14.13 14.3801 13.9C14.3801 13.67 14.1901 13.48 13.9601 13.48C13.8601 13.48 13.7701 13.51 13.7001 13.57C13.2701 13.03 12.3101 11.87 11.0801 10.64C9.39008 8.95001 7.83008 7.76001 7.83008 7.76001C7.83008 7.76001 9.01008 9.32001 10.7101 11.01L10.7001 11.02Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M7.76977 24.56C7.76977 24.56 9.32977 23.38 11.0198 21.68C12.2498 20.45 13.2098 19.3 13.6398 18.75C13.7098 18.81 13.7998 18.84 13.8998 18.84C14.1298 18.84 14.3198 18.65 14.3198 18.42C14.3198 18.19 14.1298 18 13.8998 18C13.6698 18 13.4798 18.19 13.4798 18.42C13.4798 18.52 13.5198 18.61 13.5698 18.68C13.0298 19.11 11.8698 20.07 10.6398 21.3C8.94977 22.99 7.75977 24.55 7.75977 24.55L7.76977 24.56Z"
+                  fill="#E4A025"
+                />
+                <path
+                  d="M20.2254 2L16.1492 7.49582L12.0746 2H8V3.40906H9.04461L16.1492 12.9916L23.2554 3.40906H24.3V2H20.2254Z"
+                  fill="#E09C26"
+                />
+                <path
+                  d="M2 12.1496L7.32723 16.1008L2 20.0504V24H3.36584V22.9874L12.6545 16.1008L3.36584 9.21256V8.2H2V12.1496Z"
+                  fill="#E09C26"
+                />
+                <path
+                  d="M30 12.1496L24.6728 16.1008L30 20.0504V24H28.6342V22.9874L19.3455 16.1008L28.6342 9.21256V8.2H30V12.1496Z"
+                  fill="#E09C26"
+                />
+                <path
+                  d="M20.2254 30.0001L16.1492 24.5042L12.0746 30.0001H8V28.591H9.04461L16.1492 19.0084L23.2554 28.591H24.3V30.0001H20.2254Z"
+                  fill="#E09C26"
+                />
+              </svg>
+            </span>
+          </div>
+          <ProjectFAQ faqs={faqs} />
+        </ScrollReveal>
 
-      {/* JSON-LD Schemas */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'RealEstateListing',
-            name: project.name,
-            description: project.name,
-            address: {
-              '@type': 'PostalAddress',
-              streetAddress: project.locationAddress || project.location,
-              addressLocality: 'Madurai',
-              addressRegion: 'Tamil Nadu',
-              addressCountry: 'IN',
-            },
-            image: project.coverImage?.url || undefined,
-            offers: {
-              '@type': 'Offer',
-              price: project.priceRangeStartFrom || undefined,
-              priceCurrency: 'INR',
-            },
-            geo: {
-              '@type': 'GeoCoordinates',
-              latitude: '9.9252',
-              longitude: '78.1198',
-            },
-          }),
-        }}
-      />
-
-      {faqs.length > 0 && (
+        {/* JSON-LD Schemas */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'FAQPage',
-              mainEntity: faqs.map((faq) => ({
-                '@type': 'Question',
-                name: faq.question,
-                acceptedAnswer: {
-                  '@type': 'Answer',
-                  text: faq.answer,
-                },
-              })),
+              "@context": "https://schema.org",
+              "@type": "RealEstateListing",
+              name: project.name,
+              description: project.name,
+              address: {
+                "@type": "PostalAddress",
+                streetAddress: project.locationAddress || project.location,
+                addressLocality: "Madurai",
+                addressRegion: "Tamil Nadu",
+                addressCountry: "IN",
+              },
+              image: project.coverImage?.url || undefined,
+              offers: {
+                "@type": "Offer",
+                price: project.priceRangeStartFrom || undefined,
+                priceCurrency: "INR",
+              },
+              geo: {
+                "@type": "GeoCoordinates",
+                latitude: "9.9252",
+                longitude: "78.1198",
+              },
             }),
           }}
         />
-      )}
 
-      {project.structuredData && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(typeof project.structuredData === 'object' ? project.structuredData : JSON.parse(project.structuredData || '{}')),
-          }}
-        />
-      )}
-    </main>
+        {faqs.length > 0 && (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                mainEntity: faqs.map((faq) => ({
+                  "@type": "Question",
+                  name: faq.question,
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: faq.answer,
+                  },
+                })),
+              }),
+            }}
+          />
+        )}
+
+        {project.structuredData && (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(
+                typeof project.structuredData === "object"
+                  ? project.structuredData
+                  : JSON.parse(project.structuredData || "{}"),
+              ),
+            }}
+          />
+        )}
+      </main>
     </>
-  )
+  );
 }

@@ -301,10 +301,12 @@ b {
   font-weight: 500;
 }
 
-
-html{
-  &.open-menu{
-   overflow: hidden;
+html {
+  &.open-menu {
+    overflow: hidden;
+  }
+  &.MigrationBanner {
+    padding-top: 56px;
   }
 }
 
