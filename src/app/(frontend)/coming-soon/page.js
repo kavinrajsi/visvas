@@ -17,7 +17,7 @@ export default function ComingSoonPage() {
           height={200}
           priority
           className={styles['coming-soon__logo']}
-          sizes="(max-width: 768px) 120px, 200px"
+          sizes="(max-width: 768px) 120px, (max-width: 992px) 160px, (max-width: 1200px) 200px, 240px"
         />
         <div className={styles['coming-soon__content']}>
           <p className={styles['coming-soon__greeting']}>Vanakkam!</p>

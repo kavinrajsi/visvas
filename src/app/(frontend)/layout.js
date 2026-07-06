@@ -6,18 +6,23 @@ import MobileCtaBar from '@/app/(frontend)/components/mobile-cta-bar/MobileCtaBa
 import AttributionTracker from '@/app/(frontend)/components/AttributionTracker'
 import MigrationBanner from '@/app/(frontend)/components/migration-banner/MigrationBanner'
 import { EnquiryModalProvider } from '@/app/(frontend)/components/enquiry-modal/EnquiryModalProvider'
+import LayoutWrapper from '@/app/(frontend)/components/LayoutWrapper'
 
 export const dynamic = 'force-dynamic'
 
 export default function FrontendLayout({ children }) {
   return (
     <EnquiryModalProvider>
-      <MigrationBanner />
-      <Header />
-      <AttributionTracker />
+      <LayoutWrapper>
+        <MigrationBanner />
+        <Header />
+        <AttributionTracker />
+      </LayoutWrapper>
       {children}
-      <Footer />
-      <MobileCtaBar />
+      <LayoutWrapper footer>
+        <Footer />
+        <MobileCtaBar />
+      </LayoutWrapper>
     </EnquiryModalProvider>
   )
 }
