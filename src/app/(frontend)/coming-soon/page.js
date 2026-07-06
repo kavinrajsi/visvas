@@ -3,7 +3,7 @@ import styles from './page.module.scss'
 
 export const metadata = {
   title: 'Coming Soon | Visvas',
-  description: 'Something amazing is coming soon',
+  description: 'We are currently migrating the website',
 }
 
 export default function ComingSoonPage() {
@@ -19,6 +19,12 @@ export default function ComingSoonPage() {
           className={styles['coming-soon__logo']}
           sizes="(max-width: 768px) 120px, 200px"
         />
+        <div className={styles['coming-soon__content']}>
+          <p className={styles['coming-soon__greeting']}>Vanakkam!</p>
+          <p className={styles['coming-soon__message']}>
+            Sorry for the inconvenience. We are currently migrating the website.
+          </p>
+        </div>
       </div>
     </main>
   )

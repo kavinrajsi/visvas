@@ -10,6 +10,7 @@
 
 .coming-soon__container {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
@@ -22,16 +23,67 @@
   height: auto;
   max-width: 100%;
   object-fit: contain;
+  margin-bottom: 32px;
 
   @media (min-width: 768px) {
     width: 160px;
+    margin-bottom: 40px;
   }
 
   @media (min-width: 992px) {
     width: 200px;
+    margin-bottom: 48px;
   }
 
   @media (min-width: 1200px) {
     width: 240px;
+    margin-bottom: 56px;
+  }
+}
+
+.coming-soon__content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 500px;
+  padding: 0 16px;
+}
+
+.coming-soon__greeting {
+  margin: 0;
+  font-family: "Raleway", Arial, sans-serif;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 32px;
+  color: #1e5f2f;
+
+  @media (min-width: 768px) {
+    font-size: 32px;
+    line-height: 40px;
+  }
+
+  @media (min-width: 992px) {
+    font-size: 40px;
+    line-height: 48px;
+  }
+}
+
+.coming-soon__message {
+  margin: 0;
+  font-family: "Raleway", Arial, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #303030;
+
+  @media (min-width: 768px) {
+    font-size: 18px;
+    line-height: 28px;
+  }
+
+  @media (min-width: 992px) {
+    font-size: 20px;
+    line-height: 30px;
   }
 }
