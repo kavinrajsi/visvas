@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useEnquiryModal } from '@/app/(frontend)/components/enquiry-modal/EnquiryModalProvider'
 import styles from './ProjectStickyNav.module.scss'
 
-export default function ProjectStickyNav({ projectName }) {
+export default function ProjectStickyNav({ projectName, sections = ['about', 'amenities', 'location', 'media', 'faqs'] }) {
   const { openEnquiryModal } = useEnquiryModal()
   const [activeSection, setActiveSection] = useState('about')
 
@@ -21,14 +21,13 @@ export default function ProjectStickyNav({ projectName }) {
       })
     }, observerOptions)
 
-    const sections = ['about', 'amenities', 'location', 'media', 'faqs']
     sections.forEach((id) => {
       const el = document.getElementById(id)
       if (el) observer.observe(el)
     })
 
     return () => observer.disconnect()
-  }, [])
+  }, [sections])
 
   const handleNavClick = (sectionId) => {
     const el = document.getElementById(sectionId)
@@ -41,7 +40,7 @@ export default function ProjectStickyNav({ projectName }) {
   return (
     <nav className={styles['sticky-nav']}>
       <div className={styles['sticky-nav__links']}>
-        {['about', 'amenities', 'location', 'media', 'faqs'].map((id) => (
+        {sections.map((id) => (
           <button
             key={id}
             onClick={() => handleNavClick(id)}

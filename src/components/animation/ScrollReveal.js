@@ -12,6 +12,7 @@ export default function ScrollReveal({
   className = '',
   y = 40,
   stagger = false,
+  ...rest
 }) {
   const containerRef = useRef(null)
 
@@ -48,7 +49,7 @@ export default function ScrollReveal({
   )
 
   return (
-    <Component ref={containerRef} className={className}>
+    <Component ref={containerRef} className={className} {...rest}>
       {children}
     </Component>
   )

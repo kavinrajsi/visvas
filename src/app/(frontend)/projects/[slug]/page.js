@@ -102,6 +102,10 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
   const amenities = project.amenities || [];
   const faqs = project.faq || [];
   const transports = project.keyTransports || [];
+  const hasMedia =
+    (project.images?.length || 0) > 0 ||
+    (project.videos?.length || 0) > 0 ||
+    (project.floorPlans?.length || 0) > 0;
 
   return (
     <>
@@ -120,7 +124,16 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
         </HeroReveal>
 
         {/* Sticky Nav */}
-        <ProjectStickyNav projectName={project.name} />
+        <ProjectStickyNav
+          projectName={project.name}
+          sections={[
+            'about',
+            ...(amenities.length > 0 ? ['amenities'] : []),
+            'location',
+            ...(hasMedia ? ['media'] : []),
+            ...(faqs.length > 0 ? ['faqs'] : []),
+          ]}
+        />
 
         {/* About Section */}
         <section id="about" className={styles["project-detail__about"]}>
@@ -199,16 +212,18 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
             </ScrollReveal>
 
             {/* Project Image */}
-            <div className={styles["project-detail__project-image"]}>
-              <Image
-                src={toImageKitUrl(project.images?.[0]?.image?.url)}
-                alt={`${project.name} - interior`}
-                className={styles["project-detail__project-img"]}
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                width={800}
-                height={600}
-              />
-            </div>
+            {project.images?.[0]?.image?.url && (
+              <div className={styles["project-detail__project-image"]}>
+                <Image
+                  src={toImageKitUrl(project.images[0].image.url)}
+                  alt={`${project.name} - interior`}
+                  className={styles["project-detail__project-img"]}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  width={800}
+                  height={600}
+                />
+              </div>
+            )}
           </div>
 
           {/* Enquiry CTA Card Sidebar */}
@@ -216,19 +231,20 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
         </section>
 
         {/* Description Section */}
+        {project.description && (
         <ScrollReveal
           as="section"
           id="description"
           className={styles["project-detail__description"]}
         >
-          {project.description && (
-            <div className={styles["project-detail__rich-content"]}>
-              <RichText data={project.description} />
-            </div>
-          )}
+          <div className={styles["project-detail__rich-content"]}>
+            <RichText data={project.description} />
+          </div>
         </ScrollReveal>
+        )}
 
         {/* Amenities Section */}
+        {amenities.length > 0 && (
         <section id="amenities" className={styles["project-detail__amenities"]}>
 
           <div className={styles["project-detail__section-title"]}>
@@ -354,6 +370,7 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
             ))}
           </ScrollReveal>
         </section>
+        )}
 
         {/* Location Section */}
         <ScrollReveal
@@ -490,26 +507,28 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
               </div>
 
               {/* Key Transports */}
-              <div className={styles["project-detail__transports"]}>
-                <h4 className={styles["project-detail__transport-title"]}>
-                  Key transport
-                </h4>
-                <div className={styles["project-detail__transport-grid"]}>
-                  {transports.map((transport, idx) => (
-                    <div
-                      key={idx}
-                      className={styles["project-detail__transport-item"]}
-                    >
-                      <p className={styles["project-detail__transport-type"]}>
-                        {transport.type}
-                      </p>
-                      <p className={styles["project-detail__transport-name"]}>
-                        {transport.name} - {transport.distance}
-                      </p>
-                    </div>
-                  ))}
+              {transports.length > 0 && (
+                <div className={styles["project-detail__transports"]}>
+                  <h4 className={styles["project-detail__transport-title"]}>
+                    Key transport
+                  </h4>
+                  <div className={styles["project-detail__transport-grid"]}>
+                    {transports.map((transport, idx) => (
+                      <div
+                        key={idx}
+                        className={styles["project-detail__transport-item"]}
+                      >
+                        <p className={styles["project-detail__transport-type"]}>
+                          {transport.type}
+                        </p>
+                        <p className={styles["project-detail__transport-name"]}>
+                          {transport.name} - {transport.distance}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
 
             {/* Map Section */}
@@ -549,6 +568,7 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
         </ScrollReveal>
 
         {/* Media Section */}
+        {hasMedia && (
         <ScrollReveal
           as="section"
           id="media"
@@ -660,8 +680,10 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
           </div>
           <ProjectMediaTabs project={project} />
         </ScrollReveal>
+        )}
 
         {/* FAQs Section */}
+        {faqs.length > 0 && (
         <ScrollReveal
           as="section"
           id="faqs"
@@ -773,6 +795,7 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
           </div>
           <ProjectFAQ faqs={faqs} />
         </ScrollReveal>
+        )}
 
         {/* JSON-LD Schemas */}
         <script
