@@ -61,7 +61,6 @@ A modern real-estate platform built with **Next.js 16**, **React 19**, **Payload
 | `GOOGLE_SHEETS_CLIENT_EMAIL` | | Service account email for Sheets logging (optional) |
 | `GOOGLE_SHEETS_PRIVATE_KEY` | | Service account private key (optional) |
 | `GOOGLE_SHEETS_SPREADSHEET_ID` | | Spreadsheet ID for appending form submissions (optional) |
-| `DATABASE_DIR` | | Local storage directory for form submissions (defaults to `./data`) |
 | `NEXT_PUBLIC_SITE_URL` | | Public site URL (used for sitemap, robots.txt, canonical URLs) |
 | `NEXT_PUBLIC_GADS_ID` | | Google Ads conversion tracking ID (optional) |
 | `NEXT_PUBLIC_BUSINESS_EMAIL` | | Business contact email (displayed in footer, contact page) |
@@ -76,7 +75,6 @@ A modern real-estate platform built with **Next.js 16**, **React 19**, **Payload
 
 **Notes:**
 - If email/Sheets/R2 env vars are absent, those services fail gracefully (no form submission blocking).
-- `DATABASE_DIR` supports both absolute paths and relative-to-cwd paths.
 - `NEXT_PUBLIC_*` vars are embedded in client-side bundles; do not store secrets there.
 
 ## Commands
@@ -137,7 +135,7 @@ A modern real-estate platform built with **Next.js 16**, **React 19**, **Payload
 │   │   └── Media.js             # Media upload collection (with S3/R2 storage)
 │   ├── lib/
 │   │   ├── forms/
-│   │   │   └── submitForm.js    # Orchestrates form submission → email/nanoDb/Sheets/Payload
+│   │   │   └── submitForm.js    # Orchestrates form submission → email/Sheets/Payload
 │   │   ├── security/
 │   │   │   ├── rateLimiter.js   # In-memory sliding-window rate limiter
 │   │   │   ├── sanitiser.js     # Form-type sanitization
@@ -145,7 +143,6 @@ A modern real-estate platform built with **Next.js 16**, **React 19**, **Payload
 │   │   ├── email/
 │   │   │   └── gmail.js         # Gmail SMTP email transport
 │   │   ├── storage/
-│   │   │   ├── nanoDb.js        # Local JSON form-submission storage
 │   │   │   ├── googleSheets.js  # Google Sheets API integration
 │   │   │   └── payloadDb.js     # Payload CMS database writes
 │   │   ├── redirects/
@@ -198,7 +195,6 @@ Form submissions (enquiry, contact) flow through a unified pipeline:
 6. **Storage** (sequential, each fail-gracefully independent):
    - Send **admin notification** email (Gmail SMTP)
    - Send **user confirmation** email
-   - Write to **local JSON** (`{DATABASE_DIR || 'data'}/{sanitisedFormType}_submissions.json`)
    - Write to **Google Sheets** (if API key configured)
    - Write to **Payload CMS** `contact-submissions` collection (with `isSpam` flag if honeypot triggered)
 7. **Response** → JSON success/error
@@ -208,7 +204,7 @@ Form submissions (enquiry, contact) flow through a unified pipeline:
 - `src/app/api/forms/submit/route.js` — endpoint
 - `src/lib/security/honeypot.js` — spam check
 - `src/lib/email/gmail.js` — email transport
-- `src/lib/storage/{nanoDb,googleSheets,payloadDb}.js` — storage backends
+- `src/lib/storage/{googleSheets,payloadDb}.js` — storage backends
 
 All storage backends fail gracefully if env vars absent (e.g., no Google Sheets API key → skip Sheets append, still save locally).
 
@@ -337,7 +333,7 @@ Pages that query Payload require `export const dynamic = 'force-dynamic'` to avo
 
 ### Images not uploading / 404 on media URLs
 - If using R2: check `R2_BUCKET_NAME`, `R2_ENDPOINT`, `R2_ACCESS_KEY`, `R2_SECRET_KEY`.
-- If local: check `DATABASE_DIR` is writable and `NEXT_PUBLIC_SITE_URL` is correct for canonical URLs.
+- If local: check `NEXT_PUBLIC_SITE_URL` is correct for canonical URLs.
 
 ### Build errors after file deletion
 - Run `npm run payload:generate:types` to regenerate schema types.

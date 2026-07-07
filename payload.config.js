@@ -147,8 +147,8 @@ export default buildConfig({
   }),
   plugins,
   email: async () => ({
-    fromName: 'Visvas Properties',
-    fromAddress: process.env.ZOHO_ZEPTOMAIL_SENDER_EMAIL || 'noreply@visvas.com',
+    fromName: process.env.GMAIL_SENDER_NAME,
+    fromAddress: process.env.GMAIL_SENDER_EMAIL,
     transport: {
       send: async (message) => {
         return await sendEmail({

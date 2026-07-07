@@ -50,7 +50,6 @@ export async function POST(request) {
     const result = await submitForm(formType, formData, {
       sendAdminEmail: true,
       sendUserEmail: true,
-      storeInDb: true,
       storeInSheets: true,
       storeInPayload: true,
       metadata: {
@@ -66,7 +65,7 @@ export async function POST(request) {
       return Response.json({
         success: true,
         message: 'Form submitted successfully',
-        id: result.db?.id,
+        id: result.payload?.id,
       })
     } else {
       return Response.json(

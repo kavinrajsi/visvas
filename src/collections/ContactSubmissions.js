@@ -76,6 +76,44 @@ const ContactSubmissions = {
       defaultValue: false,
     },
     {
+      name: 'delivery',
+      type: 'group',
+      label: 'Delivery Status',
+      admin: {
+        description: 'Success/fail of each pipeline step for this submission',
+      },
+      fields: [
+        {
+          name: 'sheetsStored',
+          type: 'checkbox',
+          label: 'Google Sheets Stored',
+          defaultValue: false,
+        },
+        {
+          name: 'sheetsError',
+          type: 'text',
+          label: 'Sheets Error',
+        },
+        {
+          name: 'adminEmailSent',
+          type: 'checkbox',
+          label: 'Admin Email Sent',
+          defaultValue: false,
+        },
+        {
+          name: 'userEmailSent',
+          type: 'checkbox',
+          label: 'User Email Sent',
+          defaultValue: false,
+        },
+        {
+          name: 'emailError',
+          type: 'text',
+          label: 'Email Error',
+        },
+      ],
+    },
+    {
       name: 'tracking',
       type: 'group',
       label: 'Tracking Data',

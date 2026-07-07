@@ -2,11 +2,12 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
-export async function storeFormDataPayload(formType, formData, metadata = {}) {
+export async function storeFormDataPayload(formType, formData, metadata = {}, delivery = {}) {
   try {
     const payload = await getPayload({ config })
 
     const payloadData = {
+      delivery,
       name: formData.name,
       email: formData.email,
       phone: formData.mobile,
@@ -53,6 +54,24 @@ export async function storeFormDataPayload(formType, formData, metadata = {}) {
     return { success: true, id: result.id }
   } catch (error) {
     console.error('[PAYLOAD] Error storing form data:', error.message)
+    return { success: false, error: error.message }
+  }
+}
+
+// Update delivery status (e.g. email results) on an existing submission
+export async function updateDeliveryPayload(id, delivery) {
+  try {
+    const payload = await getPayload({ config })
+
+    await payload.update({
+      collection: 'contact-submissions',
+      id,
+      data: { delivery },
+    })
+
+    return { success: true }
+  } catch (error) {
+    console.error('[PAYLOAD] Error updating delivery status:', error.message)
     return { success: false, error: error.message }
   }
 }

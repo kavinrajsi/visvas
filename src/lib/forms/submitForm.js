@@ -1,15 +1,13 @@
 // Generic form submission handler
-// Coordinates: email (Gmail SMTP) + storage (JSON/SQLite) + sheets (Google) + CMS (Payload)
+// Coordinates: email (Gmail SMTP) + sheets (Google) + CMS (Payload)
 import { sendAdminNotification, sendUserConfirmation } from '@/lib/email/gmail'
-import { storeFormData as storeFormDataDb, getFormData } from '@/lib/storage/nanoDb'
 import { storeFormData as storeFormDataSheets } from '@/lib/storage/googleSheets'
-import { storeFormDataPayload } from '@/lib/storage/payloadDb'
+import { storeFormDataPayload, updateDeliveryPayload } from '@/lib/storage/payloadDb'
 
 export async function submitForm(formType, formData, options = {}) {
   const {
     sendAdminEmail = true,
     sendUserEmail = true,
-    storeInDb = true,
     storeInSheets = true,
     storeInPayload = true,
     metadata = {},
@@ -21,7 +19,6 @@ export async function submitForm(formType, formData, options = {}) {
     timestamp: new Date().toISOString(),
     success: false,
     email: null,
-    db: null,
     sheets: null,
     payload: null,
     errors: [],
@@ -65,30 +62,16 @@ export async function submitForm(formType, formData, options = {}) {
 
   if (storeInPayload) {
     try {
-      const payloadResult = await storeFormDataPayload(formType, formData, metadata)
+      const payloadResult = await storeFormDataPayload(formType, formData, metadata, {
+        sheetsStored: !!results.sheets?.success && results.sheets?.mode !== 'skipped',
+        sheetsError: results.sheets?.error || null,
+      })
       results.payload = payloadResult
       if (!payloadResult.success) {
         results.errors.push(`Payload storage failed: ${payloadResult.error}`)
       }
     } catch (error) {
       results.errors.push(`Payload storage error: ${error.message}`)
-    }
-  }
-
-  // ========== DATABASE STORAGE ==========
-
-  if (storeInDb) {
-    try {
-      const dbResult = await storeFormDataDb(formType, formData, {
-        ...metadata,
-        source: 'form_submission',
-      })
-      results.db = dbResult
-      if (!dbResult.success) {
-        results.errors.push(`DB storage failed: ${dbResult.error}`)
-      }
-    } catch (error) {
-      results.errors.push(`DB storage error: ${error.message}`)
     }
   }
 
@@ -129,6 +112,19 @@ export async function submitForm(formType, formData, options = {}) {
         results.errors.push(`User email error: ${error.message}`)
       }
     }
+
+    // Record email delivery status on the CMS submission
+    if (results.payload?.id) {
+      const emailErrors = results.errors.filter((e) => e.includes('email')).join('; ')
+      // Send the full delivery group — a partial group update could reset the sheets fields
+      await updateDeliveryPayload(results.payload.id, {
+        sheetsStored: !!results.sheets?.success && results.sheets?.mode !== 'skipped',
+        sheetsError: results.sheets?.error || null,
+        adminEmailSent: !!results.email?.admin?.success && results.email?.admin?.mode !== 'development',
+        userEmailSent: !!results.email?.user?.success && results.email?.user?.mode !== 'development',
+        emailError: emailErrors || null,
+      })
+    }
   }
 
   // ========== FINAL RESULT ==========
@@ -147,16 +143,6 @@ export async function submitForm(formType, formData, options = {}) {
   })
 
   return results
-}
-
-// Retrieve submitted form data
-export async function getFormSubmissions(formType, limit = 100) {
-  try {
-    return await getFormData(formType, limit)
-  } catch (error) {
-    console.error('[FORM] Error retrieving submissions:', error.message)
-    return { success: false, error: error.message }
-  }
 }
 
 // Validate form data

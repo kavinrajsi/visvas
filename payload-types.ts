@@ -465,6 +465,16 @@ export interface ContactSubmission {
   message?: string | null;
   project?: string | null;
   isSpam?: boolean | null;
+  /**
+   * Success/fail of each pipeline step for this submission
+   */
+  delivery?: {
+    sheetsStored?: boolean | null;
+    sheetsError?: string | null;
+    adminEmailSent?: boolean | null;
+    userEmailSent?: boolean | null;
+    emailError?: string | null;
+  };
   tracking?: {
     ip?: string | null;
     /**
@@ -842,6 +852,15 @@ export interface ContactSubmissionsSelect<T extends boolean = true> {
   message?: T;
   project?: T;
   isSpam?: T;
+  delivery?:
+    | T
+    | {
+        sheetsStored?: T;
+        sheetsError?: T;
+        adminEmailSent?: T;
+        userEmailSent?: T;
+        emailError?: T;
+      };
   tracking?:
     | T
     | {

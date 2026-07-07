@@ -1,7 +1,7 @@
 @AGENTS.md
 
 ## Tech Stack
-Next.js 16 (App Router, Turbopack, React Compiler) + React 19, Payload CMS 3.85.1, PostgreSQL, SCSS Modules, Lexical rich text, Gmail SMTP email, Google Sheets + local JSON storage, GTM/GA4 analytics.
+Next.js 16 (App Router, Turbopack, React Compiler) + React 19, Payload CMS 3.85.1, PostgreSQL, SCSS Modules, Lexical rich text, Gmail SMTP email, Google Sheets storage, GTM/GA4 analytics.
 
 ## Key Conventions
 
@@ -22,7 +22,7 @@ Next.js 16 (App Router, Turbopack, React Compiler) + React 19, Payload CMS 3.85.
 ### Form Submissions
 - **All forms** must go through `src/lib/forms/submitForm.js` — do not bypass
 - Entry point: `POST /api/forms/submit` → rate limit check → `validateFormData()` → honeypot check → `submitForm()`
-- Form data auto-routes to: Gmail SMTP email + local JSON + Google Sheets + Payload CMS (all fail-gracefully if env vars absent)
+- Form data auto-routes to: Gmail SMTP email + Google Sheets + Payload CMS (all fail-gracefully if env vars absent)
 - Use `formType` parameter to differentiate form types (e.g., "enquiry", "contact")
 - `formType` **must** be sanitised via `sanitiseFormType()` before use in file paths or sheet tab names
 - **Honeypot field:** Hidden `company` field in forms; if filled → flag submission `isSpam: true` (logged, still processed)
@@ -56,7 +56,6 @@ Next.js 16 (App Router, Turbopack, React Compiler) + React 19, Payload CMS 3.85.
 | `GOOGLE_SHEETS_CLIENT_EMAIL` | | Sheets service account email (optional) |
 | `GOOGLE_SHEETS_PRIVATE_KEY` | | Sheets service account private key (optional) |
 | `GOOGLE_SHEETS_SPREADSHEET_ID` | | Sheets target (optional) |
-| `DATABASE_DIR` | | Local form-submission storage dir |
 | `NEXT_PUBLIC_SITE_URL` | | Public site URL (canonical, sitemap, robots) |
 | `NEXT_PUBLIC_GADS_ID` | | Google Ads conversion tracking |
 | `NEXT_PUBLIC_BUSINESS_EMAIL` | | Footer/contact display |
