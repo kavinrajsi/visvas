@@ -157,46 +157,27 @@ export default function HowWeBuildSection({ section }) {
       cardsRef.current = cardsRef.current.filter(Boolean);
       if (cardsRef.current.length === 0) return;
 
-      const mm = gsap.matchMedia();
+      // Same pinned one-by-one reveal at all breakpoints
+      gsap.set(cardsRef.current, { autoAlpha: 0, y: 60 });
 
-      // Tablet + desktop: pinned one-by-one reveal
-      mm.add("(min-width: 768px)", () => {
-        gsap.set(cardsRef.current, { autoAlpha: 0, y: 60 });
-
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: pinRef.current,
-            start: "top top",
-            end: () =>
-              `+=${window.innerHeight * (cardsRef.current.length + 1)}`,
-            pin: true,
-            scrub: 1,
-          },
-        });
-
-        cardsRef.current.forEach((card, index) => {
-          tl.to(
-            card,
-            { autoAlpha: 1, y: 0, duration: 1, ease: "power2.out" },
-            index,
-          );
-        });
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: pinRef.current,
+          start: "top top",
+          end: () => `+=${window.innerHeight * (cardsRef.current.length + 1)}`,
+          pin: true,
+          scrub: 1,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        },
       });
 
-      // Mobile: lightweight fade-up stagger, no pin
-      mm.add("(max-width: 767px)", () => {
-        gsap.from(cardsRef.current, {
-          autoAlpha: 0,
-          y: 40,
-          duration: 0.6,
-          stagger: 0.15,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: pinRef.current,
-            start: "top 80%",
-            toggleActions: "play none none none",
-          },
-        });
+      cardsRef.current.forEach((card, index) => {
+        tl.to(
+          card,
+          { autoAlpha: 1, y: 0, duration: 1, ease: "power2.out" },
+          index,
+        );
       });
     },
     { scope: pinRef },

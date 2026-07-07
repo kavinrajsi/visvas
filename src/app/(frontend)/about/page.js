@@ -103,7 +103,6 @@ export default async function AboutPage() {
           <li className={styles["about__stats-item"]}>
             <p className={styles["about__stats-number"]}>
               <Counter value={40} className={styles["about__stats-count"]} />
-              <p className={styles["about__stats-count"]}>lakh</p>
               <sup className={styles["about__stats-suffix"]}>+</sup>
             </p>
             <p className={styles["about__stats-label"]}>Sqft Built</p>

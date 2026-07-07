@@ -3,6 +3,8 @@
 
   .completed-projects__header {
     text-align: center;
+    padding-left: 20px;
+    padding-right: 20px;
     .section-label {
       padding-bottom: 40px;
       .section-label--text {
@@ -23,45 +25,45 @@
         color: #000000;
       }
     }
-  }
 
-  .section-heading {
-    /* Desktop/H3 */
-    font-family: "Cormorant Garamond";
-    font-style: normal;
-    font-weight: 600;
-    font-size: 36px;
-    line-height: 40px;
-    /* identical to box height, or 111% */
-    text-align: center;
-    font-feature-settings:
-      "pnum" on,
-      "lnum" on;
+    .section-heading {
+      /* Desktop/H3 */
+      font-family: "Cormorant Garamond";
+      font-style: normal;
+      font-weight: 600;
+      font-size: 36px;
+      line-height: 40px;
+      /* identical to box height, or 111% */
+      text-align: center;
+      font-feature-settings:
+        "pnum" on,
+        "lnum" on;
 
-    /* Neutral/Heading_text */
-    color: #000000;
-    padding-bottom: 8px;
-  }
+      /* Neutral/Heading_text */
+      color: #000000;
+      padding-bottom: 8px;
+    }
 
-  .section-description {
-    /* Desktop/B1 */
-    font-family: "Raleway";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 24px;
-    /* identical to box height, or 150% */
-    text-align: center;
-    font-feature-settings:
-      "pnum" on,
-      "lnum" on;
+    .section-description {
+      /* Desktop/B1 */
+      font-family: "Raleway";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+      /* identical to box height, or 150% */
+      text-align: center;
+      font-feature-settings:
+        "pnum" on,
+        "lnum" on;
 
-    /* Neutral/Sub_text */
-    color: #4b4b4b;
-    max-width: 660px;
-    margin-left: auto;
-    margin-right: auto;
-    padding-bottom: 40px;
+      /* Neutral/Sub_text */
+      color: #4b4b4b;
+      max-width: 660px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-bottom: 40px;
+    }
   }
 
   .how-we-build__container {
@@ -133,13 +135,19 @@
     }
   }
 
+  /* Below desktop: fill the pinned viewport so cards have room to overlay */
+  @media (max-width: 1024px) {
+    .how-we-build__container {
+      .how-we-build__background img {
+        min-height: 100vh;
+        object-fit: cover;
+      }
+    }
+  }
+
   /* Tablet: keep overlay + pin sequence, fit narrower image */
   @media (max-width: 1024px) and (min-width: 768px) {
     .how-we-build__container {
-      .how-we-build__background img {
-        min-height: 460px;
-        object-fit: cover;
-      }
       .how-we-build__content {
         right: 20px;
         .how-we-build__cards {
@@ -158,17 +166,26 @@
     }
   }
 
-  /* Mobile: stacked layout, no overlay */
+  /* Mobile: keep overlay, center cards over full-height image */
   @media (max-width: 767px) {
     .how-we-build__container {
       .how-we-build__content {
-        position: static;
-        height: auto;
-        right: auto;
-        padding: 24px 0;
+        left: 0;
+        right: 0;
+        padding: 0 16px;
         .how-we-build__cards {
-          grid-template-columns: 1fr;
           width: 100%;
+          max-width: 340px;
+          gap: 12px;
+          .card {
+            padding: 16px;
+            .card__title {
+              font-size: 18px;
+            }
+            .card__description {
+              font-size: 14px;
+            }
+          }
         }
       }
     }

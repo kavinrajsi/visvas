@@ -100,7 +100,7 @@ export default async function Home() {
     <main className={styles['home']}>
       <Banner />
       <LatestProjectsSection />
-      <WhoWeAreSection />
+      <WhoWeAreSection section={whoWeAreSection} />
       <HowWeBuildSection section={howWeBuildSection} />
       <CompletedProjectsSection />
 
