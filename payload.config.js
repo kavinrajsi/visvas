@@ -5,7 +5,7 @@ import { s3Storage } from '@payloadcms/storage-s3'
 import { fileURLToPath } from 'url'
 import path from 'path'
 import sharp from 'sharp'
-import { sendEmail } from './src/lib/email/zoho.js'
+import { sendEmail } from './src/lib/email/gmail.js'
 
 import Users from './src/collections/Users.js'
 import Media from './src/media/Media.js'
