@@ -47,6 +47,51 @@ export async function submitForm(formType, formData, options = {}) {
     )
   )
 
+  // ========== GOOGLE SHEETS ==========
+
+  if (storeInSheets) {
+    try {
+      const sheetsResult = await storeFormDataSheets(formType, formData, metadata)
+      results.sheets = sheetsResult
+      if (!sheetsResult.success) {
+        results.errors.push(`Sheets storage failed: ${sheetsResult.error}`)
+      }
+    } catch (error) {
+      results.errors.push(`Sheets storage error: ${error.message}`)
+    }
+  }
+
+  // ========== PAYLOAD CMS STORAGE ==========
+
+  if (storeInPayload) {
+    try {
+      const payloadResult = await storeFormDataPayload(formType, formData, metadata)
+      results.payload = payloadResult
+      if (!payloadResult.success) {
+        results.errors.push(`Payload storage failed: ${payloadResult.error}`)
+      }
+    } catch (error) {
+      results.errors.push(`Payload storage error: ${error.message}`)
+    }
+  }
+
+  // ========== DATABASE STORAGE ==========
+
+  if (storeInDb) {
+    try {
+      const dbResult = await storeFormDataDb(formType, formData, {
+        ...metadata,
+        source: 'form_submission',
+      })
+      results.db = dbResult
+      if (!dbResult.success) {
+        results.errors.push(`DB storage failed: ${dbResult.error}`)
+      }
+    } catch (error) {
+      results.errors.push(`DB storage error: ${error.message}`)
+    }
+  }
+
   // ========== EMAIL NOTIFICATIONS ==========
 
   if (sendAdminEmail || sendUserEmail) {
@@ -83,51 +128,6 @@ export async function submitForm(formType, formData, options = {}) {
       } catch (error) {
         results.errors.push(`User email error: ${error.message}`)
       }
-    }
-  }
-
-  // ========== DATABASE STORAGE ==========
-
-  if (storeInDb) {
-    try {
-      const dbResult = await storeFormDataDb(formType, formData, {
-        ...metadata,
-        source: 'form_submission',
-      })
-      results.db = dbResult
-      if (!dbResult.success) {
-        results.errors.push(`DB storage failed: ${dbResult.error}`)
-      }
-    } catch (error) {
-      results.errors.push(`DB storage error: ${error.message}`)
-    }
-  }
-
-  // ========== GOOGLE SHEETS ==========
-
-  if (storeInSheets) {
-    try {
-      const sheetsResult = await storeFormDataSheets(formType, formData, metadata)
-      results.sheets = sheetsResult
-      if (!sheetsResult.success) {
-        results.errors.push(`Sheets storage failed: ${sheetsResult.error}`)
-      }
-    } catch (error) {
-      results.errors.push(`Sheets storage error: ${error.message}`)
-    }
-  }
-
-  // ========== PAYLOAD CMS STORAGE ==========
-
-  if (storeInPayload) {
-    try {
-      const payloadResult = await storeFormDataPayload(formType, formData, metadata)
-      results.payload = payloadResult
-      if (!payloadResult.success) {
-        results.errors.push(`Payload storage failed: ${payloadResult.error}`)
-      }
-    } catch (error) {
-      results.errors.push(`Payload storage error: ${error.message}`)
     }
   }
 
