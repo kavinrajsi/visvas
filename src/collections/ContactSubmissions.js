@@ -17,6 +17,7 @@ const ContactSubmissions = {
       options: [
         { label: 'Contact', value: 'contact' },
         { label: 'Enquiry', value: 'enquiry' },
+        { label: 'Newsletter', value: 'newsletter' },
       ],
       label: 'Form Type',
     },
@@ -29,8 +30,11 @@ const ContactSubmissions = {
     {
       name: 'phone',
       type: 'text',
-      required: true,
+      required: false,
       label: 'Mobile Number',
+      admin: {
+        description: 'Required for contact/enquiry, optional for newsletter',
+      },
     },
     {
       name: 'whatsappActivated',

@@ -1,15 +1,20 @@
 'use client'
 
 import { useState } from 'react'
+import { getAttributionData } from '@/lib/analytics/attribution'
+import { HONEYPOT_FIELD } from '@/lib/security/honeypot'
+import { trackFormSubmission } from '@/lib/gtm/events'
 import styles from './BlogSidebar.module.scss'
 
 export default function BlogSidebar() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    [HONEYPOT_FIELD]: '',
   })
   const [errors, setErrors] = useState({})
   const [message, setMessage] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   const validateForm = (data) => {
     const nextErrors = {}
@@ -43,8 +48,8 @@ export default function BlogSidebar() {
     setMessage(null)
   }
 
-  const handleSubmit = (event) => {
-    event.preventDefault()
+  const handleSubmit = async (e) => {
+    e.preventDefault()
     const validationErrors = validateForm(formData)
 
     if (Object.keys(validationErrors).length > 0) {
@@ -53,12 +58,64 @@ export default function BlogSidebar() {
       return
     }
 
+    setLoading(true)
+    setMessage(null)
     setErrors({})
-    setMessage('Thank you for subscribing.')
-    setFormData({
-      name: '',
-      email: '',
-    })
+
+    try {
+      const attribution = getAttributionData()
+      const response = await fetch('/api/forms/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          formType: 'newsletter',
+          formData,
+          attribution,
+        }),
+      })
+
+      const result = await response.json()
+
+      if (result.success) {
+        trackFormSubmission('newsletter', {
+          name: formData.name,
+          email: formData.email,
+          submission_time: new Date().toISOString(),
+        }, 'success')
+
+        setMessage({
+          type: 'success',
+          text: 'Thank you for subscribing. We will keep you informed with curated updates.',
+        })
+        setFormData({
+          name: '',
+          email: '',
+          [HONEYPOT_FIELD]: '',
+        })
+      } else {
+        trackFormSubmission('newsletter', {
+          name: formData.name,
+          email: formData.email,
+          error_message: result.error || 'Unknown error',
+          submission_time: new Date().toISOString(),
+        }, 'error')
+
+        setMessage({
+          type: 'error',
+          text: result.error || 'Something went wrong. Please try again.',
+        })
+      }
+    } catch (error) {
+      console.error('Form submission error:', error)
+      setMessage({
+        type: 'error',
+        text: 'Network error. Please try again.',
+      })
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -106,14 +163,25 @@ export default function BlogSidebar() {
           )}
         </div>
 
+        <input
+          type="text"
+          name={HONEYPOT_FIELD}
+          value={formData[HONEYPOT_FIELD]}
+          onChange={handleChange}
+          tabIndex={-1}
+          autoComplete="off"
+          aria-hidden="true"
+          style={{ position: 'absolute', left: '-9999px', opacity: 0 }}
+        />
+
         {message && (
-          <p className={styles['blog-sidebar__message']}>
-            {message}
-          </p>
+          <div className={`${styles['blog-sidebar__message']} ${styles[`blog-sidebar__message--${message.type}`]}`}>
+            <p>{message.text}</p>
+          </div>
         )}
 
-        <button type="submit" className={styles['blog-sidebar__btn']}>
-          Subscribe
+        <button type="submit" className={styles['blog-sidebar__btn']} disabled={loading}>
+          {loading ? 'Subscribing...' : 'Subscribe'}
         </button>
       </form>
     </div>

@@ -453,9 +453,12 @@ export interface Policy {
  */
 export interface ContactSubmission {
   id: number;
-  formType?: ('contact' | 'enquiry') | null;
+  formType?: ('contact' | 'enquiry' | 'newsletter') | null;
   name: string;
-  phone: string;
+  /**
+   * Required for contact/enquiry, optional for newsletter
+   */
+  phone?: string | null;
   whatsappActivated?: boolean | null;
   email: string;
   budget?: string | null;

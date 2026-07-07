@@ -1,334 +1,365 @@
-# Visvas — Luxury Property Developer Website
+# Visvas
 
-Visvas is a full-stack property marketing platform for a luxury real estate developer in Madurai, Tamil Nadu, India. Built with Next.js 16 (App Router) frontend + Payload CMS 3 headless backend on PostgreSQL.
+A modern real-estate platform built with **Next.js 16**, **React 19**, **Payload CMS 3.85.1**, and **PostgreSQL**. Showcases residential projects with rich media, enquiry forms, blog, and impact/community sections.
 
 ## Tech Stack
 
-- **Frontend**: Next.js 16.2.9, React 19, Turbopack, React Compiler
-- **Backend/CMS**: Payload CMS 3.85.1 (Node.js REST API + GraphQL)
-- **Database**: PostgreSQL (via `@payloadcms/db-postgres`)
-- **Styling**: SCSS Modules (no Tailwind, no CSS-in-JS)
-- **Rich Text**: Lexical editor via `@payloadcms/richtext-lexical`
-- **Image Processing**: Sharp 0.35.2
-- **Email**: Zoho Zeptomail transactional email API
-- **Storage**: Local JSON/SQLite (optional) + Google Sheets append integration
-- **Analytics**: GTM dataLayer, GA4, Google Ads conversion tracking, Meta Pixel
+- **Framework**: Next.js 16 (App Router, Turbopack, React Compiler)
+- **UI**: React 19, SCSS Modules (BEM convention), Lexical rich text editor
+- **CMS**: Payload CMS 3.85.1
+- **Database**: PostgreSQL
+- **Media Storage**: AWS S3 / Cloudflare R2 (optional, local fallback)
+- **Email**: Zoho Zeptomail
+- **Analytics**: Google Tag Manager, GA4, PostHog
+- **External Integration**: Google Sheets (optional form-submission log), IP geolocation
 
 ## Prerequisites
 
-- Node.js 20+ (LTS recommended)
-- PostgreSQL database instance
-- `.env.local` file with environment variables
+- **Node.js** 20+
+- **PostgreSQL** 12+ (local or remote)
+- **.env** file configured (see [Environment Variables](#environment-variables))
+- Optional: **AWS S3 / Cloudflare R2** credentials for media storage
 
 ## Quick Start
 
-### 1. Clone & Install
-```bash
-git clone <repo>
-cd visvas
-npm install
-```
+1. **Clone and install:**
+   ```bash
+   git clone <repo-url>
+   cd visvas
+   npm install
+   ```
 
-### 2. Environment Setup
-Create `.env.local` in the project root:
-```env
-DATABASE_URL=postgresql://user:password@localhost:5432/visvas
-PAYLOAD_SECRET=<strong-random-string-32-bytes>
-ZOHO_ZEPTOMAIL_TOKEN=<your-zoho-api-token>
-ZOHO_ZEPTOMAIL_SENDER_EMAIL=noreply@visvas.in
-ADMIN_EMAIL=admin@visvas.in
-NEXT_PUBLIC_SITE_URL=https://www.visvas.in
-```
+2. **Set up environment:**
+   Copy `.env.example` to `.env` and fill in required vars:
+   ```bash
+   cp .env.example .env
+   # Edit .env with DATABASE_URL, PAYLOAD_SECRET, email config, etc.
+   ```
 
-See [Environment Variables](#environment-variables) below for complete list.
+3. **Initialize database:**
+   ```bash
+   npm run db:push
+   ```
 
-### 3. Database Setup
-```bash
-npm run payload:migrate
-```
-
-### 4. Run Dev Server
-```bash
-npm run dev
-```
-
-Open `http://localhost:3000` for the frontend and `http://localhost:3000/admin` for the CMS.
-
-### 5. (Optional) Seed Dummy Content
-```bash
-npm run seed:dummy-blog
-```
-
-Creates 4 sample blog posts with full content. Requires `.env.local` to be set.
+4. **Start dev server:**
+   ```bash
+   npm run dev
+   ```
+   Open http://localhost:3000
 
 ## Environment Variables
 
-| Variable | Required | Description | Default |
-|----------|----------|-------------|---------|
-| `DATABASE_URL` | ✓ | PostgreSQL connection string | — |
-| `PAYLOAD_SECRET` | ✓ | 32-byte random secret for Payload | — |
-| `ZOHO_ZEPTOMAIL_TOKEN` | ✓ | Zoho Zeptomail API token | — |
-| `ZOHO_ZEPTOMAIL_SENDER_EMAIL` | ✓ | Sender email for transactional emails | — |
-| `ADMIN_EMAIL` | ✓ | Admin inbox for form submissions | — |
-| `ZOHO_ZEPTOMAIL_SENDER_NAME` | — | Display name for sender | `Visvas Properties` |
-| `GOOGLE_SHEETS_API_KEY` | — | Google Sheets API key (if using Sheets storage) | — |
-| `GOOGLE_SHEETS_SPREADSHEET_ID` | — | Google Sheets spreadsheet ID | — |
-| `NEXT_PUBLIC_SITE_URL` | — | Public site URL (for meta tags, robots, sitemap) | `https://www.visvas.in` |
-| `NEXT_PUBLIC_GADS_ID` | — | Google Ads conversion ID (client-exposed for GA) | — |
-| `DATABASE_DIR` | — | Local directory for JSON/SQLite files | `data` |
-| `DATABASE_TYPE` | — | Storage backend: `json`, `sqlite`, or `both` | `json` |
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `DATABASE_URL` | ✓ | PostgreSQL connection string (e.g., `postgresql://user:pass@localhost:5432/visvas`) |
+| `PAYLOAD_SECRET` | ✓ | 32+ char secret for Payload JWT signing |
+| `ZOHO_ZEPTOMAIL_TOKEN` | ✓ | API token from Zoho Zeptomail (transactional email) |
+| `ZOHO_ZEPTOMAIL_SENDER_EMAIL` | ✓ | Sender email address (must be verified in Zoho) |
+| `ZOHO_ZEPTOMAIL_SENDER_NAME` | | Sender display name (defaults to "Visvas") |
+| `ADMIN_EMAIL` | ✓ | Email for admin notifications (form submissions, errors) |
+| `GOOGLE_SHEETS_API_KEY` | | Google Sheets API key for form-submission logging (optional) |
+| `GOOGLE_SHEETS_SPREADSHEET_ID` | | Spreadsheet ID for appending form submissions (optional) |
+| `DATABASE_DIR` | | Local storage directory for form submissions (defaults to `./data`) |
+| `NEXT_PUBLIC_SITE_URL` | | Public site URL (used for sitemap, robots.txt, canonical URLs) |
+| `NEXT_PUBLIC_GADS_ID` | | Google Ads conversion tracking ID (optional) |
+| `NEXT_PUBLIC_BUSINESS_EMAIL` | | Business contact email (displayed in footer, contact page) |
+| `NEXT_PUBLIC_BUSINESS_PHONE` | | Business phone number (displayed in footer, contact page) |
+| `NEXT_PUBLIC_CONTACT_EMAIL` | | Contact form recipient email (for AI crawler metadata) |
+| `R2_BUCKET_NAME` | | Cloudflare R2 bucket name for media storage (optional; S3-compatible) |
+| `R2_ENDPOINT` | | Cloudflare R2 endpoint URL (optional) |
+| `R2_ACCESS_KEY` | | Cloudflare R2 access key (optional) |
+| `R2_SECRET_KEY` | | Cloudflare R2 secret key (optional) |
+| `NEXT_PUBLIC_POSTHOG_HOST` | | PostHog API host (optional, for analytics) |
+| `NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN` | | PostHog project token (optional, for analytics) |
 
-**Note**: Services gracefully skip if env vars are absent. Development: logs "Missing config" instead of error. Production: returns success=false with error message.
+**Notes:**
+- If email/Sheets/R2 env vars are absent, those services fail gracefully (no form submission blocking).
+- `DATABASE_DIR` supports both absolute paths and relative-to-cwd paths.
+- `NEXT_PUBLIC_*` vars are embedded in client-side bundles; do not store secrets there.
 
 ## Commands
 
 | Command | Purpose |
 |---------|---------|
-| `npm run dev` | Start Next.js dev server (hot reload) |
-| `npm run build` | Build for production |
-| `npm run start` | Start production server |
+| `npm run dev` | Start dev server (http://localhost:3000 + Payload admin at /admin) |
+| `npm run build` | Production build |
+| `npm run start` | Run production server |
 | `npm run lint` | Run ESLint |
-| `npm run payload` | Payload CLI (migrations, database, seed scripts) |
-| `npm run seed:dummy-blog` | Seed 4 dummy blog posts with full content |
+| `npm run payload` | Payload CLI tools (collections, migrations, etc.) |
 | `npm run payload:migrate` | Run pending database migrations |
-| `npm run payload:migrate:create` | Create new migration file |
-| `npm run payload:generate:types` | Generate TypeScript types from schema |
+| `npm run payload:migrate:create` | Create a new migration |
+| `npm run payload:generate:types` | Generate TypeScript types from Payload config |
+| `npm run db:push` | Run migrations + generate types (typical flow) |
 
 ## Project Structure
 
 ```
-src/
-├── app/
-│   ├── (frontend)/          # Public-facing website
-│   │   ├── page.js          # Homepage (/)
-│   │   ├── projects/        # Project listing & detail
-│   │   │   ├── page.js      # Listing (with filters, pagination)
-│   │   │   ├── ongoing/     # /projects/ongoing
-│   │   │   ├── completed/   # /projects/completed
-│   │   │   ├── [slug]/      # /projects/{slug} (detail + enquiry form)
-│   │   │   └── helpers.js   # Filter & query utilities
-│   │   ├── blog/            # Blog listing & articles
-│   │   │   ├── page.js      # /blog (listing)
-│   │   │   └── [slug]/      # /blog/{slug} (article detail)
-│   │   ├── components/      # Reusable React components
-│   │   │   ├── header/      # Global navigation
-│   │   │   ├── mobile-cta-bar/
-│   │   │   └── project-card/
-│   │   ├── layout.js        # Layout wrapper (Header + children + CTABar)
-│   │   ├── not-found.js     # 404 page
-│   │   └── styles/          # Global typography
-│   │
-│   ├── (payload)/            # CMS admin interface & REST API
-│   │   └── admin/[[...segments]]/
-│   │
-│   ├── api/
-│   │   └── forms/submit/    # POST /api/forms/submit (rate-limited, form coordinator)
-│   │
-│   ├── ai.txt               # AI usage policy (public)
-│   ├── llms.txt             # LLM crawler index (public)
-│   ├── llms-full.txt        # Full content dump for AI (public)
-│   ├── robots.js            # robots.txt generator
-│   ├── sitemap.js           # sitemap.xml generator
-│   ├── layout.js            # Root layout
-│   └── globals.scss         # Global styles
-│
-├── collections/             # Payload CMS collections (database schemas)
-│   ├── Projects.js          # Real estate projects
-│   ├── Posts.js             # Blog articles
-│   ├── BlogCategories.js
-│   ├── Users.js             # CMS users (auth)
-│   ├── Media.js             # File uploads
-│   ├── TextTestimonials.js
-│   ├── VideoTestimonials.js
-│   ├── Amenities.js
-│   ├── Policies.js
-│   └── ContactSubmissions.js # Form submissions (write-only from API)
-│
-├── globals/                 # Payload CMS global content (singleton records)
-│   ├── HomePage.js
-│   ├── AboutPage.js
-│   ├── ContactPage.js
-│   └── ImpactPage.js
-│
-├── lib/
-│   ├── email/zoho.js        # Zoho Zeptomail email service
-│   ├── forms/
-│   │   └── submitForm.js    # Form submission coordinator (email + storage)
-│   ├── security/
-│   │   ├── rateLimiter.js   # In-memory rate limiter (5 req/min per IP)
-│   │   └── sanitiser.js     # formType sanitisation (alphanumeric + underscore)
-│   ├── storage/
-│   │   ├── nanoDb.js        # Local JSON/SQLite form storage
-│   │   └── googleSheets.js  # Google Sheets append integration
-│   ├── analytics/
-│   │   └── track.js         # Client-side analytics events (GTM, GA4, etc.)
-│   └── redirects/
-│       └── wordpressUrls.js # Legacy WordPress URL redirects
-│
-└── scripts/
-    └── seed-dummy-blog.mjs  # Seed dummy blog posts
+.
+├── src/
+│   ├── app/
+│   │   ├── (frontend)/          # Public-facing pages
+│   │   │   ├── page.js          # Home
+│   │   │   ├── about/
+│   │   │   ├── blog/
+│   │   │   ├── projects/        # Project listing + detail ([slug])
+│   │   │   ├── contact/
+│   │   │   ├── community/       # Community/impact page
+│   │   │   ├── components/      # Shared UI (header, footer, modals, etc.)
+│   │   │   └── layout.js
+│   │   ├── (payload)/           # Payload CMS admin panel
+│   │   ├── api/
+│   │   │   ├── forms/submit     # Form submission endpoint (rate-limited)
+│   │   │   ├── admin/register-images  # Bulk image registration
+│   │   │   └── ...
+│   │   ├── ai.txt/              # AI crawler metadata endpoint
+│   │   ├── layout.js            # Root layout
+│   │   ├── globals.scss         # Global styles
+│   │   └── ...
+│   ├── collections/             # Payload CMS collections
+│   │   ├── Amenities.js
+│   │   ├── BlogCategories.js
+│   │   ├── ContactSubmissions.js
+│   │   ├── Policies.js
+│   │   ├── Posts.js
+│   │   ├── Projects.js
+│   │   ├── Testimonials.js
+│   │   ├── Users.js
+│   │   └── Widgets.js
+│   ├── globals/                 # Payload CMS globals (singleton pages)
+│   │   ├── AboutPage.js
+│   │   ├── BlogPage.js
+│   │   ├── ContactPage.js
+│   │   ├── HomePage.js
+│   │   └── ImpactPage.js        # Backed by /community route (not /impact)
+│   ├── media/
+│   │   └── Media.js             # Media upload collection (with S3/R2 storage)
+│   ├── lib/
+│   │   ├── forms/
+│   │   │   └── submitForm.js    # Orchestrates form submission → email/nanoDb/Sheets/Payload
+│   │   ├── security/
+│   │   │   ├── rateLimiter.js   # In-memory sliding-window rate limiter
+│   │   │   ├── sanitiser.js     # Form-type sanitization
+│   │   │   └── honeypot.js      # Spam honeypot validation
+│   │   ├── email/
+│   │   │   └── zoho.js          # Zeptomail email transport
+│   │   ├── storage/
+│   │   │   ├── nanoDb.js        # Local JSON form-submission storage
+│   │   │   ├── googleSheets.js  # Google Sheets API integration
+│   │   │   └── payloadDb.js     # Payload CMS database writes
+│   │   ├── redirects/
+│   │   │   └── wordpressUrls.js # WordPress migration URL redirects
+│   │   └── ...
+│   └── ...
+├── payload.config.js            # Payload CMS config (collections, globals, email, storage)
+├── next.config.mjs              # Next.js config (WordPress URL redirects)
+├── package.json
+├── .env.example                 # Environment variables template
+└── ...
 ```
 
 ## CMS Admin
 
-Access the Payload admin panel at **`http://localhost:3000/admin`** (requires login).
+### Collections
 
-### Collections (Editable Data)
-- **Projects** — Real estate project listings (status: upcoming/under_construction/ready_to_move/completed)
-- **Posts** — Blog articles
-- **BlogCategories** — Blog category taxonomy
-- **Users** — CMS user accounts
-- **Media** — File uploads (images, documents)
-- **TextTestimonials** — Customer testimonials (text)
-- **VideoTestimonials** — Video testimonials
-- **Amenities** — Project amenities (used in project detail)
-- **Policies** — Legal policies
-- **ContactSubmissions** — Form submissions from website (read-only in admin, written via API)
+| Name | Purpose | Access |
+|------|---------|--------|
+| **Projects** | Real-estate projects (name, location, status, media, amenities, FAQs) | Public read |
+| **Posts** | Blog posts (title, content, category, author, published/draft) | Public read (non-draft only), auth write |
+| **BlogCategories** | Blog category taxonomy | Public read |
+| **Testimonials** | Customer testimonials (text or video) | Public read |
+| **ContactSubmissions** | Form submissions (read/audit only; writes happen via API) | Auth read only |
+| **Amenities** | Project amenities (name, icon) | Public read |
+| **Policies** | Legal pages (Privacy Policy, T&C) | Public read |
+| **Users** | Admin users (Payload auth collection) | Auth only |
+| **Widgets** | Reusable content blocks (media-gallery, testimonial-carousel, etc.) | Public read |
+| **Media** | File uploads (images, PDFs, etc.) with S3/R2 storage | Public read (via URLs) |
 
-### Globals (Singleton Pages)
-- **HomePage** — Hero, featured projects, stats, testimonials, CTA sections
-- **AboutPage** — Company story, team, environmental impact
-- **ContactPage** — Contact form, office details, map
-- **ImpactPage** — Environmental & social impact metrics
+### Globals (Singletons)
+
+| Name | Purpose | Route |
+|------|---------|-------|
+| **HomePage** | Homepage hero, latest projects section config | `/` |
+| **AboutPage** | About page content (hero, founder, mission, values) | `/about` |
+| **BlogPage** | Blog listing page hero/SEO config | `/blog` |
+| **ContactPage** | Contact page hero, contact details | `/contact` |
+| **ImpactPage** | Community impact/sustainability content | `/community` (not `/impact`) |
 
 ## Form Submission Pipeline
 
-### User Flow
-1. User fills enquiry form on project detail page (`/projects/{slug}`)
-2. Client-side validation (name, email, mobile, budget)
-3. `POST /api/forms/submit` (rate-limited: 5 req/min per IP)
+Form submissions (enquiry, contact) flow through a unified pipeline:
 
-### Server Flow (inside `/api/forms/submit`)
-1. **Rate limit check** — reject if > 5 req/min from same IP
-2. **Validate formData** — required fields, email format, mobile number
-3. **Call `submitForm()`** which coordinates:
-   - **Email**: Send admin notification + user confirmation via Zeptomail (optional if env var absent)
-   - **Local Storage**: Save to JSON file in `data/` directory (optional)
-   - **Google Sheets**: Append row to spreadsheet (optional)
-   - **Logging**: Log submission metadata (IP, user-agent, referer)
-4. **Return response** — success/failure, submission ID if applicable
+1. **Client submits** → `POST /api/forms/submit` with `formType`, name, email, phone, message, etc.
+2. **Rate limit check** → 5 req/min per IP (via `rateLimiter.js`)
+3. **Validation** → `validateFormData()` checks name, email, mobile, budget fields
+4. **Honeypot check** → `isHoneypotTriggered()` flags submission if hidden `company` field filled
+5. **Sanitization** → `sanitiseFormType()` cleans form-type for file/sheet names
+6. **Storage** (sequential, each fail-gracefully independent):
+   - Send **admin notification** email (Zoho Zeptomail)
+   - Send **user confirmation** email
+   - Write to **local JSON** (`{DATABASE_DIR || 'data'}/{sanitisedFormType}_submissions.json`)
+   - Write to **Google Sheets** (if API key configured)
+   - Write to **Payload CMS** `contact-submissions` collection (with `isSpam` flag if honeypot triggered)
+7. **Response** → JSON success/error
 
-All external services (email, Sheets) fail gracefully — form submission succeeds even if one backend is down.
+**Key files:**
+- `src/lib/forms/submitForm.js` — main orchestrator
+- `src/app/api/forms/submit/route.js` — endpoint
+- `src/lib/security/honeypot.js` — spam check
+- `src/lib/email/zoho.js` — email transport
+- `src/lib/storage/{nanoDb,googleSheets,payloadDb}.js` — storage backends
+
+All storage backends fail gracefully if env vars absent (e.g., no Google Sheets API key → skip Sheets append, still save locally).
 
 ## Security
 
 ### Rate Limiting
-Form submission endpoint limited to 5 requests per minute per IP. Uses in-memory store (`src/lib/security/rateLimiter.js`). Resets on server restart.
 
-### Input Sanitisation
-- `formType` sanitised to alphanumeric + underscore (max 50 chars) before use in file paths or sheet tab names — prevents directory traversal attacks
-- Email templates HTML-escape all user data — prevents HTML header injection in transactional emails
-- Draft projects/posts filtered from public read access — only authenticated users see unpublished content
+- **Endpoint:** `POST /api/forms/submit`
+- **Limit:** 5 requests per minute per IP
+- **Header precedence:** `cf-connecting-ip` (Cloudflare) → `x-real-ip` → `unknown`
+- **Bypass:** None (applies to all clients)
 
-### API Security
-- No API keys in URL query strings; moved to Authorization headers
-- `ADMIN_EMAIL` not exposed in public routes (removed from `ai.txt`)
-- `ContactSubmissions` collection locked: `create: () => false` — can only be written via coordinated API endpoint, not Payload REST API directly
-- `x-forwarded-for` header validated; prefers `cf-connecting-ip` (Cloudflare) when behind proxy
+**File:** `src/lib/security/rateLimiter.js`
+
+### Sanitization
+
+- **Form-type sanitization:** `sanitiseFormType()` strips to `[a-zA-Z0-9_-]`, max 50 chars
+- **Purpose:** Prevent path traversal / injection in file paths and sheet names
+- **Usage:** Before using `formType` in file I/O, sheet tab names, or logs
+
+**File:** `src/lib/security/sanitiser.js`
+
+### Email Escaping
+
+- **User data in HTML emails:** Must use `htmlEscape()` (from `src/lib/email/zoho.js`)
+- **Purpose:** Prevent XSS injection via email templates
+- **Pattern:** All user-submitted text (name, message) must be escaped before HTML interpolation
+
+**File:** `src/lib/email/zoho.js`
+
+### Honeypot
+
+- **Field:** Hidden `company` field in forms (name it `company`, hide with CSS)
+- **Logic:** If honeypot filled → flag submission `isSpam: true` (logged but still processed)
+- **Purpose:** Mark spam submissions for review; stored with `isSpam` field in ContactSubmissions
+
+**File:** `src/lib/security/honeypot.js`
+
+### ContactSubmissions Collection
+
+- **API write:** Disabled (`create: () => false`) — submissions only via form API, never direct REST
+- **Purpose:** Prevent tampering; all writes flow through validation/rate-limiting
 
 ## Styling
 
-**SCSS Modules only** — no global CSS, no Tailwind, no CSS-in-JS.
+- **Approach:** SCSS Modules only (no Tailwind, no CSS-in-JS)
+- **Pattern:** `Component.js` + `Component.module.scss` in same directory
+- **Naming:** BEM convention (`.component__element--modifier`)
+- **Global styles:** Imported in `src/app/layout.js` and `src/app/(frontend)/layout.js`
+- **Responsive:** Mobile-first; breakpoints at 768px, 992px per convention
 
-Pattern: each React component has a `.module.scss` alongside it.
-- `Header.js` + `Header.module.scss`
-- `ProjectCard.js` + `ProjectCard.module.scss`
-- etc.
-
-Global styles: `src/app/globals.scss` + typography in `src/app/(frontend)/styles/typography.scss`
-
-Class naming: BEM-style convention.
+**Example:**
 ```scss
-.project-card { }
-.project-card__title { }
-.project-card__description { }
-.project-card__link { }
+// ProjectCard.module.scss
+.card {
+  padding: 1rem;
+  
+  &__title {
+    font-size: 1.5rem;
+  }
+  
+  &__title--featured {
+    font-weight: bold;
+  }
+}
+```
+
+```jsx
+// ProjectCard.js
+import styles from './ProjectCard.module.scss';
+
+export default function ProjectCard({ featured }) {
+  return (
+    <div className={styles.card}>
+      <h2 className={`${styles.card__title} ${featured ? styles['card__title--featured'] : ''}`}>
+        Project Name
+      </h2>
+    </div>
+  );
+}
 ```
 
 ## Database Migrations
 
-### Create a new migration
+Managed via Payload CLI (PostgreSQL adapter):
+
 ```bash
+# Create a new migration
 npm run payload:migrate:create
-```
 
-Creates a timestamped migration file in `migrations/`. Edit the `up()` and `down()` functions.
-
-### Run pending migrations
-```bash
+# Run pending migrations
 npm run payload:migrate
-```
 
-Applies all pending migrations to the database.
-
-### TypeScript Schema Types
-```bash
+# Regenerate TypeScript types from schema
 npm run payload:generate:types
+
+# Common flow (dev/deploy)
+npm run db:push  # Runs migrate + generate:types
 ```
 
-Generates `payload-types.ts` with full type definitions from the Payload schema.
+Migrations live in `migrations/` directory (auto-created by Payload).
 
 ## Development Notes
 
-### Next.js 16 Specifics
-- `params` in dynamic routes **must be awaited**: `const params = await paramsPromise`
-- App Router only — no Pages Router
-- React Compiler enabled (`reactCompiler: true` in next.config.mjs)
-- Turbopack default; esbuild as fallback
+### Next.js 16 & React 19
+- **App Router only** (no Pages Router)
+- **Dynamic params must be awaited:** `const params = await paramsPromise` in dynamic pages
+- **React Compiler:** Enabled in `next.config.mjs` for automatic memoization
+- **Turbopack:** Enabled for faster dev builds
 
 ### Payload CMS 3.x
-- No Pages-based routing — use Payload's REST API via `getPayload({ config })` in Server Components
-- Collections and Globals are data types, not pages
-- Access control can return `boolean` (allow/deny all) or a `where` constraint (conditional read)
+- **Access control:** Returns `boolean` (allow/deny all) OR `{ where: {...} }` (conditional read)
+- **Collections vs. Globals:** Collections are queryable lists; Globals are singletons
+- **Rich text:** Uses Lexical editor (fully customizable, structured data)
+- **Media upload:** Supports local filesystem or S3/R2 storage (conditional via env vars)
 
-### Environment & Graceful Degradation
-If an environment variable is missing:
-- **Email**: logs "Missing config" and returns `success: true` in dev; in production, sends a failure notice
-- **Google Sheets**: logs "Missing config" and returns `success: true`
-- **Local storage**: creates `data/` dir on first write
-
-This design allows development without Zoho or Google credentials.
+### Dynamic Pages
+Pages that query Payload require `export const dynamic = 'force-dynamic'` to avoid stale SSG cache.
 
 ## Troubleshooting
 
-### "Can't resolve 'better-sqlite3'"
-This warning is expected. SQLite is optional. The code attempts to load it for enhanced storage, but falls back to JSON-only if absent. Safe to ignore.
+### Forms not sending emails
+- Check `ZOHO_ZEPTOMAIL_TOKEN` and `ZOHO_ZEPTOMAIL_SENDER_EMAIL` are set and valid.
+- Check ADMIN_EMAIL is configured.
+- Dev mode logs errors to console if email fails; check there first.
 
-### Form submissions not appearing in admin
-1. Check `ContactSubmissions.access.create` is `() => false` — direct REST creation blocked by design
-2. Submissions are written via `POST /api/forms/submit` → `src/lib/forms/submitForm.js`
-3. Check Payload is running and database is connected (`npm run payload migrate` works)
+### Images not uploading / 404 on media URLs
+- If using R2: check `R2_BUCKET_NAME`, `R2_ENDPOINT`, `R2_ACCESS_KEY`, `R2_SECRET_KEY`.
+- If local: check `DATABASE_DIR` is writable and `NEXT_PUBLIC_SITE_URL` is correct for canonical URLs.
 
-### Email not sending
-1. Verify `ZOHO_ZEPTOMAIL_TOKEN` and `ZOHO_ZEPTOMAIL_SENDER_EMAIL` in `.env.local`
-2. Check server logs for "Missing config — email would be sent" (dev mode) or API error (production)
-3. Verify Zoho account is active and token is valid
+### Build errors after file deletion
+- Run `npm run payload:generate:types` to regenerate schema types.
+- Clear `.next/` cache: `rm -rf .next/ && npm run build`
 
-### Google Sheets append failing silently
-1. Check `GOOGLE_SHEETS_API_KEY` and `GOOGLE_SHEETS_SPREADSHEET_ID` are set
-2. Ensure spreadsheet exists and API key has write permissions
-3. Check logs for `[SHEETS] Error appending to sheet`
+### Google Sheets submissions not logging
+- Optional feature. Check `GOOGLE_SHEETS_API_KEY` and `GOOGLE_SHEETS_SPREADSHEET_ID` if desired.
+- If missing, forms still work; Sheets append is skipped gracefully.
 
 ## Deployment
 
-### Vercel (Recommended)
-```bash
-vercel deploy
-```
-
-Set environment variables in Vercel project settings:
-- `DATABASE_URL` (PostgreSQL connection string, use managed Postgres via Vercel or external)
-- `PAYLOAD_SECRET` (generate: `openssl rand -hex 32`)
-- All other vars from `.env.local`
+### Vercel
+- **Environment variables:** Set in Vercel project settings (match `.env` keys)
+- **Database:** PostgreSQL (e.g., Vercel Postgres or external)
+- **Media storage:** Configure R2 credentials for production
+- **Deploy:** `git push` to production branch (CI/CD via Vercel)
 
 ### Self-Hosted
-```bash
-npm run build
-npm run start
-```
-
-Ensure PostgreSQL is accessible and all environment variables are set.
+- **Node.js 20+** runtime
+- **PostgreSQL** database accessible over network
+- **Email:** Zoho Zeptomail credentials
+- **Media:** Local filesystem or S3/R2 endpoint
+- **Reverse proxy:** Nginx/Caddy recommended; set `X-Real-IP` or `CF-Connecting-IP` headers
 
 ## License
 
-Proprietary — Visvas Properties
+Proprietary. See LICENSE file for details.

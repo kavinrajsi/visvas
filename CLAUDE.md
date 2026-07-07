@@ -13,17 +13,19 @@ Next.js 16 (App Router, Turbopack, React Compiler) + React 19, Payload CMS 3.85.
 
 ### Payload CMS Access
 - **Never** query database directly; always use `getPayload({ config })`
-- **Collections** defined in `src/collections/` — Projects, Posts, BlogCategories, Users, Media, TextTestimonials, VideoTestimonials, Amenities, Policies, ContactSubmissions
-- **Globals** defined in `src/globals/` — HomePage, AboutPage, ContactPage, ImpactPage (singleton records, edited in admin)
+- **Collections** defined in `src/collections/` — Amenities, BlogCategories, ContactSubmissions, Policies, Posts, Projects, Testimonials, Users, Widgets, plus Media in `src/media/Media.js`
+- **Globals** defined in `src/globals/` — AboutPage, BlogPage, ContactPage, HomePage, ImpactPage (singleton records, edited in admin)
+  - **Note:** ImpactPage backs the `/community` route, not `/impact`
 - **Access control** returns `boolean` (allow/deny all) OR `{ where: {...} }` constraint object (conditional read based on user)
   - Example: `read: ({ req: { user } }) => user ? true : { status: { not_equals: 'draft' } }`
 
 ### Form Submissions
 - **All forms** must go through `src/lib/forms/submitForm.js` — do not bypass
-- Entry point: `POST /api/forms/submit` → rate limit check → `validateFormData()` → `submitForm()`
-- Form data auto-routes to: Zeptomail email + local JSON/SQLite + Google Sheets (all fail-gracefully if env vars absent)
+- Entry point: `POST /api/forms/submit` → rate limit check → `validateFormData()` → honeypot check → `submitForm()`
+- Form data auto-routes to: Zeptomail email + local JSON + Google Sheets + Payload CMS (all fail-gracefully if env vars absent)
 - Use `formType` parameter to differentiate form types (e.g., "enquiry", "contact")
 - `formType` **must** be sanitised via `sanitiseFormType()` before use in file paths or sheet tab names
+- **Honeypot field:** Hidden `company` field in forms; if filled → flag submission `isSpam: true` (logged, still processed)
 
 ### Rate Limiting & Security
 - Rate limiter lives at `src/lib/security/rateLimiter.js` — 5 req/min per IP by default
@@ -42,12 +44,33 @@ Next.js 16 (App Router, Turbopack, React Compiler) + React 19, Payload CMS 3.85.
 - BEM naming: `.component__element--modifier`
 
 ### Environment Variables
-- **Required**: `DATABASE_URL`, `PAYLOAD_SECRET`, `ZOHO_ZEPTOMAIL_TOKEN`, `ZOHO_ZEPTOMAIL_SENDER_EMAIL`, `ADMIN_EMAIL`
-- **Optional**: `GOOGLE_SHEETS_*`, `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_GADS_ID`, `DATABASE_DIR`, `DATABASE_TYPE`
-- All services graceful-fail if vars absent — no crashes on missing config
+| Variable | Required | Use |
+|----------|----------|-----|
+| `DATABASE_URL` | ✓ | PostgreSQL connection string |
+| `PAYLOAD_SECRET` | ✓ | Payload JWT signing secret (32+ chars) |
+| `ZOHO_ZEPTOMAIL_TOKEN` | ✓ | Transactional email API token |
+| `ZOHO_ZEPTOMAIL_SENDER_EMAIL` | ✓ | Sender email (verified in Zoho) |
+| `ZOHO_ZEPTOMAIL_SENDER_NAME` | | Sender display name |
+| `ADMIN_EMAIL` | ✓ | Admin notification recipient |
+| `GOOGLE_SHEETS_API_KEY` | | Sheets append (optional) |
+| `GOOGLE_SHEETS_SPREADSHEET_ID` | | Sheets target (optional) |
+| `DATABASE_DIR` | | Local form-submission storage dir |
+| `NEXT_PUBLIC_SITE_URL` | | Public site URL (canonical, sitemap, robots) |
+| `NEXT_PUBLIC_GADS_ID` | | Google Ads conversion tracking |
+| `NEXT_PUBLIC_BUSINESS_EMAIL` | | Footer/contact display |
+| `NEXT_PUBLIC_BUSINESS_PHONE` | | Footer/contact display |
+| `NEXT_PUBLIC_CONTACT_EMAIL` | | AI crawler metadata |
+| `R2_BUCKET_NAME` | | Cloudflare R2 media storage |
+| `R2_ENDPOINT` | | R2 endpoint URL |
+| `R2_ACCESS_KEY` | | R2 access key |
+| `R2_SECRET_KEY` | | R2 secret key |
+| `NEXT_PUBLIC_POSTHOG_HOST` | | PostHog analytics host |
+| `NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN` | | PostHog project token |
+
+**Notes:** Services graceful-fail if vars absent (no crashes on missing config). `NEXT_PUBLIC_*` embedded client-side; do not store secrets there.
 
 ### Do Not
-- Put API keys in URL query strings (moved to Authorization headers)
+- Put API keys in URL query strings (move to Authorization headers)
 - Interpolate user data into HTML email templates without `htmlEscape()`
 - Write to `data/` directory without sanitising subdirectory name via `sanitiseFormType()`
 - Trust `x-forwarded-for` header as authoritative IP (use `cf-connecting-ip` or `x-real-ip`)

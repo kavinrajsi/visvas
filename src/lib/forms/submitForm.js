@@ -172,12 +172,12 @@ export function validateFormData(formType, formData) {
     errors.push('Valid email is required')
   }
 
-  if (!formData.mobile || formData.mobile.trim().length === 0) {
-    errors.push('Mobile number is required')
-  }
-
   // Form-specific validations
   if (formType === 'enquiry' || formType === 'contact') {
+    if (!formData.mobile || formData.mobile.trim().length === 0) {
+      errors.push('Mobile number is required')
+    }
+
     if (!formData.budget || formData.budget.trim().length === 0) {
       errors.push('Budget is required')
     }
