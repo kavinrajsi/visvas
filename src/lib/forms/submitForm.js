@@ -1,6 +1,6 @@
 // Generic form submission handler
-// Coordinates: email (Zoho) + storage (JSON/SQLite) + sheets (Google) + CMS (Payload)
-import { sendAdminNotification, sendUserConfirmation } from '@/lib/email/zoho'
+// Coordinates: email (Gmail SMTP) + storage (JSON/SQLite) + sheets (Google) + CMS (Payload)
+import { sendAdminNotification, sendUserConfirmation } from '@/lib/email/gmail'
 import { storeFormData as storeFormDataDb, getFormData } from '@/lib/storage/nanoDb'
 import { storeFormData as storeFormDataSheets } from '@/lib/storage/googleSheets'
 import { storeFormDataPayload } from '@/lib/storage/payloadDb'

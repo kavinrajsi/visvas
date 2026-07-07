@@ -1,16 +1,33 @@
 // Google Sheets integration for form data storage
+// Auth: service account (JWT) — share the spreadsheet with GOOGLE_SHEETS_CLIENT_EMAIL as Editor
+import { JWT } from 'google-auth-library'
 import { sanitiseFormType } from '@/lib/security/sanitiser'
 
 const GOOGLE_SHEETS_CONFIG = {
-  apiKey: process.env.GOOGLE_SHEETS_API_KEY,
+  clientEmail: process.env.GOOGLE_SHEETS_CLIENT_EMAIL,
+  privateKey: process.env.GOOGLE_SHEETS_PRIVATE_KEY,
   spreadsheetId: process.env.GOOGLE_SHEETS_SPREADSHEET_ID,
   baseUrl: 'https://sheets.googleapis.com/v4/spreadsheets',
+}
+
+let jwtClient = null
+
+function getJwtClient() {
+  if (!jwtClient) {
+    jwtClient = new JWT({
+      email: GOOGLE_SHEETS_CONFIG.clientEmail,
+      // Env vars store newlines as literal \n — restore them for the PEM key
+      key: GOOGLE_SHEETS_CONFIG.privateKey.replace(/\\n/g, '\n'),
+      scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+    })
+  }
+  return jwtClient
 }
 
 export async function appendToSheet(sheetName, rows) {
   try {
     // Missing config: log instead of write
-    if (!GOOGLE_SHEETS_CONFIG.apiKey || !GOOGLE_SHEETS_CONFIG.spreadsheetId) {
+    if (!GOOGLE_SHEETS_CONFIG.clientEmail || !GOOGLE_SHEETS_CONFIG.privateKey || !GOOGLE_SHEETS_CONFIG.spreadsheetId) {
       console.log('[SHEETS] Missing config - would append to sheet:', {
         sheet: sheetName,
         rowCount: rows.length,
@@ -19,14 +36,15 @@ export async function appendToSheet(sheetName, rows) {
       return { success: true, updatedRows: rows.length, mode: 'skipped' }
     }
 
-    // Production: send to Google Sheets API
-    const url = `${GOOGLE_SHEETS_CONFIG.baseUrl}/${GOOGLE_SHEETS_CONFIG.spreadsheetId}/values/${sheetName}:append`
+    const { token } = await getJwtClient().getAccessToken()
+
+    const url = `${GOOGLE_SHEETS_CONFIG.baseUrl}/${GOOGLE_SHEETS_CONFIG.spreadsheetId}/values/${encodeURIComponent(sheetName)}:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS`
 
     const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${GOOGLE_SHEETS_CONFIG.apiKey}`,
+        'Authorization': `Bearer ${token}`,
       },
       body: JSON.stringify({
         values: rows,

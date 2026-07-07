@@ -9,7 +9,7 @@ A modern real-estate platform built with **Next.js 16**, **React 19**, **Payload
 - **CMS**: Payload CMS 3.85.1
 - **Database**: PostgreSQL
 - **Media Storage**: AWS S3 / Cloudflare R2 (optional, local fallback)
-- **Email**: Zoho Zeptomail
+- **Email**: Gmail SMTP (nodemailer)
 - **Analytics**: Google Tag Manager, GA4, PostHog
 - **External Integration**: Google Sheets (optional form-submission log), IP geolocation
 
@@ -53,11 +53,13 @@ A modern real-estate platform built with **Next.js 16**, **React 19**, **Payload
 |----------|----------|-------------|
 | `DATABASE_URL` | ✓ | PostgreSQL connection string (e.g., `postgresql://user:pass@localhost:5432/visvas`) |
 | `PAYLOAD_SECRET` | ✓ | 32+ char secret for Payload JWT signing |
-| `ZOHO_ZEPTOMAIL_TOKEN` | ✓ | API token from Zoho Zeptomail (transactional email) |
-| `ZOHO_ZEPTOMAIL_SENDER_EMAIL` | ✓ | Sender email address (must be verified in Zoho) |
-| `ZOHO_ZEPTOMAIL_SENDER_NAME` | | Sender display name (defaults to "Visvas") |
+| `GMAIL_USER` | ✓ | Gmail SMTP auth account (no-reply@visvas.in) |
+| `GMAIL_APP_PASSWORD` | ✓ | Gmail app password for SMTP |
+| `GMAIL_SENDER_EMAIL` | ✓ | Sender email address (no-reply@visvas.in) |
+| `GMAIL_SENDER_NAME` | | Sender display name |
 | `ADMIN_EMAIL` | ✓ | Email for admin notifications (form submissions, errors) |
-| `GOOGLE_SHEETS_API_KEY` | | Google Sheets API key for form-submission logging (optional) |
+| `GOOGLE_SHEETS_CLIENT_EMAIL` | | Service account email for Sheets logging (optional) |
+| `GOOGLE_SHEETS_PRIVATE_KEY` | | Service account private key (optional) |
 | `GOOGLE_SHEETS_SPREADSHEET_ID` | | Spreadsheet ID for appending form submissions (optional) |
 | `DATABASE_DIR` | | Local storage directory for form submissions (defaults to `./data`) |
 | `NEXT_PUBLIC_SITE_URL` | | Public site URL (used for sitemap, robots.txt, canonical URLs) |
@@ -141,7 +143,7 @@ A modern real-estate platform built with **Next.js 16**, **React 19**, **Payload
 │   │   │   ├── sanitiser.js     # Form-type sanitization
 │   │   │   └── honeypot.js      # Spam honeypot validation
 │   │   ├── email/
-│   │   │   └── zoho.js          # Zeptomail email transport
+│   │   │   └── gmail.js         # Gmail SMTP email transport
 │   │   ├── storage/
 │   │   │   ├── nanoDb.js        # Local JSON form-submission storage
 │   │   │   ├── googleSheets.js  # Google Sheets API integration
@@ -194,7 +196,7 @@ Form submissions (enquiry, contact) flow through a unified pipeline:
 4. **Honeypot check** → `isHoneypotTriggered()` flags submission if hidden `company` field filled
 5. **Sanitization** → `sanitiseFormType()` cleans form-type for file/sheet names
 6. **Storage** (sequential, each fail-gracefully independent):
-   - Send **admin notification** email (Zoho Zeptomail)
+   - Send **admin notification** email (Gmail SMTP)
    - Send **user confirmation** email
    - Write to **local JSON** (`{DATABASE_DIR || 'data'}/{sanitisedFormType}_submissions.json`)
    - Write to **Google Sheets** (if API key configured)
@@ -205,7 +207,7 @@ Form submissions (enquiry, contact) flow through a unified pipeline:
 - `src/lib/forms/submitForm.js` — main orchestrator
 - `src/app/api/forms/submit/route.js` — endpoint
 - `src/lib/security/honeypot.js` — spam check
-- `src/lib/email/zoho.js` — email transport
+- `src/lib/email/gmail.js` — email transport
 - `src/lib/storage/{nanoDb,googleSheets,payloadDb}.js` — storage backends
 
 All storage backends fail gracefully if env vars absent (e.g., no Google Sheets API key → skip Sheets append, still save locally).
@@ -231,11 +233,11 @@ All storage backends fail gracefully if env vars absent (e.g., no Google Sheets 
 
 ### Email Escaping
 
-- **User data in HTML emails:** Must use `htmlEscape()` (from `src/lib/email/zoho.js`)
+- **User data in HTML emails:** Must use `htmlEscape()` (from `src/lib/email/gmail.js`)
 - **Purpose:** Prevent XSS injection via email templates
 - **Pattern:** All user-submitted text (name, message) must be escaped before HTML interpolation
 
-**File:** `src/lib/email/zoho.js`
+**File:** `src/lib/email/gmail.js`
 
 ### Honeypot
 
@@ -329,7 +331,7 @@ Pages that query Payload require `export const dynamic = 'force-dynamic'` to avo
 ## Troubleshooting
 
 ### Forms not sending emails
-- Check `ZOHO_ZEPTOMAIL_TOKEN` and `ZOHO_ZEPTOMAIL_SENDER_EMAIL` are set and valid.
+- Check `GMAIL_USER`, `GMAIL_APP_PASSWORD`, and `GMAIL_SENDER_EMAIL` are set and valid.
 - Check ADMIN_EMAIL is configured.
 - Dev mode logs errors to console if email fails; check there first.
 
@@ -342,7 +344,7 @@ Pages that query Payload require `export const dynamic = 'force-dynamic'` to avo
 - Clear `.next/` cache: `rm -rf .next/ && npm run build`
 
 ### Google Sheets submissions not logging
-- Optional feature. Check `GOOGLE_SHEETS_API_KEY` and `GOOGLE_SHEETS_SPREADSHEET_ID` if desired.
+- Optional feature. Check `GOOGLE_SHEETS_CLIENT_EMAIL`, `GOOGLE_SHEETS_PRIVATE_KEY`, and `GOOGLE_SHEETS_SPREADSHEET_ID` if desired. Spreadsheet must be shared with the service account email as Editor.
 - If missing, forms still work; Sheets append is skipped gracefully.
 
 ## Deployment
@@ -356,7 +358,7 @@ Pages that query Payload require `export const dynamic = 'force-dynamic'` to avo
 ### Self-Hosted
 - **Node.js 20+** runtime
 - **PostgreSQL** database accessible over network
-- **Email:** Zoho Zeptomail credentials
+- **Email:** Gmail SMTP credentials (app password)
 - **Media:** Local filesystem or S3/R2 endpoint
 - **Reverse proxy:** Nginx/Caddy recommended; set `X-Real-IP` or `CF-Connecting-IP` headers
 

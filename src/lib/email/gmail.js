@@ -1,53 +1,54 @@
-// Zeptomail (Zoho Mail) transactional email service
+// Gmail (Google Workspace) SMTP email service — sends as no-reply@visvas.in
+import nodemailer from 'nodemailer'
 
-const ZOHO_CONFIG = {
-  apiToken: process.env.ZOHO_ZEPTOMAIL_TOKEN,
-  senderEmail: process.env.ZOHO_ZEPTOMAIL_SENDER_EMAIL,
-  senderName: process.env.ZOHO_ZEPTOMAIL_SENDER_NAME || 'Visvas Properties',
-  apiUrl: 'https://api.zeptomail.com/v1.1/email',
+const GMAIL_CONFIG = {
+  user: process.env.GMAIL_USER,
+  appPassword: process.env.GMAIL_APP_PASSWORD,
+  senderEmail: process.env.GMAIL_SENDER_EMAIL,
+  senderName: process.env.GMAIL_SENDER_NAME,
+}
+
+let transporter = null
+
+function getTransporter() {
+  if (!transporter) {
+    transporter = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
+      auth: {
+        user: GMAIL_CONFIG.user,
+        pass: GMAIL_CONFIG.appPassword,
+      },
+    })
+  }
+  return transporter
 }
 
 export async function sendEmail({ to, subject, html, bcc = null, replyTo = null }) {
   try {
-    const payload = {
-      from: {
-        address: ZOHO_CONFIG.senderEmail,
-        name: ZOHO_CONFIG.senderName,
-      },
-      to: Array.isArray(to) ? to.map(email => ({ email_address: { address: email } })) : [{ email_address: { address: to } }],
-      subject,
-      htmlbody: html,
-      ...(bcc && { bcc: Array.isArray(bcc) ? bcc.map(email => ({ email_address: { address: email } })) : [{ email_address: { address: bcc } }] }),
-      ...(replyTo && { reply_to: { address: replyTo } }),
-    }
-
     // Dev/missing config: log instead of send
-    if (!ZOHO_CONFIG.apiToken || !ZOHO_CONFIG.senderEmail) {
-      console.log('[EMAIL] Missing config - email would be sent:', {
-        to: payload.to,
-        bcc: payload.bcc,
-        subject: payload.subject,
+    if (!GMAIL_CONFIG.user || !GMAIL_CONFIG.appPassword || !GMAIL_CONFIG.senderEmail) {
+      console.log('[EMAIL] Missing Gmail config - email would be sent:', {
+        to,
+        bcc,
+        subject,
       })
       return { success: true, messageId: `dev_${Date.now()}`, mode: 'development' }
     }
 
-    // Production: send via Zeptomail API
-    const response = await fetch(ZOHO_CONFIG.apiUrl, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Zoho-enczapikey ${ZOHO_CONFIG.apiToken}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
+    const info = await getTransporter().sendMail({
+      from: GMAIL_CONFIG.senderName
+        ? `"${GMAIL_CONFIG.senderName}" <${GMAIL_CONFIG.senderEmail}>`
+        : GMAIL_CONFIG.senderEmail,
+      to: Array.isArray(to) ? to.join(', ') : to,
+      subject,
+      html,
+      ...(bcc && { bcc: Array.isArray(bcc) ? bcc.join(', ') : bcc }),
+      ...(replyTo && { replyTo }),
     })
 
-    if (!response.ok) {
-      const error = await response.text()
-      throw new Error(`Zeptomail API error: ${response.status} ${error}`)
-    }
-
-    const result = await response.json()
-    return { success: true, messageId: result.data?.message_id }
+    return { success: true, messageId: info.messageId }
   } catch (error) {
     console.error('[EMAIL] Error sending email:', error.message)
     return { success: false, error: error.message }
@@ -84,17 +85,17 @@ export async function sendUserConfirmation(data) {
   })
 }
 
-function formatAdminEmail(data) {
-  const htmlEscape = (str) => {
-    if (typeof str !== 'string') return String(str)
-    return str
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#39;')
-  }
+function htmlEscape(str) {
+  if (typeof str !== 'string') return String(str)
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+}
 
+function formatAdminEmail(data) {
   let attributionBlock = ''
   if (data.attribution) {
     const { firstTouch, lastTouch, referrerDomain, previousPage } = data.attribution
@@ -143,16 +144,6 @@ function formatAdminEmail(data) {
 }
 
 function formatUserEmail(data) {
-  const htmlEscape = (str) => {
-    if (typeof str !== 'string') return String(str)
-    return str
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#39;')
-  }
-
   return `
     <h2>Thank You for Your Inquiry</h2>
     <p>Hi ${htmlEscape(data.formData?.name || 'there')},</p>

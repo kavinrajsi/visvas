@@ -2,7 +2,7 @@
 
 ## Tech Stack
 
-Next.js 16 (App Router, Turbopack, React Compiler) + React 19, Payload CMS 3.85.1, PostgreSQL, SCSS Modules, Lexical rich text, Zoho Zeptomail email, Google Sheets + local JSON storage, GTM/GA4 analytics.
+Next.js 16 (App Router, Turbopack, React Compiler) + React 19, Payload CMS 3.85.1, PostgreSQL, SCSS Modules, Lexical rich text, Gmail SMTP email, Google Sheets + local JSON storage, GTM/GA4 analytics.
 
 ## Key Conventions
 
@@ -28,7 +28,7 @@ Next.js 16 (App Router, Turbopack, React Compiler) + React 19, Payload CMS 3.85.
 
 - **All forms** must go through `src/lib/forms/submitForm.js` — do not bypass
 - Entry point: `POST /api/forms/submit` → rate limit check → `validateFormData()` → honeypot check → `submitForm()`
-- Form data auto-routes to: Zeptomail email + local JSON + Google Sheets + Payload CMS (all fail-gracefully if env vars absent)
+- Form data auto-routes to: Gmail SMTP email + local JSON + Google Sheets + Payload CMS (all fail-gracefully if env vars absent)
 - Use `formType` parameter to differentiate form types (e.g., "enquiry", "contact")
 - `formType` **must** be sanitised via `sanitiseFormType()` before use in file paths or sheet tab names
 - **Honeypot field:** Hidden `company` field in forms; if filled → flag submission `isSpam: true` (logged, still processed)
@@ -39,7 +39,7 @@ Next.js 16 (App Router, Turbopack, React Compiler) + React 19, Payload CMS 3.85.
 - **Do not remove** rate limiter from `POST /api/forms/submit`
 - `sanitiseFormType()` at `src/lib/security/sanitiser.js` sanitises to `[a-zA-Z0-9_-]{1,50}` — use before writing file paths or sheet names
 - `honeypot.js` at `src/lib/security/honeypot.js` validates hidden spam field
-- Email templates use `htmlEscape()` (defined in `src/lib/email/zoho.js`) — escape all user data before injecting into HTML
+- Email templates use `htmlEscape()` (defined in `src/lib/email/gmail.js`) — escape all user data before injecting into HTML
 - `ContactSubmissions.create` locked: `create: () => false` — submissions written only via form API, not REST
 
 ### IP Handling
@@ -59,11 +59,13 @@ Next.js 16 (App Router, Turbopack, React Compiler) + React 19, Payload CMS 3.85.
 |----------|----------|-----|
 | `DATABASE_URL` | ✓ | PostgreSQL connection string |
 | `PAYLOAD_SECRET` | ✓ | Payload JWT signing secret (32+ chars) |
-| `ZOHO_ZEPTOMAIL_TOKEN` | ✓ | Transactional email API token |
-| `ZOHO_ZEPTOMAIL_SENDER_EMAIL` | ✓ | Sender email (verified in Zoho) |
-| `ZOHO_ZEPTOMAIL_SENDER_NAME` | | Sender display name |
+| `GMAIL_USER` | ✓ | Gmail SMTP auth account (no-reply@visvas.in) |
+| `GMAIL_APP_PASSWORD` | ✓ | Gmail app password for SMTP |
+| `GMAIL_SENDER_EMAIL` | ✓ | Sender email (no-reply@visvas.in) |
+| `GMAIL_SENDER_NAME` | | Sender display name |
 | `ADMIN_EMAIL` | ✓ | Admin notification recipient |
-| `GOOGLE_SHEETS_API_KEY` | | Sheets append (optional) |
+| `GOOGLE_SHEETS_CLIENT_EMAIL` | | Sheets service account email (optional) |
+| `GOOGLE_SHEETS_PRIVATE_KEY` | | Sheets service account private key (optional) |
 | `GOOGLE_SHEETS_SPREADSHEET_ID` | | Sheets target (optional) |
 | `DATABASE_DIR` | | Local form-submission storage dir |
 | `NEXT_PUBLIC_SITE_URL` | | Public site URL (canonical, sitemap, robots) |
