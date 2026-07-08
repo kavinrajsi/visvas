@@ -50,7 +50,7 @@ export default async function ContactPage() {
   const whatsapp = contactDetails.whatsapp || "";
 
   // priority on the <Image> preloads only the desktop banner; cover the <source> for mobile
-  preload("/banner-contact-mobile.png", { as: "image", media: "(max-width: 767px)" });
+  preload("/banner-contactus-mobile.png", { as: "image", media: "(max-width: 767px)" });
 
   return (
     <>
