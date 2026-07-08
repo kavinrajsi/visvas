@@ -1,9 +1,26 @@
+import { revalidatePath } from 'next/cache'
+
+// Testimonials render in the footer carousel (frontend layout) on every page.
+// Those pages are statically generated, so a CMS change must revalidate them or
+// the live site keeps serving stale HTML until the next deploy / hourly ISR.
+function revalidateTestimonials() {
+  try {
+    revalidatePath('/', 'layout')
+  } catch {
+    // revalidatePath is a no-op outside the Next.js request/build context
+  }
+}
+
 /** @type {import('payload').CollectionConfig} */
 const Testimonials = {
   slug: 'testimonials',
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'type', 'createdAt'],
+  },
+  hooks: {
+    afterChange: [revalidateTestimonials],
+    afterDelete: [revalidateTestimonials],
   },
   access: {
     read: () => true,
