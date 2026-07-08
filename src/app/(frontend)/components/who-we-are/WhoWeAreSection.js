@@ -113,9 +113,7 @@ export default function WhoWeAreSection({ section }) {
                 />
               </svg>
             </span>
-            <span className={styles["section-label--text"]}>
-              WHO WE ARE
-            </span>
+            <span className={styles["section-label--text"]}>WHO WE ARE</span>
             <span>
               <svg
                 width="33"
@@ -163,85 +161,115 @@ export default function WhoWeAreSection({ section }) {
               </svg>
             </span>
           </div>
-          <h2 className={styles["section-heading"]}> We build homes that feel right the day you move in, and after.</h2>
+          <h2 className={styles["section-heading"]}>
+            We build homes that feel right the day you move in, and after.
+          </h2>
         </div>
 
-        {featureCards.length > 0 && (
-          <div className={styles["feature-cards"]}>
-            {featureCards.map((card, idx) => {
-              const theme = CARD_THEMES[idx] || "gold";
-              const href = BUTTON_HREFS[idx] || "/";
-              const number = String(idx + 1).padStart(2, "0") + ".";
-              return (
-                <div
-                  key={idx}
-                  className={`${styles["feature-card"]} ${
-                    styles[`feature-card--${theme}`]
-                  }`}
-                >
-                  <div className={styles["feature-card__number"]}>{number}</div>
-                  <div className={styles["feature-card__body"]}>
-                    <div className={styles["feature-card__text"]}>
-                      <h3 className={styles["feature-card__title"]}>
-                        {card.title}
-                      </h3>
-                      <p className={styles["feature-card__description"]}>
-                        {card.description}
-                      </p>
-                    </div>
-                    {card.buttonLabel && (
-                      <Link href={href} className={styles["feature-card__btn"]}>
-                        {card.buttonLabel}
-                      </Link>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
+        <div className={styles["feature-cards"]}>
+          <div className={`${styles["feature-card"]}`}>
+            <div className={styles["feature-card__number"]}>01</div>
+            <div className={styles["feature-card__body"]}>
+              <div className={styles["feature-card__text"]}>
+                <h3 className={styles["feature-card__title"]}>What we do</h3>
+                <p className={styles["feature-card__description"]}>
+                  We design every home around the realities of everyday family
+                  life.
+                </p>
+              </div>
+              <Link href="/projects" className={styles["feature-card__btn"]}>
+                VIEW ALL PROJECTS
+              </Link>
+            </div>
           </div>
-        )}
+          <div className={`${styles["feature-card"]}`}>
+            <div className={styles["feature-card__number"]}>02</div>
+            <div className={styles["feature-card__body"]}>
+              <div className={styles["feature-card__text"]}>
+                <h3 className={styles["feature-card__title"]}>
+                  Our communities
+                </h3>
+                <p className={styles["feature-card__description"]}>
+                  We build neighbourhoods where families feel connected,
+                  comfortable and truly at home.
+                </p>
+              </div>
+              <Link href="/projects" className={styles["feature-card__btn"]}>
+                DISCOVER MORE
+              </Link>
+            </div>
+          </div>
+          <div className={`${styles["feature-card"]}`}>
+            <div className={styles["feature-card__number"]}>03</div>
+            <div className={styles["feature-card__body"]}>
+              <div className={styles["feature-card__text"]}>
+                <h3 className={styles["feature-card__title"]}>Core Values</h3>
+                <p className={styles["feature-card__description"]}>
+                  We think before we build, so a home feels right for
+                  generations.
+                </p>
+              </div>
+              <Link href="/projects" className={styles["feature-card__btn"]}>
+                DISCOVER MORE
+              </Link>
+            </div>
+          </div>
+        </div>
 
-     
-           <section className={styles["about__stats"]}>
-             <ul className={styles["about__stats-list"]}>
-               <li className={styles["about__stats-item"]}>
-                 <p className={styles["about__stats-number"]}>
-                   <Counter value={20} className={styles["about__stats-count"]} />
-                   <sup className={styles["about__stats-suffix"]}>+</sup>
-                 </p>
-                 <p className={styles["about__stats-label"]}>Completed <br />Projects </p>
-               </li>
-               <li className={styles["about__stats-item"]}>
-                 <p className={styles["about__stats-number"]}>
-                   <Counter value={15} className={styles["about__stats-count"]} />
-                   <sup className={styles["about__stats-suffix"]}>+</sup>
-                 </p>
-                 <p className={styles["about__stats-label"]}>Projects in  <br />development </p>
-               </li>
-               <li className={styles["about__stats-item"]}>
-                 <p className={styles["about__stats-number"]}>
-                   <Counter value={4000} className={styles["about__stats-count"]} />
-                   <sup className={styles["about__stats-suffix"]}>+</sup>
-                 </p>
-                 <p className={styles["about__stats-label"]}>Happy <br />Customers </p>
-               </li>
-               <li className={styles["about__stats-item"]}>
-                 <p className={styles["about__stats-number"]}>
-                   <Counter value={4} className={styles["about__stats-count"]} />
-                   <sup className={styles["about__stats-suffix"]}>+</sup>
-                 </p>
-                 <p className={styles["about__stats-label"]}>Million Sqft <br />Built</p>
-               </li>
-               <li className={styles["about__stats-item"]}>
-                 <p className={styles["about__stats-number"]}>
-                   <Counter value={40} className={styles["about__stats-count"]} />
-                   <sup className={styles["about__stats-suffix"]}>+</sup>
-                 </p>
-                 <p className={styles["about__stats-label"]}>Sqft Built</p>
-               </li>
-             </ul>
-           </section>
-
+        <section className={styles["about__stats"]}>
+          <ul className={styles["about__stats-list"]}>
+            <li className={styles["about__stats-item"]}>
+              <p className={styles["about__stats-number"]}>
+                <Counter value={20} className={styles["about__stats-count"]} />
+                <sup className={styles["about__stats-suffix"]}>+</sup>
+              </p>
+              <p className={styles["about__stats-label"]}>
+                Completed <br />
+                Projects{" "}
+              </p>
+            </li>
+            <li className={styles["about__stats-item"]}>
+              <p className={styles["about__stats-number"]}>
+                <Counter value={15} className={styles["about__stats-count"]} />
+                <sup className={styles["about__stats-suffix"]}>+</sup>
+              </p>
+              <p className={styles["about__stats-label"]}>
+                Projects in <br />
+                development{" "}
+              </p>
+            </li>
+            <li className={styles["about__stats-item"]}>
+              <p className={styles["about__stats-number"]}>
+                <Counter
+                  value={4000}
+                  className={styles["about__stats-count"]}
+                />
+                <sup className={styles["about__stats-suffix"]}>+</sup>
+              </p>
+              <p className={styles["about__stats-label"]}>
+                Happy <br />
+                Customers{" "}
+              </p>
+            </li>
+            <li className={styles["about__stats-item"]}>
+              <p className={styles["about__stats-number"]}>
+                <Counter value={4} className={styles["about__stats-count"]} />
+                <sup className={styles["about__stats-suffix"]}>+</sup>
+              </p>
+              <p className={styles["about__stats-label"]}>
+                Million Sqft <br />
+                Built
+              </p>
+            </li>
+            <li className={styles["about__stats-item"]}>
+              <p className={styles["about__stats-number"]}>
+                <Counter value={40} className={styles["about__stats-count"]} />
+                <sup className={styles["about__stats-suffix"]}>+</sup>
+              </p>
+              <p className={styles["about__stats-label"]}>Sqft Built</p>
+            </li>
+          </ul>
+        </section>
       </div>
     </section>
   );
