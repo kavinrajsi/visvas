@@ -46,7 +46,6 @@ const Posts = {
               name: 'coverImage',
               type: 'upload',
               relationTo: 'media',
-              required: true,
               label: 'Cover Image',
               filterOptions: {
                 mimeType: { contains: 'image' },

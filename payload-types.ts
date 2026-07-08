@@ -261,7 +261,7 @@ export interface Project {
   status?: (number | null) | ProjectStatus;
   projectType?: (number | null) | ProjectType;
   slug?: string | null;
-  coverImage: number | Media;
+  coverImage?: (number | null) | Media;
   detailCoverImage?: (number | null) | Media;
   contentImage?: (number | null) | Media;
   reraNo?: string | null;
@@ -299,14 +299,14 @@ export interface Project {
   videoUrl?: string | null;
   images?:
     | {
-        image: number | Media;
+        image?: (number | null) | Media;
         caption?: string | null;
         id?: string | null;
       }[]
     | null;
   floorPlans?:
     | {
-        plan: number | Media;
+        plan?: (number | null) | Media;
         label?: string | null;
         rooms?: number | null;
         bathrooms?: number | null;
@@ -317,7 +317,7 @@ export interface Project {
     | null;
   videos?:
     | {
-        video: number | Media;
+        video?: (number | null) | Media;
         caption?: string | null;
         id?: string | null;
       }[]
@@ -422,7 +422,7 @@ export interface Post {
   title: string;
   slug: string;
   excerpt?: string | null;
-  coverImage: number | Media;
+  coverImage?: (number | null) | Media;
   content?: {
     root: {
       type: string;

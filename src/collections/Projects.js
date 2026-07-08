@@ -63,7 +63,6 @@ const Projects = {
               name: 'coverImage',
               type: 'upload',
               relationTo: 'media',
-              required: true,
               label: 'Project Cover Image',
               filterOptions: {
                 mimeType: { contains: 'image' },
@@ -227,7 +226,6 @@ const Projects = {
                   name: 'image',
                   type: 'upload',
                   relationTo: 'media',
-                  required: true,
                   filterOptions: {
                     mimeType: { contains: 'image' },
                   },
@@ -247,7 +245,6 @@ const Projects = {
                   name: 'plan',
                   type: 'upload',
                   relationTo: 'media',
-                  required: true,
                   filterOptions: {
                     mimeType: { contains: 'image' },
                   },
@@ -293,7 +290,6 @@ const Projects = {
                   name: 'video',
                   type: 'upload',
                   relationTo: 'media',
-                  required: true,
                   filterOptions: {
                     mimeType: { contains: 'video' },
                   },
