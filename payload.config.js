@@ -35,7 +35,7 @@ const plugins = []
 if (process.env.R2_BUCKET_NAME && process.env.R2_ENDPOINT && process.env.R2_ACCESS_KEY && process.env.R2_SECRET_KEY) {
   plugins.push(
     s3Storage({
-      collections: { media: true },
+      collections: { media: { prefix: 'project' } },
       bucket: process.env.R2_BUCKET_NAME,
       config: {
         endpoint: process.env.R2_ENDPOINT,

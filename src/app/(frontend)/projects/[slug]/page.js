@@ -13,7 +13,8 @@ import ProjectPageClient from "./ProjectPageClient";
 import ProjectEnquiryCTA from "./ProjectEnquiryCTA";
 import styles from "./page.module.scss";
 
-export const dynamicParams = false;
+// Allow projects added after build time to render on-demand (ISR), not 404
+export const dynamicParams = true;
 export const revalidate = 3600;
 
 export async function generateMetadata({ params: paramsPromise }) {

@@ -31,6 +31,11 @@ const nextConfig = {
   },
   images: {
     qualities: [75, 85],
+    // Media served from R2 carry a ?prefix=project query (s3Storage folder); allow it
+    localPatterns: [
+      { pathname: '/api/media/file/**', search: '' },
+      { pathname: '/api/media/file/**', search: '?prefix=project' },
+    ],
     remotePatterns: [
       {
         protocol: 'https',

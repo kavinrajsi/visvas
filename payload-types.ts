@@ -183,6 +183,7 @@ export interface User {
 export interface Media {
   id: number;
   alt?: string | null;
+  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -719,6 +720,7 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  prefix?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -1040,7 +1042,7 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface ImpactPage {
   id: number;
-  heroImage: number | Media;
+  heroImage?: (number | null) | Media;
   environmentalSection: {
     /**
      * Short label shown above the heading (e.g. OUR ENVIRONMENTAL IMPACT)
@@ -1048,7 +1050,7 @@ export interface ImpactPage {
     label?: string | null;
     heading: string;
     description: string;
-    image: number | Media;
+    image?: (number | null) | Media;
   };
   socialSection: {
     /**
@@ -1057,7 +1059,7 @@ export interface ImpactPage {
     label?: string | null;
     heading: string;
     description: string;
-    image: number | Media;
+    image?: (number | null) | Media;
   };
   /**
    * Quotes shown in the carousel at the bottom of the page
@@ -1181,8 +1183,8 @@ export interface AboutPage {
  */
 export interface HomePage {
   id: number;
-  hero: {
-    heroImage: number | Media;
+  hero?: {
+    heroImage?: (number | null) | Media;
   };
   latestProjectsSection: {
     /**
@@ -1327,7 +1329,7 @@ export interface ContactPage {
   /**
    * Building/property photo shown as the hero background (desktop)
    */
-  heroImage: number | Media;
+  heroImage?: (number | null) | Media;
   /**
    * Mobile-optimized hero background image (optional, falls back to heroImage if not set)
    */
@@ -1407,7 +1409,7 @@ export interface BlogPage {
   /**
    * Hero banner image shown on blog listing page (desktop)
    */
-  heroImage: number | Media;
+  heroImage?: (number | null) | Media;
   /**
    * Mobile-optimized hero banner image (optional, falls back to heroImage if not set)
    */
