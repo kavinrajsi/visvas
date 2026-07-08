@@ -7,9 +7,12 @@
     padding-left: 16px;
     padding-right: 16px;
     .blog-detail__layout {
+        overflow: hidden;
         display: grid;
-        grid-template-columns: 1fr 387px;
         gap: 20px;
+        @media(min-width: 768px){
+        grid-template-columns: 1fr 387px;
+        }
     }
     .blog-detail__main {
         .blog-detail__hero {
