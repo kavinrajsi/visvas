@@ -7,7 +7,6 @@ import Pagination from '@/app/(frontend)/projects/Pagination'
 import ProjectPageClient from '@/app/(frontend)/projects/ProjectPageClient'
 import styles from './page.module.scss'
 
-export const dynamic = 'force-dynamic'
 export const revalidate = 3600
 
 export const metadata = {

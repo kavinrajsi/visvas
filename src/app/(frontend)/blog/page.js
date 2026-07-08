@@ -7,7 +7,6 @@ import BlogSidebar from "./BlogSidebar";
 import Pagination from "@/app/(frontend)/projects/Pagination";
 import styles from "./page.module.scss";
 
-export const dynamic = "force-dynamic";
 export const revalidate = 1800;
 
 export const metadata = {

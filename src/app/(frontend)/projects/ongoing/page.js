@@ -9,7 +9,6 @@ import ProjectPageClient from '@/app/(frontend)/projects/ProjectPageClient'
 import { buildWhere } from '@/app/(frontend)/projects/helpers'
 import styles from './page.module.scss'
 
-export const dynamic = 'force-dynamic'
 export const revalidate = 300
 
 export const metadata = {

@@ -17,7 +17,6 @@ import ProjectPageClient from "./ProjectPageClient";
 import ProjectEnquiryCTA from "./ProjectEnquiryCTA";
 import styles from "./page.module.scss";
 
-export const dynamic = "force-dynamic";
 export const dynamicParams = false;
 export const revalidate = 3600;
 

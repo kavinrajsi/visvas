@@ -12,7 +12,7 @@ import HeroReveal from '@/components/animation/HeroReveal'
 import ScrollReveal from '@/components/animation/ScrollReveal'
 import styles from './page.module.scss'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 3600
 
 export async function generateMetadata() {
   try {

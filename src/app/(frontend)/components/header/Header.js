@@ -337,9 +337,16 @@ export default function Header() {
               </Link>
             </li>
             <li className={styles["header__nav-item"]}>
-              <button className={styles["header__cta"]} onClick={() => openEnquiryModal()}>
+              <a
+                href="/contact"
+                className={styles["header__cta"]}
+                onClick={(e) => {
+                  e.preventDefault();
+                  openEnquiryModal();
+                }}
+              >
                 Enquiry Now
-              </button>
+              </a>
             </li>
           </ul>
         </div>
