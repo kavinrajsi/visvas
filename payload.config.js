@@ -13,6 +13,9 @@ import Widgets from './src/collections/Widgets.js'
 import Testimonials from './src/collections/Testimonials.js'
 import Amenities from './src/collections/Amenities.js'
 import Projects from './src/collections/Projects.js'
+import ProjectTypes from './src/collections/ProjectTypes.js'
+import ProjectStatuses from './src/collections/ProjectStatuses.js'
+import BhkTypes from './src/collections/BhkTypes.js'
 import BlogCategories from './src/collections/BlogCategories.js'
 import Posts from './src/collections/Posts.js'
 import ImpactPage from './src/globals/ImpactPage.js'
@@ -92,6 +95,18 @@ export default buildConfig({
             path: '/admin/collections/amenities',
           },
           {
+            label: 'Project Types',
+            path: '/admin/collections/project-types',
+          },
+          {
+            label: 'Project Statuses',
+            path: '/admin/collections/project-statuses',
+          },
+          {
+            label: 'BHK Types',
+            path: '/admin/collections/bhk-types',
+          },
+          {
             label: 'Policies',
             path: '/admin/collections/policies',
           },
@@ -128,7 +143,7 @@ export default buildConfig({
       },
     ],
   },
-  collections: [Users, Media, Widgets, Amenities, Testimonials, Projects, BlogCategories, Posts, Policies, ContactSubmissions],
+  collections: [Users, Media, Widgets, Amenities, ProjectTypes, ProjectStatuses, BhkTypes, Testimonials, Projects, BlogCategories, Posts, Policies, ContactSubmissions],
   globals: [ImpactPage, AboutPage, HomePage, ContactPage, BlogPage],
   editor: lexicalEditor({
     features: ({ defaultFeatures }) => [

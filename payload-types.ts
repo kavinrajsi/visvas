@@ -71,6 +71,9 @@ export interface Config {
     media: Media;
     widgets: Widget;
     amenities: Amenity;
+    'project-types': ProjectType;
+    'project-statuses': ProjectStatus;
+    'bhk-types': BhkType;
     testimonials: Testimonial;
     projects: Project;
     'blog-categories': BlogCategory;
@@ -88,6 +91,9 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     widgets: WidgetsSelect<false> | WidgetsSelect<true>;
     amenities: AmenitiesSelect<false> | AmenitiesSelect<true>;
+    'project-types': ProjectTypesSelect<false> | ProjectTypesSelect<true>;
+    'project-statuses': ProjectStatusesSelect<false> | ProjectStatusesSelect<true>;
+    'bhk-types': BhkTypesSelect<false> | BhkTypesSelect<true>;
     testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     'blog-categories': BlogCategoriesSelect<false> | BlogCategoriesSelect<true>;
@@ -251,15 +257,17 @@ export interface Testimonial {
 export interface Project {
   id: number;
   name: string;
-  location: string;
-  status: 'upcoming' | 'under_construction' | 'ready_to_move' | 'completed';
-  projectType: 'studio' | 'apartment' | 'villa' | 'plotted' | 'commercial' | 'mixed_use';
+  location?: string | null;
+  status?: (number | null) | ProjectStatus;
+  projectType?: (number | null) | ProjectType;
   slug?: string | null;
   coverImage: number | Media;
+  detailCoverImage?: (number | null) | Media;
+  contentImage?: (number | null) | Media;
   reraNo?: string | null;
   projectArea?: string | null;
   priceRangeStartFrom?: number | null;
-  bhkTypes?: ('studio' | '1bhk' | '2bhk' | '3bhk' | '4bhk' | '5bhk' | 'penthouse' | 'villa')[] | null;
+  bhkTypes?: (number | BhkType)[] | null;
   description?: {
     root: {
       type: string;
@@ -338,6 +346,48 @@ export interface Project {
    * Paste raw JSON-LD here for RealEstateListing or custom schema. This will be injected into <script type="application/ld+json"> on the page.
    */
   structuredData?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "project-statuses".
+ */
+export interface ProjectStatus {
+  id: number;
+  name: string;
+  /**
+   * Stable key used in URLs and filters. The "completed" status drives the Completed Projects page. Auto-generated from name if left blank.
+   */
+  value: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "project-types".
+ */
+export interface ProjectType {
+  id: number;
+  name: string;
+  /**
+   * Stable key used in URLs and filters. Auto-generated from name if left blank.
+   */
+  value: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "bhk-types".
+ */
+export interface BhkType {
+  id: number;
+  name: string;
+  /**
+   * Stable key used in URLs and filters. Auto-generated from name if left blank.
+   */
+  value: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -564,6 +614,18 @@ export interface PayloadLockedDocument {
         value: number | Amenity;
       } | null)
     | ({
+        relationTo: 'project-types';
+        value: number | ProjectType;
+      } | null)
+    | ({
+        relationTo: 'project-statuses';
+        value: number | ProjectStatus;
+      } | null)
+    | ({
+        relationTo: 'bhk-types';
+        value: number | BhkType;
+      } | null)
+    | ({
         relationTo: 'testimonials';
         value: number | Testimonial;
       } | null)
@@ -696,6 +758,36 @@ export interface AmenitiesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "project-types_select".
+ */
+export interface ProjectTypesSelect<T extends boolean = true> {
+  name?: T;
+  value?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "project-statuses_select".
+ */
+export interface ProjectStatusesSelect<T extends boolean = true> {
+  name?: T;
+  value?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "bhk-types_select".
+ */
+export interface BhkTypesSelect<T extends boolean = true> {
+  name?: T;
+  value?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "testimonials_select".
  */
 export interface TestimonialsSelect<T extends boolean = true> {
@@ -723,6 +815,8 @@ export interface ProjectsSelect<T extends boolean = true> {
   projectType?: T;
   slug?: T;
   coverImage?: T;
+  detailCoverImage?: T;
+  contentImage?: T;
   reraNo?: T;
   projectArea?: T;
   priceRangeStartFrom?: T;
