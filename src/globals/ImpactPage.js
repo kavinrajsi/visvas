@@ -13,7 +13,6 @@ const ImpactPage = {
       name: 'heroImage',
       type: 'upload',
       relationTo: 'media',
-      required: true,
       label: 'Hero Background Image',
       filterOptions: {
         mimeType: { contains: 'image' },
@@ -52,7 +51,6 @@ const ImpactPage = {
           name: 'image',
           type: 'upload',
           relationTo: 'media',
-          required: true,
           label: 'Section Image',
           filterOptions: {
             mimeType: { contains: 'image' },
@@ -93,7 +91,6 @@ const ImpactPage = {
           name: 'image',
           type: 'upload',
           relationTo: 'media',
-          required: true,
           label: 'Section Image',
           filterOptions: {
             mimeType: { contains: 'image' },

@@ -58,9 +58,9 @@ export default async function ContactPage() {
       <main className={styles["contact"]}>
         <section className={styles["hero"]}>
           <picture>
-            <source media="(max-width: 767px)" srcSet="/banner-contact-mobile.png" />
+            <source media="(max-width: 767px)" srcSet="/banner-contactus-mobile.png" />
             <Image
-              src="/banner-contact-desktop.png"
+              src="/banner-contactus-desktop.png"
               alt="Contact Visvas"
               className={styles["hero__image"]}
               priority

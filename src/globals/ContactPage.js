@@ -13,7 +13,6 @@ const ContactPage = {
       name: 'heroImage',
       type: 'upload',
       relationTo: 'media',
-      required: true,
       label: 'Hero Background Image',
       filterOptions: {
         mimeType: { contains: 'image' },

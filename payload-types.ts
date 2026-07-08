@@ -290,9 +290,9 @@ export interface Project {
   longitude?: number | null;
   keyTransports?:
     | {
-        type: string;
-        name: string;
-        distance: string;
+        type?: string | null;
+        name?: string | null;
+        distance?: string | null;
         id?: string | null;
       }[]
     | null;
@@ -324,8 +324,8 @@ export interface Project {
     | null;
   faq?:
     | {
-        question: string;
-        answer: string;
+        question?: string | null;
+        answer?: string | null;
         id?: string | null;
       }[]
     | null;

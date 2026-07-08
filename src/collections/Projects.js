@@ -178,7 +178,6 @@ const Projects = {
                 {
                   name: 'type',
                   type: 'text',
-                  required: true,
                   label: 'Type',
                   admin: {
                     placeholder: 'e.g. College, Temple, Bus Stand, Hospital',
@@ -187,7 +186,6 @@ const Projects = {
                 {
                   name: 'name',
                   type: 'text',
-                  required: true,
                   label: 'Name',
                   admin: {
                     placeholder: 'e.g. The Madura College',
@@ -196,7 +194,6 @@ const Projects = {
                 {
                   name: 'distance',
                   type: 'text',
-                  required: true,
                   label: 'Distance',
                   admin: {
                     placeholder: 'e.g. 2 kms, 500 m',
@@ -313,12 +310,10 @@ const Projects = {
                 {
                   name: 'question',
                   type: 'text',
-                  required: true,
                 },
                 {
                   name: 'answer',
                   type: 'textarea',
-                  required: true,
                 },
               ],
             },
