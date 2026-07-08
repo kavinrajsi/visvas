@@ -10,13 +10,19 @@
         overflow: hidden;
         display: grid;
         gap: 20px;
-        @media(min-width: 768px){
-        grid-template-columns: 1fr 387px;
+        @media (min-width: 992px) {
+            grid-template-columns: 1fr 387px;
         }
     }
     .blog-detail__main {
         .blog-detail__hero {
             padding-bottom: 56px;
+            img {
+                width: 100%;
+                max-height: 450px;
+                object-fit: cover;
+                object-position: center;
+            }
         }
         .blog-detail__header {
             padding-bottom: 40px;
