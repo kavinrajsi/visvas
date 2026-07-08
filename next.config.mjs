@@ -33,7 +33,9 @@ const nextConfig = {
     qualities: [75, 85],
     // Media served from R2 carry a ?prefix=project query (s3Storage folder); allow it
     localPatterns: [
-      { pathname: '/api/media/file/**', search: '' },
+      // Defining localPatterns whitelists local images — must include a catch-all
+      // for all /public assets, plus the R2 media URL that carries ?prefix=project
+      { pathname: '/**', search: '' },
       { pathname: '/api/media/file/**', search: '?prefix=project' },
     ],
     remotePatterns: [
