@@ -58,12 +58,29 @@
         margin-left: auto;
         margin-right: auto;
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
         gap: 20px;
+        @media (min-width: 768px) {
+            grid-template-columns: repeat(3, 1fr);
+        }
         .feature-card {
             padding: 32px;
             min-height: 430px;
             position: relative;
+            isolation: isolate;
+            &:before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                z-index: -2;
+                background: url("/pattern.png") repeat;
+                opacity: 0.15;
+            }
+            &:after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                z-index: -1;
+            }
             .feature-card__number {
                 padding-top: 8px;
                 padding-bottom: 8px;
@@ -139,55 +156,24 @@
             }
 
             &:nth-child(1) {
-                background: linear-gradient(180deg, #e09c26 8.53%, rgba(224, 156, 38, 0) 100%), #e09c26;
-
-                background-size:
-                    auto,
-                    100% 100%,
-                    auto;
+                background-color: #e09c26;
                 background-blend-mode: normal, normal;
-                &:before {
-                    z-index: -0;
-                    // content: "";
-                    position: absolute;
-                    inset: 0;
-                    background: url("/pattern.png") repeat;
-                    opacity: 0.15;
-                    pointer-events: none;
+                &:after {
+                    background: linear-gradient(180deg, #e09c26 9%, rgba(224, 156, 38, 0) 100%);
                 }
             }
             &:nth-child(2) {
-                background: linear-gradient(180deg, #c4ab80 8.53%, rgba(196, 171, 128, 0) 100%), #c4ab80;
-
-                background-size:
-                    auto,
-                    100% 100%,
-                    auto;
+                background-color: #c4ab80;
                 background-blend-mode: normal, normal;
-                &:before {
-                    // content: "";
-                    position: absolute;
-                    inset: 0;
-                    background: url("/pattern.png") repeat;
-                    opacity: 0.15;
-                    pointer-events: none;
+                &:after {
+                    background: linear-gradient(180deg, #c4ab80 9%, rgba(196, 171, 128, 0) 100%);
                 }
             }
             &:nth-child(3) {
-                background: linear-gradient(180deg, #b95827 8.53%, rgba(185, 88, 39, 0) 100%), #b95827;
-
-                background-size:
-                    auto,
-                    100% 100%,
-                    auto;
+                background-color: #b95827;
                 background-blend-mode: normal, normal;
-                &:before {
-                    // content: "";
-                    position: absolute;
-                    inset: 0;
-                    background: url("/pattern.png") repeat;
-                    opacity: 0.15;
-                    pointer-events: none;
+                &:after {
+                    background: linear-gradient(180deg, #b95827 9%, rgba(185, 88, 39, 0) 100%);
                 }
 
                 .feature-card__number {
