@@ -7,6 +7,7 @@ import ProjectFilters from '@/app/(frontend)/projects/ProjectFilters'
 import Pagination from '@/app/(frontend)/projects/Pagination'
 import ProjectPageClient from '@/app/(frontend)/projects/ProjectPageClient'
 import { buildWhere } from '@/app/(frontend)/projects/helpers'
+import { getTaxonomyOptions } from '@/app/(frontend)/projects/taxonomies'
 import styles from './page.module.scss'
 
 export const revalidate = 300
@@ -65,9 +66,10 @@ async function getAvailableLocations() {
 
 export default async function OngoingProjectsPage({ searchParams: searchParamsPromise }) {
   const searchParams = await searchParamsPromise
-  const [projectsData, availableLocations] = await Promise.all([
+  const [projectsData, availableLocations, { statusOptions, typeOptions }] = await Promise.all([
     getProjects(searchParams),
     getAvailableLocations(),
+    getTaxonomyOptions(),
   ])
 
   const { docs: projects, totalPages, page: currentPage } = projectsData
@@ -100,7 +102,12 @@ export default async function OngoingProjectsPage({ searchParams: searchParamsPr
 
       {/* Filters */}
       <Suspense fallback={null}>
-        <ProjectFilters category="ongoing" availableLocations={availableLocations} />
+        <ProjectFilters
+          category="ongoing"
+          availableLocations={availableLocations}
+          statusOptions={statusOptions}
+          typeOptions={typeOptions}
+        />
       </Suspense>
 
       {/* Grid */}

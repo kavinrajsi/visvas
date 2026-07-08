@@ -1,45 +1,29 @@
-export const STATUS_LABELS = {
-  upcoming: 'On Sale',
-  under_construction: 'Under Construction',
-  ready_to_move: 'Ready to Move',
-  completed: 'Completed',
-}
-
-export const PROJECT_TYPE_LABELS = {
-  apartment: 'Apartment',
-  villa: 'Villa',
-  plotted: 'Plotted Development',
-  commercial: 'Commercial',
-  mixed_use: 'Mixed Use',
-}
-
 export function buildWhere(searchParams, category) {
   const where = {}
 
-  // Category filter (ongoing = upcoming/under_construction/ready_to_move, completed = completed)
+  // Category filter: completed = status "completed"; ongoing = everything else with a status
   if (category === 'ongoing') {
-    where.or = [
-      { status: { equals: 'upcoming' } },
-      { status: { equals: 'under_construction' } },
-      { status: { equals: 'ready_to_move' } },
-    ]
+    where['status.value'] = { not_equals: 'completed' }
   } else if (category === 'completed') {
-    where.status = { equals: 'completed' }
+    where['status.value'] = { equals: 'completed' }
   }
 
   // Explicit status filter (if provided, AND with category)
   if (searchParams.status) {
-    if (where.or) {
-      where.and = [{ or: where.or }, { status: { equals: searchParams.status } }]
-      delete where.or
+    if (where['status.value']) {
+      where.and = [
+        { 'status.value': where['status.value'] },
+        { 'status.value': { equals: searchParams.status } },
+      ]
+      delete where['status.value']
     } else {
-      where.status = { equals: searchParams.status }
+      where['status.value'] = { equals: searchParams.status }
     }
   }
 
   // Project type
   if (searchParams.type) {
-    where.projectType = { equals: searchParams.type }
+    where['projectType.value'] = { equals: searchParams.type }
   }
 
   // Location

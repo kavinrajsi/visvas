@@ -3,10 +3,6 @@ import { getPayload } from "payload";
 import { notFound } from "next/navigation";
 import config from "@payload-config";
 import { RichText } from "@payloadcms/richtext-lexical/react";
-import {
-  STATUS_LABELS,
-  PROJECT_TYPE_LABELS,
-} from "@/app/(frontend)/projects/helpers";
 import { toImageKitUrl } from "@/lib/image/imageKitUrl";
 import HeroReveal from "@/components/animation/HeroReveal";
 import ScrollReveal from "@/components/animation/ScrollReveal";
@@ -170,14 +166,13 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
                   Property Type
                 </p>
                 <p className={styles["project-detail__fact-value"]}>
-                  {PROJECT_TYPE_LABELS[project.projectType] ||
-                    project.projectType}
+                  {project.projectType?.name || "N/A"}
                 </p>
               </div>
               <div className={styles["project-detail__fact"]}>
                 <p className={styles["project-detail__fact-label"]}>Status</p>
                 <p className={styles["project-detail__fact-value"]}>
-                  {STATUS_LABELS[project.status] || project.status}
+                  {project.status?.name || "N/A"}
                 </p>
               </div>
               <div className={styles["project-detail__fact"]}>
@@ -205,7 +200,7 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
                   Bedrooms & Bathrooms
                 </p>
                 <p className={styles["project-detail__fact-value"]}>
-                  {project.bhkTypes?.join(", ") || "N/A"}
+                  {project.bhkTypes?.map((b) => b?.name || b).join(", ") || "N/A"}
                 </p>
               </div>
             </ScrollReveal>

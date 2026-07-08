@@ -13,7 +13,7 @@ async function getCompletedProjects() {
       sort: '-createdAt',
       depth: 1,
       where: {
-        status: { equals: 'completed' },
+        'status.value': { equals: 'completed' },
       },
     })
     return result.docs || []

@@ -3,7 +3,6 @@
 import { useSearchParams, useRouter } from 'next/navigation'
 import { useCallback, useState, useRef, useEffect } from 'react'
 import styles from './ProjectFilters.module.scss'
-import { PROJECT_TYPE_LABELS, STATUS_LABELS } from './helpers'
 
 const DropdownIcon = ({ className }) => (
   <span className={className}>
@@ -23,6 +22,8 @@ const DropdownIcon = ({ className }) => (
 export default function ProjectFilters({
   category = 'ongoing',
   availableLocations = [],
+  statusOptions = [],
+  typeOptions = [],
 }) {
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -97,7 +98,7 @@ export default function ProjectFilters({
             onClick={() => setOpenDropdown(openDropdown === 'status' ? null : 'status')}
             className={styles['project-filters__dropdown-btn']}
           >
-            {status ? STATUS_LABELS[status] : 'Project Status'}
+            {status ? statusOptions.find((o) => o.value === status)?.name || status : 'Project Status'}
             <DropdownIcon className={styles['project-filters__dropdown-icon']} />
           </button>
           {openDropdown === 'status' && (
@@ -108,13 +109,13 @@ export default function ProjectFilters({
               >
                 All Status
               </button>
-              {Object.entries(STATUS_LABELS).map(([key, label]) => (
+              {statusOptions.map((option) => (
                 <button
-                  key={key}
-                  className={`${styles['project-filters__dropdown-item']} ${status === key ? styles['project-filters__dropdown-item--active'] : ''}`}
-                  onClick={() => handleStatusChange(key)}
+                  key={option.value}
+                  className={`${styles['project-filters__dropdown-item']} ${status === option.value ? styles['project-filters__dropdown-item--active'] : ''}`}
+                  onClick={() => handleStatusChange(option.value)}
                 >
-                  {label}
+                  {option.name}
                 </button>
               ))}
             </div>
@@ -130,7 +131,7 @@ export default function ProjectFilters({
             onClick={() => setOpenDropdown(openDropdown === 'type' ? null : 'type')}
             className={styles['project-filters__dropdown-btn']}
           >
-            {type ? PROJECT_TYPE_LABELS[type] : 'Project Type'}
+            {type ? typeOptions.find((o) => o.value === type)?.name || type : 'Project Type'}
             <DropdownIcon className={styles['project-filters__dropdown-icon']} />
           </button>
           {openDropdown === 'type' && (
@@ -141,13 +142,13 @@ export default function ProjectFilters({
               >
                 All Types
               </button>
-              {Object.entries(PROJECT_TYPE_LABELS).map(([key, label]) => (
+              {typeOptions.map((option) => (
                 <button
-                  key={key}
-                  className={`${styles['project-filters__dropdown-item']} ${type === key ? styles['project-filters__dropdown-item--active'] : ''}`}
-                  onClick={() => handleTypeChange(key)}
+                  key={option.value}
+                  className={`${styles['project-filters__dropdown-item']} ${type === option.value ? styles['project-filters__dropdown-item--active'] : ''}`}
+                  onClick={() => handleTypeChange(option.value)}
                 >
-                  {label}
+                  {option.name}
                 </button>
               ))}
             </div>
