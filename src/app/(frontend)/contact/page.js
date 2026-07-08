@@ -46,7 +46,7 @@ export default async function ContactPage() {
   const phone =
     contactDetails.phone ||
     process.env.NEXT_PUBLIC_BUSINESS_PHONE ||
-    "+91 94038 93898";
+    "+91 95432 24411";
   const whatsapp = contactDetails.whatsapp || "";
 
   // priority on the <Image> preloads only the desktop banner; cover the <source> for mobile

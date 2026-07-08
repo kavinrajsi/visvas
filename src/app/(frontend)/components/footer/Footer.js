@@ -185,7 +185,7 @@ export default async function Footer() {
   const phone =
     contactDetails.phone ||
     process.env.NEXT_PUBLIC_BUSINESS_PHONE ||
-    "+91 94038 93898";
+    "+91 95432 24411";
   const address = contactDetails.address || "84, TPK Road, Andalpuram, Madurai";
 
   const quickLinks = [
@@ -208,7 +208,7 @@ export default async function Footer() {
             <TestimonialsCarousel testimonials={testimonials} />
           </div>
         )}
-        
+
       <div className={styles["footer__container"]}>
         <div className={styles["footer_links-columns"]}>
           <div className={styles["footer__logo"]}>
