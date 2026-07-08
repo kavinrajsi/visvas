@@ -259,8 +259,8 @@ export interface Project {
   id: number;
   name: string;
   location?: string | null;
-  status?: (number | null) | ProjectStatus;
-  projectType?: (number | null) | ProjectType;
+  status?: (number | ProjectStatus)[] | null;
+  projectType?: (number | ProjectType)[] | null;
   slug?: string | null;
   /**
    * Lower numbers appear first. Ties fall back to newest.

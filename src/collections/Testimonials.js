@@ -1,13 +1,14 @@
-import { revalidatePath } from 'next/cache'
-
 // Testimonials render in the footer carousel (frontend layout) on every page.
 // Those pages are statically generated, so a CMS change must revalidate them or
 // the live site keeps serving stale HTML until the next deploy / hourly ISR.
-function revalidateTestimonials() {
+// Import next/cache lazily so the Payload config still loads outside the Next
+// runtime (CLI scripts, type generation).
+async function revalidateTestimonials() {
   try {
+    const { revalidatePath } = await import('next/cache')
     revalidatePath('/', 'layout')
   } catch {
-    // revalidatePath is a no-op outside the Next.js request/build context
+    // no-op outside the Next.js request/build context
   }
 }
 
