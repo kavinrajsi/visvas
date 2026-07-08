@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { preload } from "react-dom";
 import { getPayload } from "payload";
 import config from "@payload-config";
 import styles from "./page.module.scss";
@@ -34,6 +35,9 @@ export default async function CommunityPage() {
     testimonials = [],
   } = data || {};
 
+  preload("/video/visvas-community-video-poster.png", { as: "image" });
+  preload("/video/visvas-community-video-1-poster.png", { as: "image" });
+
   return (
     <main className={styles["community"]}>
       <section className={styles["community__hero"]}>
@@ -52,7 +56,7 @@ export default async function CommunityPage() {
           muted
           autoPlay
           playsInline
-          preload="metadata"
+          preload="auto"
           className={styles["community__video"]}
         >
           <source src="/video/visvas-community-video.mp4" type="video/mp4" />

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { preload } from "react-dom";
 import { getPayload } from "payload";
 import config from "@payload-config";
 import ContactForm from "./ContactForm";
@@ -12,19 +13,6 @@ export async function generateMetadata() {
   const data = await payload.findGlobal({ slug: "contact-page", depth: 2 });
 
   const seo = data?.seo || {};
-  const links = [
-    {
-      rel: "preload",
-      as: "image",
-      href: "/banner-contact-desktop.png",
-    },
-    {
-      rel: "preload",
-      as: "image",
-      href: "/banner-contact-mobile.png",
-      media: "(max-width: 767px)",
-    },
-  ];
 
   return {
     title: seo.metaTitle || "Contact | Visvas",
@@ -36,7 +24,6 @@ export async function generateMetadata() {
       description: seo.ogDescription || "Get in touch with Visvas.",
       image: seo.ogImage?.url || undefined,
     },
-    links,
   };
 }
 
@@ -61,6 +48,9 @@ export default async function ContactPage() {
     process.env.NEXT_PUBLIC_BUSINESS_PHONE ||
     "+91 94038 93898";
   const whatsapp = contactDetails.whatsapp || "";
+
+  // priority on the <Image> preloads only the desktop banner; cover the <source> for mobile
+  preload("/banner-contact-mobile.png", { as: "image", media: "(max-width: 767px)" });
 
   return (
     <>

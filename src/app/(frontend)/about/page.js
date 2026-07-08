@@ -57,6 +57,7 @@ export default async function AboutPage() {
           width={1400}
           height={600}
           quality={85}
+          priority
           className={styles["about__hero-image-img"]}
         />
       </section>

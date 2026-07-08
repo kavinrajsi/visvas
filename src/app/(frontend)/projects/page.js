@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import { Suspense } from 'react'
 import { getPayload } from 'payload'
 import config from '@payload-config'

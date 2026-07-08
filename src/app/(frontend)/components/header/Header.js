@@ -139,6 +139,7 @@ const Hamburger = ({ isOpen }) => (
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isDrawerProjectsOpen, setIsDrawerProjectsOpen] = useState(false);
   const dropdownRef = useRef(null);
   const navRef = useRef(null);
   const pathname = usePathname();
@@ -151,6 +152,7 @@ export default function Header() {
     } else {
       document.documentElement.classList.remove("open-menu");
       document.body.classList.remove("open-menu");
+      setIsDrawerProjectsOpen(false);
     }
 
     return () => {
@@ -175,6 +177,7 @@ export default function Header() {
       if (e.key === "Escape") {
         setIsMenuOpen(false);
         setIsDropdownOpen(false);
+        setIsDrawerProjectsOpen(false);
       }
     };
 
@@ -371,13 +374,13 @@ export default function Header() {
           </li>
           <li className={styles["header__drawer-item"]}>
             <button
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              aria-expanded={isDropdownOpen}
+              onClick={() => setIsDrawerProjectsOpen(!isDrawerProjectsOpen)}
+              aria-expanded={isDrawerProjectsOpen}
               className={styles["header__drawer-toggle"]}
             >
               Projects
               <svg
-                className={`${styles["header__dropdown-icon"]} ${isDropdownOpen ? styles["header__dropdown-icon--open"] : ""}`}
+                className={`${styles["header__dropdown-icon"]} ${isDrawerProjectsOpen ? styles["header__dropdown-icon--open"] : ""}`}
                 width="16"
                 height="16"
                 viewBox="0 0 16 16"
@@ -392,7 +395,7 @@ export default function Header() {
                 />
               </svg>
             </button>
-            {isDropdownOpen && (
+            {isDrawerProjectsOpen && (
               <ul className={styles["header__drawer-submenu"]}>
                 <li className={styles["header__drawer-item"]}>
                   <Link
@@ -404,7 +407,7 @@ export default function Header() {
                     }
                     onClick={() => {
                       setIsMenuOpen(false);
-                      setIsDropdownOpen(false);
+                      setIsDrawerProjectsOpen(false);
                     }}
                   >
                     Ongoing Projects
@@ -420,7 +423,7 @@ export default function Header() {
                     }
                     onClick={() => {
                       setIsMenuOpen(false);
-                      setIsDropdownOpen(false);
+                      setIsDrawerProjectsOpen(false);
                     }}
                   >
                     Completed Projects
