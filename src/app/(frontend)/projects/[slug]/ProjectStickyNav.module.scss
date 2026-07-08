@@ -23,6 +23,24 @@
 
             /* Neutral/text-2 */
             color: #303030;
+            position: relative;
+            &::after {
+                width: 100%;
+                position: absolute;
+                left: 0;
+                right: 0;
+                content: "";
+                display: block;
+                width: 0%;
+                height: 1px;
+                /* Neutral/Sub_text */
+                background: #4b4b4b;
+            }
+            &.sticky-nav__link--active {
+                &::after {
+                    width: 100%;
+                }
+            }
         }
     }
     .sticky-nav__actions {
@@ -41,6 +59,24 @@
 
             /* Neutral/text-2 */
             color: #303030;
+            position: relative;
+            &::after {
+                width: 100%;
+                position: absolute;
+                left: 0;
+                right: 0;
+                content: "";
+                display: block;
+                width: 0%;
+                height: 1px;
+                /* Neutral/Sub_text */
+                background: #4b4b4b;
+            }
+            &.sticky-nav__link--active {
+                &::after {
+                    width: 100%;
+                }
+            }
         }
     }
 }

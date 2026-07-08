@@ -228,6 +228,7 @@
         background-color: #ffffff;
         text-align: center;
         .project-detail__amenity-icon {
+            display: none;
             width: 100px;
             height: 100px;
             svg {
@@ -236,7 +237,7 @@
             }
         }
         .project-detail__amenity-name {
-            padding-top: 16px;
+            // padding-top: 16px;
             /* Desktop/H5 */
             font-family: "Raleway";
             font-style: normal;
