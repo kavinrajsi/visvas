@@ -10,7 +10,7 @@ export default function MobileCtaBar() {
     <nav className={styles['mobile-cta']} aria-label="Mobile quick actions">
       <a
         className={styles['mobile-cta__link']}
-        href="tel:+919403893898"
+        href="tel:+919543224411"
         aria-label="Call Visvas"
       >
         Call Us
