@@ -24,7 +24,6 @@ export const wordpressSpecificRedirects = [
   { source: '/projects', destination: '/projects/ongoing', permanent: true },
   { source: '/projects/madhyapuri-3-bhk-apartments-for-sale-in-madurai', destination: '/projects/madhyapuri', permanent: true },
   { source: '/projects/ajita-thuvarimaan', destination: '/projects/ajita', permanent: true },
-  { source: '/projects/vaaruni-enclave', destination: '/projects/vaaruni-enclave', permanent: true },
   { source: '/projects/vidhatri-ponmeni', destination: '/projects/vidhatri', permanent: true },
   { source: '/projects/aparna-1-bhk-apartment-thuvarimaan-madurai', destination: '/projects/aparna---1bhk', permanent: true },
   { source: '/projects/aparna-2-bhk-apartments-for-sale-in-madurai', destination: '/projects/aparna---2bhk', permanent: true },
