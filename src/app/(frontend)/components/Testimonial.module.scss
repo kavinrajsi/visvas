@@ -5,12 +5,17 @@
   gap: 16px;
   background: #f5f3eb;
   min-height: 326px;
+  height: 100%;
   overflow: hidden;
+  .testimonial__headerWrapper{
+    height: 100%;
+  }
   &__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
+    padding-bottom: 8px;
   }
 
   &__rating {

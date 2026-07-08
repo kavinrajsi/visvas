@@ -23,17 +23,23 @@ export default function Testimonial({ testimonial }) {
   return (
     <div className={`${styles.testimonial} ${styles[`testimonial--${type}`]}`}>
       {type === 'text' && (
-        <>
+        <div className={styles.testimonial__headerWrapper}>
           <div className={styles.testimonial__header}>
-            <div className={styles.testimonial__rating}>
-              {Array.from({ length: Math.round(rating) }).map((_, i) => (
-                <Star key={i} />
-              ))}
-            </div>
+            {rating > 0 && (
+              <div
+                className={styles.testimonial__rating}
+                role="img"
+                aria-label={`Rated ${rating} out of 5`}
+              >
+                {Array.from({ length: Math.floor(rating) }).map((_, i) => (
+                  <Star key={i} />
+                ))}
+              </div>
+            )}
             <QuoteIcon />
           </div>
           <p className={styles.testimonial__text}>{textContent}</p>
-        </>
+        </div>
       )}
 
       {type === 'video' && (

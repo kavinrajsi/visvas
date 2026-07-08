@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { getAttributionData } from '@/lib/analytics/attribution'
 import { HONEYPOT_FIELD } from '@/lib/security/honeypot'
 import { trackFormSubmission } from '@/lib/gtm/events'
+import FormSuccess from '@/app/(frontend)/components/form-success/FormSuccess'
 import styles from './ContactForm.module.scss'
 
 export default function ContactForm({ heading = 'Contact Form', disclaimer = '', successMessage = {} }) {
@@ -175,6 +176,9 @@ export default function ContactForm({ heading = 'Contact Form', disclaimer = '',
         <h3 className={styles['contact-form__heading']}>{heading}</h3>
       )}
 
+      {message?.type === 'success' ? (
+        <FormSuccess heading={message.heading} message={message.text} link={message.link} />
+      ) : (
       <form onSubmit={handleSubmit} className={styles['contact-form__form']} noValidate>
         <div className={styles['contact-form__field']}>
           <input
@@ -288,15 +292,9 @@ export default function ContactForm({ heading = 'Contact Form', disclaimer = '',
           style={{ position: 'absolute', left: '-9999px', opacity: 0 }}
         />
 
-        {message && (
-          <div className={`${styles['contact-form__message']} ${styles[`contact-form__message--${message.type}`]}`}>
-            {message.heading && <h4 className={styles['contact-form__message-heading']}>{message.heading}</h4>}
+        {message?.type === 'error' && (
+          <div className={`${styles['contact-form__message']} ${styles['contact-form__message--error']}`}>
             <p className={styles['contact-form__message-text']}>{message.text}</p>
-            {message.link?.url && message.link?.text && (
-              <a href={message.link.url} className={styles['contact-form__message-link']}>
-                {message.link.text}
-              </a>
-            )}
           </div>
         )}
 
@@ -308,6 +306,7 @@ export default function ContactForm({ heading = 'Contact Form', disclaimer = '',
           {loading ? 'Sending...' : 'Submit'}
         </button>
       </form>
+      )}
     </aside>
   )
 }

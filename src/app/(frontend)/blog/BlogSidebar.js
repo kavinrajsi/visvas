@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { getAttributionData } from '@/lib/analytics/attribution'
 import { HONEYPOT_FIELD } from '@/lib/security/honeypot'
 import { trackFormSubmission } from '@/lib/gtm/events'
+import FormSuccess from '@/app/(frontend)/components/form-success/FormSuccess'
 import styles from './BlogSidebar.module.scss'
 
 export default function BlogSidebar() {
@@ -124,6 +125,9 @@ export default function BlogSidebar() {
         Subscribe to stay informed with curated updates for better living
       </h3>
 
+      {message?.type === 'success' ? (
+        <FormSuccess message="We will keep you informed with curated updates." />
+      ) : (
       <form className={styles['blog-sidebar__form']} onSubmit={handleSubmit} noValidate>
         <div className={styles['blog-sidebar__field']}>
           <input
@@ -174,8 +178,8 @@ export default function BlogSidebar() {
           style={{ position: 'absolute', left: '-9999px', opacity: 0 }}
         />
 
-        {message && (
-          <div className={`${styles['blog-sidebar__message']} ${styles[`blog-sidebar__message--${message.type}`]}`}>
+        {message?.type === 'error' && (
+          <div className={`${styles['blog-sidebar__message']} ${styles['blog-sidebar__message--error']}`}>
             <p>{message.text}</p>
           </div>
         )}
@@ -184,6 +188,7 @@ export default function BlogSidebar() {
           {loading ? 'Subscribing...' : 'Subscribe'}
         </button>
       </form>
+      )}
     </div>
   )
 }

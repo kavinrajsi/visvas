@@ -3,6 +3,10 @@
 .footer {
   background-color: #e4a025;
   padding: 80px 20px 40px 20px;
+  margin-bottom: 56px;
+  @media (min-width: 768px) {
+    margin-bottom: 0;
+  }
   .footer__container {
     background-color: #fff;
     display: flex;
@@ -380,14 +384,17 @@
     }
   }
 
+  .footer__testimonials-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 16px;
+  }
+
   .footer__testimonials-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 2;
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid #e0e0e0;
-    border-radius: 4px;
+    background: none;
+    border: 0;
+    border-radius: 0;
     width: 40px;
     height: 40px;
     display: flex;
@@ -395,24 +402,11 @@
     justify-content: center;
     cursor: pointer;
     font-size: 18px;
-    transition: opacity 0.2s ease, background 0.2s ease;
-
-    &:hover:not(:disabled) {
-      background: #fff;
-      border-color: #303030;
-    }
+    transition: opacity 0.2s ease;
 
     &:disabled {
       opacity: 0.3;
       cursor: not-allowed;
-    }
-
-    &--prev {
-      left: -60px;
-    }
-
-    &--next {
-      right: -60px;
     }
   }
 }

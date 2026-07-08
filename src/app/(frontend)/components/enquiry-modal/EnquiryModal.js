@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { trackFormSubmission } from '@/lib/gtm/events'
 import { getAttributionData } from '@/lib/analytics/attribution'
 import { HONEYPOT_FIELD } from '@/lib/security/honeypot'
+import FormSuccess from '@/app/(frontend)/components/form-success/FormSuccess'
 import styles from './EnquiryModal.module.scss'
 
 const CloseIcon = () => (
@@ -37,6 +38,9 @@ export default function EnquiryModal({ isOpen, projectName, onClose }) {
 
   useEffect(() => {
     if (isOpen) {
+      // Fresh form each time the modal opens (clears previous success screen)
+      setMessage(null)
+      setErrors({})
       const handleEscape = (e) => {
         if (e.key === 'Escape') {
           onClose()
@@ -144,10 +148,6 @@ export default function EnquiryModal({ isOpen, projectName, onClose }) {
           project: projectName || '',
           [HONEYPOT_FIELD]: '',
         })
-
-        setTimeout(() => {
-          onClose()
-        }, 1500)
       } else {
         trackFormSubmission('enquiry', { ...formData }, 'error')
         const serverErrors = result.errors || []
@@ -193,6 +193,9 @@ export default function EnquiryModal({ isOpen, projectName, onClose }) {
           </button>
         </div>
 
+        {message?.type === 'success' ? (
+          <FormSuccess />
+        ) : (
         <form className={styles['enquiry-modal__form']} onSubmit={handleSubmit} noValidate>
           <div className={styles['enquiry-modal__field']}>
             <input
@@ -270,9 +273,9 @@ export default function EnquiryModal({ isOpen, projectName, onClose }) {
               className={styles['enquiry-modal__textarea']}
               disabled={loading}
             />
-            {message && (
+            {message?.type === 'error' && (
               <p
-                className={`${styles['enquiry-modal__message']} ${styles[`enquiry-modal__message--${message.type}`]}`}
+                className={`${styles['enquiry-modal__message']} ${styles['enquiry-modal__message--error']}`}
               >
                 {message.text}
               </p>
@@ -289,6 +292,7 @@ export default function EnquiryModal({ isOpen, projectName, onClose }) {
             {loading ? 'Sending...' : 'Submit'}
           </button>
         </form>
+        )}
       </div>
     </div>
   )

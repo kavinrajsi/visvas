@@ -47,6 +47,22 @@ export default function TestimonialsCarousel({ testimonials }) {
     <VideoPlaybackProvider>
       <div className={styles["footer__testimonials-carousel"]}>
         <div className={styles["footer__testimonials-slider-wrapper"]}>
+          <div
+            className={styles["footer__testimonials-slider"]}
+            ref={scrollContainerRef}
+          >
+            {testimonials.map((testimonial) => (
+              <div
+                key={testimonial.id}
+                className={styles["footer__testimonials-item"]}
+              >
+                <Testimonial testimonial={testimonial} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className={styles["footer__testimonials-nav"]}>
           <button
             className={`${styles["footer__testimonials-arrow"]} ${styles["footer__testimonials-arrow--prev"]}`}
             onClick={() => handleScroll("prev")}
@@ -86,20 +102,6 @@ export default function TestimonialsCarousel({ testimonials }) {
               </g>
             </svg>
           </button>
-
-          <div
-            className={styles["footer__testimonials-slider"]}
-            ref={scrollContainerRef}
-          >
-            {testimonials.map((testimonial) => (
-              <div
-                key={testimonial.id}
-                className={styles["footer__testimonials-item"]}
-              >
-                <Testimonial testimonial={testimonial} />
-              </div>
-            ))}
-          </div>
 
           <button
             className={`${styles["footer__testimonials-arrow"]} ${styles["footer__testimonials-arrow--next"]}`}
