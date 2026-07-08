@@ -3,7 +3,7 @@ const Projects = {
   slug: 'projects',
   admin: {
     useAsTitle: 'name',
-    defaultColumns: ['name', 'location', 'status', 'projectType', 'createdAt'],
+    defaultColumns: ['name', 'displayOrder', 'location', 'status', 'projectType', 'createdAt'],
   },
   access: {
     read: ({ req: { user } }) => {
@@ -57,6 +57,16 @@ const Projects = {
                     return value
                   },
                 ],
+              },
+            },
+            {
+              name: 'displayOrder',
+              type: 'number',
+              label: 'Display Order',
+              admin: {
+                position: 'sidebar',
+                description: 'Lower numbers appear first. Ties fall back to newest.',
+                step: 1,
               },
             },
             {

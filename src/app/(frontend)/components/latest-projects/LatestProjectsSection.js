@@ -10,7 +10,7 @@ async function getLatestProjects() {
     const result = await payload.find({
       collection: "projects",
       limit: 4,
-      sort: "-createdAt",
+      sort: ["displayOrder", "-createdAt"],
       depth: 1,
     });
     return result.docs || [];

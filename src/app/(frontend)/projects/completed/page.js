@@ -41,6 +41,7 @@ async function getProjects(searchParams) {
     limit: 8,
     page: currentPage,
     depth: 1,
+    sort: ['displayOrder', '-createdAt'],
     where: Object.keys(where).length > 0 ? where : undefined,
   })
 

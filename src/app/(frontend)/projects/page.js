@@ -36,6 +36,7 @@ async function getProjects(searchParams) {
     limit: 8,
     page: currentPage,
     depth: 1,
+    sort: ['displayOrder', '-createdAt'],
   })
 
   return result

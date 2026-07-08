@@ -262,6 +262,10 @@ export interface Project {
   status?: (number | null) | ProjectStatus;
   projectType?: (number | null) | ProjectType;
   slug?: string | null;
+  /**
+   * Lower numbers appear first. Ties fall back to newest.
+   */
+  displayOrder?: number | null;
   coverImage?: (number | null) | Media;
   detailCoverImage?: (number | null) | Media;
   contentImage?: (number | null) | Media;
@@ -816,6 +820,7 @@ export interface ProjectsSelect<T extends boolean = true> {
   status?: T;
   projectType?: T;
   slug?: T;
+  displayOrder?: T;
   coverImage?: T;
   detailCoverImage?: T;
   contentImage?: T;

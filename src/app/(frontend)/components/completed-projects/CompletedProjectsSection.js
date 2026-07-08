@@ -10,7 +10,7 @@ async function getCompletedProjects() {
     const result = await payload.find({
       collection: 'projects',
       limit: 3,
-      sort: '-createdAt',
+      sort: ['displayOrder', '-createdAt'],
       depth: 1,
       where: {
         'status.value': { equals: 'completed' },
