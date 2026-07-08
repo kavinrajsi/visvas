@@ -31,12 +31,14 @@ const Projects = {
               name: 'status',
               type: 'relationship',
               relationTo: 'project-statuses',
+              hasMany: true,
               label: 'Status',
             },
             {
               name: 'projectType',
               type: 'relationship',
               relationTo: 'project-types',
+              hasMany: true,
               label: 'Type of Project',
             },
             {

@@ -167,13 +167,13 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
                   Property Type
                 </p>
                 <p className={styles["project-detail__fact-value"]}>
-                  {project.projectType?.name || "N/A"}
+                  {project.projectType?.map((t) => t?.name).filter(Boolean).join(", ") || "N/A"}
                 </p>
               </div>
               <div className={styles["project-detail__fact"]}>
                 <p className={styles["project-detail__fact-label"]}>Status</p>
                 <p className={styles["project-detail__fact-value"]}>
-                  {project.status?.name || "N/A"}
+                  {project.status?.map((s) => s?.name).filter(Boolean).join(", ") || "N/A"}
                 </p>
               </div>
               <div className={styles["project-detail__fact"]}>

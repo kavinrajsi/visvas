@@ -26,11 +26,11 @@ Visvas is a luxury property developer based in Madurai, Tamil Nadu, India. We sp
       limit: 1000,
     })
 
-    content += `### Ongoing Projects (${projectsResult.docs.filter(p => p.status?.value !== 'completed').length})\n\n`
+    content += `### Ongoing Projects (${projectsResult.docs.filter(p => !p.status?.some(s => s?.value === 'completed')).length})\n\n`
     projectsResult.docs
-      .filter(p => p.status?.value !== 'completed')
+      .filter(p => !p.status?.some(s => s?.value === 'completed'))
       .forEach((project) => {
-        content += `- **${project.name}** (${project.projectType?.name || 'N/A'})\n`
+        content += `- **${project.name}** (${project.projectType?.map(t => t?.name).filter(Boolean).join(', ') || 'N/A'})\n`
         content += `  URL: ${baseUrl}/projects/${project.slug}\n`
         if (project.location) content += `  Location: ${project.location}\n`
         if (project.projectDescription) {
@@ -39,11 +39,11 @@ Visvas is a luxury property developer based in Madurai, Tamil Nadu, India. We sp
         content += `\n`
       })
 
-    content += `\n### Completed Projects (${projectsResult.docs.filter(p => p.status?.value === 'completed').length})\n\n`
+    content += `\n### Completed Projects (${projectsResult.docs.filter(p => p.status?.some(s => s?.value === 'completed')).length})\n\n`
     projectsResult.docs
-      .filter(p => p.status?.value === 'completed')
+      .filter(p => p.status?.some(s => s?.value === 'completed'))
       .forEach((project) => {
-        content += `- **${project.name}** (${project.projectType?.name || 'N/A'})\n`
+        content += `- **${project.name}** (${project.projectType?.map(t => t?.name).filter(Boolean).join(', ') || 'N/A'})\n`
         content += `  URL: ${baseUrl}/projects/${project.slug}\n`
         if (project.location) content += `  Location: ${project.location}\n`
         if (project.projectDescription) {

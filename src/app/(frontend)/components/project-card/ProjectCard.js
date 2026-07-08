@@ -11,7 +11,8 @@ export default function ProjectCard({ project }) {
 
   if (!project) return null;
 
-  const statusLabel = project.status?.name || "";
+  const primaryStatus = project.status?.[0];
+  const statusLabel = primaryStatus?.name || "";
   const coverImageUrl = toImageKitUrl(project.coverImage?.url);
   const projectName = project.name || "Untitled Project";
   const location = project.location || "Location TBD";
@@ -21,7 +22,7 @@ export default function ProjectCard({ project }) {
     upcoming: "onsale",
     completed: "completed",
   };
-  const badgeModifier = badgeModifiers[project.status?.value] || "";
+  const badgeModifier = badgeModifiers[primaryStatus?.value] || "";
   const badgeClass = badgeModifier
     ? styles[`project-card__badge--${badgeModifier}`]
     : "";
