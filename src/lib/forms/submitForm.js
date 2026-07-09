@@ -153,29 +153,28 @@ export async function submitForm(formType, formData, options = {}) {
   results.success = results.errors.length === 0
   results.processingTime = processingTime
 
-  // Log the complete result: form data + every destination's outcome
+  // Log the complete submission data + a per-destination status table
   console.log(
-    `[FORM_SUBMISSION] result ${formType} ${results.success ? 'SUCCESS' : 'FAILED'}`,
-    JSON.stringify(
-      {
-        formType,
-        timestamp: results.timestamp,
-        ip: clientIp,
-        success: results.success,
-        processingTime,
-        data: formData,
-        destinations: {
-          sheets: results.sheets,
-          payload: results.payload,
-          zoho: results.zoho,
-          email: results.email,
-        },
-        errors: results.errors,
-      },
-      null,
-      2
-    )
+    `[FORM_SUBMISSION] result ${formType} ${results.success ? 'SUCCESS' : 'FAILED'} (${processingTime}ms)`,
+    JSON.stringify({ formType, timestamp: results.timestamp, ip: clientIp, data: formData }, null, 2)
   )
+
+  // Derive a status label from a destination result object
+  const statusOf = (r) => {
+    if (!r) return 'not attempted'
+    if (r.mode === 'skipped') return 'skipped'
+    if (r.mode === 'development') return 'dev (skipped)'
+    return r.success ? 'success' : 'failed'
+  }
+  const detailOf = (r) => (r ? r.error || r.id || r.mode || '' : '')
+
+  console.table([
+    { destination: 'Google Sheets', status: statusOf(results.sheets), detail: detailOf(results.sheets) },
+    { destination: 'Payload CMS', status: statusOf(results.payload), detail: detailOf(results.payload) },
+    { destination: 'Zoho CRM', status: statusOf(results.zoho), detail: detailOf(results.zoho) },
+    { destination: 'Admin Email', status: statusOf(results.email?.admin), detail: detailOf(results.email?.admin) },
+    { destination: 'User Email', status: statusOf(results.email?.user), detail: detailOf(results.email?.user) },
+  ])
 
   return results
 }
