@@ -110,7 +110,7 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
         {/* Hero */}
         <HeroReveal className={styles["project-detail__hero"]}>
           <Image
-            src={toImageKitUrl(project.coverImage?.url)}
+            src={toImageKitUrl(project.detailCoverImage?.url || project.coverImage?.url)}
             alt={project.name}
             className={styles["project-detail__hero-img"]}
             priority
