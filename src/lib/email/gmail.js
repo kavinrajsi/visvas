@@ -146,7 +146,7 @@ function formatAdminEmail(data) {
 function formatUserEmail(data) {
   return `
     <p><strong>Hi ${htmlEscape(data.formData?.name || 'there')},</strong></p>
-    <h2>Thank You for Your Inquiry</h2>
+    <p>Thank You for Your Inquiry</p>
     <p>We have received your inquiry and will get back to you shortly.</p>
     <p><strong>Submission Reference:</strong> ${htmlEscape(data.id || 'N/A')}</p>
     <hr/>
