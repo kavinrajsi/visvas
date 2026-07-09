@@ -229,7 +229,7 @@ export default function ProjectEnquiryForm({ projectName }) {
           )}
 
           <button type="submit" className={styles['project-enquiry-form__btn']} disabled={loading}>
-            {loading ? 'Sending...' : 'Send OTP'}
+            {loading ? 'Sending...' : 'Send'}
           </button>
         </form>
       )}
