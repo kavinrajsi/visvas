@@ -125,8 +125,6 @@ export default function ProjectEnquiryForm({ projectName }) {
 
   return (
     <aside className={styles['project-enquiry-form']}>
-      <h3 className={styles['project-enquiry-form__title']}>Request for more information</h3>
-
       {message?.type === 'success' ? (
         <FormSuccess />
       ) : (
