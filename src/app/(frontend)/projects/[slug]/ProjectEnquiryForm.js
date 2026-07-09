@@ -96,6 +96,7 @@ export default function ProjectEnquiryForm({ projectName }) {
       })
 
       const result = await response.json()
+      console.table(result)
 
       if (result.success) {
         trackFormSubmission('enquiry', { ...formData }, 'success')

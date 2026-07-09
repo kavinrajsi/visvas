@@ -110,6 +110,7 @@ export default function ContactForm({ heading = 'Contact Form', disclaimer = '',
       })
 
       const result = await response.json()
+      console.table(result)
 
       if (result.success) {
         trackFormSubmission('contact', {

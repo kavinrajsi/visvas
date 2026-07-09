@@ -78,6 +78,7 @@ export default function BlogSidebar() {
       })
 
       const result = await response.json()
+      console.table(result)
 
       if (result.success) {
         trackFormSubmission('newsletter', {

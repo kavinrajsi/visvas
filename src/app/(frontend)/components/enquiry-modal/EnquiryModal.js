@@ -131,6 +131,7 @@ export default function EnquiryModal({ isOpen, projectName, onClose }) {
       })
 
       const result = await response.json()
+      console.table(result)
 
       if (result.success) {
         trackFormSubmission('enquiry', { ...formData }, 'success')
