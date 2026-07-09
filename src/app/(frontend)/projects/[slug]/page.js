@@ -197,11 +197,11 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
                 ))}
             </ScrollReveal>
 
-            {/* Project Image */}
-            {project.images?.[0]?.image?.url && (
+            {/* Project Content Image */}
+            {project.contentImage?.url && (
               <div className={styles["project-detail__project-image"]}>
                 <Image
-                  src={toImageKitUrl(project.images[0].image.url)}
+                  src={toImageKitUrl(project.contentImage.url)}
                   alt={`${project.name} - interior`}
                   className={styles["project-detail__project-img"]}
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

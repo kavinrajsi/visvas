@@ -197,6 +197,9 @@ button,
 textarea,
 select {
   font: inherit; /* Forces inputs to use parent typography styles */
+  font-feature-settings:
+    "pnum" on,
+    "lnum" on; /* Proportional lining numerals in all inputs */
   color: inherit; /* Inherits text colors properly */
   margin: 0; /* Eliminates browser-specific margin deviations */
   padding: 0; /* Erases inconsistent default padding gaps */
