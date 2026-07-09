@@ -10,7 +10,7 @@ import ProjectStickyNav from "./ProjectStickyNav";
 import ProjectFAQ from "./ProjectFAQ";
 import ProjectMediaTabs from "./ProjectMediaTabs";
 import ProjectPageClient from "./ProjectPageClient";
-import ProjectEnquiryCTA from "./ProjectEnquiryCTA";
+import ProjectEnquiryForm from "./ProjectEnquiryForm";
 import styles from "./page.module.scss";
 
 // Allow projects added after build time to render on-demand (ISR), not 404
@@ -212,8 +212,8 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
             )}
           </div>
 
-          {/* Enquiry CTA Card Sidebar */}
-          <ProjectEnquiryCTA projectName={project.name} />
+          {/* Enquiry Form Sidebar */}
+          <ProjectEnquiryForm projectName={project.name} />
         </section>
 
         {/* Description Section */}
