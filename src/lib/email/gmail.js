@@ -150,6 +150,6 @@ function formatUserEmail(data) {
     <p>We have received your inquiry and will get back to you shortly.</p>
     <p><strong>Submission Reference:</strong> ${htmlEscape(data.id || 'N/A')}</p>
     <hr/>
-    <p>Best regards,<br/>Visvas</p>
+    <p>Best regards,<br/>Visvas Team</p>
   `
 }
