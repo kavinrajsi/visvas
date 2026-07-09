@@ -1,14 +1,15 @@
 // Zoho CRM Web-to-Lead push. Posts enquiry/contact submissions to the Zoho
 // webform endpoint (Enquiries module). Fails gracefully if env vars are absent.
 //
-// Field mapping (from the generated Zoho webform):
-//   Last Name  <- name          Email       <- email
-//   Phone      <- mobile        LEADCF67    <- budget (Expected Maximum Price)
-//   Description<- message+meta  LEADCF36    <- project (Preferred Projects picklist)
-//   Lead Source = 'Website'
+// Field mapping (Zoho webform kept minimal: Last Name / Email / Phone /
+// Description / Enquiry Source):
+//   Last Name   <- name       Email <- email       Phone <- mobile
+//   Description <- message + project + budget + whatsapp
+//   Lead Source  = 'Website'
 //
-// Budget is a short text field (maxlength 16) and Preferred Projects is a
-// picklist, so budget + project are ALSO folded into Description as a safety net.
+// Project and budget are folded into Description rather than sent as separate
+// fields — this avoids Zoho's numeric Budget field and strict Projects picklist,
+// and stays correct even if the webform's custom-field codes change.
 
 const ZOHO_URL = process.env.ZOHO_WEBTOLEAD_URL || 'https://crm.zoho.in/crm/WebToLeadForm'
 const XNQSJSDP = process.env.ZOHO_WEBTOLEAD_XNQSJSDP
@@ -51,8 +52,6 @@ export async function storeFormDataZoho(formType, formData, metadata = {}) {
     if (formData.name) params.set('Last Name', String(formData.name).slice(0, 80))
     if (formData.email) params.set('Email', String(formData.email).slice(0, 100))
     if (formData.mobile) params.set('Phone', String(formData.mobile).slice(0, 30))
-    if (formData.budget) params.set('LEADCF67', String(formData.budget).slice(0, 16))
-    if (formData.project) params.set('LEADCF36', String(formData.project))
     const description = buildDescription(formData)
     if (description) params.set('Description', description)
     params.set('Lead Source', 'Website')
