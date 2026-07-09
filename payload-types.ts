@@ -526,6 +526,8 @@ export interface ContactSubmission {
   delivery?: {
     sheetsStored?: boolean | null;
     sheetsError?: string | null;
+    zohoPushed?: boolean | null;
+    zohoError?: string | null;
     adminEmailSent?: boolean | null;
     userEmailSent?: boolean | null;
     emailError?: string | null;
@@ -958,6 +960,8 @@ export interface ContactSubmissionsSelect<T extends boolean = true> {
     | {
         sheetsStored?: T;
         sheetsError?: T;
+        zohoPushed?: T;
+        zohoError?: T;
         adminEmailSent?: T;
         userEmailSent?: T;
         emailError?: T;

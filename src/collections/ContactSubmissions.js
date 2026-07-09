@@ -95,6 +95,17 @@ const ContactSubmissions = {
           label: 'Sheets Error',
         },
         {
+          name: 'zohoPushed',
+          type: 'checkbox',
+          label: 'Zoho CRM Pushed',
+          defaultValue: false,
+        },
+        {
+          name: 'zohoError',
+          type: 'text',
+          label: 'Zoho CRM Error',
+        },
+        {
           name: 'adminEmailSent',
           type: 'checkbox',
           label: 'Admin Email Sent',

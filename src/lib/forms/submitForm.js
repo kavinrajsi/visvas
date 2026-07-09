@@ -132,19 +132,22 @@ export async function submitForm(formType, formData, options = {}) {
         results.errors.push(`User email error: ${error.message}`)
       }
     }
+  }
 
-    // Record email delivery status on the CMS submission
-    if (results.payload?.id) {
-      const emailErrors = results.errors.filter((e) => e.includes('email')).join('; ')
-      // Send the full delivery group — a partial group update could reset the sheets fields
-      await updateDeliveryPayload(results.payload.id, {
-        sheetsStored: !!results.sheets?.success && results.sheets?.mode !== 'skipped',
-        sheetsError: results.sheets?.error || null,
-        adminEmailSent: !!results.email?.admin?.success && results.email?.admin?.mode !== 'development',
-        userEmailSent: !!results.email?.user?.success && results.email?.user?.mode !== 'development',
-        emailError: emailErrors || null,
-      })
-    }
+  // ========== RECORD DELIVERY STATUS ON CMS SUBMISSION ==========
+
+  if (results.payload?.id) {
+    const emailErrors = results.errors.filter((e) => e.includes('email')).join('; ')
+    // Send the full delivery group — a partial group update could reset other fields
+    await updateDeliveryPayload(results.payload.id, {
+      sheetsStored: !!results.sheets?.success && results.sheets?.mode !== 'skipped',
+      sheetsError: results.sheets?.error || null,
+      zohoPushed: !!results.zoho?.success && results.zoho?.mode !== 'skipped',
+      zohoError: results.zoho?.error || null,
+      adminEmailSent: !!results.email?.admin?.success && results.email?.admin?.mode !== 'development',
+      userEmailSent: !!results.email?.user?.success && results.email?.user?.mode !== 'development',
+      emailError: emailErrors || null,
+    })
   }
 
   // ========== FINAL RESULT ==========
