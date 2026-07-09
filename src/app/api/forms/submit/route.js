@@ -1,6 +1,6 @@
 import { submitForm, validateFormData } from '@/lib/forms/submitForm'
 import { RateLimiter } from '@/lib/security/rateLimiter'
-import { isHoneypotTriggered } from '@/lib/security/honeypot'
+import { isHoneypotTriggered, HONEYPOT_FIELD } from '@/lib/security/honeypot'
 
 const rateLimiter = new RateLimiter({ windowMs: 60000, maxRequests: 5 })
 
@@ -46,6 +46,9 @@ export async function POST(request) {
 
     console.log('[FORM SUBMIT]', { formType, ip: clientIp })
 
+    // Strip honeypot before echoing fields back to the browser
+    const { [HONEYPOT_FIELD]: _honeypot, ...safeFields } = formData
+
     // Submit form
     const result = await submitForm(formType, formData, {
       sendAdminEmail: true,
@@ -66,12 +69,16 @@ export async function POST(request) {
         success: true,
         message: 'Form submitted successfully',
         id: result.payload?.id,
+        fields: safeFields,
+        destinations: result.destinations,
       })
     } else {
       return Response.json(
         {
           success: false,
           error: 'Form submission failed',
+          fields: safeFields,
+          destinations: result.destinations,
         },
         { status: 500 }
       )

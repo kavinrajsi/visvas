@@ -171,13 +171,15 @@ export async function submitForm(formType, formData, options = {}) {
   }
   const detailOf = (r) => (r ? r.error || r.id || r.mode || '' : '')
 
-  console.table([
-    { destination: 'Google Sheets', status: statusOf(results.sheets), detail: detailOf(results.sheets) },
-    { destination: 'Payload CMS', status: statusOf(results.payload), detail: detailOf(results.payload) },
-    { destination: 'Zoho CRM', status: statusOf(results.zoho), detail: detailOf(results.zoho) },
-    { destination: 'Admin Email', status: statusOf(results.email?.admin), detail: detailOf(results.email?.admin) },
-    { destination: 'User Email', status: statusOf(results.email?.user), detail: detailOf(results.email?.user) },
-  ])
+  results.destinations = {
+    'Google Sheets': { status: statusOf(results.sheets), detail: detailOf(results.sheets) },
+    'Payload CMS': { status: statusOf(results.payload), detail: detailOf(results.payload) },
+    'Zoho CRM': { status: statusOf(results.zoho), detail: detailOf(results.zoho) },
+    'Admin Email': { status: statusOf(results.email?.admin), detail: detailOf(results.email?.admin) },
+    'User Email': { status: statusOf(results.email?.user), detail: detailOf(results.email?.user) },
+  }
+
+  console.table(results.destinations)
 
   // ========== SUBMISSION LOG (Neon audit trail) ==========
   // Never blocks the response; a log failure is not a user-facing failure
