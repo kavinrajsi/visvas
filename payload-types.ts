@@ -80,6 +80,7 @@ export interface Config {
     posts: Post;
     policies: Policy;
     'contact-submissions': ContactSubmission;
+    'form-submission-logs': FormSubmissionLog;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -100,6 +101,7 @@ export interface Config {
     posts: PostsSelect<false> | PostsSelect<true>;
     policies: PoliciesSelect<false> | PoliciesSelect<true>;
     'contact-submissions': ContactSubmissionsSelect<false> | ContactSubmissionsSelect<true>;
+    'form-submission-logs': FormSubmissionLogsSelect<false> | FormSubmissionLogsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -581,6 +583,36 @@ export interface ContactSubmission {
   createdAt: string;
 }
 /**
+ * Durable status log of every form submission attempt (one row per attempt)
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "form-submission-logs".
+ */
+export interface FormSubmissionLog {
+  id: number;
+  formType?: ('contact' | 'enquiry' | 'newsletter') | null;
+  name?: string | null;
+  email?: string | null;
+  phone?: string | null;
+  success?: boolean | null;
+  errors?: string | null;
+  processingTime?: number | null;
+  isSpam?: boolean | null;
+  ip?: string | null;
+  /**
+   * Linked contact-submissions record (empty if that create failed)
+   */
+  submission?: (number | null) | ContactSubmission;
+  channels?: {
+    sheetsStored?: boolean | null;
+    zohoPushed?: boolean | null;
+    adminEmailSent?: boolean | null;
+    userEmailSent?: boolean | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -655,6 +687,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'contact-submissions';
         value: number | ContactSubmission;
+      } | null)
+    | ({
+        relationTo: 'form-submission-logs';
+        value: number | FormSubmissionLog;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -1001,6 +1037,32 @@ export interface ContactSubmissionsSelect<T extends boolean = true> {
         fbClId?: T;
         currentPage?: T;
         timestamp?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "form-submission-logs_select".
+ */
+export interface FormSubmissionLogsSelect<T extends boolean = true> {
+  formType?: T;
+  name?: T;
+  email?: T;
+  phone?: T;
+  success?: T;
+  errors?: T;
+  processingTime?: T;
+  isSpam?: T;
+  ip?: T;
+  submission?: T;
+  channels?:
+    | T
+    | {
+        sheetsStored?: T;
+        zohoPushed?: T;
+        adminEmailSent?: T;
+        userEmailSent?: T;
       };
   updatedAt?: T;
   createdAt?: T;

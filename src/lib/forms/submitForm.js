@@ -2,7 +2,7 @@
 // Coordinates: email (Gmail SMTP) + sheets (Google) + CMS (Payload)
 import { sendAdminNotification, sendUserConfirmation } from '@/lib/email/gmail'
 import { storeFormData as storeFormDataSheets } from '@/lib/storage/googleSheets'
-import { storeFormDataPayload, updateDeliveryPayload } from '@/lib/storage/payloadDb'
+import { storeFormDataPayload, updateDeliveryPayload, logFormSubmission } from '@/lib/storage/payloadDb'
 import { storeFormDataZoho } from '@/lib/storage/zohoCrm'
 
 export async function submitForm(formType, formData, options = {}) {
@@ -178,6 +178,32 @@ export async function submitForm(formType, formData, options = {}) {
     { destination: 'Admin Email', status: statusOf(results.email?.admin), detail: detailOf(results.email?.admin) },
     { destination: 'User Email', status: statusOf(results.email?.user), detail: detailOf(results.email?.user) },
   ])
+
+  // ========== SUBMISSION LOG (Neon audit trail) ==========
+  // Never blocks the response; a log failure is not a user-facing failure
+
+  try {
+    await logFormSubmission({
+      formType,
+      name: formData.name,
+      email: formData.email,
+      phone: formData.mobile,
+      success: results.success,
+      errors: results.errors.join('\n') || null,
+      processingTime,
+      isSpam: metadata.isSpam || false,
+      ip: clientIp,
+      submission: results.payload?.id || null,
+      channels: {
+        sheetsStored: !!results.sheets?.success && results.sheets?.mode !== 'skipped',
+        zohoPushed: !!results.zoho?.success && results.zoho?.mode !== 'skipped',
+        adminEmailSent: !!results.email?.admin?.success && results.email?.admin?.mode !== 'development',
+        userEmailSent: !!results.email?.user?.success && results.email?.user?.mode !== 'development',
+      },
+    })
+  } catch (error) {
+    console.error('[FORM] Submission log write failed:', error.message)
+  }
 
   return results
 }

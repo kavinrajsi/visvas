@@ -13,7 +13,7 @@ Next.js 16 (App Router, Turbopack, React Compiler) + React 19, Payload CMS 3.85.
 
 ### Payload CMS Access
 - **Never** query database directly; always use `getPayload({ config })`
-- **Collections** defined in `src/collections/` — Amenities, BlogCategories, ContactSubmissions, Policies, Posts, Projects, Testimonials, Users, Widgets, plus Media in `src/media/Media.js`
+- **Collections** defined in `src/collections/` — Amenities, BlogCategories, ContactSubmissions, FormSubmissionLogs, Policies, Posts, Projects, Testimonials, Users, Widgets, plus Media in `src/media/Media.js`
 - **Globals** defined in `src/globals/` — AboutPage, BlogPage, ContactPage, HomePage, ImpactPage (singleton records, edited in admin)
   - **Note:** ImpactPage backs the `/community` route, not `/impact`
 - **Access control** returns `boolean` (allow/deny all) OR `{ where: {...} }` constraint object (conditional read based on user)

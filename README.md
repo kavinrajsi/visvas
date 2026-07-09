@@ -167,6 +167,7 @@ A modern real-estate platform built with **Next.js 16**, **React 19**, **Payload
 | **BlogCategories** | Blog category taxonomy | Public read |
 | **Testimonials** | Customer testimonials (text or video) | Public read |
 | **ContactSubmissions** | Form submissions (read/audit only; writes happen via API) | Auth read only |
+| **FormSubmissionLogs** | Durable status log: one row per submission attempt (success, errors, channel results) | Auth read only |
 | **Amenities** | Project amenities (name, icon) | Public read |
 | **Policies** | Legal pages (Privacy Policy, T&C) | Public read |
 | **Users** | Admin users (Payload auth collection) | Auth only |

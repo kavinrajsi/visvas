@@ -25,6 +25,7 @@ import Policies from './src/collections/Policies.js'
 import ContactPage from './src/globals/ContactPage.js'
 import BlogPage from './src/globals/BlogPage.js'
 import ContactSubmissions from './src/collections/ContactSubmissions.js'
+import FormSubmissionLogs from './src/collections/FormSubmissionLogs.js'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -114,6 +115,10 @@ export default buildConfig({
             label: 'Contact Submissions',
             path: '/admin/collections/contact-submissions',
           },
+          {
+            label: 'Form Submission Logs',
+            path: '/admin/collections/form-submission-logs',
+          },
         ],
       },
       {
@@ -143,7 +148,7 @@ export default buildConfig({
       },
     ],
   },
-  collections: [Users, Media, Widgets, Amenities, ProjectTypes, ProjectStatuses, BhkTypes, Testimonials, Projects, BlogCategories, Posts, Policies, ContactSubmissions],
+  collections: [Users, Media, Widgets, Amenities, ProjectTypes, ProjectStatuses, BhkTypes, Testimonials, Projects, BlogCategories, Posts, Policies, ContactSubmissions, FormSubmissionLogs],
   globals: [ImpactPage, AboutPage, HomePage, ContactPage, BlogPage],
   editor: lexicalEditor({
     features: ({ defaultFeatures }) => [

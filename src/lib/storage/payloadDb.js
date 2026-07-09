@@ -58,6 +58,23 @@ export async function storeFormDataPayload(formType, formData, metadata = {}, de
   }
 }
 
+// Write one immutable log row per submission attempt (audit trail in Neon)
+export async function logFormSubmission(logData) {
+  try {
+    const payload = await getPayload({ config })
+
+    const result = await payload.create({
+      collection: 'form-submission-logs',
+      data: logData,
+    })
+
+    return { success: true, id: result.id }
+  } catch (error) {
+    console.error('[PAYLOAD] Error writing submission log:', error.message)
+    return { success: false, error: error.message }
+  }
+}
+
 // Update delivery status (e.g. email results) on an existing submission
 export async function updateDeliveryPayload(id, delivery) {
   try {
