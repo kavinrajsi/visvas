@@ -172,12 +172,12 @@ export default function ContactForm({ heading = 'Contact Form', disclaimer = '',
 
   return (
     <aside className={styles['contact-form']}>
-      {heading && (
+      {heading && message?.type !== 'success' && (
         <h3 className={styles['contact-form__heading']}>{heading}</h3>
       )}
 
       {message?.type === 'success' ? (
-        <FormSuccess heading={message.heading} message={message.text} link={message.link} />
+        <FormSuccess heading={message.heading} message={message.text} />
       ) : (
       <form onSubmit={handleSubmit} className={styles['contact-form__form']} noValidate>
         <div className={styles['contact-form__field']}>
