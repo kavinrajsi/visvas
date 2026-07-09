@@ -162,48 +162,39 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
               className={styles["project-detail__facts-grid"]}
               stagger
             >
-              <div className={styles["project-detail__fact"]}>
-                <p className={styles["project-detail__fact-label"]}>
-                  Property Type
-                </p>
-                <p className={styles["project-detail__fact-value"]}>
-                  {project.projectType?.map((t) => t?.name).filter(Boolean).join(", ") || "N/A"}
-                </p>
-              </div>
-              <div className={styles["project-detail__fact"]}>
-                <p className={styles["project-detail__fact-label"]}>Status</p>
-                <p className={styles["project-detail__fact-value"]}>
-                  {project.status?.map((s) => s?.name).filter(Boolean).join(", ") || "N/A"}
-                </p>
-              </div>
-              <div className={styles["project-detail__fact"]}>
-                <p className={styles["project-detail__fact-label"]}>Area</p>
-                <p className={styles["project-detail__fact-value"]}>
-                  {project.projectArea} Sq. Ft.
-                </p>
-              </div>
-              <div className={styles["project-detail__fact"]}>
-                <p className={styles["project-detail__fact-label"]}>RERA NO:</p>
-                <p className={styles["project-detail__fact-value"]}>
-                  {project.reraNo || "N/A"}
-                </p>
-              </div>
-              <div className={styles["project-detail__fact"]}>
-                <p className={styles["project-detail__fact-label"]}>
-                  Price range starts from
-                </p>
-                <p className={styles["project-detail__fact-value"]}>
-                  Rs. {project.priceRangeStartFrom?.toLocaleString() || "N/A"}
-                </p>
-              </div>
-              <div className={styles["project-detail__fact"]}>
-                <p className={styles["project-detail__fact-label"]}>
-                  Bedrooms & Bathrooms
-                </p>
-                <p className={styles["project-detail__fact-value"]}>
-                  {project.bhkTypes?.map((b) => b?.name || b).join(", ") || "N/A"}
-                </p>
-              </div>
+              {[
+                {
+                  label: "Property Type",
+                  value: project.projectType?.map((t) => t?.name).filter(Boolean).join(", "),
+                },
+                {
+                  label: "Status",
+                  value: project.status?.map((s) => s?.name).filter(Boolean).join(", "),
+                },
+                {
+                  label: "Area",
+                  value: project.projectArea ? `${project.projectArea} Sq. Ft.` : "",
+                },
+                { label: "RERA NO:", value: project.reraNo },
+                {
+                  label: "Price range starts from",
+                  value:
+                    project.priceRangeStartFrom != null
+                      ? `Rs. ${project.priceRangeStartFrom.toLocaleString()}`
+                      : "",
+                },
+                {
+                  label: "Bedrooms & Bathrooms",
+                  value: project.bhkTypes?.map((b) => b?.name || b).filter(Boolean).join(", "),
+                },
+              ]
+                .filter((fact) => fact.value)
+                .map((fact) => (
+                  <div key={fact.label} className={styles["project-detail__fact"]}>
+                    <p className={styles["project-detail__fact-label"]}>{fact.label}</p>
+                    <p className={styles["project-detail__fact-value"]}>{fact.value}</p>
+                  </div>
+                ))}
             </ScrollReveal>
 
             {/* Project Image */}
