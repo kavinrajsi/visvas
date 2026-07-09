@@ -56,6 +56,11 @@ Next.js 16 (App Router, Turbopack, React Compiler) + React 19, Payload CMS 3.85.
 | `GOOGLE_SHEETS_CLIENT_EMAIL` | | Sheets service account email (optional) |
 | `GOOGLE_SHEETS_PRIVATE_KEY` | | Sheets service account private key (optional) |
 | `GOOGLE_SHEETS_SPREADSHEET_ID` | | Sheets target (optional) |
+| `ZOHO_WEBTOLEAD_XNQSJSDP` | | Zoho Web-to-Lead form token (enquiry/contact → CRM; optional) |
+| `ZOHO_WEBTOLEAD_XMIWTLD` | | Zoho Web-to-Lead form id (optional) |
+| `ZOHO_WEBTOLEAD_URL` | | Zoho endpoint (default `https://crm.zoho.in/crm/WebToLeadForm`) |
+| `ZOHO_WEBTOLEAD_ACTION_TYPE` | | Zoho actionType token (default `TGVhZHM=`) |
+| `ZOHO_WEBTOLEAD_RETURN_URL` | | Zoho returnURL (default site URL) |
 | `NEXT_PUBLIC_SITE_URL` | | Public site URL (canonical, sitemap, robots) |
 | `NEXT_PUBLIC_GADS_ID` | | Google Ads conversion tracking |
 | `NEXT_PUBLIC_BUSINESS_EMAIL` | | Footer/contact display |

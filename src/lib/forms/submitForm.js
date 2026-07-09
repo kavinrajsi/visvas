@@ -3,6 +3,7 @@
 import { sendAdminNotification, sendUserConfirmation } from '@/lib/email/gmail'
 import { storeFormData as storeFormDataSheets } from '@/lib/storage/googleSheets'
 import { storeFormDataPayload, updateDeliveryPayload } from '@/lib/storage/payloadDb'
+import { storeFormDataZoho } from '@/lib/storage/zohoCrm'
 
 export async function submitForm(formType, formData, options = {}) {
   const {
@@ -10,6 +11,7 @@ export async function submitForm(formType, formData, options = {}) {
     sendUserEmail = true,
     storeInSheets = true,
     storeInPayload = true,
+    storeInZoho = true,
     metadata = {},
   } = options
 
@@ -21,6 +23,7 @@ export async function submitForm(formType, formData, options = {}) {
     email: null,
     sheets: null,
     payload: null,
+    zoho: null,
     errors: [],
   }
 
@@ -72,6 +75,20 @@ export async function submitForm(formType, formData, options = {}) {
       }
     } catch (error) {
       results.errors.push(`Payload storage error: ${error.message}`)
+    }
+  }
+
+  // ========== ZOHO CRM ==========
+
+  if (storeInZoho) {
+    try {
+      const zohoResult = await storeFormDataZoho(formType, formData, metadata)
+      results.zoho = zohoResult
+      if (!zohoResult.success) {
+        results.errors.push(`Zoho push failed: ${zohoResult.error}`)
+      }
+    } catch (error) {
+      results.errors.push(`Zoho push error: ${error.message}`)
     }
   }
 
