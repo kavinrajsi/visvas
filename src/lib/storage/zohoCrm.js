@@ -67,7 +67,24 @@ export async function storeFormDataZoho(formType, formData, metadata = {}) {
       return { success: false, error: `Zoho responded ${response.status}` }
     }
 
-    console.log('[ZOHO] Lead pushed:', { formType, email: formData.email })
+    // Zoho returns HTTP 200 even for validation/captcha errors — inspect the body.
+    // Success paths: actionsubmit = 'Splash Message' | 'thankyou_page' | 'redirect_url'.
+    const text = await response.text()
+    let data
+    try {
+      data = JSON.parse(text)
+    } catch {
+      data = null
+    }
+
+    if (data && typeof data === 'object') {
+      const errorActions = ['error_msg', 'captcha_error']
+      if (data.invalidCaptcha === 'true' || errorActions.includes(data.actionsubmit)) {
+        return { success: false, error: data.message || data.actionvalue || 'Zoho rejected the lead' }
+      }
+    }
+
+    console.log('[ZOHO] Lead pushed:', { formType, email: formData.email, response: data?.actionsubmit || 'ok' })
     return { success: true }
   } catch (error) {
     console.error('[ZOHO] Error pushing lead:', error.message)
