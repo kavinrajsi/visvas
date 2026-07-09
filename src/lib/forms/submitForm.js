@@ -33,13 +33,16 @@ export async function submitForm(formType, formData, options = {}) {
   // ========== LOG FORM SUBMISSION ==========
 
   console.log(
-    '[FORM_SUBMISSION]',
+    '[FORM_SUBMISSION] incoming',
     JSON.stringify(
       {
         formType,
         timestamp: results.timestamp,
         ip: clientIp,
         userAgent: metadata.userAgent,
+        referer: metadata.referer,
+        isSpam: metadata.isSpam || false,
+        attribution: metadata.attribution,
         data: formData,
       },
       null,
@@ -150,14 +153,29 @@ export async function submitForm(formType, formData, options = {}) {
   results.success = results.errors.length === 0
   results.processingTime = processingTime
 
-  // Log result
-  console.log(`[FORM] ${formType} submission ${results.success ? 'SUCCESS' : 'FAILED'}`, {
-    timestamp: results.timestamp,
-    email: formData.email,
-    success: results.success,
-    processingTime,
-    errors: results.errors,
-  })
+  // Log the complete result: form data + every destination's outcome
+  console.log(
+    `[FORM_SUBMISSION] result ${formType} ${results.success ? 'SUCCESS' : 'FAILED'}`,
+    JSON.stringify(
+      {
+        formType,
+        timestamp: results.timestamp,
+        ip: clientIp,
+        success: results.success,
+        processingTime,
+        data: formData,
+        destinations: {
+          sheets: results.sheets,
+          payload: results.payload,
+          zoho: results.zoho,
+          email: results.email,
+        },
+        errors: results.errors,
+      },
+      null,
+      2
+    )
+  )
 
   return results
 }
