@@ -304,6 +304,10 @@ export interface Project {
       }[]
     | null;
   videoUrl?: string | null;
+  /**
+   * Optional downloadable brochure (PDF or any file).
+   */
+  brochure?: (number | null) | Media;
   images?:
     | {
         image?: (number | null) | Media;
@@ -881,6 +885,7 @@ export interface ProjectsSelect<T extends boolean = true> {
         id?: T;
       };
   videoUrl?: T;
+  brochure?: T;
   images?:
     | T
     | {

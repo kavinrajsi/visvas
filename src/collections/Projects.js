@@ -227,6 +227,15 @@ const Projects = {
               },
             },
             {
+              name: 'brochure',
+              type: 'upload',
+              relationTo: 'media',
+              label: 'Project Brochure',
+              admin: {
+                description: 'Optional downloadable brochure (PDF or any file).',
+              },
+            },
+            {
               name: 'images',
               type: 'array',
               label: 'Project Images',
