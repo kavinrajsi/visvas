@@ -554,7 +554,7 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
         </ScrollReveal>
 
         {/* Media Section */}
-        {hasMedia && (
+        {/* {hasMedia && (
         <ScrollReveal
           as="section"
           id="media"
@@ -666,7 +666,7 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
           </div>
           <ProjectMediaTabs project={project} />
         </ScrollReveal>
-        )}
+        )} */}
 
         {/* FAQs Section */}
         {faqs.length > 0 && (
