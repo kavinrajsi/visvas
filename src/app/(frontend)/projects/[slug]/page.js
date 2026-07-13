@@ -8,7 +8,7 @@ import HeroReveal from "@/components/animation/HeroReveal";
 import ScrollReveal from "@/components/animation/ScrollReveal";
 import ProjectStickyNav from "./ProjectStickyNav";
 import ProjectFAQ from "./ProjectFAQ";
-import ProjectMediaTabs from "./ProjectMediaTabs";
+// import ProjectMediaTabs from "./ProjectMediaTabs";
 import ProjectPageClient from "./ProjectPageClient";
 import ProjectEnquiryForm from "./ProjectEnquiryForm";
 import styles from "./page.module.scss";
@@ -98,10 +98,10 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
   const amenities = project.amenities || [];
   const faqs = project.faq || [];
   const transports = project.keyTransports || [];
-  const hasMedia =
-    (project.images?.length || 0) > 0 ||
-    (project.videos?.length || 0) > 0 ||
-    (project.floorPlans?.length || 0) > 0;
+  // const hasMedia =
+  //   (project.images?.length || 0) > 0 ||
+  //   (project.videos?.length || 0) > 0 ||
+  //   (project.floorPlans?.length || 0) > 0;
 
   return (
     <>
@@ -126,7 +126,8 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
             'about',
             ...(amenities.length > 0 ? ['amenities'] : []),
             'location',
-            ...(hasMedia ? ['media'] : []),
+            // Media section hidden — keep in sync with commented Media Section below
+            // ...(hasMedia ? ['media'] : []),
             ...(faqs.length > 0 ? ['faqs'] : []),
           ]}
         />
