@@ -180,7 +180,7 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
                   label: "Price range starts from",
                   value:
                     project.priceRangeStartFrom != null
-                      ? `Rs. ${project.priceRangeStartFrom.toLocaleString()}`
+                      ? `Rs. ${project.priceRangeStartFrom.toLocaleString('en-IN')}`
                       : "",
                 },
                 {
