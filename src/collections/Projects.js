@@ -75,7 +75,7 @@ const Projects = {
               name: 'coverImage',
               type: 'upload',
               relationTo: 'media',
-              label: 'Project Cover Image',
+              label: 'Project Listing Image',
               filterOptions: {
                 mimeType: { contains: 'image' },
               },
@@ -84,7 +84,7 @@ const Projects = {
               name: 'detailCoverImage',
               type: 'upload',
               relationTo: 'media',
-              label: 'Project Detail Cover',
+              label: 'Project Cover Image',
               filterOptions: {
                 mimeType: { contains: 'image' },
               },
