@@ -185,7 +185,7 @@ export default async function Footer() {
   const phone =
     contactDetails.phone ||
     process.env.NEXT_PUBLIC_BUSINESS_PHONE ||
-    "+91 95432 24411";
+    "+91 9543224411";
   const address = contactDetails.address || "84, TPK Road, Andalpuram, Madurai";
 
   const quickLinks = [

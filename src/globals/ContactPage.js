@@ -63,7 +63,7 @@ const ContactPage = {
           type: 'text',
           required: true,
           label: 'Phone Number',
-          defaultValue: '+91 94038 93898',
+          defaultValue: '+91 95432 24411',
           admin: {
             description: 'Primary phone number',
           },
