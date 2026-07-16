@@ -91,7 +91,7 @@ export default async function Home() {
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'Customer Service',
-      telephone: process.env.NEXT_PUBLIC_BUSINESS_PHONE || '+91-94038-93898',
+      telephone: process.env.NEXT_PUBLIC_BUSINESS_PHONE || '+91 95432 24411',
       email: process.env.NEXT_PUBLIC_BUSINESS_EMAIL || 'contact@example.com',
     },
   }
