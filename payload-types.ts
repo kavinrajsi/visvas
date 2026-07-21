@@ -308,13 +308,7 @@ export interface Project {
       }[]
     | null;
   videoUrl?: string | null;
-  images?:
-    | {
-        image?: (number | null) | Media;
-        caption?: string | null;
-        id?: string | null;
-      }[]
-    | null;
+  images?: (number | Media)[] | null;
   floorPlans?:
     | {
         plan?: (number | null) | Media;
@@ -886,13 +880,7 @@ export interface ProjectsSelect<T extends boolean = true> {
         id?: T;
       };
   videoUrl?: T;
-  images?:
-    | T
-    | {
-        image?: T;
-        caption?: T;
-        id?: T;
-      };
+  images?: T;
   floorPlans?:
     | T
     | {

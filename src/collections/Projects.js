@@ -237,22 +237,13 @@ const Projects = {
             },
             {
               name: 'images',
-              type: 'array',
+              type: 'upload',
+              relationTo: 'media',
+              hasMany: true,
               label: 'Project Images',
-              fields: [
-                {
-                  name: 'image',
-                  type: 'upload',
-                  relationTo: 'media',
-                  filterOptions: {
-                    mimeType: { contains: 'image' },
-                  },
-                },
-                {
-                  name: 'caption',
-                  type: 'text',
-                },
-              ],
+              filterOptions: {
+                mimeType: { contains: 'image' },
+              },
             },
             {
               name: 'floorPlans',
