@@ -36,4 +36,29 @@
         display: flex;
         gap: 20px;
     }
+
+    .media-tabs__grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    // Also applies to the non-clickable placeholder wrapper, which is a div.
+    .media-tabs__grid-item {
+        display: block;
+        width: 100%;
+        padding: 0;
+        border: 0;
+        background: none;
+        cursor: zoom-in;
+
+        img {
+            display: block;
+            width: 100%;
+            height: 260px;
+            // Sources range from 940x788 to 7680x4320, so crop to keep rows even.
+            object-fit: cover;
+        }
+    }
 }

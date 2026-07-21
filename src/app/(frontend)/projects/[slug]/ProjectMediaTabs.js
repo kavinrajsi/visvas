@@ -3,7 +3,36 @@
 import Image from "next/image";
 import { useState } from "react";
 import { toImageKitUrl } from "@/lib/image/imageKitUrl";
+import "photoswipe/style.css";
 import styles from "./ProjectMediaTabs.module.scss";
+
+// Longest edge served to the lightbox. Originals run as large as 7680x4320, so
+// they go through the Next optimiser rather than straight from R2.
+const LIGHTBOX_MAX_EDGE = 2048;
+
+// next.config.mjs restricts qualities to [75, 85]; any other value is rejected.
+const LIGHTBOX_QUALITY = 85;
+
+// Photos are flat Media objects (images is a hasMany upload), floor plans and
+// the old array shape nest theirs one level down.
+const resolveMedia = (item) => item?.image || item?.plan || item;
+
+const buildLightboxSlide = (item) => {
+  const media = resolveMedia(item);
+  if (!media?.url) return null;
+
+  const width = media.width || LIGHTBOX_MAX_EDGE;
+  const height = media.height || LIGHTBOX_MAX_EDGE;
+  const scale = Math.min(1, LIGHTBOX_MAX_EDGE / Math.max(width, height));
+
+  return {
+    src: `/_next/image?url=${encodeURIComponent(media.url)}&w=${LIGHTBOX_MAX_EDGE}&q=${LIGHTBOX_QUALITY}`,
+    // Dimensions must match the pixels actually served or zooming misbehaves.
+    width: Math.round(width * scale),
+    height: Math.round(height * scale),
+    alt: media.alt || "",
+  };
+};
 
 export default function ProjectMediaTabs({ project }) {
   const hasPhotos = (project.images?.length || 0) > 0;
@@ -31,35 +60,32 @@ export default function ProjectMediaTabs({ project }) {
 
   const mediaList = getMediaList();
   const len = mediaList.length;
-
-  // Handle edge cases for slide indices
-  const prevIndex = len > 1 ? (currentIndex - 1 + len) % len : currentIndex;
-  const nextIndex = len > 1 ? (currentIndex + 1) % len : currentIndex;
+  const isVideoTab = activeTab === "videos";
   const currentMedia = mediaList[currentIndex];
-
-  const handlePrev = () => {
-    if (len > 1) {
-      setCurrentIndex((prev) => (prev === 0 ? len - 1 : prev - 1));
-    }
-  };
-
-  const handleNext = () => {
-    if (len > 1) {
-      setCurrentIndex((prev) => (prev === len - 1 ? 0 : prev + 1));
-    }
-  };
-
-  const handleDotClick = (index) => {
-    setCurrentIndex(index);
-  };
 
   const handleTabSwitch = (tabName) => {
     setActiveTab(tabName);
     setCurrentIndex(0);
   };
 
+  // Built fresh on click so it always reflects the active tab. Loaded lazily to
+  // keep PhotoSwipe out of the initial bundle.
+  const openLightbox = async (index) => {
+    const slides = mediaList.map(buildLightboxSlide).filter(Boolean);
+    if (slides.length === 0) return;
+
+    const { default: PhotoSwipeLightbox } = await import("photoswipe/lightbox");
+    const lightbox = new PhotoSwipeLightbox({
+      dataSource: slides,
+      pswpModule: () => import("photoswipe"),
+    });
+    lightbox.on("destroy", () => lightbox.destroy());
+    lightbox.init();
+    lightbox.loadAndOpen(index);
+  };
+
   // Render single slide (used for mobile and videos tab single-view)
-  const renderSlide = (media, isActive = true, isVideo = false) => {
+  const renderSlide = (media, isActive = true, isVideo = false, index = currentIndex) => {
     if (!media) return null;
 
     if (isVideo && media.video?.url) {
@@ -99,7 +125,7 @@ export default function ProjectMediaTabs({ project }) {
     return (
       <Image
         src={toImageKitUrl(imageUrl)}
-        alt={`${activeTab} ${currentIndex + 1}`}
+        alt={resolveMedia(media)?.alt || `${activeTab} ${index + 1}`}
         className={styles["media-tabs__image"]}
         sizes="(max-width: 768px) 100vw, 60vw"
         width={800}
@@ -211,49 +237,44 @@ export default function ProjectMediaTabs({ project }) {
         )}
       </div>
 
-      {/* Carousel Container */}
-      {len > 0 && (
-        <>
-          <div className={styles["media-tabs__carousel"]}>
-            {/* Track + Slides */}
-            <div className={styles["media-tabs__track"]}>
-              {/* Mobile + Videos tab single view: show only active slide */}
-              <div
-                className={`${styles["media-tabs__slide"]} ${styles["media-tabs__slide--active"]}`}
-                key={`slide-active-${currentIndex}`}
-              >
-                {renderSlide(currentMedia, true, activeTab === "videos")}
-              </div>
-
-              <div
-                className={`${styles["media-tabs__slide"]} ${styles["media-tabs__slide--prev"]}`}
-                key={`slide-prev-${prevIndex}`}
-              >
-                {renderSlide(
-                  mediaList[prevIndex],
-                  false,
-                  activeTab === "videos",
-                )}
-              </div>
-              <div
-                className={`${styles["media-tabs__slide"]} ${styles["media-tabs__slide--active"]}`}
-                key={`slide-active-desktop-${currentIndex}`}
-              >
-                {renderSlide(currentMedia, true, activeTab === "videos")}
-              </div>
-              <div
-                className={`${styles["media-tabs__slide"]} ${styles["media-tabs__slide--next"]}`}
-                key={`slide-next-${nextIndex}`}
-              >
-                {renderSlide(
-                  mediaList[nextIndex],
-                  false,
-                  activeTab === "videos",
-                )}
-              </div>
-            </div>
+      {/* Videos keep the single-slide player; images render as a grid */}
+      {len > 0 && isVideoTab && (
+        <div className={styles["media-tabs__carousel"]}>
+          <div className={styles["media-tabs__slide"]}>
+            {renderSlide(currentMedia, true, true)}
           </div>
-        </>
+        </div>
+      )}
+
+      {len > 0 && !isVideoTab && (
+        <div className={styles["media-tabs__grid"]}>
+          {mediaList.map((media, index) => {
+            const hasImage = Boolean(resolveMedia(media)?.url);
+
+            if (!hasImage) {
+              return (
+                <div
+                  className={styles["media-tabs__grid-item"]}
+                  key={`media-${index}`}
+                >
+                  {renderSlide(media, true, false, index)}
+                </div>
+              );
+            }
+
+            return (
+              <button
+                type="button"
+                className={styles["media-tabs__grid-item"]}
+                key={`media-${index}`}
+                onClick={() => openLightbox(index)}
+                aria-label={`View ${activeTab === "plans" ? "floor plan" : "image"} ${index + 1} of ${len}`}
+              >
+                {renderSlide(media, true, false, index)}
+              </button>
+            );
+          })}
+        </div>
       )}
     </div>
   );
