@@ -99,6 +99,15 @@ const Projects = {
               },
             },
             {
+              name: 'brochure',
+              type: 'upload',
+              relationTo: 'media',
+              label: 'Project Brochure',
+              admin: {
+                description: 'Optional downloadable brochure (PDF or any file).',
+              },
+            },
+            {
               name: 'reraNo',
               type: 'text',
               label: 'RERA No.',
@@ -122,15 +131,6 @@ const Projects = {
               relationTo: 'bhk-types',
               hasMany: true,
               label: 'Type of BHK',
-            },
-            {
-              name: 'brochure',
-              type: 'upload',
-              relationTo: 'media',
-              label: 'Project Brochure',
-              admin: {
-                description: 'Optional downloadable brochure (PDF or any file).',
-              },
             },
           ],
         },
