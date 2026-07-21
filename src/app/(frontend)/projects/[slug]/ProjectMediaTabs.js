@@ -133,7 +133,7 @@ export default function ProjectMediaTabs({ project }) {
           src="/placeholder.png"
           alt={`${activeTab} placeholder`}
           className={styles["media-tabs__image"]}
-          sizes="(max-width: 768px) 100vw, 60vw"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
           width={800}
           height={600}
         />
@@ -145,7 +145,7 @@ export default function ProjectMediaTabs({ project }) {
         src={toImageKitUrl(imageUrl)}
         alt={resolveMedia(media)?.alt || `${activeTab} ${index + 1}`}
         className={styles["media-tabs__image"]}
-        sizes="(max-width: 768px) 100vw, 60vw"
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
         width={800}
         height={600}
       />
