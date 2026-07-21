@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toImageKitUrl } from "@/lib/image/imageKitUrl";
 import "photoswipe/style.css";
 import styles from "./ProjectMediaTabs.module.scss";
@@ -68,20 +68,38 @@ export default function ProjectMediaTabs({ project }) {
     setCurrentIndex(0);
   };
 
-  // Built fresh on click so it always reflects the active tab. Loaded lazily to
-  // keep PhotoSwipe out of the initial bundle.
+  // One instance for the component's lifetime. PhotoSwipeLightbox is built to be
+  // reused, and its own destroy() dispatches a "destroy" event, so tearing it
+  // down from that event recurses until the stack blows.
+  const lightboxRef = useRef(null);
+
+  useEffect(
+    () => () => {
+      lightboxRef.current?.destroy();
+      lightboxRef.current = null;
+    },
+    [],
+  );
+
   const openLightbox = async (index) => {
+    // Rebuilt per click so the slides always match the active tab.
     const slides = mediaList.map(buildLightboxSlide).filter(Boolean);
     if (slides.length === 0) return;
 
-    const { default: PhotoSwipeLightbox } = await import("photoswipe/lightbox");
-    const lightbox = new PhotoSwipeLightbox({
-      dataSource: slides,
-      pswpModule: () => import("photoswipe"),
-    });
-    lightbox.on("destroy", () => lightbox.destroy());
-    lightbox.init();
-    lightbox.loadAndOpen(index);
+    if (!lightboxRef.current) {
+      // Dynamic import keeps PhotoSwipe out of the initial bundle.
+      const { default: PhotoSwipeLightbox } = await import(
+        "photoswipe/lightbox"
+      );
+      const lightbox = new PhotoSwipeLightbox({
+        pswpModule: () => import("photoswipe"),
+      });
+      lightbox.init();
+      lightboxRef.current = lightbox;
+    }
+
+    lightboxRef.current.options.dataSource = slides;
+    lightboxRef.current.loadAndOpen(index);
   };
 
   // Render single slide (used for mobile and videos tab single-view)
