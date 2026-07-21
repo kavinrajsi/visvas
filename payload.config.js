@@ -159,6 +159,10 @@ export default buildConfig({
       EXPERIMENTAL_TableFeature(),
     ],
   }),
+  serverURL: process.env.NEXT_PUBLIC_SITE_URL || '',
+  // Auth routes (e.g. /api/users/logout) reject requests whose Origin is not
+  // listed here, so both hostnames the admin can be reached on must appear.
+  csrf: ['https://www.visvas.in', 'https://visvas.in', 'http://localhost:3000'],
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),

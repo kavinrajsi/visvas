@@ -74,7 +74,7 @@ export default function ProjectMediaTabs({ project }) {
 
     const imageUrl = isVideo
       ? media.video?.url
-      : media.image?.url || media.plan?.url;
+      : media.image?.url || media.plan?.url || media.url;
     if (!imageUrl) {
       return (
         <Image
