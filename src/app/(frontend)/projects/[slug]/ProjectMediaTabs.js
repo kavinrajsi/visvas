@@ -6,7 +6,15 @@ import { toImageKitUrl } from "@/lib/image/imageKitUrl";
 import styles from "./ProjectMediaTabs.module.scss";
 
 export default function ProjectMediaTabs({ project }) {
-  const [activeTab, setActiveTab] = useState("photos");
+  const hasPhotos = (project.images?.length || 0) > 0;
+  const hasPlans = (project.floorPlans?.length || 0) > 0;
+  const hasVideos = (project.videos?.length || 0) > 0;
+
+  // The section only renders when at least one of these has content, so the
+  // chain always lands on a tab that has something to show.
+  const [activeTab, setActiveTab] = useState(() =>
+    hasPhotos ? "photos" : hasPlans ? "plans" : "videos"
+  );
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const getMediaList = () => {
@@ -104,6 +112,7 @@ export default function ProjectMediaTabs({ project }) {
     <div className={styles["media-tabs"]}>
       {/* Tab Buttons */}
       <div className={styles["media-tabs__buttons"]}>
+        {hasPhotos && (
         <button
           className={`${styles["media-tabs__btn"]} ${
             activeTab === "photos" ? styles["media-tabs__btn--active"] : ""
@@ -128,6 +137,8 @@ export default function ProjectMediaTabs({ project }) {
           </svg>
           Photos
         </button>
+        )}
+        {hasPlans && (
         <button
           className={`${styles["media-tabs__btn"]} ${
             activeTab === "plans" ? styles["media-tabs__btn--active"] : ""
@@ -160,6 +171,8 @@ export default function ProjectMediaTabs({ project }) {
           </svg>
           Plans
         </button>
+        )}
+        {hasVideos && (
         <button
           className={`${styles["media-tabs__btn"]} ${
             activeTab === "videos" ? styles["media-tabs__btn--active"] : ""
@@ -195,6 +208,7 @@ export default function ProjectMediaTabs({ project }) {
           </svg>
           Videos
         </button>
+        )}
       </div>
 
       {/* Carousel Container */}
