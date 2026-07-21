@@ -214,7 +214,10 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
           </div>
 
           {/* Enquiry Form Sidebar */}
-          <ProjectEnquiryForm projectName={project.name} />
+          <ProjectEnquiryForm
+            projectName={project.name}
+            brochureUrl={project.brochure?.url}
+          />
         </section>
 
         {/* Description Section */}

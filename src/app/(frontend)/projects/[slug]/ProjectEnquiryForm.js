@@ -7,7 +7,7 @@ import { trackFormSubmission } from '@/lib/gtm/events'
 import FormSuccess from '@/app/(frontend)/components/form-success/FormSuccess'
 import styles from './ProjectEnquiryForm.module.scss'
 
-export default function ProjectEnquiryForm({ projectName }) {
+export default function ProjectEnquiryForm({ projectName, brochureUrl }) {
   const [formData, setFormData] = useState({
     name: '',
     mobile: '',
@@ -128,7 +128,9 @@ export default function ProjectEnquiryForm({ projectName }) {
   return (
     <aside className={styles['project-enquiry-form']}>
       {message?.type === 'success' ? (
-        <FormSuccess />
+        <FormSuccess
+          link={brochureUrl ? { url: brochureUrl, text: 'Download Brochure' } : undefined}
+        />
       ) : (
         <form className={styles['project-enquiry-form__form']} onSubmit={handleSubmit} noValidate>
           <div className={styles['project-enquiry-form__field']}>
