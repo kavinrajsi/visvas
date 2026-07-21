@@ -275,6 +275,10 @@ export interface Project {
   projectArea?: string | null;
   priceRangeStartFrom?: number | null;
   bhkTypes?: (number | BhkType)[] | null;
+  /**
+   * Optional downloadable brochure (PDF or any file).
+   */
+  brochure?: (number | null) | Media;
   description?: {
     root: {
       type: string;
@@ -304,10 +308,6 @@ export interface Project {
       }[]
     | null;
   videoUrl?: string | null;
-  /**
-   * Optional downloadable brochure (PDF or any file).
-   */
-  brochure?: (number | null) | Media;
   images?:
     | {
         image?: (number | null) | Media;
@@ -870,6 +870,7 @@ export interface ProjectsSelect<T extends boolean = true> {
   projectArea?: T;
   priceRangeStartFrom?: T;
   bhkTypes?: T;
+  brochure?: T;
   description?: T;
   amenities?: T;
   locationAddress?: T;
@@ -885,7 +886,6 @@ export interface ProjectsSelect<T extends boolean = true> {
         id?: T;
       };
   videoUrl?: T;
-  brochure?: T;
   images?:
     | T
     | {

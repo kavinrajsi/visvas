@@ -123,6 +123,15 @@ const Projects = {
               hasMany: true,
               label: 'Type of BHK',
             },
+            {
+              name: 'brochure',
+              type: 'upload',
+              relationTo: 'media',
+              label: 'Project Brochure',
+              admin: {
+                description: 'Optional downloadable brochure (PDF or any file).',
+              },
+            },
           ],
         },
         {
@@ -227,15 +236,6 @@ const Projects = {
               label: 'Video URL',
               admin: {
                 placeholder: 'e.g. https://www.youtube.com/watch?v=...',
-              },
-            },
-            {
-              name: 'brochure',
-              type: 'upload',
-              relationTo: 'media',
-              label: 'Project Brochure',
-              admin: {
-                description: 'Optional downloadable brochure (PDF or any file).',
               },
             },
             {
