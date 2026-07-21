@@ -271,14 +271,14 @@ export interface Project {
   coverImage?: (number | null) | Media;
   detailCoverImage?: (number | null) | Media;
   contentImage?: (number | null) | Media;
-  reraNo?: string | null;
-  projectArea?: string | null;
-  priceRangeStartFrom?: number | null;
-  bhkTypes?: (number | BhkType)[] | null;
   /**
    * Optional downloadable brochure (PDF or any file).
    */
   brochure?: (number | null) | Media;
+  reraNo?: string | null;
+  projectArea?: string | null;
+  priceRangeStartFrom?: number | null;
+  bhkTypes?: (number | BhkType)[] | null;
   description?: {
     root: {
       type: string;
@@ -866,11 +866,11 @@ export interface ProjectsSelect<T extends boolean = true> {
   coverImage?: T;
   detailCoverImage?: T;
   contentImage?: T;
+  brochure?: T;
   reraNo?: T;
   projectArea?: T;
   priceRangeStartFrom?: T;
   bhkTypes?: T;
-  brochure?: T;
   description?: T;
   amenities?: T;
   locationAddress?: T;
