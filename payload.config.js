@@ -37,6 +37,9 @@ if (process.env.R2_BUCKET_NAME && process.env.R2_ENDPOINT && process.env.R2_ACCE
   plugins.push(
     s3Storage({
       collections: { media: { prefix: 'project' } },
+      // Browser uploads straight to R2 via presigned URL, bypassing Vercel's
+      // ~4.5MB serverless request body cap (POST /api/media returned 413)
+      clientUploads: true,
       bucket: process.env.R2_BUCKET_NAME,
       config: {
         endpoint: process.env.R2_ENDPOINT,
