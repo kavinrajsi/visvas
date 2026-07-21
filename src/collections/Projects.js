@@ -226,9 +226,6 @@ const Projects = {
         },
         {
           label: 'Media',
-          admin: {
-            condition: () => false,
-          },
           fields: [
             {
               name: 'videoUrl',
