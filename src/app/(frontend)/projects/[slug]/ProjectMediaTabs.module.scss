@@ -34,12 +34,29 @@
 
     .media-tabs__carousel{
         display: flex;
+        justify-content: center;
         gap: 20px;
+    }
+
+    // Single-slide (video) view: keep the player inside the viewport on mobile.
+    .media-tabs__slide {
+        width: 100%;
+        max-width: 800px;
+    }
+
+    .media-tabs__video {
+        display: block;
+        width: 100%;
+        height: auto;
     }
 
     .media-tabs__grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        // Fixed-width tracks (not 1fr) so a partial last row or a small set
+        // stays centred instead of left-packed. min(280px, 100%) lets a single
+        // column shrink below 280px rather than overflow a narrow phone.
+        grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 320px));
+        justify-content: center;
         gap: 20px;
         margin-top: 20px;
     }
