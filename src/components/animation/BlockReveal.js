@@ -23,6 +23,7 @@ export default function BlockReveal({
   className = '',
   direction = 'right',
   duration = 0.9,
+  delay = 0,
   ease = 'power3.out',
   ...rest
 }) {
@@ -38,6 +39,7 @@ export default function BlockReveal({
         {
           clipPath: CLIP_TO,
           duration,
+          delay,
           ease,
           scrollTrigger: {
             trigger: containerRef.current,
@@ -47,7 +49,7 @@ export default function BlockReveal({
         }
       )
     },
-    { scope: containerRef, dependencies: [direction] }
+    { scope: containerRef, dependencies: [direction, delay] }
   )
 
   return (

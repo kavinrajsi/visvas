@@ -3,6 +3,7 @@ import { Suspense } from 'react'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import ProjectCard from '@/app/(frontend)/components/project-card/ProjectCard'
+import BlockReveal from '@/components/animation/BlockReveal'
 import ProjectFilters from '@/app/(frontend)/projects/ProjectFilters'
 import Pagination from '@/app/(frontend)/projects/Pagination'
 import ProjectPageClient from '@/app/(frontend)/projects/ProjectPageClient'
@@ -115,8 +116,10 @@ export default async function OngoingProjectsPage({ searchParams: searchParamsPr
       {projects.length > 0 ? (
         <>
           <div className={styles['page__grid']}>
-            {projects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
+            {projects.map((project, index) => (
+              <BlockReveal key={project.id} delay={(index % 4) * 0.08}>
+                <ProjectCard project={project} />
+              </BlockReveal>
             ))}
           </div>
 
