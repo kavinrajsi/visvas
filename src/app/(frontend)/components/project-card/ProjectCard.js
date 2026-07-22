@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import styles from "./ProjectCard.module.scss";
 import { toImageKitUrl } from "@/lib/image/imageKitUrl";
+import BlockReveal from "@/components/animation/BlockReveal";
 
 export default function ProjectCard({ project }) {
   const [imageError, setImageError] = useState(false);
@@ -30,14 +31,16 @@ export default function ProjectCard({ project }) {
   return (
     <Link href={`/projects/${project.slug}`} className={styles["project-card"]}>
       <div className={styles["project-card__image-wrap"]}>
-        <Image
-          src={displayImageUrl}
-          alt={projectName}
-          width={320}
-          height={414}
-          className={styles["project-card__image"]}
-          onError={() => setImageError(true)}
-        />
+        <BlockReveal>
+          <Image
+            src={displayImageUrl}
+            alt={projectName}
+            width={320}
+            height={414}
+            className={styles["project-card__image"]}
+            onError={() => setImageError(true)}
+          />
+        </BlockReveal>
         {statusLabel && (
           <span className={`${styles["project-card__badge"]} ${badgeClass}`}>
             {statusLabel}
