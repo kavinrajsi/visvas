@@ -8,14 +8,16 @@ import '@/lib/gsap/registerPlugins'
 
 // Where the reveal starts clipped from — the content unmasks toward the
 // opposite edge as it scrolls into view.
+// All four values carry the same unit so GSAP interpolates each number
+// instead of snapping (a mixed 0 / 100% list will not tween).
 const CLIP_FROM = {
-  right: 'inset(0 100% 0 0)', // unmasks left → right
-  left: 'inset(0 0 0 100%)', // unmasks right → left
-  down: 'inset(0 0 100% 0)', // unmasks top → bottom
-  up: 'inset(100% 0 0 0)', // unmasks bottom → top
+  right: 'inset(0% 100% 0% 0%)', // unmasks left → right
+  left: 'inset(0% 0% 0% 100%)', // unmasks right → left
+  down: 'inset(0% 0% 100% 0%)', // unmasks top → bottom
+  up: 'inset(100% 0% 0% 0%)', // unmasks bottom → top
 }
 
-const CLIP_TO = 'inset(0 0 0 0)'
+const CLIP_TO = 'inset(0% 0% 0% 0%)'
 
 export default function BlockReveal({
   children,
