@@ -218,6 +218,15 @@ input[type="search"]::-webkit-search-results-decoration {
   -webkit-appearance: none; /* Strips WebKit search field cancel 'x' */
 }
 
+/* The reset above strips appearance from every input, which erases the
+   check/tick on checkboxes and radios and disables accent-color. Restore
+   native rendering for these so they show a visible selected state. */
+input[type="checkbox"],
+input[type="radio"] {
+  -webkit-appearance: auto;
+  appearance: auto;
+}
+
 * {
   &,
   &:after,
