@@ -39,24 +39,26 @@ export default function ProjectStickyNav({ projectName, sections = ['about', 'am
 
   return (
     <nav className={styles['sticky-nav']}>
-      <div className={styles['sticky-nav__links']}>
-        {sections.map((id) => (
-          <button
-            key={id}
-            onClick={() => handleNavClick(id)}
-            className={`${styles['sticky-nav__link']} ${
-              activeSection === id ? styles['sticky-nav__link--active'] : ''
-            }`}
-          >
-            {id.charAt(0).toUpperCase() + id.slice(1)}
+      <div className={styles['sticky-nav__wrap']}>
+        <div className={styles['sticky-nav__links']}>
+          {sections.map((id) => (
+            <button
+              key={id}
+              onClick={() => handleNavClick(id)}
+              className={`${styles['sticky-nav__link']} ${
+                activeSection === id ? styles['sticky-nav__link--active'] : ''
+              }`}
+            >
+              {id.charAt(0).toUpperCase() + id.slice(1)}
+            </button>
+          ))}
+        </div>
+        <div className={styles['sticky-nav__actions']}>
+          <button className={styles['sticky-nav__link']} onClick={() => openEnquiryModal(projectName)}>
+            Enquire
           </button>
-        ))}
-      </div>
-      <div className={styles['sticky-nav__actions']}>
-        <button className={styles['sticky-nav__link']} onClick={() => openEnquiryModal(projectName)}>
-          Enquire
-        </button>
-        <button className={styles['sticky-nav__link']}>Chat</button>
+          <button className={styles['sticky-nav__link']}>Chat</button>
+        </div>
       </div>
     </nav>
   )
