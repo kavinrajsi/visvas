@@ -1,6 +1,7 @@
-// IPs blocked from the site and its forms (largely Tor exit nodes / known abuse
-// sources). Single source of truth so the list is easy to edit or move to an
-// env var later.
+import { isTorExitNode } from './torExitNodes.js'
+
+// Hand-curated IPs blocked from the site and its forms. Edit freely — the
+// generated Tor list lives in torExitNodes.js and is checked separately.
 const BLOCKED_IPS = new Set([
   '5.45.102.93',
   '5.255.115.58',
@@ -71,6 +72,9 @@ export function getClientIp(headers) {
   return headers.get('cf-connecting-ip') || headers.get('x-real-ip') || ''
 }
 
+// The curated list above plus the generated Tor exit-node snapshot. The two are
+// kept in separate files so regenerating Tor never clobbers the curated IPs.
 export function isBlockedIp(ip) {
-  return BLOCKED_IPS.has(ip)
+  if (!ip) return false
+  return BLOCKED_IPS.has(ip) || isTorExitNode(ip)
 }
