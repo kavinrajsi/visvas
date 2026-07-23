@@ -62,6 +62,8 @@ Next.js 16 (App Router, Turbopack, React Compiler) + React 19, Payload CMS 3.85.
 | `ZOHO_WEBTOLEAD_ACTION_TYPE` | | Zoho actionType token (default `TGVhZHM=`) |
 | `ZOHO_WEBTOLEAD_RETURN_URL` | | Zoho returnURL (default site URL) |
 | `NEXT_PUBLIC_SITE_URL` | | Public site URL (canonical, sitemap, robots) |
+| `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` | | reCAPTCHA v3 site key (client; forms skip check if absent) |
+| `RECAPTCHA_SECRET_KEY` | | reCAPTCHA v3 secret (server verify; forms skip check if absent) |
 | `NEXT_PUBLIC_GADS_ID` | | Google Ads conversion tracking |
 | `NEXT_PUBLIC_BUSINESS_EMAIL` | | Footer/contact display |
 | `NEXT_PUBLIC_BUSINESS_PHONE` | | Footer/contact display |
