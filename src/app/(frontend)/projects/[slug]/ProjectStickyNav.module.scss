@@ -44,8 +44,12 @@
         }
     }
     .sticky-nav__actions {
-        display: inline-flex;
+        // Enquire / Chat hidden on mobile; shown from tablet up.
+        display: none;
         gap: 24px;
+        @media (min-width: 768px) {
+            display: inline-flex;
+        }
         .sticky-nav__link {
             font-family: "Raleway";
             font-style: normal;
