@@ -78,7 +78,7 @@ const nextConfig = {
       { source: '/author/:slug*', destination: '/', permanent: true },
       { source: '/authors/:slug*', destination: '/', permanent: true },
       // Houzez taxonomy archives
-      { source: '/projects-type/:slug*', destination: '/projects/ongoing', permanent: true },
+      // { source: '/projects-type/:slug*', destination: '/projects/ongoing', permanent: true },
       { source: '/status/:slug*', destination: '/projects/ongoing', permanent: true },
       { source: '/feature/:slug*', destination: '/projects/ongoing', permanent: true },
       { source: '/label/:slug*', destination: '/projects/ongoing', permanent: true },
