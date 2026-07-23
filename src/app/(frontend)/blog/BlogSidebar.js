@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { getAttributionData } from '@/lib/analytics/attribution'
+import { getRecaptchaToken } from '@/lib/security/recaptchaClient'
 import { HONEYPOT_FIELD } from '@/lib/security/honeypot'
 import { trackFormSubmission } from '@/lib/gtm/events'
 import FormSuccess from '@/app/(frontend)/components/form-success/FormSuccess'
@@ -65,6 +66,7 @@ export default function BlogSidebar() {
 
     try {
       const attribution = getAttributionData()
+      const recaptchaToken = await getRecaptchaToken('newsletter')
       const response = await fetch('/api/forms/submit', {
         method: 'POST',
         headers: {
@@ -74,6 +76,7 @@ export default function BlogSidebar() {
           formType: 'newsletter',
           formData,
           attribution,
+          recaptchaToken,
         }),
       })
 

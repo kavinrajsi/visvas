@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { trackFormSubmission } from '@/lib/gtm/events'
 import { getAttributionData } from '@/lib/analytics/attribution'
+import { getRecaptchaToken } from '@/lib/security/recaptchaClient'
 import { HONEYPOT_FIELD } from '@/lib/security/honeypot'
 import FormSuccess from '@/app/(frontend)/components/form-success/FormSuccess'
 import styles from './EnquiryModal.module.scss'
@@ -120,6 +121,7 @@ export default function EnquiryModal({ isOpen, projectName, onClose }) {
     setLoading(true)
 
     try {
+      const recaptchaToken = await getRecaptchaToken('enquiry')
       const response = await fetch('/api/forms/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -127,6 +129,7 @@ export default function EnquiryModal({ isOpen, projectName, onClose }) {
           formType: 'enquiry',
           formData,
           attribution: getAttributionData(),
+          recaptchaToken,
         }),
       })
 

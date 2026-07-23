@@ -1,13 +1,14 @@
 import { submitForm, validateFormData } from '@/lib/forms/submitForm'
 import { RateLimiter } from '@/lib/security/rateLimiter'
 import { isHoneypotTriggered, HONEYPOT_FIELD } from '@/lib/security/honeypot'
+import { verifyRecaptcha } from '@/lib/security/recaptcha'
 
 const rateLimiter = new RateLimiter({ windowMs: 60000, maxRequests: 5 })
 
 export async function POST(request) {
   try {
     const body = await request.json()
-    const { formType, formData, attribution } = body
+    const { formType, formData, attribution, recaptchaToken } = body
 
     if (!formType || !formData) {
       return Response.json(
@@ -26,6 +27,24 @@ export async function POST(request) {
       return Response.json(
         { success: false, error: 'Too many requests. Please try again later.' },
         { status: 429, headers: { 'Retry-After': '60' } }
+      )
+    }
+
+    // reCAPTCHA v3 (skipped when RECAPTCHA_SECRET_KEY is not set)
+    const recaptcha = await verifyRecaptcha(recaptchaToken, {
+      ip: clientIp,
+      expectedAction: formType,
+    })
+    if (!recaptcha.ok) {
+      console.log('[reCAPTCHA] rejected', {
+        formType,
+        ip: clientIp,
+        reason: recaptcha.reason,
+        score: recaptcha.score,
+      })
+      return Response.json(
+        { success: false, error: 'reCAPTCHA verification failed. Please try again.' },
+        { status: 400 }
       )
     }
 
