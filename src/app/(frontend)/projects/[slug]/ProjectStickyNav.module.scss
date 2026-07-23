@@ -2,6 +2,7 @@
 .sticky-nav {
     background: #ffffff;
     display: flex;
+    flex-wrap: wrap;
     padding: 24px 20px;
     .sticky-nav__links {
         max-width: 1440px;
