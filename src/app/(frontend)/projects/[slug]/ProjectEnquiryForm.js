@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { getAttributionData } from '@/lib/analytics/attribution'
+import { getRecaptchaToken } from '@/lib/security/recaptchaClient'
 import { HONEYPOT_FIELD } from '@/lib/security/honeypot'
 import { trackFormSubmission } from '@/lib/gtm/events'
 import FormSuccess from '@/app/(frontend)/components/form-success/FormSuccess'
@@ -85,6 +86,7 @@ export default function ProjectEnquiryForm({ projectName, brochureUrl }) {
     setLoading(true)
 
     try {
+      const recaptchaToken = await getRecaptchaToken('enquiry')
       const response = await fetch('/api/forms/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -92,6 +94,7 @@ export default function ProjectEnquiryForm({ projectName, brochureUrl }) {
           formType: 'enquiry',
           formData,
           attribution: getAttributionData(),
+          recaptchaToken,
         }),
       })
 

@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { getAttributionData } from '@/lib/analytics/attribution'
+import { getRecaptchaToken } from '@/lib/security/recaptchaClient'
 import { HONEYPOT_FIELD } from '@/lib/security/honeypot'
 import { trackFormSubmission } from '@/lib/gtm/events'
 import FormSuccess from '@/app/(frontend)/components/form-success/FormSuccess'
@@ -97,6 +98,7 @@ export default function ContactForm({ heading = 'Contact Form', disclaimer = '',
 
     try {
       const attribution = getAttributionData()
+      const recaptchaToken = await getRecaptchaToken('contact')
       const response = await fetch('/api/forms/submit', {
         method: 'POST',
         headers: {
@@ -106,6 +108,7 @@ export default function ContactForm({ heading = 'Contact Form', disclaimer = '',
           formType: 'contact',
           formData,
           attribution,
+          recaptchaToken,
         }),
       })
 
