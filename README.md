@@ -249,6 +249,33 @@ All storage backends fail gracefully if env vars absent (e.g., no Google Sheets 
 - **API write:** Disabled (`create: () => false`) — submissions only via form API, never direct REST
 - **Purpose:** Prevent tampering; all writes flow through validation/rate-limiting
 
+### IP Blocking (curated list + Tor)
+
+Middleware checks the visitor IP (`cf-connecting-ip`, then `x-real-ip`) and, when
+blocked, rewrites page requests to a neutral `/blocked` page and returns 403 for
+`/api` requests. Non-blocked traffic passes straight through.
+
+- **Curated IPs:** `src/lib/security/blockedIps.js` — hand-maintained, edit freely
+- **Tor exit nodes:** `src/lib/security/torExitNodes.js` — **generated, do not edit**
+- **Middleware:** `src/middleware.js`
+
+**Refreshing the Tor list.** It is a committed snapshot (not fetched at build or
+per request), so it goes stale as exit nodes rotate. Re-run periodically:
+
+```bash
+node scripts/update-tor-exit-nodes.js
+```
+
+> **TODO — retire this list if we add the Cloudflare WAF rule.**
+> Cloudflare tags Tor traffic as pseudo-country `T1`, so a single WAF rule
+> (`ip.src.country eq "T1"` → Block) covers every exit node automatically at the
+> edge, with no snapshot to refresh. If that rule is added, delete
+> `torExitNodes.js`, `scripts/update-tor-exit-nodes.js`, and its check in
+> `blockedIps.js` rather than maintaining both.
+
+Note this blocks **all** Tor users, not only spammers, and IP blocks are evadable
+via VPN. The `/blocked` wording is deliberately neutral for that reason.
+
 ## Styling
 
 - **Approach:** SCSS Modules only (no Tailwind, no CSS-in-JS)
