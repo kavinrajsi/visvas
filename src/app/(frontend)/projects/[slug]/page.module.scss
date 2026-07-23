@@ -47,8 +47,16 @@
     display: grid;
     gap: 20px;
     grid-template-columns: 1fr;
+    // Mobile-first: the enquiry form (the <aside>) sits above the content.
+    & > aside {
+        order: -1;
+    }
     @media (min-width: 768px) {
         grid-template-columns: 1fr 1fr;
+        // From tablet up, restore source order (content left, form right).
+        & > aside {
+            order: 0;
+        }
     }
     @media (min-width: 992px) {
         grid-template-columns: 1fr 432px;
@@ -226,7 +234,11 @@
         }
     }
     .project-detail__amenity-card {
-        padding: 24px;
+        // Mobile: no horizontal padding; tablet up: even 24px.
+        padding: 24px 0;
+        @media (min-width: 768px) {
+            padding: 24px;
+        }
         background-color: #ffffff;
         text-align: center;
         .project-detail__amenity-icon {
