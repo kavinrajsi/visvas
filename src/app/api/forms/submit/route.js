@@ -2,7 +2,6 @@ import { submitForm, validateFormData } from '@/lib/forms/submitForm'
 import { RateLimiter } from '@/lib/security/rateLimiter'
 import { isHoneypotTriggered, HONEYPOT_FIELD } from '@/lib/security/honeypot'
 import { verifyRecaptcha } from '@/lib/security/recaptcha'
-import { looksLikeSpamName } from '@/lib/security/spamName'
 
 const rateLimiter = new RateLimiter({ windowMs: 60000, maxRequests: 5 })
 
@@ -47,13 +46,6 @@ export async function POST(request) {
         { success: false, error: 'reCAPTCHA verification failed. Please try again.' },
         { status: 400 }
       )
-    }
-
-    // Silently drop gibberish-name spam: respond as success but process
-    // nothing, so bots believe it worked and do not retry.
-    if (looksLikeSpamName(formData.name)) {
-      console.log('[SPAM NAME] discarded', { formType, ip: clientIp, name: formData.name })
-      return Response.json({ success: true, message: 'Form submitted successfully' })
     }
 
     // Validate form data
