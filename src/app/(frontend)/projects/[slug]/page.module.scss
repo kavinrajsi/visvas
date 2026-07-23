@@ -114,7 +114,11 @@
             padding-bottom: 24px;
             display: grid;
             gap: 24px;
-            grid-template-columns: repeat(3, 1fr);
+            // Mobile: two columns; three across from tablet up.
+            grid-template-columns: repeat(2, 1fr);
+            @media (min-width: 768px) {
+                grid-template-columns: repeat(3, 1fr);
+            }
             .project-detail__fact {
                 .project-detail__fact-label {
                     /* Desktop/B2 */
@@ -144,6 +148,7 @@
 
                     /* Neutral/text-2 */
                     color: #303030;
+                    word-break: break-word;
                 }
             }
         }
@@ -155,7 +160,13 @@
                 // @include interpolate("width", 568px, 354px, 1200px, 888px);
                 // @include interpolate("height", 568px, 388px, 1200px, 688px);
                 width: 100%;
-                height: auto;
+                // Mobile: fixed 388px, cropped. Tablet up: natural ratio.
+                height: 388px;
+                object-fit: cover;
+                @media (min-width: 768px) {
+                    height: auto;
+                    object-fit: initial;
+                }
             }
         }
     }
@@ -289,6 +300,11 @@
         .project-detail__location-card {
             .project-detail__address-blockWrapper {
                 display: flex;
+                // Stack on mobile and tablet; side by side from desktop up.
+                flex-direction: column;
+                @media (min-width: 992px) {
+                    flex-direction: row;
+                }
                 border-bottom: 1px solid #e0e0e0;
                 padding-bottom: 24px;
                 margin-bottom: 24px;
