@@ -22,23 +22,6 @@ export const wordpressSpecificRedirects = [
 
   // Projects (old /projects/:old-slug → /projects/:new-slug)
   { source: '/projects', destination: '/projects/ongoing', permanent: true },
-  { source: '/projects/madhyapuri-3-bhk-apartments-for-sale-in-madurai', destination: '/projects/madhyapuri', permanent: true },
-  { source: '/projects/ajita-thuvarimaan', destination: '/projects/ajita', permanent: true },
-  { source: '/projects/vidhatri-ponmeni', destination: '/projects/vidhatri', permanent: true },
-  { source: '/projects/aparna-1-bhk-apartment-thuvarimaan-madurai', destination: '/projects/aparna---1bhk', permanent: true },
-  { source: '/projects/aparna-2-bhk-apartments-for-sale-in-madurai', destination: '/projects/aparna---2bhk', permanent: true },
-  { source: '/projects/aparna-studio-apartments-for-sale-in-madurai', destination: '/projects/aparna---1bhk', permanent: true },
-  { source: '/projects/virat-2bhk-apartments-vilangudi-madurai', destination: '/projects/virat', permanent: true },
-  { source: '/projects/virat-3bhk-apartments-vilangudi-madurai', destination: '/projects/virat', permanent: true },
-  { source: '/projects/supraja-ready-for-possession', destination: '/projects/supraja', permanent: true },
-  { source: '/projects/supraja-villa-1-5-bhk', destination: '/projects/supraja', permanent: true },
-  { source: '/projects/vibhava-h-block-apartments-for-sale-in-ponmeni', destination: '/projects/vibhava', permanent: true },
-  { source: '/projects/ajita-premium-3-bhk-villa-for-sale-in-madurai', destination: '/projects/ajita-phase-ii', permanent: true },
-  { source: '/projects/ajita-premium-4-bhk-villa-for-sale-in-madurai', destination: '/projects/ajita-phase-i-extension---b-block', permanent: true },
-  { source: '/projects/agrini-enclave-ready-to-move', destination: '/projects/agrini', permanent: true },
-  { source: '/projects/vajra-ready-to-live-apartments-madurai', destination: '/projects/vajra', permanent: true },
-  { source: '/projects/aprameya-2-bhk-villa-for-sale-in-madurai', destination: '/projects/aprameya', permanent: true },
-  { source: '/projects/visvas-vasudhara-ready-to-move-villas-and-flats', destination: '/projects/vasudhara', permanent: true },
 
   // Static/legal/portal pages
   { source: '/contact-1-best-property-developer-in-madurai', destination: '/contact', permanent: true },
