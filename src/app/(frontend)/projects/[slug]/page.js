@@ -788,35 +788,42 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
         )}
 
         {/* JSON-LD Schemas */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "RealEstateListing",
-              name: project.name,
-              description: project.name,
-              address: {
-                "@type": "PostalAddress",
-                streetAddress: project.locationAddress || project.location,
-                addressLocality: "Madurai",
-                addressRegion: "Tamil Nadu",
-                addressCountry: "IN",
-              },
-              image: project.coverImage?.url || undefined,
-              offers: {
-                "@type": "Offer",
-                price: project.priceRangeStartFrom || undefined,
-                priceCurrency: "INR",
-              },
-              geo: {
-                "@type": "GeoCoordinates",
-                latitude: "9.9252",
-                longitude: "78.1198",
-              },
-            }),
-          }}
-        />
+        {/* Fallback RealEstateListing — skipped when the project carries its own
+            structuredData, so the page never emits two competing listing blobs. */}
+        {!project.structuredData && (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "RealEstateListing",
+                name: project.name,
+                description: project.metaDescription || project.name,
+                address: {
+                  "@type": "PostalAddress",
+                  streetAddress: project.locationAddress || project.location,
+                  addressLocality: "Madurai",
+                  addressRegion: "Tamil Nadu",
+                  addressCountry: "IN",
+                },
+                image: project.coverImage?.url || undefined,
+                offers: {
+                  "@type": "Offer",
+                  price: project.priceRangeStartFrom || undefined,
+                  priceCurrency: "INR",
+                },
+                geo:
+                  project.latitude && project.longitude
+                    ? {
+                        "@type": "GeoCoordinates",
+                        latitude: project.latitude,
+                        longitude: project.longitude,
+                      }
+                    : undefined,
+              }),
+            }}
+          />
+        )}
 
         {faqs.length > 0 && (
           <script
