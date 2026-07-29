@@ -14,6 +14,10 @@
  * has NOT been reviewed by a lawyer. Read every paragraph and get client/legal
  * sign-off before running this against a database that serves visvas.in. Items
  * that certainly need real values are marked [CONFIRM] in the text.
+ *
+ * Note: the grievance officer block names the company rather than an individual.
+ * Rule 5(9) of the IT (Reasonable Security Practices) Rules, 2011 expects a named
+ * officer, so add one when you have it.
  */
 
 import { getPayload } from 'payload'
@@ -89,7 +93,6 @@ To exercise any of these, write to us at ${EMAIL}. We will respond within the ti
 
 If you are not satisfied with how we have handled your data or your request, you may contact our Grievance Officer:
 
-[CONFIRM: Name]
 ${COMPANY}
 ${ADDRESS}
 Email: ${EMAIL}
