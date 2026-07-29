@@ -79,6 +79,14 @@ const Projects = {
               filterOptions: {
                 mimeType: { contains: 'image' },
               },
+              admin: {
+                components: {
+                  Label: {
+                    path: '@/components/admin/DimensionLabel',
+                    clientProps: { dimensions: '320×414' },
+                  },
+                },
+              },
             },
             {
               name: 'detailCoverImage',
@@ -87,6 +95,14 @@ const Projects = {
               label: 'Project Cover Image',
               filterOptions: {
                 mimeType: { contains: 'image' },
+              },
+              admin: {
+                components: {
+                  Label: {
+                    path: '@/components/admin/DimensionLabel',
+                    clientProps: { dimensions: '1440×454' },
+                  },
+                },
               },
             },
             {
