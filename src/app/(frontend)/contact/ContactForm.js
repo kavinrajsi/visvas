@@ -1,12 +1,37 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { getAttributionData } from '@/lib/analytics/attribution'
 import { getRecaptchaToken } from '@/lib/security/recaptchaClient'
 import { HONEYPOT_FIELD } from '@/lib/security/honeypot'
 import { trackFormSubmission } from '@/lib/gtm/events'
 import FormSuccess from '@/app/(frontend)/components/form-success/FormSuccess'
 import styles from './ContactForm.module.scss'
+
+// The disclaimer copy is authored in the CMS (contact-page global), so we can't
+// hardcode the markup. Instead, linkify the two policy names wherever they appear
+// in whatever string the editor has saved.
+const POLICY_LINKS = [
+  { match: 'Terms and Conditions', href: '/terms-and-conditions' },
+  { match: 'Privacy Policy', href: '/privacy-policy' },
+]
+
+const POLICY_PATTERN = new RegExp(`(${POLICY_LINKS.map((p) => p.match).join('|')})`, 'g')
+
+function linkifyPolicies(text) {
+  if (!text) return null
+
+  return text.split(POLICY_PATTERN).map((part, index) => {
+    const link = POLICY_LINKS.find((p) => p.match === part)
+    if (!link) return part
+    return (
+      <Link key={`${link.href}-${index}`} href={link.href} target="_blank">
+        {part}
+      </Link>
+    )
+  })
+}
 
 export default function ContactForm({ heading = 'Contact Form', disclaimer = '', successMessage = {} }) {
   const [formData, setFormData] = useState({
@@ -304,7 +329,7 @@ export default function ContactForm({ heading = 'Contact Form', disclaimer = '',
         )}
 
         <p className={styles['contact-form__disclaimer']}>
-          {disclaimer}
+          {linkifyPolicies(disclaimer)}
         </p>
 
         <button type="submit" className={styles['contact-form__btn']} disabled={loading}>

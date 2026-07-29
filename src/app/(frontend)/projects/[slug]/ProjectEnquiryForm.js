@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { getAttributionData } from '@/lib/analytics/attribution'
 import { getRecaptchaToken } from '@/lib/security/recaptchaClient'
 import { HONEYPOT_FIELD } from '@/lib/security/honeypot'
@@ -215,7 +216,9 @@ export default function ProjectEnquiryForm({ projectName, brochureUrl }) {
           </div>
 
           <p className={styles['project-enquiry-form__disclaimer']}>
-            By submitting this form you agree to the Terms and Conditions and Privacy Policy
+            By submitting this form you agree to the{' '}
+            <Link href="/terms-and-conditions" target="_blank">Terms and Conditions</Link> and{' '}
+            <Link href="/privacy-policy" target="_blank">Privacy Policy</Link>
           </p>
 
           <input

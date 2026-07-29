@@ -65,6 +65,24 @@ export default async function sitemap() {
         })
       }
     })
+
+    // Fetch all policies (privacy policy, terms, disclaimer, cookie policy)
+    const policiesResult = await payload.find({
+      collection: 'policies',
+      limit: 100,
+      select: { slug: true, lastUpdated: true, updatedAt: true },
+    })
+
+    policiesResult.docs.forEach((policy) => {
+      if (policy.slug) {
+        urls.push({
+          url: `${baseUrl}/${policy.slug}`,
+          lastModified: policy.lastUpdated || policy.updatedAt || new Date(),
+          changeFrequency: 'yearly',
+          priority: 0.3,
+        })
+      }
+    })
   } catch (error) {
     console.error('[SITEMAP] Error fetching content:', error)
   }

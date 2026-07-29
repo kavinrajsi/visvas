@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import Link from 'next/link'
 import { trackFormSubmission } from '@/lib/gtm/events'
 import { getAttributionData } from '@/lib/analytics/attribution'
 import { getRecaptchaToken } from '@/lib/security/recaptchaClient'
@@ -288,7 +289,9 @@ export default function EnquiryModal({ isOpen, projectName, onClose }) {
           </div>
 
           <p className={styles['enquiry-modal__disclaimer']}>
-            By submitting this form you agree to the Terms and Conditions and Privacy Policy
+            By submitting this form you agree to the{' '}
+            <Link href="/terms-and-conditions" target="_blank">Terms and Conditions</Link> and{' '}
+            <Link href="/privacy-policy" target="_blank">Privacy Policy</Link>
           </p>
 
           <input type="text" name={HONEYPOT_FIELD} value={formData[HONEYPOT_FIELD]} onChange={handleChange} style={{ display: 'none' }} tabIndex="-1" autoComplete="off" />

@@ -1,0 +1,41 @@
+.policy {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 80px 16px 120px;
+
+  @media (min-width: 768px) {
+    padding: 120px 20px 120px;
+  }
+}
+
+.policy__header {
+  padding-bottom: 32px;
+  margin-bottom: 32px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.policy__title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 42px;
+  color: var(--color-heading);
+
+  @media (min-width: 768px) {
+    font-size: 48px;
+    line-height: 56px;
+  }
+}
+
+.policy__date {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-sub);
+  margin-top: 12px;
+}
+
+.policy__content {
+  padding-bottom: 40px;
+}
