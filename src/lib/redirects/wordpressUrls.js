@@ -33,8 +33,11 @@ export const wordpressSpecificRedirects = [
   { source: '/insights', destination: '/blog', permanent: true },
   { source: '/faq-visvas-promoters-1-best-builder-in-madurai', destination: '/', permanent: true },
   { source: '/services', destination: '/', permanent: true },
-  { source: '/privacy', destination: '/', permanent: true },
-  { source: '/terms-and-conditions', destination: '/', permanent: true },
+  // NOTE: /privacy and /terms-and-conditions used to redirect to '/'. They are now
+  // served by the Policies collection via src/app/(frontend)/[slug]/page.js, so the
+  // redirects were removed — config redirects run before filesystem routes and would
+  // shadow the real pages. /privacy points at the canonical /privacy-policy slug.
+  { source: '/privacy', destination: '/privacy-policy', permanent: true },
 
   // Houzez portal/account pages
   { source: '/my-profile', destination: '/', permanent: true },
