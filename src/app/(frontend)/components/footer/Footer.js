@@ -175,28 +175,11 @@ async function getTestimonials() {
   }
 }
 
-async function getPolicies() {
-  try {
-    const payload = await getPayload({ config });
-    const result = await payload.find({
-      collection: "policies",
-      limit: 100,
-      sort: "title",
-      depth: 0,
-      select: { title: true, slug: true },
-    });
-    return result.docs.filter((p) => p.slug);
-  } catch {
-    return [];
-  }
-}
-
 export default async function Footer() {
-  const [projects, contactDetails, testimonials, policies] = await Promise.all([
+  const [projects, contactDetails, testimonials] = await Promise.all([
     getRecentProjects(),
     getContactDetails(),
     getTestimonials(),
-    getPolicies(),
   ]);
 
   const phone =
@@ -342,26 +325,6 @@ export default async function Footer() {
             </div>
           </div>
         </div>
-
-        {policies.length > 0 && (
-          <nav
-            className={styles["footer__legal"]}
-            aria-label="Legal and policy links"
-          >
-            <ul className={styles["footer__legal-list"]}>
-              {policies.map((policy) => (
-                <li key={policy.id} className={styles["footer__legal-item"]}>
-                  <Link
-                    href={`/${policy.slug}`}
-                    className={styles["footer__legal-link"]}
-                  >
-                    {policy.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        )}
 
         <div className={styles["footer__bottom"]}>
           <p className={styles["footer__copyright"]}>
