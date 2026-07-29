@@ -79,6 +79,9 @@ const Projects = {
               filterOptions: {
                 mimeType: { contains: 'image' },
               },
+              admin: {
+                description: 'Recommended size: 320×414px.',
+              },
             },
             {
               name: 'detailCoverImage',
@@ -87,6 +90,9 @@ const Projects = {
               label: 'Project Cover Image',
               filterOptions: {
                 mimeType: { contains: 'image' },
+              },
+              admin: {
+                description: 'Recommended size: 1440×454px.',
               },
             },
             {
