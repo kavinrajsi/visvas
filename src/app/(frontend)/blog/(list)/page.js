@@ -3,7 +3,7 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 import Link from "next/link";
 import { toImageKitUrl } from "@/lib/image/imageKitUrl";
-import BlogSidebar from "./BlogSidebar";
+import BlogSidebar from "../BlogSidebar";
 import Pagination from "@/app/(frontend)/projects/Pagination";
 import styles from "./page.module.scss";
 

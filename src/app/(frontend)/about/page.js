@@ -13,15 +13,32 @@ export async function generateMetadata() {
   const data = await payload.findGlobal({ slug: "about-page", depth: 0 });
 
   const seo = data?.seo || {};
+  const metaTitle = seo.metaTitle || "About | Visvas";
+  // `openGraph.image` (singular) is not a valid Metadata key and is silently dropped
+  const ogImageUrl = seo.ogImage?.url || "/og-image.png";
+
   return {
-    title: seo.metaTitle || "About | Visvas",
+    title: metaTitle,
     description:
       seo.metaDescription ||
       "Learn about Visvas and our mission to build luxury properties in Madurai.",
     openGraph: {
-      title: seo.ogTitle || "About | Visvas",
+      title: seo.ogTitle || metaTitle,
       description: seo.ogDescription || "Learn about Visvas and our mission.",
-      image: seo.ogImage?.url || undefined,
+      type: "website",
+      images: [{ url: ogImageUrl, width: 1200, height: 630, alt: metaTitle }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: seo.twitterTitle || seo.ogTitle || metaTitle,
+      description:
+        seo.twitterDescription ||
+        seo.ogDescription ||
+        "Learn about Visvas and our mission.",
+      images: [ogImageUrl],
+    },
+    alternates: {
+      canonical: "/about",
     },
   };
 }

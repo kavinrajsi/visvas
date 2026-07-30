@@ -23,17 +23,26 @@ export async function generateMetadata() {
   const metaTitle = seo.metaTitle || 'Visvas - Luxury Properties in Madurai'
   const metaDesc = seo.metaDescription || 'Discover luxury apartments, villas, and plotted developments in Madurai. Investment-ready properties with premium amenities.'
 
+  // `openGraph.image` (singular) is not a valid Metadata key and is silently dropped
+  const ogImageUrl = seo.ogImage?.url ? toImageKitUrl(seo.ogImage.url) : '/og-image.png'
+
   return {
     title: metaTitle,
     description: metaDesc,
     openGraph: {
       title: seo.ogTitle || metaTitle,
       description: seo.ogDescription || metaDesc,
-      image: toImageKitUrl(seo.ogImage?.url) || undefined,
+      type: 'website',
+      images: [{ url: ogImageUrl, width: 1200, height: 630, alt: metaTitle }],
     },
     twitter: {
+      card: 'summary_large_image',
       title: seo.twitterTitle || seo.ogTitle || metaTitle,
       description: seo.twitterDescription || seo.ogDescription || metaDesc,
+      images: [ogImageUrl],
+    },
+    alternates: {
+      canonical: '/',
     },
   }
   } catch {

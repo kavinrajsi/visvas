@@ -68,12 +68,15 @@ export async function POST(request) {
     // Strip honeypot before echoing fields back to the browser
     const { [HONEYPOT_FIELD]: _honeypot, ...safeFields } = formData
 
-    // Submit form
+    // Submit form.
+    // On a honeypot hit the Payload row is still written (audit trail) but every
+    // outbound destination is skipped, so spam never reaches the CRM or an inbox.
     const result = await submitForm(formType, formData, {
-      sendAdminEmail: true,
-      sendUserEmail: true,
-      storeInSheets: true,
+      sendAdminEmail: !isSpam,
+      sendUserEmail: !isSpam,
+      storeInSheets: !isSpam,
       storeInPayload: true,
+      storeInZoho: !isSpam,
       metadata: {
         ip: clientIp,
         userAgent: request.headers.get('user-agent'),
@@ -83,25 +86,36 @@ export async function POST(request) {
       },
     })
 
+    // `result.success` means the lead was durably stored. Secondary destinations
+    // (Sheets/Zoho/email) may still have failed — surfaced as `degraded` and
+    // recorded in form-submission-logs, but never shown to the user as a failure.
     if (result.success) {
+      if (result.degraded) {
+        console.error('[FORM SUBMIT] lead saved with destination failures', {
+          formType,
+          id: result.payload?.id,
+          errors: result.errors,
+        })
+      }
       return Response.json({
         success: true,
         message: 'Form submitted successfully',
         id: result.payload?.id,
+        degraded: result.degraded,
         fields: safeFields,
         destinations: result.destinations,
       })
-    } else {
-      return Response.json(
-        {
-          success: false,
-          error: 'Form submission failed',
-          fields: safeFields,
-          destinations: result.destinations,
-        },
-        { status: 500 }
-      )
     }
+
+    return Response.json(
+      {
+        success: false,
+        error: 'Form submission failed',
+        fields: safeFields,
+        destinations: result.destinations,
+      },
+      { status: 500 }
+    )
   } catch (error) {
     console.error('[API] Form submission error:', error.message)
     return Response.json(

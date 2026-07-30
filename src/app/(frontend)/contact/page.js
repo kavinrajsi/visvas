@@ -14,15 +14,32 @@ export async function generateMetadata() {
 
   const seo = data?.seo || {};
 
+  const metaTitle = seo.metaTitle || "Contact | Visvas";
+  // `openGraph.image` (singular) is not a valid Metadata key and is silently dropped
+  const ogImageUrl = seo.ogImage?.url || "/og-image.png";
+
   return {
-    title: seo.metaTitle || "Contact | Visvas",
+    title: metaTitle,
     description:
       seo.metaDescription ||
       "Get in touch with Visvas. We would love to hear from you.",
     openGraph: {
-      title: seo.ogTitle || "Contact | Visvas",
+      title: seo.ogTitle || metaTitle,
       description: seo.ogDescription || "Get in touch with Visvas.",
-      image: seo.ogImage?.url || undefined,
+      type: "website",
+      images: [{ url: ogImageUrl, width: 1200, height: 630, alt: metaTitle }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: seo.twitterTitle || seo.ogTitle || metaTitle,
+      description:
+        seo.twitterDescription ||
+        seo.ogDescription ||
+        "Get in touch with Visvas.",
+      images: [ogImageUrl],
+    },
+    alternates: {
+      canonical: "/contact",
     },
   };
 }

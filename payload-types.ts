@@ -268,7 +268,13 @@ export interface Project {
    * Lower numbers appear first. Ties fall back to newest.
    */
   displayOrder?: number | null;
+  /**
+   * Recommended size: 320×414px.
+   */
   coverImage?: (number | null) | Media;
+  /**
+   * Recommended size: 1440×454px.
+   */
   detailCoverImage?: (number | null) | Media;
   contentImage?: (number | null) | Media;
   /**

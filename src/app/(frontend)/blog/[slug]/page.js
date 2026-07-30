@@ -8,7 +8,9 @@ import BlogSidebar from "@/app/(frontend)/blog/BlogSidebar";
 import styles from "./page.module.scss";
 import "@/app/(frontend)/blog/[slug]/blog-content.scss";
 
-export const dynamicParams = false;
+// true so a post published after the last build renders on demand instead of 404ing
+// until the next deploy (matches projects/[slug] and [slug])
+export const dynamicParams = true;
 export const revalidate = 3600;
 
 function formatDate(dateStr) {
@@ -56,6 +58,8 @@ export async function generateMetadata({ params }) {
 
     const metaTitle = post.metaTitle || post.title;
     const metaDesc = post.metaDescription || post.excerpt;
+    const ogSource = post.ogImage?.url || post.coverImage?.url;
+    const ogImageUrl = ogSource ? toImageKitUrl(ogSource) : "/og-image.png";
 
     return {
       title: `${metaTitle} | Visvas Blog`,
@@ -63,13 +67,7 @@ export async function generateMetadata({ params }) {
       openGraph: {
         title: post.ogTitle || metaTitle,
         description: post.ogDescription || metaDesc,
-        images: [
-          {
-            url: toImageKitUrl(post.ogImage?.url || post.coverImage?.url),
-            width: 1200,
-            height: 630,
-          },
-        ],
+        images: [{ url: ogImageUrl, width: 1200, height: 630, alt: metaTitle }],
         type: "article",
         publishedTime: post.publishedAt,
       },
@@ -77,7 +75,8 @@ export async function generateMetadata({ params }) {
         card: post.twitterCard || "summary_large_image",
         title: post.twitterTitle || post.ogTitle || metaTitle,
         description: post.twitterDescription || post.ogDescription || metaDesc,
-        image: toImageKitUrl(post.ogImage?.url || post.coverImage?.url),
+        // `twitter.image` (singular) is not a valid Metadata key
+        images: [ogImageUrl],
       },
       alternates: {
         canonical: post.canonicalUrl || `/blog/${slug}`,
