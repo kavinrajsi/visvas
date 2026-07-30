@@ -216,6 +216,21 @@
             line-height: 30px;
           }
         }
+        .footer__contact-whatsapp {
+          font-family: "Raleway";
+          font-style: normal;
+          font-weight: 500;
+          font-size: 16px;
+          line-height: 24px;
+          display: inline-block;
+          text-align: center;
+          text-decoration-line: underline;
+          /* Neutral/text-2 */
+          color: #303030;
+          @media (min-width: 768px) {
+            text-align: left;
+          }
+        }
         .footer__contact-address {
           /* Desktop/H5 */
           font-family: "Raleway";

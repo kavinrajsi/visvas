@@ -3,10 +3,10 @@
 import { useState, useEffect } from 'react'
 import { useEnquiryModal } from '@/app/(frontend)/components/enquiry-modal/EnquiryModalProvider'
 import { trackEvent } from '@/lib/gtm/events'
+import { whatsAppHref } from '@/lib/contact/whatsapp'
 import styles from './ProjectStickyNav.module.scss'
 
-// wa.me needs a bare country-code + number, no spaces or punctuation
-const WHATSAPP_NUMBER = (process.env.NEXT_PUBLIC_BUSINESS_PHONE || '+91 95432 24411').replace(/\D/g, '')
+const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_BUSINESS_PHONE || '+91 95432 24411'
 
 export default function ProjectStickyNav({ projectName, sections = ['about', 'amenities', 'location', 'media', 'faqs'] }) {
   const { openEnquiryModal } = useEnquiryModal()
@@ -33,10 +33,10 @@ export default function ProjectStickyNav({ projectName, sections = ['about', 'am
     return () => observer.disconnect()
   }, [sections])
 
-  const whatsappMessage = projectName
-    ? `Hi, I'd like to know more about ${projectName}.`
-    : "Hi, I'd like to know more about your projects."
-  const whatsappHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`
+  const whatsappHref = whatsAppHref(
+    WHATSAPP_NUMBER,
+    projectName ? `Hi, I'd like to know more about ${projectName}.` : undefined
+  )
 
   const handleNavClick = (sectionId) => {
     const el = document.getElementById(sectionId)

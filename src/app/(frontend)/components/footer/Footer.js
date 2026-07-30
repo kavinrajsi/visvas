@@ -4,6 +4,8 @@ import config from "@payload-config";
 import TestimonialsCarousel from "./TestimonialsCarousel";
 import FooterContactInfo from "./FooterContactInfo";
 import MadarthLink from "./MadarthLink";
+import { getContactDetails } from "@/lib/api/getContactDetails";
+import { whatsAppHref } from "@/lib/contact/whatsapp";
 import styles from "./Footer.module.scss";
 
 const Logo = () => (
@@ -152,16 +154,6 @@ async function getRecentProjects() {
   }
 }
 
-async function getContactDetails() {
-  try {
-    const payload = await getPayload({ config });
-    const data = await payload.findGlobal({ slug: "contact-page", depth: 0 });
-    return data?.contactDetails || {};
-  } catch {
-    return {};
-  }
-}
-
 async function getTestimonials() {
   try {
     const payload = await getPayload({ config });
@@ -182,11 +174,7 @@ export default async function Footer() {
     getTestimonials(),
   ]);
 
-  const phone =
-    contactDetails.phone ||
-    process.env.NEXT_PUBLIC_BUSINESS_PHONE ||
-    "+91 9543224411";
-  const address = contactDetails.address || "84, TPK Road, Andalpuram, Madurai";
+  const { phone, address, whatsapp } = contactDetails;
 
   const quickLinks = [
     { label: "Home", href: "/" },
@@ -299,7 +287,11 @@ export default async function Footer() {
           </div>
 
           <div className={styles["footer__contact"]}>
-            <FooterContactInfo phone={phone} address={address} />
+            <FooterContactInfo
+              phone={phone}
+              address={address}
+              whatsappHref={whatsAppHref(whatsapp)}
+            />
             <div className={styles["footer__social"]}>
               <a
                 href="https://www.instagram.com/visvas_promoters_madurai"

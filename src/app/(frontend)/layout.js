@@ -5,16 +5,20 @@ import Footer from '@/app/(frontend)/components/footer/Footer'
 import MobileCtaBar from '@/app/(frontend)/components/mobile-cta-bar/MobileCtaBar'
 import AttributionTracker from '@/app/(frontend)/components/AttributionTracker'
 import { EnquiryModalProvider } from '@/app/(frontend)/components/enquiry-modal/EnquiryModalProvider'
+import { getContactDetails } from '@/lib/api/getContactDetails'
+import { whatsAppHref } from '@/lib/contact/whatsapp'
 
 
-export default function FrontendLayout({ children }) {
+export default async function FrontendLayout({ children }) {
+  const { phone, whatsapp } = await getContactDetails()
+
   return (
     <EnquiryModalProvider>
-      <Header />
+      <Header phone={phone} />
       <AttributionTracker />
       {children}
       <Footer />
-      <MobileCtaBar />
+      <MobileCtaBar phone={phone} whatsappHref={whatsAppHref(whatsapp)} />
     </EnquiryModalProvider>
   )
 }

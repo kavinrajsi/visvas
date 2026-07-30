@@ -136,7 +136,7 @@ const Hamburger = ({ isOpen }) => (
   </div>
 );
 
-export default function Header() {
+export default function Header({ phone = "+91 95432 24411" }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isDrawerProjectsOpen, setIsDrawerProjectsOpen] = useState(false);
@@ -206,7 +206,7 @@ export default function Header() {
           </Link>
 
           <a
-            href="tel:+919543224411"
+            href={`tel:${String(phone).replace(/\s/g, "")}`}
             className={styles["header__phone-icon"]}
             aria-label="Call"
           >

@@ -4,6 +4,7 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 import ContactForm from "./ContactForm";
 import ContactPageClient from "./ContactPageClient";
+import { whatsAppHref } from "@/lib/contact/whatsapp";
 import styles from "./page.module.scss";
 
 export const revalidate = 3600;
@@ -64,7 +65,8 @@ export default async function ContactPage() {
     contactDetails.phone ||
     process.env.NEXT_PUBLIC_BUSINESS_PHONE ||
     "+91 95432 24411";
-  const whatsapp = contactDetails.whatsapp || "";
+  const whatsapp = contactDetails.whatsapp || phone;
+  const whatsappLink = whatsAppHref(whatsapp);
 
   // priority on the <Image> preloads only the desktop banner; cover the <source> for mobile
   preload("/banner-contactus-mobile.png", { as: "image", media: "(max-width: 767px)" });
@@ -121,6 +123,22 @@ export default async function ContactPage() {
                   </a>
                 </p>
               </div>
+
+              {whatsappLink && (
+                <div className={styles["contact-details__row"]}>
+                  <h3 className={styles["contact-details__label"]}>WhatsApp</h3>
+                  <p className={styles["contact-details__value"]}>
+                    <a
+                      href={whatsappLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles["contact-details__value-link"]}
+                    >
+                      {whatsapp}
+                    </a>
+                  </p>
+                </div>
+              )}
             </div>
 
             <div className={styles["iframe-wrapper"]}>
