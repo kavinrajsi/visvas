@@ -2,6 +2,10 @@
 .sticky-nav {
     background: #ffffff;
     padding: 24px 20px;
+    // Pins to the viewport top once the nav scrolls up to it.
+    position: sticky;
+    top: 0;
+    z-index: 100;
     // Full-width bar; content constrained and centred by the wrap.
     .sticky-nav__wrap {
         max-width: 1440px;

@@ -6,6 +6,12 @@ export async function storeFormDataPayload(formType, formData, metadata = {}, de
   try {
     const payload = await getPayload({ config })
 
+    const attribution = metadata.attribution || {}
+    const firstTouch = attribution.firstTouch || {}
+    const lastTouch = attribution.lastTouch || {}
+
+    // Field names must match the group structure in src/collections/ContactSubmissions.js.
+    // Note the client sends `gclid`/`fbclid` (attribution.js) while the schema uses `gclId`/`fbClId`.
     const payloadData = {
       delivery,
       name: formData.name,
@@ -17,32 +23,36 @@ export async function storeFormDataPayload(formType, formData, metadata = {}, de
       formType,
       project: formData.project || null,
       isSpam: metadata.isSpam || false,
-      ip: metadata.ip,
-      userAgent: metadata.userAgent,
-      referrer: metadata.referer,
-      referrerDomain: metadata.attribution?.referrerDomain,
-      previousPage: metadata.attribution?.previousPage,
-      pageHistory: metadata.attribution?.pageHistory ? JSON.stringify(metadata.attribution.pageHistory) : null,
-      // First touch
-      utmSourceFirst: metadata.attribution?.firstTouch?.utmSource,
-      utmMediumFirst: metadata.attribution?.firstTouch?.utmMedium,
-      utmCampaignFirst: metadata.attribution?.firstTouch?.utmCampaign,
-      utmTermFirst: metadata.attribution?.firstTouch?.utmTerm,
-      utmContentFirst: metadata.attribution?.firstTouch?.utmContent,
-      gclIdFirst: metadata.attribution?.firstTouch?.gclid,
-      fbClIdFirst: metadata.attribution?.firstTouch?.fbclid,
-      landingPageFirst: metadata.attribution?.firstTouch?.landingPage,
-      timestampFirst: metadata.attribution?.firstTouch?.timestamp,
-      // Last touch
-      utmSourceLast: metadata.attribution?.lastTouch?.utmSource,
-      utmMediumLast: metadata.attribution?.lastTouch?.utmMedium,
-      utmCampaignLast: metadata.attribution?.lastTouch?.utmCampaign,
-      utmTermLast: metadata.attribution?.lastTouch?.utmTerm,
-      utmContentLast: metadata.attribution?.lastTouch?.utmContent,
-      gclIdLast: metadata.attribution?.lastTouch?.gclid,
-      fbClIdLast: metadata.attribution?.lastTouch?.fbclid,
-      currentPageLast: metadata.attribution?.lastTouch?.currentPage,
-      timestampLast: metadata.attribution?.lastTouch?.timestamp,
+      tracking: {
+        ip: metadata.ip,
+        userAgent: metadata.userAgent,
+        referrer: metadata.referer,
+        referrerDomain: attribution.referrerDomain,
+        previousPage: attribution.previousPage,
+        pageHistory: attribution.pageHistory ? JSON.stringify(attribution.pageHistory) : null,
+      },
+      firstTouch: {
+        utmSource: firstTouch.utmSource,
+        utmMedium: firstTouch.utmMedium,
+        utmCampaign: firstTouch.utmCampaign,
+        utmTerm: firstTouch.utmTerm,
+        utmContent: firstTouch.utmContent,
+        gclId: firstTouch.gclid,
+        fbClId: firstTouch.fbclid,
+        landingPage: firstTouch.landingPage,
+        timestamp: firstTouch.timestamp,
+      },
+      lastTouch: {
+        utmSource: lastTouch.utmSource,
+        utmMedium: lastTouch.utmMedium,
+        utmCampaign: lastTouch.utmCampaign,
+        utmTerm: lastTouch.utmTerm,
+        utmContent: lastTouch.utmContent,
+        gclId: lastTouch.gclid,
+        fbClId: lastTouch.fbclid,
+        currentPage: lastTouch.currentPage,
+        timestamp: lastTouch.timestamp,
+      },
     }
 
     const result = await payload.create({

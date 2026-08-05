@@ -268,7 +268,13 @@ export interface Project {
    * Lower numbers appear first. Ties fall back to newest.
    */
   displayOrder?: number | null;
+  /**
+   * Recommended size: 320×414px.
+   */
   coverImage?: (number | null) | Media;
+  /**
+   * Recommended size: 1440×454px.
+   */
   detailCoverImage?: (number | null) | Media;
   contentImage?: (number | null) | Media;
   /**
@@ -1174,6 +1180,16 @@ export interface AboutPage {
     quote: string;
     backgroundImage?: (number | null) | Media;
   };
+  introSection?: {
+    /**
+     * Heading of the short intro block below the hero image
+     */
+    heading?: string | null;
+    /**
+     * Body copy of the intro block
+     */
+    text?: string | null;
+  };
   /**
    * Key numbers shown in the stats row (e.g. 20+ Completed Projects)
    */
@@ -1203,7 +1219,14 @@ export interface AboutPage {
       | null;
   };
   founderStory?: {
+    /**
+     * Section heading (not currently rendered on /about)
+     */
     heading?: string | null;
+    /**
+     * Shown above the founder quote on /about
+     */
+    name?: string | null;
     content?: {
       root: {
         type: string;
@@ -1553,6 +1576,12 @@ export interface AboutPageSelect<T extends boolean = true> {
         quote?: T;
         backgroundImage?: T;
       };
+  introSection?:
+    | T
+    | {
+        heading?: T;
+        text?: T;
+      };
   stats?:
     | T
     | {
@@ -1578,6 +1607,7 @@ export interface AboutPageSelect<T extends boolean = true> {
     | T
     | {
         heading?: T;
+        name?: T;
         content?: T;
         photo?: T;
       };

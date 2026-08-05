@@ -4,6 +4,7 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 import ContactForm from "./ContactForm";
 import ContactPageClient from "./ContactPageClient";
+import { whatsAppHref } from "@/lib/contact/whatsapp";
 import styles from "./page.module.scss";
 
 export const revalidate = 3600;
@@ -14,15 +15,32 @@ export async function generateMetadata() {
 
   const seo = data?.seo || {};
 
+  const metaTitle = seo.metaTitle || "Contact | Visvas";
+  // `openGraph.image` (singular) is not a valid Metadata key and is silently dropped
+  const ogImageUrl = seo.ogImage?.url || "/og-image.png";
+
   return {
-    title: seo.metaTitle || "Contact | Visvas",
+    title: metaTitle,
     description:
       seo.metaDescription ||
       "Get in touch with Visvas. We would love to hear from you.",
     openGraph: {
-      title: seo.ogTitle || "Contact | Visvas",
+      title: seo.ogTitle || metaTitle,
       description: seo.ogDescription || "Get in touch with Visvas.",
-      image: seo.ogImage?.url || undefined,
+      type: "website",
+      images: [{ url: ogImageUrl, width: 1200, height: 630, alt: metaTitle }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: seo.twitterTitle || seo.ogTitle || metaTitle,
+      description:
+        seo.twitterDescription ||
+        seo.ogDescription ||
+        "Get in touch with Visvas.",
+      images: [ogImageUrl],
+    },
+    alternates: {
+      canonical: "/contact",
     },
   };
 }
@@ -47,7 +65,8 @@ export default async function ContactPage() {
     contactDetails.phone ||
     process.env.NEXT_PUBLIC_BUSINESS_PHONE ||
     "+91 95432 24411";
-  const whatsapp = contactDetails.whatsapp || "";
+  const whatsapp = contactDetails.whatsapp || phone;
+  const whatsappLink = whatsAppHref(whatsapp);
 
   // priority on the <Image> preloads only the desktop banner; cover the <source> for mobile
   preload("/banner-contactus-mobile.png", { as: "image", media: "(max-width: 767px)" });
@@ -104,6 +123,22 @@ export default async function ContactPage() {
                   </a>
                 </p>
               </div>
+
+              {whatsappLink && (
+                <div className={styles["contact-details__row"]}>
+                  <h3 className={styles["contact-details__label"]}>WhatsApp</h3>
+                  <p className={styles["contact-details__value"]}>
+                    <a
+                      href={whatsappLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles["contact-details__value-link"]}
+                    >
+                      {whatsapp}
+                    </a>
+                  </p>
+                </div>
+              )}
             </div>
 
             <div className={styles["iframe-wrapper"]}>

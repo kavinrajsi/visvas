@@ -1,10 +1,10 @@
 'use client'
 
 import Link from 'next/link'
-import { trackPhoneClick, trackAddressClick } from '@/lib/gtm/events'
+import { trackPhoneClick, trackAddressClick, trackEvent } from '@/lib/gtm/events'
 import styles from './Footer.module.scss'
 
-export default function FooterContactInfo({ phone, address }) {
+export default function FooterContactInfo({ phone, address, whatsappHref }) {
   const handlePhoneClick = () => {
     trackPhoneClick(phone, 'footer')
   }
@@ -22,6 +22,17 @@ export default function FooterContactInfo({ phone, address }) {
       >
         {phone}
       </Link>
+      {whatsappHref && (
+        <a
+          href={whatsappHref}
+          className={styles['footer__contact-whatsapp']}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => trackEvent('whatsapp_click', { source: 'footer' })}
+        >
+          Chat on WhatsApp
+        </a>
+      )}
       <p
         className={styles['footer__contact-address']}
         onClick={handleAddressClick}

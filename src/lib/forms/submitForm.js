@@ -19,7 +19,11 @@ export async function submitForm(formType, formData, options = {}) {
   const results = {
     formType,
     timestamp: new Date().toISOString(),
+    // `success` = the lead was durably captured, which is what the user is told.
+    // `pipelineClean` = every requested destination also succeeded (ops signal).
     success: false,
+    pipelineClean: false,
+    stored: false,
     email: null,
     sheets: null,
     payload: null,
@@ -138,27 +142,40 @@ export async function submitForm(formType, formData, options = {}) {
 
   if (results.payload?.id) {
     const emailErrors = results.errors.filter((e) => e.includes('email')).join('; ')
-    // Send the full delivery group — a partial group update could reset other fields
-    await updateDeliveryPayload(results.payload.id, {
-      sheetsStored: !!results.sheets?.success && results.sheets?.mode !== 'skipped',
-      sheetsError: results.sheets?.error || null,
-      zohoPushed: !!results.zoho?.success && results.zoho?.mode !== 'skipped',
-      zohoError: results.zoho?.error || null,
-      adminEmailSent: !!results.email?.admin?.success && results.email?.admin?.mode !== 'development',
-      userEmailSent: !!results.email?.user?.success && results.email?.user?.mode !== 'development',
-      emailError: emailErrors || null,
-    })
+    // Send the full delivery group — a partial group update could reset other fields.
+    // Guarded: the lead is already saved at this point, so a status-write failure
+    // must not throw and turn a successful capture into a 500.
+    try {
+      await updateDeliveryPayload(results.payload.id, {
+        sheetsStored: !!results.sheets?.success && results.sheets?.mode !== 'skipped',
+        sheetsError: results.sheets?.error || null,
+        zohoPushed: !!results.zoho?.success && results.zoho?.mode !== 'skipped',
+        zohoError: results.zoho?.error || null,
+        adminEmailSent: !!results.email?.admin?.success && results.email?.admin?.mode !== 'development',
+        userEmailSent: !!results.email?.user?.success && results.email?.user?.mode !== 'development',
+        emailError: emailErrors || null,
+      })
+    } catch (error) {
+      console.error('[FORM] Delivery status update failed:', error.message)
+    }
   }
 
   // ========== FINAL RESULT ==========
 
   const processingTime = Date.now() - startTime
-  results.success = results.errors.length === 0
+  results.pipelineClean = results.errors.length === 0
+  // Payload is the system of record. Once the lead is written there it is not lost,
+  // so a failing secondary destination (Sheets/Zoho/email) must not be reported to
+  // the user as a failed submission — that only causes duplicate resubmissions.
+  results.stored = !!results.payload?.id
+  results.success = storeInPayload ? results.stored : results.pipelineClean
+  results.degraded = results.success && !results.pipelineClean
   results.processingTime = processingTime
 
   // Log the complete submission data + a per-destination status table
+  const outcome = results.success ? (results.degraded ? 'SUCCESS (degraded)' : 'SUCCESS') : 'FAILED'
   console.log(
-    `[FORM_SUBMISSION] result ${formType} ${results.success ? 'SUCCESS' : 'FAILED'} (${processingTime}ms)`,
+    `[FORM_SUBMISSION] result ${formType} ${outcome} (${processingTime}ms)`,
     JSON.stringify({ formType, timestamp: results.timestamp, ip: clientIp, data: formData }, null, 2)
   )
 
@@ -190,7 +207,8 @@ export async function submitForm(formType, formData, options = {}) {
       name: formData.name,
       email: formData.email,
       phone: formData.mobile,
-      success: results.success,
+      // "Pipeline Succeeded" in the admin — every destination clean, not just the lead saved
+      success: results.pipelineClean,
       errors: results.errors.join('\n') || null,
       processingTime,
       isSpam: metadata.isSpam || false,

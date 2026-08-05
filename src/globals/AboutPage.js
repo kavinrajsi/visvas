@@ -64,6 +64,32 @@ const AboutPage = {
       ],
     },
 
+    // ── Intro ("Who we are") ───────────────────────────────
+    {
+      name: 'introSection',
+      type: 'group',
+      label: 'Intro Section',
+      fields: [
+        {
+          name: 'heading',
+          type: 'text',
+          label: 'Heading',
+          defaultValue: 'Who we are',
+          admin: {
+            description: 'Heading of the short intro block below the hero image',
+          },
+        },
+        {
+          name: 'text',
+          type: 'textarea',
+          label: 'Text',
+          admin: {
+            description: 'Body copy of the intro block',
+          },
+        },
+      ],
+    },
+
     // ── Stats ──────────────────────────────────────────────
     {
       name: 'stats',
@@ -166,6 +192,18 @@ const AboutPage = {
           type: 'text',
           label: 'Heading',
           defaultValue: 'Founder Story',
+          admin: {
+            description: 'Section heading (not currently rendered on /about)',
+          },
+        },
+        {
+          name: 'name',
+          type: 'text',
+          label: 'Founder Name',
+          defaultValue: 'Sankara Seetharaman',
+          admin: {
+            description: 'Shown above the founder quote on /about',
+          },
         },
         {
           name: 'content',
