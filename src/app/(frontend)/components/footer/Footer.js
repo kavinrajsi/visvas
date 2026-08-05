@@ -5,7 +5,6 @@ import TestimonialsCarousel from "./TestimonialsCarousel";
 import FooterContactInfo from "./FooterContactInfo";
 import MadarthLink from "./MadarthLink";
 import { getContactDetails } from "@/lib/api/getContactDetails";
-import { whatsAppHref } from "@/lib/contact/whatsapp";
 import styles from "./Footer.module.scss";
 
 const Logo = () => (
@@ -174,7 +173,7 @@ export default async function Footer() {
     getTestimonials(),
   ]);
 
-  const { phone, address, whatsapp } = contactDetails;
+  const { phone, address } = contactDetails;
 
   const quickLinks = [
     { label: "Home", href: "/" },
@@ -287,11 +286,7 @@ export default async function Footer() {
           </div>
 
           <div className={styles["footer__contact"]}>
-            <FooterContactInfo
-              phone={phone}
-              address={address}
-              whatsappHref={whatsAppHref(whatsapp)}
-            />
+            <FooterContactInfo phone={phone} address={address} />
             <div className={styles["footer__social"]}>
               <a
                 href="https://www.instagram.com/visvas_promoters_madurai"
