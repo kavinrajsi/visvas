@@ -80,9 +80,9 @@ const FALLBACK = {
     "At Visvas, we believe in building homes with purpose. Every decision we make begins with the families who will one day live there and make it their world. A home holds their dreams, their comfort, their peace of mind and their future. The greatest amenities we offer are peace of mind, happiness and a true sense of belonging, and we remain committed to creating them for generations to come.",
 };
 
-// Labels may carry newlines to force a line break in the stats row. Editors
-// typing "\n" in the admin text input store a literal backslash-n, so split on
-// both the real newline and the two-character escape.
+// CMS text may carry newlines to force a line break. Editors typing "\n" in
+// the admin text input store a literal backslash-n, so split on both the real
+// newline and the two-character escape.
 function withLineBreaks(text) {
   const lines = String(text ?? "").split(/\\n|\n/);
   return lines.map((line, i) => (
@@ -121,8 +121,8 @@ export default async function AboutPage() {
   return (
     <main className={styles["about"]}>
       <section className={styles["about__hero"]}>
-        <h1 className={styles["about__hero-title"]}>{heroTitle}</h1>
-        <p className={styles["about__hero-text"]}>{heroText}</p>
+        <h1 className={styles["about__hero-title"]}>{withLineBreaks(heroTitle)}</h1>
+        <p className={styles["about__hero-text"]}>{withLineBreaks(heroText)}</p>
       </section>
       <section className={styles["about__hero-image"]}>
         <Image
@@ -137,8 +137,8 @@ export default async function AboutPage() {
       </section>
       <section className={styles["about__intro"]}>
         <div className={styles["about__intro-content"]}>
-        <h2 className={styles["about__intro-title"]}>{introHeading}</h2>
-        <p className={styles["about__intro-text"]}>{introText}</p>
+        <h2 className={styles["about__intro-title"]}>{withLineBreaks(introHeading)}</h2>
+        <p className={styles["about__intro-text"]}>{withLineBreaks(introText)}</p>
         </div>
       </section>
       <section className={styles["about__stats"]}>
