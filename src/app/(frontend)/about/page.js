@@ -80,9 +80,11 @@ const FALLBACK = {
     "At Visvas, we believe in building homes with purpose. Every decision we make begins with the families who will one day live there and make it their world. A home holds their dreams, their comfort, their peace of mind and their future. The greatest amenities we offer are peace of mind, happiness and a true sense of belonging, and we remain committed to creating them for generations to come.",
 };
 
-// Labels may carry newlines to force a line break in the stats row
+// Labels may carry newlines to force a line break in the stats row. Editors
+// typing "\n" in the admin text input store a literal backslash-n, so split on
+// both the real newline and the two-character escape.
 function withLineBreaks(text) {
-  const lines = String(text ?? "").split("\n");
+  const lines = String(text ?? "").split(/\\n|\n/);
   return lines.map((line, i) => (
     <span key={i}>
       {line}
