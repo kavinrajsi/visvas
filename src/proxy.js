@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { getClientIp, isBlockedIp } from '@/lib/security/blockedIps'
 
-export function middleware(request) {
+export function proxy(request) {
   const ip = getClientIp(request.headers)
   if (!isBlockedIp(ip)) return NextResponse.next()
 
