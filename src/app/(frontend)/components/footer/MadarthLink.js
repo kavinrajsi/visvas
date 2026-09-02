@@ -7,7 +7,7 @@ export default function MadarthLink() {
   const handleMadarathClick = () => {
     trackEvent('outbound_click', {
       destination: 'madarth',
-      link_text: 'Madarth',
+      link_text: 'Madarth®',
       link_url: 'https://madarth.com',
       source: 'footer',
     })
@@ -27,7 +27,7 @@ export default function MadarthLink() {
       className={styles['footer__credit-link']}
       onClick={handleMadarathClick}
     >
-      Madarth
+      Madarth<sup>&reg;</sup>
     </a>
   )
 }

@@ -286,6 +286,13 @@
         a {
           display: inline-block;
           text-decoration: 1px underline #303030;
+
+          sup {
+            font-size: 0.6em;
+            line-height: 0;
+            vertical-align: super;
+            text-decoration: none;
+          }
         }
       }
     }
