@@ -2,6 +2,8 @@ import { getPayload } from "payload";
 import { notFound } from "next/navigation";
 import config from "@payload-config";
 import { RichText } from "@payloadcms/richtext-lexical/react";
+import { getContactDetails } from "@/lib/api/getContactDetails";
+import { linkifyContacts } from "@/lib/richtext/linkifyContacts";
 import styles from "./page.module.scss";
 // Shared document-prose stylesheet (global `.blog-content` class), reused here
 // so policy rich text picks up the same heading/list/table treatment as posts.
@@ -88,13 +90,40 @@ export async function generateMetadata({ params }) {
 
 export default async function PolicyPage({ params }) {
   const { slug } = await params;
-  const policy = await getPolicy(slug);
+  const [policy, contact] = await Promise.all([
+    getPolicy(slug),
+    getContactDetails(),
+  ]);
 
   if (!policy) {
     notFound();
   }
 
   const lastUpdated = policy.lastUpdated || policy.updatedAt;
+  const content = linkifyContacts(policy.content);
+
+  const publisher = {
+    "@type": "Organization",
+    name: "Visvas Promoters",
+    url: baseUrl,
+    telephone: contact.phone,
+    ...(contact.email && { email: contact.email }),
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: contact.address,
+      addressLocality: "Madurai",
+      addressRegion: "Tamil Nadu",
+      addressCountry: "IN",
+    },
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "Customer Service",
+      telephone: contact.phone,
+      ...(contact.email && { email: contact.email }),
+      areaServed: "IN",
+      availableLanguage: ["en", "ta"],
+    },
+  };
 
   return (
     <div className={styles["policy"]}>
@@ -109,7 +138,7 @@ export default async function PolicyPage({ params }) {
 
       <div className={styles["policy__content"]}>
         <div className="blog-content">
-          <RichText data={policy.content} />
+          <RichText data={content} />
         </div>
       </div>
 
@@ -122,11 +151,7 @@ export default async function PolicyPage({ params }) {
             name: policy.title,
             url: `${baseUrl}/${policy.slug}`,
             dateModified: lastUpdated,
-            publisher: {
-              "@type": "Organization",
-              name: "Visvas Promoters",
-              url: baseUrl,
-            },
+            publisher,
           }),
         }}
       />
