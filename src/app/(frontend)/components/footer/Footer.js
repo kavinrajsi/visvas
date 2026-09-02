@@ -153,6 +153,22 @@ async function getRecentProjects() {
   }
 }
 
+async function getPolicies() {
+  try {
+    const payload = await getPayload({ config });
+    const result = await payload.find({
+      collection: "policies",
+      limit: 100,
+      sort: "title",
+      depth: 0,
+      select: { title: true, slug: true },
+    });
+    return result.docs.filter((p) => p.slug && p.title);
+  } catch {
+    return [];
+  }
+}
+
 async function getTestimonials() {
   try {
     const payload = await getPayload({ config });
@@ -167,10 +183,11 @@ async function getTestimonials() {
 }
 
 export default async function Footer() {
-  const [projects, contactDetails, testimonials] = await Promise.all([
+  const [projects, contactDetails, testimonials, policies] = await Promise.all([
     getRecentProjects(),
     getContactDetails(),
     getTestimonials(),
+    getPolicies(),
   ]);
 
   const { phone, address } = contactDetails;
@@ -181,6 +198,10 @@ export default async function Footer() {
     { label: "Our Impact", href: "/community" },
     { label: "Blog", href: "/blog" },
     { label: "Contact", href: "/contact" },
+    ...policies.map((policy) => ({
+      label: policy.title,
+      href: `/${policy.slug}`,
+    })),
   ];
 
   return (
