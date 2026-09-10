@@ -10,7 +10,7 @@ import { getContactDetails } from '@/lib/api/getContactDetails'
 import { whatsAppHref } from '@/lib/contact/whatsapp'
 
 // Standalone microsite pages with their own self-contained layout — no
-// global footer or mobile CTA bar.
+// global header, footer, or mobile CTA bar.
 const NO_CHROME_ROUTES = ['/kumbabishekam']
 
 export default async function FrontendLayout({ children }) {
@@ -18,7 +18,9 @@ export default async function FrontendLayout({ children }) {
 
   return (
     <EnquiryModalProvider>
-      <Header phone={phone} />
+      <HideOnRoutes prefixes={NO_CHROME_ROUTES}>
+        <Header phone={phone} />
+      </HideOnRoutes>
       <AttributionTracker />
       {children}
       <HideOnRoutes prefixes={NO_CHROME_ROUTES}>
