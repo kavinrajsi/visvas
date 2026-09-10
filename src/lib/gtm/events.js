@@ -56,3 +56,22 @@ export function trackAddressClick(address, source = '') {
     address_source: source,
   })
 }
+
+// Track a page section scrolling into view (fire once per section per page load)
+export function trackSectionView(section, additionalData = {}) {
+  pushDataLayer({
+    event: 'section_view',
+    section,
+    ...additionalData,
+  })
+}
+
+// Track a language switch on a multi-language page
+export function trackLanguageSwitch(fromLanguage, toLanguage, additionalData = {}) {
+  pushDataLayer({
+    event: 'language_switch',
+    from_language: fromLanguage,
+    to_language: toLanguage,
+    ...additionalData,
+  })
+}

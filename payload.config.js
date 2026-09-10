@@ -24,6 +24,7 @@ import HomePage from './src/globals/HomePage.js'
 import Policies from './src/collections/Policies.js'
 import ContactPage from './src/globals/ContactPage.js'
 import BlogPage from './src/globals/BlogPage.js'
+import KumbabishekamPage from './src/globals/KumbabishekamPage.js'
 import ContactSubmissions from './src/collections/ContactSubmissions.js'
 import FormSubmissionLogs from './src/collections/FormSubmissionLogs.js'
 
@@ -152,7 +153,7 @@ export default buildConfig({
     ],
   },
   collections: [Users, Media, Widgets, Amenities, ProjectTypes, ProjectStatuses, BhkTypes, Testimonials, Projects, BlogCategories, Posts, Policies, ContactSubmissions, FormSubmissionLogs],
-  globals: [ImpactPage, AboutPage, HomePage, ContactPage, BlogPage],
+  globals: [ImpactPage, AboutPage, HomePage, ContactPage, BlogPage, KumbabishekamPage],
   editor: lexicalEditor({
     features: ({ defaultFeatures }) => [
       ...defaultFeatures,

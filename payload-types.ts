@@ -117,6 +117,7 @@ export interface Config {
     'home-page': HomePage;
     'contact-page': ContactPage;
     'blog-page': BlogPage;
+    'kumbabishekam-page': KumbabishekamPage;
   };
   globalsSelect: {
     'impact-page': ImpactPageSelect<false> | ImpactPageSelect<true>;
@@ -124,6 +125,7 @@ export interface Config {
     'home-page': HomePageSelect<false> | HomePageSelect<true>;
     'contact-page': ContactPageSelect<false> | ContactPageSelect<true>;
     'blog-page': BlogPageSelect<false> | BlogPageSelect<true>;
+    'kumbabishekam-page': KumbabishekamPageSelect<false> | KumbabishekamPageSelect<true>;
   };
   locale: null;
   widgets: {
@@ -1516,6 +1518,108 @@ export interface BlogPage {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "kumbabishekam-page".
+ */
+export interface KumbabishekamPage {
+  id: number;
+  seo?: {
+    metaTitle?: {
+      en?: string | null;
+      ta?: string | null;
+    };
+    metaDescription?: {
+      en?: string | null;
+      ta?: string | null;
+    };
+    ogImage?: (number | null) | Media;
+  };
+  hero: {
+    eventName: {
+      en: string;
+      ta: string;
+    };
+    /**
+     * Primary date used for scheduling/structured data
+     */
+    eventDate?: string | null;
+    /**
+     * Display text, e.g. "16–17 September 2026"
+     */
+    eventDateLabel?: {
+      en?: string | null;
+      ta?: string | null;
+    };
+    heroImage?: (number | null) | Media;
+    /**
+     * Optional — .mp4 URL played behind the hero instead of the image
+     */
+    heroVideoUrl?: string | null;
+  };
+  intro?: {
+    heading?: {
+      en?: string | null;
+      ta?: string | null;
+    };
+    /**
+     * Descriptive paragraphs about the significance of the event
+     */
+    paragraphs?:
+      | {
+          en: string;
+          ta: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  schedule?: {
+    heading?: {
+      en?: string | null;
+      ta?: string | null;
+    };
+    /**
+     * Chronological list of ceremonies
+     */
+    events?:
+      | {
+          date?: string | null;
+          time?: {
+            en?: string | null;
+            ta?: string | null;
+          };
+          ceremonyName: {
+            en: string;
+            ta: string;
+          };
+          /**
+           * Optional
+           */
+          description?: {
+            en?: string | null;
+            ta?: string | null;
+          };
+          id?: string | null;
+        }[]
+      | null;
+  };
+  cta?: {
+    heading?: {
+      en?: string | null;
+      ta?: string | null;
+    };
+    body?: {
+      en?: string | null;
+      ta?: string | null;
+    };
+    /**
+     * Optional — .mp4 URL for the closing video experience
+     */
+    videoUrl?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "impact-page_select".
  */
 export interface ImpactPageSelect<T extends boolean = true> {
@@ -1796,6 +1900,119 @@ export interface BlogPageSelect<T extends boolean = true> {
         ogTitle?: T;
         ogDescription?: T;
         ogImage?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "kumbabishekam-page_select".
+ */
+export interface KumbabishekamPageSelect<T extends boolean = true> {
+  seo?:
+    | T
+    | {
+        metaTitle?:
+          | T
+          | {
+              en?: T;
+              ta?: T;
+            };
+        metaDescription?:
+          | T
+          | {
+              en?: T;
+              ta?: T;
+            };
+        ogImage?: T;
+      };
+  hero?:
+    | T
+    | {
+        eventName?:
+          | T
+          | {
+              en?: T;
+              ta?: T;
+            };
+        eventDate?: T;
+        eventDateLabel?:
+          | T
+          | {
+              en?: T;
+              ta?: T;
+            };
+        heroImage?: T;
+        heroVideoUrl?: T;
+      };
+  intro?:
+    | T
+    | {
+        heading?:
+          | T
+          | {
+              en?: T;
+              ta?: T;
+            };
+        paragraphs?:
+          | T
+          | {
+              en?: T;
+              ta?: T;
+              id?: T;
+            };
+      };
+  schedule?:
+    | T
+    | {
+        heading?:
+          | T
+          | {
+              en?: T;
+              ta?: T;
+            };
+        events?:
+          | T
+          | {
+              date?: T;
+              time?:
+                | T
+                | {
+                    en?: T;
+                    ta?: T;
+                  };
+              ceremonyName?:
+                | T
+                | {
+                    en?: T;
+                    ta?: T;
+                  };
+              description?:
+                | T
+                | {
+                    en?: T;
+                    ta?: T;
+                  };
+              id?: T;
+            };
+      };
+  cta?:
+    | T
+    | {
+        heading?:
+          | T
+          | {
+              en?: T;
+              ta?: T;
+            };
+        body?:
+          | T
+          | {
+              en?: T;
+              ta?: T;
+            };
+        videoUrl?: T;
       };
   updatedAt?: T;
   createdAt?: T;
