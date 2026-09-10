@@ -1611,9 +1611,14 @@ export interface KumbabishekamPage {
       ta?: string | null;
     };
     /**
-     * Optional — .mp4 URL for the closing video experience
+     * YouTube video URLs shown as the closing video experience
      */
-    videoUrl?: string | null;
+    videos?:
+      | {
+          url: string;
+          id?: string | null;
+        }[]
+      | null;
   };
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -2012,7 +2017,12 @@ export interface KumbabishekamPageSelect<T extends boolean = true> {
               en?: T;
               ta?: T;
             };
-        videoUrl?: T;
+        videos?:
+          | T
+          | {
+              url?: T;
+              id?: T;
+            };
       };
   updatedAt?: T;
   createdAt?: T;

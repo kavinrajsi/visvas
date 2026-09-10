@@ -24,10 +24,12 @@
   margin: 0;
 }
 
-.cta__video {
-  max-width: 720px;
+.cta__videos {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 640px;
   margin: 0 auto;
-  overflow: hidden;
 }
 
 @media (min-width: 768px) {

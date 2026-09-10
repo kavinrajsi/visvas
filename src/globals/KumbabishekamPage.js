@@ -207,10 +207,21 @@ const KumbabishekamPage = {
           ],
         },
         {
-          name: 'videoUrl',
-          type: 'text',
-          label: 'Video URL',
-          admin: { description: 'Optional — .mp4 URL for the closing video experience' },
+          name: 'videos',
+          type: 'array',
+          label: 'Videos',
+          admin: {
+            description: 'YouTube video URLs shown as the closing video experience',
+          },
+          fields: [
+            {
+              name: 'url',
+              type: 'text',
+              required: true,
+              label: 'YouTube URL',
+              admin: { placeholder: 'https://www.youtube.com/watch?v=...' },
+            },
+          ],
         },
       ],
     },

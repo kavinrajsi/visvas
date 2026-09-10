@@ -37,7 +37,7 @@ export default function KumbabishekamPageClient({ data, language }) {
       />
       <IntroSection intro={intro} language={language} />
       <ScheduleSection schedule={schedule} language={language} />
-      <CtaSection cta={cta} hero={hero} language={language} />
+      <CtaSection cta={cta} language={language} />
       <KumbabishekamFooter />
     </main>
   )

@@ -8,7 +8,13 @@ import '@/lib/gsap/registerPlugins'
 import WordReveal from '@/components/animation/WordReveal'
 import TrackedSection from './TrackedSection'
 import LanguageSwitch from './LanguageSwitch'
+import CurvedLoopMarquee from './CurvedLoopMarquee'
 import styles from './HeroSection.module.scss'
+
+const MARQUEE_TEXT = {
+  en: '✦ Maha Kumbabhishekam',
+  ta: '✦  மகா கும்பாபிஷேகம்',
+}
 
 export default function HeroSection({ hero, language, anchorLabel, anchorHref }) {
   const eventName = hero?.eventName?.[language]
@@ -34,6 +40,8 @@ export default function HeroSection({ hero, language, anchorLabel, anchorHref })
       <div className={styles.hero__topBar}>
         <LanguageSwitch language={language} />
       </div>
+
+      <CurvedLoopMarquee text={MARQUEE_TEXT[language]} />
 
       <div className={styles.hero__content}>
         <WordReveal as="h1" className={styles.hero__title}>
