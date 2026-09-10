@@ -1,8 +1,7 @@
 .cta {
-  padding: 48px 20px;
+  padding: 80px 20px;
   text-align: center;
-  background: var(--color-primary);
-  color: var(--color-white);
+  background: var(--color-white);
 }
 
 .cta__content {
@@ -11,32 +10,28 @@
 }
 
 .cta__heading {
-  font-size: var(--text-h2);
-  line-height: var(--lh-h2);
+  font-size: 16px;
+  line-height: 24px;
   font-weight: var(--fw-semibold);
+  color: rgb(30, 95, 47);
   margin: 0 0 12px;
 }
 
 .cta__body {
-  font-size: var(--text-body);
+  font-size: 16px;
   line-height: var(--lh-body);
-  opacity: 0.9;
+  color: rgb(0, 0, 0);
   margin: 0;
 }
 
 .cta__video {
   max-width: 720px;
   margin: 0 auto;
-  border-radius: 12px;
   overflow: hidden;
-  box-shadow:
-    0 0.6px 1.6px -1.5px rgba(0, 0, 0, 0.17),
-    0 2.3px 6px -3px rgba(0, 0, 0, 0.14),
-    0 10px 26px -4.5px rgba(0, 0, 0, 0.2);
 }
 
 @media (min-width: 768px) {
   .cta {
-    padding: 72px 24px;
+    padding: 96px 24px;
   }
 }

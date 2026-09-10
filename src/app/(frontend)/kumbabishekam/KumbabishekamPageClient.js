@@ -6,6 +6,7 @@ import HeroSection from '@/app/(frontend)/components/kumbabishekam/HeroSection'
 import IntroSection from '@/app/(frontend)/components/kumbabishekam/IntroSection'
 import ScheduleSection from '@/app/(frontend)/components/kumbabishekam/ScheduleSection'
 import CtaSection from '@/app/(frontend)/components/kumbabishekam/CtaSection'
+import KumbabishekamFooter from '@/app/(frontend)/components/kumbabishekam/KumbabishekamFooter'
 import styles from './KumbabishekamPageClient.module.scss'
 
 // Arima (aka "Arima Madurai") covers both Latin and Tamil in one typeface —
@@ -32,11 +33,12 @@ export default function KumbabishekamPageClient({ data, language }) {
         hero={hero}
         language={language}
         anchorLabel={ANCHOR_LABEL[language]}
-        anchorHref={hasSchedule ? '#schedule' : undefined}
+        anchorHref={hasSchedule ? '#event-section' : undefined}
       />
       <IntroSection intro={intro} language={language} />
       <ScheduleSection schedule={schedule} language={language} />
       <CtaSection cta={cta} hero={hero} language={language} />
+      <KumbabishekamFooter />
     </main>
   )
 }

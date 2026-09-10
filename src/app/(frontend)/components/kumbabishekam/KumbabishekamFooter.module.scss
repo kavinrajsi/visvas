@@ -1,0 +1,29 @@
+.footer {
+  background: rgb(30, 95, 47);
+  color: var(--color-white);
+  text-align: center;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.footer__line {
+  font-size: var(--text-sm);
+  margin: 0;
+}
+
+.footer__link {
+  color: var(--color-white);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+@media (min-width: 768px) {
+  .footer {
+    padding: 24px 80px;
+  }
+}

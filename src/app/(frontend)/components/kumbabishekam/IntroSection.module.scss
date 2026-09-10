@@ -1,23 +1,16 @@
 .intro {
-  padding: 48px 20px;
+  padding: 80px 20px;
   max-width: 720px;
   margin: 0 auto;
 }
 
 .intro__heading {
-  font-size: var(--text-h2);
-  line-height: var(--lh-h2);
+  font-size: 24px;
+  line-height: 32px;
   font-weight: var(--fw-semibold);
-  color: var(--color-heading);
-  margin: 0 0 16px;
+  color: rgb(30, 95, 47);
+  margin: 0 0 20px;
   text-align: center;
-}
-
-.intro__divider {
-  width: 64px;
-  height: 3px;
-  margin: 0 auto 32px;
-  background: var(--color-primary);
 }
 
 .intro__paragraphs {
@@ -28,19 +21,13 @@
 }
 
 .intro__paragraph {
-  font-size: var(--text-body);
+  font-size: 16px;
   line-height: var(--lh-body);
-  color: var(--color-text);
+  color: rgb(0, 0, 0);
   margin: 0;
 }
 
 @media (min-width: 768px) {
-  .intro {
-    padding: 72px 24px;
-  }
-}
-
-@media (min-width: 1024px) {
   .intro {
     padding: 96px 24px;
   }

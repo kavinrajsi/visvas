@@ -1,8 +1,12 @@
+import WordReveal from '@/components/animation/WordReveal'
 import ScrollReveal from '@/components/animation/ScrollReveal'
-import BlockReveal from '@/components/animation/BlockReveal'
 import TrackedSection from './TrackedSection'
 import styles from './IntroSection.module.scss'
 
+// Simplified stand-in for the reference site's sticky scroll-card + parallax
+// "Images" section (a scroll-synced card overlaying two parallax temple
+// photos) — that interaction isn't built yet. This renders the same copy as
+// a plain centered block until that's implemented.
 export default function IntroSection({ intro, language }) {
   const heading = intro?.heading?.[language]
   const paragraphs = intro?.paragraphs || []
@@ -12,12 +16,9 @@ export default function IntroSection({ intro, language }) {
   return (
     <TrackedSection id="significance" language={language} className={styles.intro}>
       {heading && (
-        <>
-          <ScrollReveal as="h2" className={styles.intro__heading}>
-            {heading}
-          </ScrollReveal>
-          <BlockReveal direction="right" className={styles.intro__divider} />
-        </>
+        <WordReveal as="h2" className={styles.intro__heading}>
+          {heading}
+        </WordReveal>
       )}
       <ScrollReveal as="div" className={styles.intro__paragraphs} stagger>
         {paragraphs.map((paragraph, index) => (
