@@ -5,22 +5,29 @@
 }
 
 .intro__heading {
-  font-family: var(--font-display);
   font-size: var(--text-h2);
   line-height: var(--lh-h2);
+  font-weight: var(--fw-semibold);
   color: var(--color-heading);
-  margin: 0 0 24px;
+  margin: 0 0 16px;
   text-align: center;
+}
+
+.intro__divider {
+  width: 64px;
+  height: 3px;
+  margin: 0 auto 32px;
+  background: var(--color-primary);
 }
 
 .intro__paragraphs {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  text-align: center;
 }
 
 .intro__paragraph {
-  font-family: var(--font-body);
   font-size: var(--text-body);
   line-height: var(--lh-body);
   color: var(--color-text);

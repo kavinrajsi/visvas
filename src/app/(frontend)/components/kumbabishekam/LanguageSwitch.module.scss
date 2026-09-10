@@ -2,27 +2,26 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: var(--font-body);
   font-size: var(--text-sm);
   font-weight: var(--fw-medium);
 }
 
 .lang-switch__option {
-  color: var(--color-sub);
+  color: rgba(255, 255, 255, 0.7);
   text-decoration: none;
   padding: 4px 2px;
   transition: color 0.2s ease;
 
   &:hover {
-    color: var(--color-primary);
+    color: var(--color-white);
   }
 }
 
 .lang-switch__option--active {
-  color: var(--color-primary);
+  color: var(--color-white);
   font-weight: var(--fw-bold);
 }
 
 .lang-switch__divider {
-  color: var(--color-border-muted);
+  color: rgba(255, 255, 255, 0.4);
 }

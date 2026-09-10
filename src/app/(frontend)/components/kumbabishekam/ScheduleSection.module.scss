@@ -4,9 +4,9 @@
 }
 
 .schedule__heading {
-  font-family: var(--font-display);
   font-size: var(--text-h2);
   line-height: var(--lh-h2);
+  font-weight: var(--fw-semibold);
   color: var(--color-heading);
   margin: 0 0 24px;
   text-align: center;
@@ -15,7 +15,7 @@
 .schedule__list {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
   max-width: 640px;
   margin: 0 auto;
   padding: 0;
@@ -27,21 +27,22 @@
   grid-template-columns: auto 1fr;
   column-gap: 12px;
   row-gap: 4px;
-  padding: 16px;
-  border-left: 3px solid var(--color-gold);
+  padding: 20px;
+  border-radius: 10px;
   background: var(--color-white);
-  box-shadow: 0 1px 3px var(--shadow-primary-10);
+  box-shadow:
+    0 0.6px 1.6px -1.5px rgba(0, 0, 0, 0.17),
+    0 2.3px 6px -3px rgba(0, 0, 0, 0.14),
+    0 10px 26px -4.5px rgba(0, 0, 0, 0.08);
 }
 
 .schedule__date {
-  font-family: var(--font-body);
   font-weight: var(--fw-bold);
   color: var(--color-primary);
   font-size: var(--text-sm);
 }
 
 .schedule__time {
-  font-family: var(--font-body);
   color: var(--color-sub);
   font-size: var(--text-sm);
   text-align: right;
@@ -49,7 +50,6 @@
 
 .schedule__name {
   grid-column: 1 / -1;
-  font-family: var(--font-body);
   font-weight: var(--fw-semibold);
   color: var(--color-heading);
   font-size: var(--text-body);
@@ -57,7 +57,6 @@
 
 .schedule__description {
   grid-column: 1 / -1;
-  font-family: var(--font-body);
   font-size: var(--text-sm);
   color: var(--color-text);
   margin: 0;
@@ -69,6 +68,6 @@
   }
 
   .schedule__item {
-    padding: 20px 24px;
+    padding: 24px 28px;
   }
 }

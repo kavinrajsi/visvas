@@ -1,6 +1,6 @@
 'use client'
 
-import { Noto_Sans_Tamil } from 'next/font/google'
+import { Arima } from 'next/font/google'
 import GTMPageTracker from '@/app/(frontend)/components/GTMPageTracker'
 import HeroSection from '@/app/(frontend)/components/kumbabishekam/HeroSection'
 import IntroSection from '@/app/(frontend)/components/kumbabishekam/IntroSection'
@@ -8,8 +8,11 @@ import ScheduleSection from '@/app/(frontend)/components/kumbabishekam/ScheduleS
 import CtaSection from '@/app/(frontend)/components/kumbabishekam/CtaSection'
 import styles from './KumbabishekamPageClient.module.scss'
 
-const notoSansTamil = Noto_Sans_Tamil({
-  subsets: ['tamil'],
+// Arima (aka "Arima Madurai") covers both Latin and Tamil in one typeface —
+// matches the reference site's single-font pairing, and the name itself
+// nods to the event's city.
+const arima = Arima({
+  subsets: ['latin', 'tamil'],
   weight: ['400', '500', '600', '700'],
 })
 
@@ -23,10 +26,7 @@ export default function KumbabishekamPageClient({ data, language }) {
   const hasSchedule = (schedule?.events || []).length > 0
 
   return (
-    <main
-      lang={language}
-      className={`${styles.page} ${language === 'ta' ? notoSansTamil.className : ''}`}
-    >
+    <main lang={language} className={`${styles.page} ${arima.className}`}>
       <GTMPageTracker pageType="kumbabishekam" customData={{ language }} />
       <HeroSection
         hero={hero}

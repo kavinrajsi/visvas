@@ -2,7 +2,9 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: flex-end;
+  text-align: center;
   min-height: 100svh;
   padding: 16px 20px 48px;
   overflow: hidden;
@@ -37,7 +39,6 @@
 }
 
 .hero__title {
-  font-family: var(--font-display);
   font-size: 32px;
   line-height: 1.2;
   font-weight: var(--fw-semibold);
@@ -45,7 +46,6 @@
 }
 
 .hero__date {
-  font-family: var(--font-body);
   font-size: var(--text-body);
   opacity: 0.9;
   margin: 0 0 20px;
@@ -53,11 +53,10 @@
 
 .hero__anchor {
   display: inline-block;
-  padding: 12px 24px;
+  padding: 12px 28px;
   border-radius: 999px;
-  background: var(--color-gold);
-  color: var(--color-heading);
-  font-family: var(--font-body);
+  background: var(--color-primary);
+  color: var(--color-white);
   font-weight: var(--fw-semibold);
   font-size: var(--text-sm);
   text-decoration: none;

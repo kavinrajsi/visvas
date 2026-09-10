@@ -1,4 +1,5 @@
 import ScrollReveal from '@/components/animation/ScrollReveal'
+import BlockReveal from '@/components/animation/BlockReveal'
 import TrackedSection from './TrackedSection'
 import styles from './IntroSection.module.scss'
 
@@ -11,9 +12,12 @@ export default function IntroSection({ intro, language }) {
   return (
     <TrackedSection id="significance" language={language} className={styles.intro}>
       {heading && (
-        <ScrollReveal as="h2" className={styles.intro__heading}>
-          {heading}
-        </ScrollReveal>
+        <>
+          <ScrollReveal as="h2" className={styles.intro__heading}>
+            {heading}
+          </ScrollReveal>
+          <BlockReveal direction="right" className={styles.intro__divider} />
+        </>
       )}
       <ScrollReveal as="div" className={styles.intro__paragraphs} stagger>
         {paragraphs.map((paragraph, index) => (
