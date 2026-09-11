@@ -65,18 +65,15 @@ export default function CurvedLoopMarquee({ text, color = 'rgb(48, 48, 48)' }) {
       onPointerUp={stopDrag}
       onPointerLeave={stopDrag}
     >
-      <svg viewBox="0 0 1400 200" className={styles.marquee__svg} preserveAspectRatio="xMidYMid meet">
+      <svg viewBox="0 0 1400 520" className={styles.marquee__svg} preserveAspectRatio="xMidYMid meet">
         <defs>
-          {/* A gentle repeating wave, long enough to comfortably exceed the
-              tiled text below it so no segment ever runs off the path's end
-              (SVG textPath does not wrap text back onto the path start). */}
-          <path
-            id={PATH_ID}
-            fill="none"
-            d="M -900,100 Q -800,40 -700,100 T -500,100 T -300,100 T -100,100 T 100,100 T 300,100 T 500,100 T 700,100 T 900,100 T 1100,100 T 1300,100 T 1500,100 T 1700,100 T 1900,100 T 2100,100 T 2300,100 T 2500,100"
-          />
+          {/* Reference's "Curved Loop Text" rides one big dome-shaped arc
+              (its bounding box is far taller than wide), not a flat wave —
+              most of the circle bleeds above the hero and is clipped by
+              its overflow:hidden, so only the crown of the arc shows. */}
+          <path id={PATH_ID} fill="none" d="M -100,500 A 940,940 0 0 1 1500,500" />
         </defs>
-        <text fontSize="34" fontWeight="600" fill={color}>
+        <text fontSize="44" fontWeight="600" fill={color}>
           <textPath ref={textPathRef} href={`#${PATH_ID}`} startOffset="0%">
             {repeated}
           </textPath>

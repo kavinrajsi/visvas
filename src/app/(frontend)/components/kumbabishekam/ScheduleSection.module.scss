@@ -15,6 +15,7 @@
 .schedule__list {
   display: flex;
   flex-direction: column;
+  width: 100%;
   max-width: 640px;
   margin: 0 auto;
   padding: 0;
@@ -53,9 +54,13 @@
   margin: 0;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1400px) {
   .schedule {
-    padding: 96px 24px;
+    padding: 80px;
+  }
+
+  .schedule__list {
+    max-width: 1240px;
   }
 
   .schedule__item {

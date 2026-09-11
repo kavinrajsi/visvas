@@ -22,8 +22,10 @@
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1400px) {
   .footer {
+    flex-direction: row;
+    justify-content: space-between;
     padding: 24px 80px;
   }
 }

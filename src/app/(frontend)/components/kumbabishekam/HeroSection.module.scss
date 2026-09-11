@@ -20,7 +20,7 @@
   position: absolute;
   top: 16px;
   right: 20px;
-  z-index: 2;
+  z-index: 3;
 }
 
 .hero__content {
@@ -77,12 +77,6 @@
   &:hover {
     border-radius: 12px;
     transform: translateY(-2px);
-  }
-}
-
-@media (min-width: 768px) {
-  .hero {
-    padding: 120px 48px 0;
   }
 }
 

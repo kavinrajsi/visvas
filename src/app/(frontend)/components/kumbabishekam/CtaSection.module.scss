@@ -1,5 +1,5 @@
 .cta {
-  padding: 80px 20px;
+  padding: 80px 24px;
   text-align: center;
   background: var(--color-white);
 }
@@ -28,12 +28,30 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
-  max-width: 640px;
-  margin: 0 auto;
+}
+
+.cta__videosRow {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 @media (min-width: 768px) {
+  .cta__videosRow {
+    flex-direction: row;
+  }
+
+  .cta__videosRow > * {
+    flex: 1;
+  }
+}
+
+@media (min-width: 1400px) {
   .cta {
-    padding: 96px 24px;
+    padding: 80px;
+  }
+
+  .cta__content {
+    max-width: 744px;
   }
 }
