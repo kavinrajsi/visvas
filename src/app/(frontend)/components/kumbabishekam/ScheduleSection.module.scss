@@ -22,13 +22,24 @@
   list-style: none;
 }
 
+// Mobile/tablet (matches Framer's non-desktop breakpoint, everything below
+// 1400px): a two-column row — date+time stacked on the left, ceremony name
+// wrapping on the right. No location shown at this size.
 .schedule__item {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 24px 0;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px 0;
   border-bottom: 1px solid rgb(224, 224, 224);
-  text-align: center;
+  text-align: left;
+}
+
+.schedule__meta {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 auto;
+  min-width: 92px;
+  gap: 2px;
 }
 
 .schedule__date {
@@ -43,15 +54,16 @@
 }
 
 .schedule__name {
+  flex: 1;
   font-weight: var(--fw-semibold);
   color: rgb(0, 0, 0);
   font-size: 16px;
 }
 
+// Framer's mobile layout has no location/description slot — only desktop
+// shows it as its own column (see the 1400px block below).
 .schedule__description {
-  font-size: 14px;
-  color: rgba(0, 0, 0, 0.6);
-  margin: 0;
+  display: none;
 }
 
 @media (min-width: 1400px) {
@@ -63,15 +75,38 @@
     max-width: 1240px;
   }
 
+  // Flat four-column row: date | time | ceremony name | location.
   .schedule__item {
-    flex-direction: row;
     align-items: center;
-    justify-content: space-between;
-    text-align: left;
-    gap: 16px;
+    gap: 24px;
+  }
+
+  .schedule__meta {
+    flex-direction: row;
+    gap: 24px;
+    min-width: 300px;
+  }
+
+  .schedule__date {
+    flex: 0 0 110px;
+  }
+
+  .schedule__time {
+    flex: 0 0 170px;
   }
 
   .schedule__name {
-    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .schedule__description {
+    display: block;
+    flex: 0 0 160px;
+    margin: 0;
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.6);
+    text-align: left;
   }
 }

@@ -50,10 +50,12 @@ function ScheduleRow({ item, language }) {
 
   return (
     <li ref={ref} className={styles.schedule__item}>
-      <span className={styles.schedule__date}>{formatDate(item.date, language)}</span>
-      {item.time?.[language] && (
-        <span className={styles.schedule__time}>{item.time[language]}</span>
-      )}
+      <span className={styles.schedule__meta}>
+        <span className={styles.schedule__date}>{formatDate(item.date, language)}</span>
+        {item.time?.[language] && (
+          <span className={styles.schedule__time}>{item.time[language]}</span>
+        )}
+      </span>
       <span className={styles.schedule__name}>{item.ceremonyName?.[language]}</span>
       {item.description?.[language] && (
         <p className={styles.schedule__description}>{item.description[language]}</p>
