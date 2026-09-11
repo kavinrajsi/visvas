@@ -22,9 +22,9 @@
   list-style: none;
 }
 
-// Mobile/tablet (matches Framer's non-desktop breakpoint, everything below
-// 1400px): a two-column row — date+time stacked on the left, ceremony name
-// wrapping on the right. No location shown at this size.
+// Below 1024px: a two-column row — date+time stacked on the left, ceremony
+// name wrapping on the right. No location shown at this size (matches
+// Framer's own phone breakpoint, which omits it too).
 .schedule__item {
   display: flex;
   align-items: flex-start;
@@ -61,12 +61,12 @@
 }
 
 // Framer's mobile layout has no location/description slot — only desktop
-// shows it as its own column (see the 1400px block below).
+// shows it as its own column (see the 1024px block below).
 .schedule__description {
   display: none;
 }
 
-@media (min-width: 1400px) {
+@media (min-width: 1024px) {
   .schedule {
     padding: 80px;
   }
