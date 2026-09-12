@@ -2,12 +2,13 @@
   position: relative;
 }
 
-// Fixed-height scroll runway: the card is pinned inside its holder while the
-// temple backdrop scrolls past behind it (Framer "Scroll Container").
+// Fixed-height scroll runway: the card pins inside its holder while the temple
+// backdrop scrolls past behind it (Framer "Scroll Container"). Nothing in the
+// card's ancestor chain may clip, or it becomes the sticky scrollport and the
+// pin stops working — the images sibling does the clipping instead.
 .intro__stage {
   position: relative;
   height: 800px;
-  overflow: hidden;
 
   @media (min-width: 768px) {
     height: 1600px;
@@ -24,22 +25,22 @@
 
   @media (min-width: 768px) {
     top: 0;
+    // Card releases 600px before the stage ends, per the design.
     height: 1000px;
     padding: 0;
-    overflow: hidden;
   }
 }
 
+// GSAP pins this box rather than CSS sticky: the global `body { overflow-x:
+// hidden }` in globals.scss makes body a scroll container, which stops any
+// sticky descendant from ever sticking.
 .intro__sticky {
-  position: sticky;
-  top: 90px;
   display: flex;
   align-items: center;
   justify-content: center;
 
   @media (min-width: 768px) {
-    top: 0;
-    height: 100%;
+    height: 100vh;
   }
 }
 
@@ -94,6 +95,7 @@
 .intro__images {
   position: relative;
   height: 100%;
+  overflow: hidden;
 }
 
 .intro__tree {

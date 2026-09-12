@@ -20,6 +20,8 @@ export default function IntroSection({ intro, language }) {
   const paragraphs = intro?.paragraphs || []
   const stageRef = useRef(null)
   const treeRef = useRef(null)
+  const holderRef = useRef(null)
+  const stickyRef = useRef(null)
 
   useGSAP(
     () => {
@@ -30,6 +32,44 @@ export default function IntroSection({ intro, language }) {
         duration: 0.6,
         ease: CustomEase.create('introTree', '0.44,0,0.56,1'),
       })
+
+      // Hold the card on screen while the temple backdrop scrolls past, then
+      // release it before the stage ends, per the design's 1000-of-1600px card
+      // region. Desktop only — the phone layout has no pinned region.
+      //
+      // This counter-translates the card by the scroll distance instead of
+      // using ScrollTrigger's pin: the global `overflow-x: hidden` on html and
+      // body makes body a scroll container, which defeats both CSS sticky and
+      // pin-spacer based pinning here.
+      const mm = gsap.matchMedia()
+
+      mm.add('(min-width: 768px)', () => {
+        const travel = () =>
+          Math.max(0, holderRef.current.offsetHeight - window.innerHeight)
+
+        const tween = gsap.fromTo(
+          stickyRef.current,
+          { y: 0 },
+          {
+            y: travel,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: holderRef.current,
+              start: 'top top',
+              end: () => `+=${travel()}`,
+              scrub: true,
+              invalidateOnRefresh: true,
+            },
+          }
+        )
+
+        return () => {
+          tween.scrollTrigger?.kill()
+          tween.kill()
+        }
+      })
+
+      return () => mm.revert()
     },
     { scope: stageRef }
   )
@@ -39,8 +79,8 @@ export default function IntroSection({ intro, language }) {
   return (
     <TrackedSection id="significance" language={language} className={styles.intro}>
       <div ref={stageRef} className={styles.intro__stage}>
-        <div className={styles.intro__cardHolder}>
-          <div className={styles.intro__sticky}>
+        <div ref={holderRef} className={styles.intro__cardHolder}>
+          <div ref={stickyRef} className={styles.intro__sticky}>
             <div className={styles.intro__card}>
               {heading && (
                 <WordReveal
