@@ -10,10 +10,30 @@
   right: 0;
   z-index: 3;
   display: flex;
-  justify-content: flex-end;
-  padding: 8px 12px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px 0 0;
 
   @media (min-width: 768px) {
-    padding: 16px 20px;
+    padding: 0 20px 0 0;
+  }
+}
+
+// The logo SVG carries its own tent-shaped backdrop, so it sits flush with
+// the top-left corner rather than inside the header's padding.
+.header__logo {
+  display: block;
+  line-height: 0;
+
+  svg {
+    display: block;
+    width: 140px;
+    height: auto;
+  }
+
+  @media (min-width: 768px) {
+    svg {
+      width: 215px;
+    }
   }
 }
