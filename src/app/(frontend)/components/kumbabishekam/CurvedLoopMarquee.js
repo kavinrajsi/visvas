@@ -65,7 +65,7 @@ export default function CurvedLoopMarquee({ text, color = 'rgb(48, 48, 48)' }) {
       onPointerUp={stopDrag}
       onPointerLeave={stopDrag}
     >
-      <svg viewBox="0 0 1400 520" className={styles.marquee__svg} preserveAspectRatio="xMidYMid meet">
+      <svg viewBox="0 0 1400 420" className={styles.marquee__svg} preserveAspectRatio="xMidYMid meet">
         <defs>
           {/* Reference's "Curved Loop Text" rides one big dome-shaped arc
               (its bounding box is far taller than wide), not a flat wave —

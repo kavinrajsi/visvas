@@ -13,9 +13,9 @@ export default function YouTubeEmbed({ url, title }) {
   return (
     <div className={styles.embed}>
       <iframe
-        src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&modestbranding=1&playsinline=1`}
+        src={`https://www.youtube.com/embed/${videoId}?modestbranding=1&playsinline=1`}
         title={title || 'Kumbabishekam video'}
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen
         loading="lazy"
         className={styles.embed__iframe}
