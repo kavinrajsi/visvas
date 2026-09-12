@@ -65,12 +65,4 @@
   font-weight: var(--fw-regular);
   font-size: var(--text-body);
   text-decoration: none;
-  transition:
-    border-radius 0.3s ease,
-    transform 0.2s ease;
-
-  &:hover {
-    border-radius: 12px;
-    transform: translateY(-2px);
-  }
 }
