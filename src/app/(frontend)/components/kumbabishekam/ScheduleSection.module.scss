@@ -78,12 +78,13 @@
   }
 }
 
-// Too narrow to sit beside the name on a phone, so it takes its own line.
+// No room beside the name on a phone, so it only shows from 768px up.
 .schedule__description {
-  flex: 1 0 100%;
+  display: none;
   margin: 0;
 
   @media (min-width: 768px) {
+    display: block;
     flex: 0 0 187px;
   }
 }

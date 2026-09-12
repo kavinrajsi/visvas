@@ -1,8 +1,8 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import GTMPageTracker from '@/app/(frontend)/components/GTMPageTracker'
-import { MobileLogo } from '@/app/(frontend)/components/header/Logo'
 import HeroSection from '@/app/(frontend)/components/kumbabishekam/HeroSection'
 import LanguageSwitch from '@/app/(frontend)/components/kumbabishekam/LanguageSwitch'
 import IntroSection from '@/app/(frontend)/components/kumbabishekam/IntroSection'
@@ -26,7 +26,13 @@ export default function KumbabishekamPageClient({ data, language }) {
       <GTMPageTracker pageType="kumbabishekam" customData={{ language }} />
       <header className={styles.header}>
         <Link href="/" className={styles.header__logo} aria-label="Visvas Promoters">
-          <MobileLogo />
+          <Image
+            src="/kumbabishekam/visvas-logo.png"
+            alt="Visvas Promoters"
+            width={197}
+            height={80}
+            priority
+          />
         </Link>
         <LanguageSwitch language={language} />
       </header>
