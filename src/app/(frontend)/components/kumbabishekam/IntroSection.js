@@ -47,22 +47,6 @@ export default function IntroSection({ intro, language }) {
           scrub: true,
         },
       })
-
-      gsap.fromTo(
-        stageRef.current,
-        { width: 0 },
-        {
-          width: 560,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: templeRef.current,
-            start: 'top top',
-            end: '+=560',
-            scrub: true,
-            pin: true,
-          },
-        }
-      )
     },
     { scope: stageRef }
   )

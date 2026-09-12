@@ -22,51 +22,79 @@
   list-style: none;
 }
 
-// Flat four-column row: date | time | ceremony name | location.
+// Mobile: two centered columns — stacked date/time, then wrapping name.
+// From 768px: flat four-column row of date | time | ceremony name | location.
 .schedule__item {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 24px;
   padding: 20px 0;
   border-bottom: 1px solid rgb(224, 224, 224);
-  text-align: left;
+  text-align: center;
+
+  @media (min-width: 768px) {
+    flex-wrap: nowrap;
+    text-align: left;
+  }
 }
 
 .schedule__meta {
   display: flex;
-  flex-direction: row;
-  flex: 0 0 auto;
-  min-width: 300px;
-  gap: 24px;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  gap: 4px;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    flex: 0 0 auto;
+    min-width: 300px;
+    gap: 24px;
+  }
 }
 
 .schedule__date {
-  flex: 0 0 110px;
   font-size: 16px;
   color: rgb(0, 0, 0);
+
+  @media (min-width: 768px) {
+    flex: 0 0 110px;
+  }
 }
 
 .schedule__time {
-  flex: 0 0 170px;
   font-size: 16px;
   color: rgb(0, 0, 0);
   opacity: 0.7;
+
+  @media (min-width: 768px) {
+    flex: 0 0 170px;
+  }
 }
 
 .schedule__name {
   flex: 1;
+  min-width: 0;
   font-weight: var(--fw-semibold);
   color: rgb(0, 0, 0);
   font-size: 16px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+
+  @media (min-width: 768px) {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 }
 
 .schedule__description {
   display: block;
-  flex: 0 0 160px;
+  flex: 1 0 100%;
   margin: 0;
   font-size: 14px;
   color: rgba(0, 0, 0, 0.6);
-  text-align: left;
+
+  @media (min-width: 768px) {
+    flex: 0 0 160px;
+    text-align: left;
+  }
 }
