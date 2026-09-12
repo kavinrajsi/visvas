@@ -7,7 +7,6 @@ import { useGSAP } from '@gsap/react'
 import '@/lib/gsap/registerPlugins'
 import WordReveal from '@/components/animation/WordReveal'
 import TrackedSection from './TrackedSection'
-import LanguageSwitch from './LanguageSwitch'
 import CurvedLoopMarquee from './CurvedLoopMarquee'
 import styles from './HeroSection.module.scss'
 
@@ -37,10 +36,6 @@ export default function HeroSection({ hero, language, anchorLabel, anchorHref })
 
   return (
     <TrackedSection id="hero" language={language} className={styles.hero}>
-      <div className={styles.hero__topBar}>
-        <LanguageSwitch language={language} />
-      </div>
-
       <CurvedLoopMarquee text={MARQUEE_TEXT[language]} />
 
       <div className={styles.hero__content}>

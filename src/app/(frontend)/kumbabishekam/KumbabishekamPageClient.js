@@ -3,6 +3,7 @@
 import { Arima } from 'next/font/google'
 import GTMPageTracker from '@/app/(frontend)/components/GTMPageTracker'
 import HeroSection from '@/app/(frontend)/components/kumbabishekam/HeroSection'
+import LanguageSwitch from '@/app/(frontend)/components/kumbabishekam/LanguageSwitch'
 import IntroSection from '@/app/(frontend)/components/kumbabishekam/IntroSection'
 import ScheduleSection from '@/app/(frontend)/components/kumbabishekam/ScheduleSection'
 import CtaSection from '@/app/(frontend)/components/kumbabishekam/CtaSection'
@@ -29,6 +30,9 @@ export default function KumbabishekamPageClient({ data, language }) {
   return (
     <main lang={language} className={`${styles.page} ${arima.className}`}>
       <GTMPageTracker pageType="kumbabishekam" customData={{ language }} />
+      <header className={styles.header}>
+        <LanguageSwitch language={language} />
+      </header>
       <HeroSection
         hero={hero}
         language={language}
