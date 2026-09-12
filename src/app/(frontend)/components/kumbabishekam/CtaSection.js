@@ -31,14 +31,9 @@ export default function CtaSection({ cta, language }) {
           className={styles.cta__videos}
           onClick={() => trackEvent('cta_video_play', { language })}
         >
-          <YouTubeEmbed url={videos[0].url} />
-          {videos.length > 1 && (
-            <div className={styles.cta__videosRow}>
-              {videos.slice(1).map((video, index) => (
-                <YouTubeEmbed key={index} url={video.url} />
-              ))}
-            </div>
-          )}
+          {videos.map((video, index) => (
+            <YouTubeEmbed key={index} url={video.url} />
+          ))}
         </ScrollReveal>
       )}
     </TrackedSection>
