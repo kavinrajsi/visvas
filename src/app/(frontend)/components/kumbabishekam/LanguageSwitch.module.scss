@@ -1,9 +1,13 @@
 .lang-switch {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
   font-size: var(--text-sm);
   font-weight: var(--fw-medium);
+
+  @media (min-width: 768px) {
+    gap: 8px;
+  }
 }
 
 .lang-switch__option {

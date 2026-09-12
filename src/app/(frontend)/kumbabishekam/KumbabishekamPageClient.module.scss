@@ -11,5 +11,9 @@
   z-index: 3;
   display: flex;
   justify-content: flex-end;
-  padding: 16px 20px;
+  padding: 8px 12px;
+
+  @media (min-width: 768px) {
+    padding: 16px 20px;
+  }
 }
