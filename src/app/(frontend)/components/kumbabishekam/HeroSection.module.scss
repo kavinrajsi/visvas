@@ -20,12 +20,6 @@
   position: relative;
   z-index: 2;
   max-width: 649px;
-  // Marquee is absolutely positioned (top:-140px, height:420px → its bottom
-  // edge sits at 280px from .hero's top) and out of flex flow, so this
-  // margin is a fixed offset rather than a flex gap: 280px marquee-bottom +
-  // 40px gap - 120px already consumed by .hero's own padding-top = 200px.
-  margin-top: 200px;
-  padding-bottom: 40px;
 }
 
 .hero__tree {
