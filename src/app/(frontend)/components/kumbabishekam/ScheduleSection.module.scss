@@ -1,6 +1,13 @@
 .schedule {
-  padding: 80px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 80px 20px;
   background: var(--color-white);
+
+  @media (min-width: 768px) {
+    padding: 80px;
+  }
 }
 
 .schedule__heading {
@@ -8,7 +15,7 @@
   line-height: 32px;
   font-weight: var(--fw-semibold);
   color: rgb(30, 95, 47);
-  margin: 0 0 24px;
+  margin: 0;
   text-align: center;
 }
 
@@ -22,20 +29,23 @@
   list-style: none;
 }
 
-// Mobile: two centered columns — stacked date/time, then wrapping name.
-// From 768px: flat four-column row of date | time | ceremony name | location.
+// Mobile: stacked date/time column, then the wrapping name, then location.
+// From 768px: flat row of date | time | ceremony name | location.
 .schedule__item {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 24px;
-  padding: 20px 0;
+  gap: 0;
+  padding: 24px 0;
   border-bottom: 1px solid rgb(224, 224, 224);
   text-align: center;
+  font-size: 16px;
+  line-height: 1.2em;
+  font-weight: var(--fw-regular);
+  color: rgb(0, 0, 0);
 
   @media (min-width: 768px) {
     flex-wrap: nowrap;
-    text-align: left;
   }
 }
 
@@ -44,57 +54,36 @@
   flex-direction: column;
   flex: 1;
   min-width: 0;
-  gap: 4px;
 
   @media (min-width: 768px) {
     flex-direction: row;
-    flex: 0 0 auto;
-    min-width: 300px;
-    gap: 24px;
   }
 }
 
-.schedule__date {
-  font-size: 16px;
-  color: rgb(0, 0, 0);
-
-  @media (min-width: 768px) {
-    flex: 0 0 110px;
-  }
-}
-
+.schedule__date,
 .schedule__time {
-  font-size: 16px;
-  color: rgb(0, 0, 0);
-  opacity: 0.7;
-
   @media (min-width: 768px) {
-    flex: 0 0 170px;
+    flex: 0 0 187px;
   }
 }
 
 .schedule__name {
   flex: 1;
   min-width: 0;
-  font-weight: var(--fw-semibold);
-  color: rgb(0, 0, 0);
-  font-size: 16px;
+  padding: 0 24px;
 
   @media (min-width: 768px) {
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    padding: 0 40px;
+    text-align: start;
   }
 }
 
+// Too narrow to sit beside the name on a phone, so it takes its own line.
 .schedule__description {
-  display: block;
   flex: 1 0 100%;
   margin: 0;
-  font-size: 14px;
-  color: rgba(0, 0, 0, 0.6);
 
   @media (min-width: 768px) {
-    flex: 0 0 160px;
-    text-align: left;
+    flex: 0 0 187px;
   }
 }

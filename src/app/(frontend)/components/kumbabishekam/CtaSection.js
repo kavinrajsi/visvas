@@ -18,7 +18,12 @@ export default function CtaSection({ cta, language }) {
     <TrackedSection id="cta" language={language} className={styles.cta}>
       <div className={styles.cta__content}>
         {heading && (
-          <WordReveal as="h2" className={styles.cta__heading}>
+          <WordReveal
+            as="h2"
+            className={styles.cta__heading}
+            stagger={0.05}
+            start="top 50%"
+          >
             {heading}
           </WordReveal>
         )}
@@ -31,9 +36,14 @@ export default function CtaSection({ cta, language }) {
           className={styles.cta__videos}
           onClick={() => trackEvent('cta_video_play', { language })}
         >
-          {videos.map((video, index) => (
-            <YouTubeEmbed key={index} url={video.url} />
-          ))}
+          <YouTubeEmbed url={videos[0].url} />
+          {videos.length > 1 && (
+            <div className={styles.cta__videosRow}>
+              {videos.slice(1).map((video, index) => (
+                <YouTubeEmbed key={index} url={video.url} />
+              ))}
+            </div>
+          )}
         </ScrollReveal>
       )}
     </TrackedSection>

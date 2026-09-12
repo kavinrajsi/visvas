@@ -1,6 +1,7 @@
 'use client'
 
 import { trackEvent } from '@/lib/gtm/events'
+import { raleway } from '@/app/(frontend)/kumbabishekam/fonts'
 import styles from './KumbabishekamFooter.module.scss'
 
 // Minimal copyright bar matching the reference site's footer — distinct from
@@ -15,7 +16,7 @@ export default function KumbabishekamFooter() {
   }).toString()
 
   return (
-    <footer className={styles.footer}>
+    <footer className={`${styles.footer} ${raleway.className}`}>
       <p className={styles.footer__line}>&copy; {year} Copyrights Visvas promoters</p>
       <p className={styles.footer__line}>
         Made by{' '}

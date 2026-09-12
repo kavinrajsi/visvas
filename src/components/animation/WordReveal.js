@@ -8,7 +8,15 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import '@/lib/gsap/registerPlugins'
 
 // Per-word blur + rise reveal, triggered on scroll into view.
-export default function WordReveal({ children, as: Component = 'div', className = '', ...rest }) {
+export default function WordReveal({
+  children,
+  as: Component = 'div',
+  className = '',
+  stagger = 0.04,
+  ease = 'power2.out',
+  start = 'top 85%',
+  ...rest
+}) {
   const ref = useRef(null)
 
   useGSAP(
@@ -22,18 +30,18 @@ export default function WordReveal({ children, as: Component = 'div', className 
         y: 10,
         filter: 'blur(10px)',
         duration: 0.5,
-        stagger: 0.04,
-        ease: 'power2.out',
+        stagger,
+        ease,
         scrollTrigger: {
           trigger: ref.current,
-          start: 'top 85%',
+          start,
           toggleActions: 'play none none none',
         },
       })
 
       return () => split.revert()
     },
-    { scope: ref }
+    { scope: ref, dependencies: [stagger, ease, start] }
   )
 
   return (

@@ -3,10 +3,11 @@
 import { useRef } from 'react'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { CustomEase } from 'gsap/CustomEase'
 import '@/lib/gsap/registerPlugins'
 import WordReveal from '@/components/animation/WordReveal'
 import TrackedSection from './TrackedSection'
+import { inter } from '@/app/(frontend)/kumbabishekam/fonts'
 import styles from './ScheduleSection.module.scss'
 
 function formatDate(dateStr, language) {
@@ -20,8 +21,7 @@ function formatDate(dateStr, language) {
 function ScheduleRow({ item, language }) {
   const ref = useRef(null)
 
-  // Matches the reference's per-row reveal: rise 150px + scale up from half
-  // size, cubic-bezier(0.66,-0.03,0.4,1.01).
+  // Matches the design's per-row reveal: rise 150px + scale up from half size.
   useGSAP(
     () => {
       if (!ref.current) return
@@ -34,12 +34,11 @@ function ScheduleRow({ item, language }) {
           y: 0,
           scale: 1,
           duration: 0.5,
-          // Closest built-in GSAP ease to the reference's cubic-bezier(0.66,-0.03,0.4,1.01) —
-          // a slight overshoot on entry, no CustomEase plugin licensed in this project.
-          ease: 'back.out(1.2)',
+          ease: CustomEase.create('scheduleRow', '0.66,-0.03,0.4,1.01'),
           scrollTrigger: {
             trigger: ref.current,
-            start: 'top 90%',
+            // Design fires at a 0.5 visibility ratio.
+            start: 'top 50%',
             toggleActions: 'play none none none',
           },
         }
@@ -73,11 +72,16 @@ export default function ScheduleSection({ schedule, language }) {
   return (
     <TrackedSection id="event-section" language={language} className={styles.schedule}>
       {heading && (
-        <WordReveal as="h2" className={styles.schedule__heading}>
+        <WordReveal
+          as="h2"
+          className={styles.schedule__heading}
+          stagger={0.05}
+          start="top 50%"
+        >
           {heading}
         </WordReveal>
       )}
-      <ul className={styles.schedule__list}>
+      <ul className={`${styles.schedule__list} ${inter.className}`}>
         {events.map((item, index) => (
           <ScheduleRow key={index} item={item} language={language} />
         ))}

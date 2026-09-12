@@ -1,6 +1,5 @@
 'use client'
 
-import { Arima } from 'next/font/google'
 import GTMPageTracker from '@/app/(frontend)/components/GTMPageTracker'
 import HeroSection from '@/app/(frontend)/components/kumbabishekam/HeroSection'
 import LanguageSwitch from '@/app/(frontend)/components/kumbabishekam/LanguageSwitch'
@@ -8,15 +7,8 @@ import IntroSection from '@/app/(frontend)/components/kumbabishekam/IntroSection
 import ScheduleSection from '@/app/(frontend)/components/kumbabishekam/ScheduleSection'
 import CtaSection from '@/app/(frontend)/components/kumbabishekam/CtaSection'
 import KumbabishekamFooter from '@/app/(frontend)/components/kumbabishekam/KumbabishekamFooter'
+import { arima } from './fonts'
 import styles from './KumbabishekamPageClient.module.scss'
-
-// Arima (aka "Arima Madurai") covers both Latin and Tamil in one typeface —
-// matches the reference site's single-font pairing, and the name itself
-// nods to the event's city.
-const arima = Arima({
-  subsets: ['latin', 'tamil'],
-  weight: ['400', '500', '600', '700'],
-})
 
 const ANCHOR_LABEL = {
   en: 'Event Details',

@@ -2,58 +2,75 @@
   position: relative;
 }
 
+// Fixed-height scroll runway: the card is pinned inside its holder while the
+// temple backdrop scrolls past behind it (Framer "Scroll Container").
 .intro__stage {
   position: relative;
-  height: auto;
+  height: 800px;
+  overflow: hidden;
+
+  @media (min-width: 768px) {
+    height: 1600px;
+  }
+}
+
+.intro__cardHolder {
+  position: absolute;
+  top: 90px;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  padding: 0 20px;
+
+  @media (min-width: 768px) {
+    top: 0;
+    height: 1000px;
+    padding: 0;
+    overflow: hidden;
+  }
 }
 
 .intro__sticky {
   position: sticky;
-  top: 0;
-  height: 100vh;
-  min-height: 500px;
+  top: 90px;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
-  padding: 20px;
-}
 
-.intro__background {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-}
-
-.intro__layer {
-  position: absolute;
-  top: -15%;
-  left: 0;
-  width: 100%;
-  height: 130%;
-}
-
-.intro__layerImage {
-  object-fit: cover;
+  @media (min-width: 768px) {
+    top: 0;
+    height: 100%;
+  }
 }
 
 .intro__card {
-  position: relative;
-  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
+  max-width: 350px;
+  padding: 30px 24px;
   background: rgb(30, 95, 47);
   border-radius: 12px;
-  padding: 30px 64px;
-  max-width: 550px;
   text-align: center;
-  color: rgba(255, 255, 255, 0.9);
+
+  @media (min-width: 768px) {
+    max-width: 550px;
+    padding: 30px 64px;
+  }
 }
 
 .intro__heading {
-  font-size: 24px;
-  line-height: 28px;
+  font-size: 20px;
+  line-height: 26px;
   font-weight: var(--fw-semibold);
   color: rgba(255, 255, 255, 0.8);
-  margin: 0 0 20px;
+  margin: 0;
+
+  @media (min-width: 768px) {
+    font-size: 24px;
+    line-height: 28px;
+  }
 }
 
 .intro__paragraphs {
@@ -64,7 +81,58 @@
 
 .intro__paragraph {
   font-size: 14px;
-  line-height: 1.4em;
+  line-height: 16px;
+  font-weight: var(--fw-regular);
   color: rgba(255, 255, 255, 0.73);
   margin: 0;
+
+  @media (min-width: 768px) {
+    line-height: 1.4em;
+  }
+}
+
+.intro__images {
+  position: relative;
+  height: 100%;
+}
+
+.intro__tree {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 140%;
+  max-width: 1400px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.intro__treeImage {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.intro__background {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.intro__backgroundTop {
+  object-fit: cover;
+}
+
+.intro__backgroundBottom {
+  position: absolute;
+  left: 0;
+  bottom: -30px;
+  width: 100%;
+  height: 287px;
+  object-fit: cover;
+
+  @media (min-width: 768px) {
+    height: auto;
+  }
 }
