@@ -1,5 +1,5 @@
 .schedule {
-  padding: 80px 20px;
+  padding: 80px;
   background: var(--color-white);
 }
 
@@ -16,19 +16,17 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 640px;
+  max-width: 1240px;
   margin: 0 auto;
   padding: 0;
   list-style: none;
 }
 
-// Below 1024px: a two-column row — date+time stacked on the left, ceremony
-// name wrapping on the right. No location shown at this size (matches
-// Framer's own phone breakpoint, which omits it too).
+// Flat four-column row: date | time | ceremony name | location.
 .schedule__item {
   display: flex;
-  align-items: flex-start;
-  gap: 16px;
+  align-items: center;
+  gap: 24px;
   padding: 20px 0;
   border-bottom: 1px solid rgb(224, 224, 224);
   text-align: left;
@@ -36,18 +34,20 @@
 
 .schedule__meta {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex: 0 0 auto;
-  min-width: 92px;
-  gap: 2px;
+  min-width: 300px;
+  gap: 24px;
 }
 
 .schedule__date {
+  flex: 0 0 110px;
   font-size: 16px;
   color: rgb(0, 0, 0);
 }
 
 .schedule__time {
+  flex: 0 0 170px;
   font-size: 16px;
   color: rgb(0, 0, 0);
   opacity: 0.7;
@@ -58,55 +58,16 @@
   font-weight: var(--fw-semibold);
   color: rgb(0, 0, 0);
   font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-// Framer's mobile layout has no location/description slot — only desktop
-// shows it as its own column (see the 1024px block below).
 .schedule__description {
-  display: none;
-}
-
-@media (min-width: 1024px) {
-  .schedule {
-    padding: 80px;
-  }
-
-  .schedule__list {
-    max-width: 1240px;
-  }
-
-  // Flat four-column row: date | time | ceremony name | location.
-  .schedule__item {
-    align-items: center;
-    gap: 24px;
-  }
-
-  .schedule__meta {
-    flex-direction: row;
-    gap: 24px;
-    min-width: 300px;
-  }
-
-  .schedule__date {
-    flex: 0 0 110px;
-  }
-
-  .schedule__time {
-    flex: 0 0 170px;
-  }
-
-  .schedule__name {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .schedule__description {
-    display: block;
-    flex: 0 0 160px;
-    margin: 0;
-    font-size: 14px;
-    color: rgba(0, 0, 0, 0.6);
-    text-align: left;
-  }
+  display: block;
+  flex: 0 0 160px;
+  margin: 0;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.6);
+  text-align: left;
 }

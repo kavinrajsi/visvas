@@ -42,15 +42,15 @@
   z-index: 1;
   background: rgb(30, 95, 47);
   border-radius: 12px;
-  padding: 30px 24px;
+  padding: 30px 64px;
   max-width: 550px;
   text-align: center;
   color: rgba(255, 255, 255, 0.9);
 }
 
 .intro__heading {
-  font-size: 20px;
-  line-height: 26px;
+  font-size: 24px;
+  line-height: 28px;
   font-weight: var(--fw-semibold);
   color: rgba(255, 255, 255, 0.8);
   margin: 0 0 20px;
@@ -67,15 +67,4 @@
   line-height: 1.4em;
   color: rgba(255, 255, 255, 0.73);
   margin: 0;
-}
-
-@media (min-width: 1024px) {
-  .intro__card {
-    padding: 30px 64px;
-  }
-
-  .intro__heading {
-    font-size: 24px;
-    line-height: 28px;
-  }
 }

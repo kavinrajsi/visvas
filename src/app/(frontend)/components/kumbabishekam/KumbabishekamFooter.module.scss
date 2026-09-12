@@ -2,9 +2,10 @@
   background: rgb(30, 95, 47);
   color: var(--color-white);
   text-align: center;
-  padding: 24px 20px;
+  padding: 24px 80px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
   gap: 8px;
 }
 
@@ -19,13 +20,5 @@
 
   &:hover {
     text-decoration: underline;
-  }
-}
-
-@media (min-width: 1024px) {
-  .footer {
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 24px 80px;
   }
 }
