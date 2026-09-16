@@ -19,36 +19,8 @@ function formatDate(dateStr, language) {
 }
 
 function ScheduleRow({ item, language }) {
-  const ref = useRef(null)
-
-  // Matches the design's per-row reveal: rise 150px + scale up from half size.
-  useGSAP(
-    () => {
-      if (!ref.current) return
-
-      gsap.fromTo(
-        ref.current,
-        { opacity: 0, y: 150, scale: 0.5 },
-        {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 0.5,
-          ease: CustomEase.create('scheduleRow', '0.66,-0.03,0.4,1.01'),
-          scrollTrigger: {
-            trigger: ref.current,
-            // Design fires at a 0.5 visibility ratio.
-            start: 'top 50%',
-            toggleActions: 'play none none none',
-          },
-        }
-      )
-    },
-    { scope: ref }
-  )
-
   return (
-    <li ref={ref} className={styles.schedule__item}>
+    <li className={styles.schedule__item}>
       <span className={styles.schedule__meta}>
         <span className={styles.schedule__date}>{formatDate(item.date, language)}</span>
         {item.time?.[language] && (
@@ -64,8 +36,35 @@ function ScheduleRow({ item, language }) {
 }
 
 export default function ScheduleSection({ schedule, language }) {
+  const listRef = useRef(null)
   const heading = schedule?.heading?.[language]
   const events = schedule?.events || []
+
+  // Matches the design's reveal: rise 150px + scale up from half size, once for the whole list.
+  useGSAP(
+    () => {
+      if (!listRef.current) return
+
+      gsap.fromTo(
+        listRef.current,
+        { opacity: 0, y: 150, scale: 0.5 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.5,
+          ease: CustomEase.create('scheduleList', '0.66,-0.03,0.4,1.01'),
+          scrollTrigger: {
+            trigger: listRef.current,
+            // Design fires at a 0.5 visibility ratio.
+            start: 'top 50%',
+            toggleActions: 'play none none none',
+          },
+        }
+      )
+    },
+    { scope: listRef }
+  )
 
   if (!events.length) return null
 
@@ -81,7 +80,7 @@ export default function ScheduleSection({ schedule, language }) {
           {heading}
         </WordReveal>
       )}
-      <ul className={`${styles.schedule__list} ${inter.className}`}>
+      <ul ref={listRef} className={`${styles.schedule__list} ${inter.className}`}>
         {events.map((item, index) => (
           <ScheduleRow key={index} item={item} language={language} />
         ))}
