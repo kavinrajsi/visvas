@@ -40,18 +40,17 @@ export default function ScheduleSection({ schedule, language }) {
   const heading = schedule?.heading?.[language]
   const events = schedule?.events || []
 
-  // Matches the design's reveal: rise 150px + scale up from half size, once for the whole list.
+  // Matches the design's reveal: the whole list rises 150px into place, once.
   useGSAP(
     () => {
       if (!listRef.current) return
 
       gsap.fromTo(
         listRef.current,
-        { opacity: 0, y: 150, scale: 0.5 },
+        { opacity: 0, y: 150 },
         {
           opacity: 1,
           y: 0,
-          scale: 1,
           duration: 0.5,
           ease: CustomEase.create('scheduleList', '0.66,-0.03,0.4,1.01'),
           scrollTrigger: {
