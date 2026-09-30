@@ -1,3 +1,4 @@
+import { getAllPosts } from '@/lib/blog/getPosts'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
@@ -48,14 +49,10 @@ export default async function sitemap() {
       }
     })
 
-    // Fetch all blog posts
-    const postsResult = await payload.find({
-      collection: 'posts',
-      limit: 1000,
-      select: { slug: true, updatedAt: true },
-    })
+    // Published blog posts from the R2 snapshot (no DB read)
+    const posts = await getAllPosts()
 
-    postsResult.docs.forEach((post) => {
+    posts.forEach((post) => {
       if (post.slug) {
         urls.push({
           url: `${baseUrl}/blog/${post.slug}`,

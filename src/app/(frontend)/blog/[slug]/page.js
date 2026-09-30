@@ -1,7 +1,6 @@
 import Image from "next/image";
-import { getPayload } from "payload";
 import { notFound } from "next/navigation";
-import config from "@payload-config";
+import { getPostBySlug, getAllPosts } from "@/lib/blog/getPosts";
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import { toImageKitUrl } from "@/lib/image/imageKitUrl";
 import BlogSidebar from "@/app/(frontend)/blog/BlogSidebar";
@@ -22,27 +21,22 @@ function formatDate(dateStr) {
   }).format(new Date(dateStr));
 }
 
+// Slugs come from the R2 blog snapshot. If neither the snapshot nor the DB is
+// reachable at build time, build with no prerendered posts; dynamicParams
+// renders them on demand instead of failing the deploy.
 export async function generateStaticParams() {
-  const payload = await getPayload({ config });
-  const result = await payload.find({
-    collection: "posts",
-    limit: 1000,
-    select: { slug: true },
-  });
-  return result.docs.map(({ slug }) => ({ slug }));
+  try {
+    const posts = await getAllPosts();
+    return posts.filter((p) => p.slug).map(({ slug }) => ({ slug }));
+  } catch (error) {
+    console.error("[BLOG] generateStaticParams fallback to none:", error.message);
+    return [];
+  }
 }
 
+// Full post document from the R2 snapshot (src/lib/blog/getPosts.js); no DB read.
 async function getPost(slug) {
-  const payload = await getPayload({ config });
-
-  const result = await payload.find({
-    collection: "posts",
-    where: { slug: { equals: slug } },
-    depth: 2,
-    limit: 1,
-  });
-
-  return result.docs[0];
+  return getPostBySlug(slug);
 }
 
 export async function generateMetadata({ params }) {

@@ -1,6 +1,17 @@
+import { revalidateTags } from '../lib/cache/revalidateTags.js'
+
+// getContactDetails() caches this global under the `contact-page` tag
+async function revalidateContactPage({ doc }) {
+  await revalidateTags('contact-page')
+  return doc
+}
+
 /** @type {import('payload').GlobalConfig} */
 const ContactPage = {
   slug: 'contact-page',
+  hooks: {
+    afterChange: [revalidateContactPage],
+  },
   admin: {
     group: 'Pages',
   },

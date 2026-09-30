@@ -1,6 +1,18 @@
+import { revalidateTags } from '../lib/cache/revalidateTags.js'
+
+// Footer caches policy links under the `policies` tag
+async function revalidatePolicies({ doc }) {
+  await revalidateTags('policies')
+  return doc
+}
+
 /** @type {import('payload').CollectionConfig} */
 const Policies = {
   slug: 'policies',
+  hooks: {
+    afterChange: [revalidatePolicies],
+    afterDelete: [revalidatePolicies],
+  },
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug', 'lastUpdated', 'updatedAt'],

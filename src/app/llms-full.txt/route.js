@@ -1,3 +1,4 @@
+import { getAllPosts } from '@/lib/blog/getPosts'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
@@ -53,13 +54,11 @@ Visvas is a luxury property developer based in Madurai, Tamil Nadu, India. We sp
       })
 
     // Fetch all blog posts
-    const postsResult = await payload.find({
-      collection: 'posts',
-      limit: 1000,
-    })
+    // Published blog posts from the R2 snapshot (no DB read)
+    const posts = await getAllPosts()
 
-    content += `---\n\n## Blog (${postsResult.docs.length} articles)\n\n`
-    postsResult.docs.forEach((post) => {
+    content += `---\n\n## Blog (${posts.length} articles)\n\n`
+    posts.forEach((post) => {
       content += `- **${post.title}**\n`
       content += `  URL: ${baseUrl}/blog/${post.slug}\n`
       if (post.excerpt) {

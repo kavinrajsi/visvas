@@ -20,6 +20,7 @@ Next.js 16 (App Router, Turbopack, React Compiler) + React 19, Payload CMS 3.85.
 - **Collections** defined in `src/collections/` — Amenities, BlogCategories, ContactSubmissions, FormSubmissionLogs, Policies, Posts, Projects, Testimonials, Users, Widgets, plus Media in `src/media/Media.js`
 - **Globals** defined in `src/globals/` — AboutPage, BlogPage, ContactPage, HomePage, ImpactPage (singleton records, edited in admin)
   - **Note:** ImpactPage backs the `/community` route, not `/impact`
+- **Blog reads** go through `src/lib/blog/getPosts.js` (JSON snapshot on R2 under `blog/`, kept in sync by the Posts/BlogPage hooks in `src/lib/blog/hooks.js`); pages must not query `posts` directly. Backfill once with `npm run blog:export`
 - **Access control** returns `boolean` (allow/deny all) OR `{ where: {...} }` constraint object (conditional read based on user)
   - Example: `read: ({ req: { user } }) => user ? true : { status: { not_equals: 'draft' } }`
 - **Media collection** supports S3/R2 storage (conditional via env vars; local fallback)

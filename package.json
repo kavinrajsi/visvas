@@ -12,7 +12,8 @@
     "payload:migrate": "payload migrate",
     "payload:migrate:create": "payload migrate:create",
     "payload:generate:types": "payload generate:types",
-    "db:push": "npm run payload:migrate && npm run payload:generate:types"
+    "db:push": "npm run payload:migrate && npm run payload:generate:types",
+    "blog:export": "node --env-file=.env.local scripts/export-blog-snapshot.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1076.0",

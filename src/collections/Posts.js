@@ -1,6 +1,13 @@
+import { syncPostAfterChange, syncPostAfterDelete } from '../lib/blog/hooks.js'
+
 /** @type {import('payload').CollectionConfig} */
 const Posts = {
   slug: 'posts',
+  // Keep the R2 blog JSON snapshot in sync and purge the blog caches
+  hooks: {
+    afterChange: [syncPostAfterChange],
+    afterDelete: [syncPostAfterDelete],
+  },
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'author', 'status', 'publishedAt', 'createdAt'],

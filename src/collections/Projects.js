@@ -1,6 +1,18 @@
+import { revalidateTags } from '../lib/cache/revalidateTags.js'
+
+// Footer caches recent projects under the `projects` tag
+async function revalidateProjects({ doc }) {
+  await revalidateTags('projects')
+  return doc
+}
+
 /** @type {import('payload').CollectionConfig} */
 const Projects = {
   slug: 'projects',
+  hooks: {
+    afterChange: [revalidateProjects],
+    afterDelete: [revalidateProjects],
+  },
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'displayOrder', 'location', 'status', 'projectType', 'createdAt'],

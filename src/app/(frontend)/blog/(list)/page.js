@@ -1,8 +1,7 @@
 import Image from "next/image";
-import { getPayload } from "payload";
-import config from "@payload-config";
 import Link from "next/link";
 import { toImageKitUrl } from "@/lib/image/imageKitUrl";
+import { getPublishedPosts, getBlogPageSettings } from "@/lib/blog/getPosts";
 import BlogSidebar from "../BlogSidebar";
 import Pagination from "@/app/(frontend)/projects/Pagination";
 import styles from "./page.module.scss";
@@ -39,32 +38,17 @@ function formatDate(dateStr) {
   }).format(new Date(dateStr));
 }
 
-async function getPosts(page = 1) {
-  const payload = await getPayload({ config });
-
-  const result = await payload.find({
-    collection: "posts",
-    limit: 10,
-    page,
-    depth: 1,
-    where: { status: { equals: "published" } },
-    sort: "-publishedAt",
-  });
-
-  return result;
-}
-
 export default async function BlogPage({ searchParams }) {
   const resolvedSearchParams = await searchParams;
   const currentPage = Number(resolvedSearchParams.page) || 1;
-  const { docs: posts, totalPages } = await getPosts(currentPage);
 
-  const payload = await getPayload({ config });
-  const blogPageData = await payload.findGlobal({
-    slug: "blog-page",
-    depth: 0,
-  });
-  const { heroImage, mobileHeroImage } = blogPageData || {};
+  // Both reads come from the R2 blog snapshot (src/lib/blog/getPosts.js), so
+  // this page renders without touching the database.
+  const [{ docs: posts, totalPages }, { heroImage, mobileHeroImage }] =
+    await Promise.all([
+      getPublishedPosts({ page: currentPage }),
+      getBlogPageSettings(),
+    ]);
 
   const buildPaginationHref = (pageNum) => {
     const params = new URLSearchParams(resolvedSearchParams);

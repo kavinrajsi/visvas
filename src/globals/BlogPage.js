@@ -1,6 +1,12 @@
+import { syncBlogPageAfterChange } from '../lib/blog/hooks.js'
+
 /** @type {import('payload').GlobalConfig} */
 const BlogPage = {
   slug: 'blog-page',
+  // Hero images live in the R2 blog snapshot index; rebuild it on save
+  hooks: {
+    afterChange: [syncBlogPageAfterChange],
+  },
   admin: {
     group: 'Pages',
   },

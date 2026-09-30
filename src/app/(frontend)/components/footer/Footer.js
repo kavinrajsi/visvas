@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getPayload } from "payload";
+import { unstable_cache } from "next/cache";
 import config from "@payload-config";
 import TestimonialsCarousel from "./TestimonialsCarousel";
 import FooterContactInfo from "./FooterContactInfo";
@@ -137,8 +138,12 @@ const XIcon = () => (
   </svg>
 );
 
-async function getRecentProjects() {
-  try {
+// The footer renders on every page, including dynamic ones, so each query is
+// held in Next's data cache for an hour and purged by the matching collection
+// hook tag (projects / policies / testimonials). try/catch stays outside
+// unstable_cache so a DB outage never caches an empty list.
+const loadRecentProjects = unstable_cache(
+  async () => {
     const payload = await getPayload({ config });
     const result = await payload.find({
       collection: "projects",
@@ -148,13 +153,13 @@ async function getRecentProjects() {
       select: { name: true, slug: true },
     });
     return result.docs.filter((p) => p.slug);
-  } catch {
-    return [];
-  }
-}
+  },
+  ["footer-recent-projects"],
+  { tags: ["projects"], revalidate: 3600 },
+);
 
-async function getPolicies() {
-  try {
+const loadPolicies = unstable_cache(
+  async () => {
     const payload = await getPayload({ config });
     const result = await payload.find({
       collection: "policies",
@@ -164,6 +169,35 @@ async function getPolicies() {
       select: { title: true, slug: true },
     });
     return result.docs.filter((p) => p.slug && p.title);
+  },
+  ["footer-policies"],
+  { tags: ["policies"], revalidate: 3600 },
+);
+
+const loadTestimonials = unstable_cache(
+  async () => {
+    const payload = await getPayload({ config });
+    const result = await payload.find({
+      collection: "testimonials",
+      limit: 100,
+    });
+    return result.docs;
+  },
+  ["footer-testimonials"],
+  { tags: ["testimonials"], revalidate: 3600 },
+);
+
+async function getRecentProjects() {
+  try {
+    return await loadRecentProjects();
+  } catch {
+    return [];
+  }
+}
+
+async function getPolicies() {
+  try {
+    return await loadPolicies();
   } catch {
     return [];
   }
@@ -171,12 +205,7 @@ async function getPolicies() {
 
 async function getTestimonials() {
   try {
-    const payload = await getPayload({ config });
-    const result = await payload.find({
-      collection: "testimonials",
-      limit: 100,
-    });
-    return result.docs;
+    return await loadTestimonials();
   } catch {
     return [];
   }

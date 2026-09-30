@@ -1,4 +1,5 @@
 import { cache } from 'react'
+import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
@@ -7,15 +8,27 @@ const FALLBACK = {
   phone: '+91 95432 24411',
 }
 
+// The root layout calls this on every render, including dynamic pages, so the
+// global is held in Next's data cache for an hour and purged by the
+// ContactPage global hook via the `contact-page` tag. Errors are caught by the
+// caller (not inside unstable_cache) so a DB outage never caches an empty value.
+const loadContactDetails = unstable_cache(
+  async () => {
+    const payload = await getPayload({ config })
+    const data = await payload.findGlobal({ slug: 'contact-page', depth: 0 })
+    return data?.contactDetails || {}
+  },
+  ['contact-details'],
+  { tags: ['contact-page'], revalidate: 3600 },
+)
+
 // Wrapped in react cache() so the layout, Footer and /contact share a single
-// query per request instead of each fetching the contact-page global.
+// lookup per request.
 export const getContactDetails = cache(async () => {
   let details = {}
 
   try {
-    const payload = await getPayload({ config })
-    const data = await payload.findGlobal({ slug: 'contact-page', depth: 0 })
-    details = data?.contactDetails || {}
+    details = await loadContactDetails()
   } catch (error) {
     console.error('[CONTACT] Failed to load contact details:', error.message)
   }

@@ -1,3 +1,5 @@
+import { revalidateTags } from '../lib/cache/revalidateTags.js'
+
 // Testimonials render in the footer carousel (frontend layout) on every page.
 // Those pages are statically generated, so a CMS change must revalidate them or
 // the live site keeps serving stale HTML until the next deploy / hourly ISR.
@@ -10,6 +12,8 @@ async function revalidateTestimonials() {
   } catch {
     // no-op outside the Next.js request/build context
   }
+  // Footer caches testimonials under this tag
+  await revalidateTags('testimonials')
 }
 
 /** @type {import('payload').CollectionConfig} */
