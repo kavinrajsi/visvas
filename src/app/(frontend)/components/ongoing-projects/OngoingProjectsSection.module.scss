@@ -1,0 +1,263 @@
+.ongoing-projects {
+    background-color: #184f2a;
+    overflow: hidden;
+
+    .ongoing-projects__header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 24px;
+        padding: 40px 20px 32px;
+
+        @media (min-width: 992px) {
+            padding: 56px 20px 60px;
+        }
+
+        .ongoing-projects__heading {
+            /* Desktop/H1 */
+            font-family: "Cormorant Garamond";
+            font-style: normal;
+            font-weight: 600;
+            font-size: 36px;
+            line-height: 40px;
+            text-align: center;
+            font-feature-settings:
+                "pnum" on,
+                "lnum" on;
+            color: #ffffff;
+
+            @media (min-width: 992px) {
+                font-size: 58px;
+                line-height: 62px;
+            }
+        }
+    }
+
+    .ongoing-projects__body {
+        position: relative;
+    }
+
+    .ongoing-projects__list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding: 0 20px 32px;
+
+        @media (min-width: 992px) {
+            position: absolute;
+            left: 50px;
+            top: 15%;
+            width: 317px;
+            padding: 0;
+            z-index: 2;
+        }
+
+        .ongoing-projects__list-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ongoing-projects__list-button {
+            /* Desktop/H3 */
+            font-family: "Cormorant Garamond";
+            font-style: normal;
+            font-weight: 600;
+            font-size: 30px;
+            line-height: 36px;
+            font-feature-settings:
+                "pnum" on,
+                "lnum" on;
+            color: #c4ab80;
+            background: none;
+            border: none;
+            padding: 0;
+            text-align: left;
+            cursor: pointer;
+            transition: color 0.2s ease;
+
+            @media (min-width: 992px) {
+                font-size: 36px;
+                line-height: 40px;
+            }
+
+            &:focus-visible {
+                outline: 2px solid #e4a025;
+                outline-offset: 2px;
+            }
+        }
+
+        .ongoing-projects__list-button--active {
+            color: #ffffff;
+        }
+
+        .ongoing-projects__thumb {
+            position: relative;
+            width: 220px;
+            margin: 12px 0 4px;
+            animation: ongoing-projects-fade-rise 0.25s ease;
+
+            .ongoing-projects__thumb-image {
+                display: block;
+                border-radius: 16px;
+                overflow: hidden;
+
+                img {
+                    display: block;
+                    width: 100%;
+                    height: auto;
+                }
+            }
+        }
+    }
+
+    .ongoing-projects__badge {
+        /* Desktop/B4 */
+        position: absolute;
+        top: 10px;
+        right: 0;
+        transform: translateX(30%);
+        font-family: "Raleway";
+        font-style: normal;
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 16px;
+        font-feature-settings:
+            "pnum" on,
+            "lnum" on;
+        color: #ffffff;
+        padding: 8px 12px;
+        border-radius: 25px;
+        white-space: nowrap;
+    }
+
+    .ongoing-projects__badge--on-sale {
+        background-color: #c4ab80;
+    }
+
+    .ongoing-projects__badge--under-construction {
+        background-color: #4d443e;
+    }
+
+    .ongoing-projects__badge--completed {
+        background-color: #b95827;
+    }
+
+    .ongoing-projects__scroller {
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+
+        @media (min-width: 992px) {
+            overflow-x: visible;
+        }
+    }
+
+    .ongoing-projects__stage {
+        position: relative;
+        min-width: 1100px;
+        aspect-ratio: 1440 / 720;
+
+        @media (min-width: 992px) {
+            min-width: 0;
+        }
+
+        .ongoing-projects__map {
+            position: absolute;
+            left: -3.54%;
+            top: 0;
+            width: 120.07%;
+            aspect-ratio: 1985 / 825;
+            pointer-events: none;
+
+            img {
+                object-fit: cover;
+            }
+        }
+
+        .ongoing-projects__pin {
+            position: absolute;
+            transform: translate(-50%, calc(-100% + 10px));
+            background: none;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 2;
+            transition: transform 0.2s ease;
+
+            img {
+                display: block;
+            }
+
+            &:focus-visible {
+                outline: 2px solid #e4a025;
+                outline-offset: 2px;
+            }
+        }
+
+        .ongoing-projects__pin-decorative {
+            position: absolute;
+            transform: translate(-50%, -100%);
+            pointer-events: none;
+            z-index: 1;
+
+            img {
+                display: block;
+            }
+        }
+
+        .ongoing-projects__card {
+            position: absolute;
+            transform: translate(-65%, calc(-100% - 34px));
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            background-color: #ffffff;
+            padding: 16px;
+            border-radius: 4px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            z-index: 3;
+            animation: ongoing-projects-fade-rise 0.25s ease;
+
+            .ongoing-projects__card-location {
+                /* Desktop/B2 */
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                font-family: "Raleway";
+                font-style: normal;
+                font-weight: 500;
+                font-size: 14px;
+                line-height: 20px;
+                font-feature-settings:
+                    "pnum" on,
+                    "lnum" on;
+                color: #4b4b4b;
+                white-space: nowrap;
+            }
+
+            .ongoing-projects__card-title {
+                font-family: "Raleway";
+                font-style: normal;
+                font-weight: 600;
+                font-size: 16px;
+                line-height: 22px;
+                font-feature-settings:
+                    "pnum" on,
+                    "lnum" on;
+                color: #303030;
+                white-space: nowrap;
+            }
+        }
+    }
+}
+
+@keyframes ongoing-projects-fade-rise {
+    from {
+        opacity: 0;
+        translate: 0 4px;
+    }
+    to {
+        opacity: 1;
+        translate: 0 0;
+    }
+}

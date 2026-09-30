@@ -6,6 +6,7 @@ import LatestProjectsSection from '@/app/(frontend)/components/latest-projects/L
 import CompletedProjectsSection from '@/app/(frontend)/components/completed-projects/CompletedProjectsSection'
 import WhoWeAreSection from '@/app/(frontend)/components/who-we-are/WhoWeAreSection'
 import HowWeBuildSection from '@/app/(frontend)/components/how-we-build/HowWeBuildSection'
+import OngoingProjectsSection from '@/app/(frontend)/components/ongoing-projects/OngoingProjectsSection'
 import ProjectCard from '@/app/(frontend)/components/project-card/ProjectCard'
 import { toImageKitUrl } from '@/lib/image/imageKitUrl'
 import HeroReveal from '@/components/animation/HeroReveal'
@@ -110,6 +111,7 @@ export default async function Home() {
       <Banner />
       <LatestProjectsSection />
       <WhoWeAreSection section={whoWeAreSection} />
+      <OngoingProjectsSection />
       <HowWeBuildSection section={howWeBuildSection} />
       <CompletedProjectsSection />
 
