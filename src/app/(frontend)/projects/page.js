@@ -1,9 +1,8 @@
 import { Suspense } from 'react'
-import { getPayload } from 'payload'
-import config from '@payload-config'
 import ProjectCard from '@/app/(frontend)/components/project-card/ProjectCard'
 import Pagination from '@/app/(frontend)/projects/Pagination'
 import ProjectPageClient from '@/app/(frontend)/projects/ProjectPageClient'
+import { getProjects } from '@/app/(frontend)/projects/data'
 import styles from './page.module.scss'
 
 export const revalidate = 3600
@@ -26,25 +25,9 @@ export const metadata = {
   },
 }
 
-async function getProjects(searchParams) {
-  const payload = await getPayload({ config })
-
-  const currentPage = Number(searchParams.page) || 1
-
-  const result = await payload.find({
-    collection: 'projects',
-    limit: 8,
-    page: currentPage,
-    depth: 1,
-    sort: ['displayOrder', '-createdAt'],
-  })
-
-  return result
-}
-
 export default async function AllProjectsPage({ searchParams: searchParamsPromise }) {
   const searchParams = await searchParamsPromise
-  const projectsData = await getProjects(searchParams)
+  const projectsData = await getProjects('all', searchParams)
 
   const { docs: projects, totalPages, page: currentPage } = projectsData
 

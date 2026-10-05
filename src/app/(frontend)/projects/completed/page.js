@@ -1,13 +1,11 @@
 import Image from 'next/image'
 import { Suspense } from 'react'
-import { getPayload } from 'payload'
-import config from '@payload-config'
 import ProjectCard from '@/app/(frontend)/components/project-card/ProjectCard'
 import ProjectFilters from '@/app/(frontend)/projects/ProjectFilters'
 import Pagination from '@/app/(frontend)/projects/Pagination'
 import ProjectPageClient from '@/app/(frontend)/projects/ProjectPageClient'
-import { buildWhere } from '@/app/(frontend)/projects/helpers'
 import { getTaxonomyOptions } from '@/app/(frontend)/projects/taxonomies'
+import { getProjects, getAvailableLocations } from '@/app/(frontend)/projects/data'
 import styles from './page.module.scss'
 
 export const revalidate = 3600
@@ -30,45 +28,10 @@ export const metadata = {
   },
 }
 
-async function getProjects(searchParams) {
-  const payload = await getPayload({ config })
-
-  const currentPage = Number(searchParams.page) || 1
-  const where = buildWhere(searchParams, 'completed')
-
-  const result = await payload.find({
-    collection: 'projects',
-    limit: 8,
-    page: currentPage,
-    depth: 1,
-    sort: ['displayOrder', '-createdAt'],
-    where: Object.keys(where).length > 0 ? where : undefined,
-  })
-
-  return result
-}
-
-async function getAvailableLocations() {
-  const payload = await getPayload({ config })
-
-  const result = await payload.find({
-    collection: 'projects',
-    limit: 1000,
-    depth: 0,
-    select: { location: true },
-  })
-
-  const locations = [
-    ...new Set(result.docs.map((p) => p.location).filter(Boolean)),
-  ].sort()
-
-  return locations
-}
-
 export default async function CompletedProjectsPage({ searchParams: searchParamsPromise }) {
   const searchParams = await searchParamsPromise
   const [projectsData, availableLocations, { statusOptions, typeOptions }] = await Promise.all([
-    getProjects(searchParams),
+    getProjects('completed', searchParams),
     getAvailableLocations(),
     getTaxonomyOptions(),
   ])
