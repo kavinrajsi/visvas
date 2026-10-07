@@ -28,6 +28,14 @@ import KumbabishekamPage from './src/globals/KumbabishekamPage.js'
 import ContactSubmissions from './src/collections/ContactSubmissions.js'
 import FormSubmissionLogs from './src/collections/FormSubmissionLogs.js'
 
+// pg treats sslmode=prefer/require/verify-ca as verify-full today but warns on
+// every connection that pg v9 will weaken them to libpq semantics. Pin the
+// current behaviour explicitly. URLs that opt into uselibpqcompat are left alone.
+function pinSslMode(url) {
+  if (/[?&]uselibpqcompat=true\b/.test(url)) return url
+  return url.replace(/([?&]sslmode=)(prefer|require|verify-ca)\b/, '$1verify-full')
+}
+
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -170,7 +178,7 @@ export default buildConfig({
   },
   db: postgresAdapter({
     pool: {
-      connectionString: process.env.DATABASE_URL || '',
+      connectionString: pinSslMode(process.env.DATABASE_URL || ''),
     },
   }),
   plugins,
