@@ -1,3 +1,4 @@
+import YouTubeFacade from '../youtube-facade/YouTubeFacade'
 import styles from './YouTubeEmbed.module.scss'
 
 function extractVideoId(url) {
@@ -12,12 +13,9 @@ export default function YouTubeEmbed({ url, title }) {
 
   return (
     <div className={styles.embed}>
-      <iframe
-        src={`https://www.youtube.com/embed/${videoId}?modestbranding=1&playsinline=1`}
+      <YouTubeFacade
+        videoId={videoId}
         title={title || 'Kumbabishekam video'}
-        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-        loading="lazy"
         className={styles.embed__iframe}
       />
     </div>

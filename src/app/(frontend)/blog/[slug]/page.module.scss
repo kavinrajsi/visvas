@@ -19,6 +19,8 @@
             padding-bottom: 56px;
             img {
                 width: 100%;
+                // Fixed box so the text below doesn't jump when the cover loads
+                aspect-ratio: 2 / 1;
                 max-height: 450px;
                 object-fit: cover;
                 object-position: center;

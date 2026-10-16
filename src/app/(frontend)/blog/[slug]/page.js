@@ -103,6 +103,7 @@ export default async function BlogDetailPage({ params }) {
               priority
               width={1200}
               height={600}
+              sizes="(max-width: 991px) 100vw, 860px"
             />
           </div>
           {/* Header */}

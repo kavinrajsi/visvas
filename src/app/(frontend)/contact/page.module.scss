@@ -1,3 +1,14 @@
+// Reserve the banner's real aspect ratio per breakpoint; the img width/height
+// attributes describe the desktop art, so mobile used to shift on load
+.hero__image {
+  display: block;
+  aspect-ratio: 1440 / 454;
+  object-fit: cover;
+  @media (max-width: 767px) {
+    aspect-ratio: 393 / 454;
+  }
+}
+
 .contact-section {
   max-width: 1114px;
   margin: 0 auto;

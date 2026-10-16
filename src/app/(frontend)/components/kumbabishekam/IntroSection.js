@@ -111,6 +111,7 @@ export default function IntroSection({ intro, language }) {
               aria-hidden="true"
               width={1920}
               height={963}
+              sizes="100vw"
               className={styles.intro__treeImage}
             />
           </div>
@@ -130,6 +131,7 @@ export default function IntroSection({ intro, language }) {
               aria-hidden="true"
               width={1920}
               height={1412}
+              sizes="100vw"
               className={styles.intro__backgroundBottom}
             />
           </div>

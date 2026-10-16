@@ -61,6 +61,8 @@ export default function HeroSection({ hero, language, anchorLabel, anchorHref })
           aria-hidden="true"
           width={1920}
           height={963}
+          sizes="100vw"
+          priority
           className={styles.hero__treeImage}
         />
       </div>

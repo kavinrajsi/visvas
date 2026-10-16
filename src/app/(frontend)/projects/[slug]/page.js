@@ -1,4 +1,5 @@
 import Image from "next/image";
+import LazyIframe from "@/app/(frontend)/components/lazy-iframe/LazyIframe";
 import { getPayload } from "payload";
 import { notFound } from "next/navigation";
 import config from "@payload-config";
@@ -529,7 +530,7 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
             {/* Map Section */}
             <div className={styles["project-detail__map"]}>
               {project.latitude && project.longitude ? (
-                <iframe
+                <LazyIframe
                   className={styles["project-detail__map-embed"]}
                   src={`https://www.google.com/maps?q=${project.latitude},${project.longitude}&output=embed`}
                   title={`${project.name} location map`}
@@ -539,7 +540,7 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
                   aria-label={`Map showing location of ${project.name}`}
                 />
               ) : project.locationMapUrl ? (
-                <iframe
+                <LazyIframe
                   className={styles["project-detail__map-embed"]}
                   src={`${project.locationMapUrl}${project.locationMapUrl.includes("?") ? "&" : "?"}output=embed`}
                   title={`${project.name} location map`}

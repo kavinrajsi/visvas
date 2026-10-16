@@ -50,8 +50,7 @@ export default async function CommunityPage() {
     testimonials = [],
   } = data || {};
 
-  preload("/video/visvas-community-video-poster.png", { as: "image" });
-  preload("/video/visvas-community-video-1-poster.png", { as: "image" });
+  preload("/video/visvas-community-video-poster.webp", { as: "image", fetchPriority: "high" });
 
   return (
     <main className={styles["community"]}>
@@ -66,15 +65,16 @@ export default async function CommunityPage() {
       </section>
       <section className={styles["community__video-section"]}>
         <video
-          poster="/video/visvas-community-video-poster.png"
+          poster="/video/visvas-community-video-poster.webp"
           loop
           muted
           autoPlay
           playsInline
-          preload="auto"
+          preload="metadata"
           className={styles["community__video"]}
         >
-          <source src="/video/visvas-community-video.mp4" type="video/mp4" />
+          <source src="/video/visvas-community-video-720.mp4" type="video/mp4" media="(max-width: 768px)" />
+          <source src="/video/visvas-community-video-1080.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       </section>
@@ -82,7 +82,7 @@ export default async function CommunityPage() {
         <div className={styles["community__about-video-sectionWrapper"]}>
           <div className={styles["community__about-video-section"]}>
             <video
-              poster="/video/visvas-community-video-1-poster.png"
+              poster="/video/visvas-community-video-1-poster.webp"
               loop
               muted
               autoPlay
@@ -91,7 +91,7 @@ export default async function CommunityPage() {
               className={styles["community__about-video"]}
             >
               <source
-                src="/video/visvas-community-video-1.mp4"
+                src="/video/visvas-community-video-1-720.mp4"
                 type="video/mp4"
               />
             </video>
