@@ -1,8 +1,13 @@
 'use client'
 
 import Link from 'next/link'
-import HeroReveal from '@/components/animation/HeroReveal'
+import dynamic from 'next/dynamic'
 import styles from './not-found.module.scss'
+
+// The not-found boundary is bundled with the (frontend) layout, so a static
+// import here put GSAP (~50 KB gzipped) in every page's first-load JS. Load it
+// only when a 404 actually renders.
+const HeroReveal = dynamic(() => import('@/components/animation/HeroReveal'))
 
 export default function NotFound() {
   return (
