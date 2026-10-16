@@ -132,6 +132,7 @@ export default async function AboutPage() {
           height={600}
           quality={85}
           priority
+          fetchPriority="high"
           className={styles["about__hero-image-img"]}
         />
       </section>

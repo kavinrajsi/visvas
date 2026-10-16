@@ -60,6 +60,8 @@ export default async function CompletedProjectsPage({ searchParams: searchParams
           height={454}
           quality={85}
           priority
+          fetchPriority="high"
+          sizes="100vw"
           className={styles['page__banner-image']}
         />
       </div>

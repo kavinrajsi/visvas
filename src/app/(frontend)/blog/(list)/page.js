@@ -70,6 +70,8 @@ export default async function BlogPage({ searchParams }) {
               alt="Blog & Insights"
               className={styles["blog-index__banner-image"]}
               priority
+              fetchPriority="high"
+              sizes="100vw"
               width={1920}
               height={600}
             />

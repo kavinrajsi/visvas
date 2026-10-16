@@ -119,6 +119,7 @@ export default async function ProjectDetailPage({ params: paramsPromise }) {
             alt={project.name}
             className={styles["project-detail__hero-img"]}
             priority
+            fetchPriority="high"
             width={1920}
             height={600}
           />
