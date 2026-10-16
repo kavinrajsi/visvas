@@ -16,6 +16,8 @@ export function PostHogProvider({ children }) {
         if (cancelled) return
         posthog.init(token, {
           api_host: host,
+          // Surveys aren't used; this stops the 33 KB surveys.js download
+          disable_surveys: true,
           loaded: (ph) => {
             if (process.env.NODE_ENV === 'development') ph.debug()
           },
