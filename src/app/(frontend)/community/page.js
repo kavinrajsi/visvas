@@ -2,6 +2,7 @@ import Image from "next/image";
 import { preload } from "react-dom";
 import { getPayload } from "payload";
 import config from "@payload-config";
+import ResponsiveVideo from "@/app/(frontend)/components/responsive-video/ResponsiveVideo";
 import styles from "./page.module.scss";
 
 export const revalidate = 3600;
@@ -64,37 +65,22 @@ export default async function CommunityPage() {
         </p>
       </section>
       <section className={styles["community__video-section"]}>
-        <video
+        <ResponsiveVideo
+          mobileSrc="/video/visvas-community-video-720.mp4"
+          desktopSrc="/video/visvas-community-video-1080.mp4"
           poster="/video/visvas-community-video-poster.webp"
-          loop
-          muted
-          autoPlay
-          playsInline
-          preload="metadata"
           className={styles["community__video"]}
-        >
-          <source src="/video/visvas-community-video-720.mp4" type="video/mp4" media="(max-width: 768px)" />
-          <source src="/video/visvas-community-video-1080.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
+        />
       </section>
       <section className={styles["community__about"]}>
         <div className={styles["community__about-video-sectionWrapper"]}>
           <div className={styles["community__about-video-section"]}>
-            <video
+            <ResponsiveVideo
+              mobileSrc="/video/visvas-community-video-1-720.mp4"
+              desktopSrc="/video/visvas-community-video-1-720.mp4"
               poster="/video/visvas-community-video-1-poster.webp"
-              loop
-              muted
-              autoPlay
-              playsInline
-              preload="metadata"
               className={styles["community__about-video"]}
-            >
-              <source
-                src="/video/visvas-community-video-1-720.mp4"
-                type="video/mp4"
-              />
-            </video>
+            />
             <div className={styles["community__about-overlay"]} />
           </div>
           <div className={styles["community__about-right"]} />
