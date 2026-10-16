@@ -1,18 +1,6 @@
 import Script from 'next/script'
-import { Cormorant_Garamond, Raleway } from 'next/font/google'
+import { raleway } from '@/fonts'
 import { PostHogProvider } from './providers/PostHogProvider'
-
-const cormorant = Cormorant_Garamond({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-cormorant',
-})
-
-const raleway = Raleway({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
-  variable: '--font-raleway',
-})
 
 export const metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
@@ -22,7 +10,11 @@ export default function Layout({ children }) {
   const GTM_ID = 'GTM-NXHMWWFZ'
 
   return (
-    <html lang="en" className={`${cormorant.className} ${raleway.className}`}>
+    // Raleway is the base font. Cormorant isn't applied here: next/font/local
+    // names the class's family after the variable ("cormorant"), which doesn't
+    // match the face's real name, and SCSS already uses "Cormorant Garamond".
+    // Importing it still ships its @font-face rules and preload.
+    <html lang="en" className={raleway.className}>
       <head>
         {/* Google Tag Manager */}
         <Script
