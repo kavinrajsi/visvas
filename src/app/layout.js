@@ -39,7 +39,7 @@ export default function Layout({ children }) {
         />
         <Script
           src={`https://www.googletagmanager.com/gtm.js?id=${GTM_ID}`}
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
       </head>
       <body>

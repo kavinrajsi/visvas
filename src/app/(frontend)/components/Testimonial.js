@@ -4,16 +4,18 @@ import Image from 'next/image'
 import Star from './Star'
 import QuoteIcon from './QuoteIcon'
 import CustomVideoPlayer from './CustomVideoPlayer'
+import YouTubeFacade from './youtube-facade/YouTubeFacade'
 import styles from './Testimonial.module.scss'
 
 export default function Testimonial({ testimonial }) {
   if (!testimonial) return null
   const { name = '', location = '', type = 'text', textContent = '', rating = 0, videoSource, youtubeUrl, vimeoUrl, video, poster } = testimonial
 
-  const getYouTubeEmbedUrl = (url) => {
+  const getYouTubeId = (url) => {
     const videoId = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/)
-    return videoId ? `https://www.youtube.com/embed/${videoId[1]}` : null
+    return videoId ? videoId[1] : null
   }
+  const youtubeId = videoSource === 'youtube' && youtubeUrl ? getYouTubeId(youtubeUrl) : null
 
   const getVimeoEmbedUrl = (url) => {
     const videoId = url.match(/vimeo\.com\/(\d+)/)
@@ -53,13 +55,11 @@ export default function Testimonial({ testimonial }) {
             />
           )}
 
-          {videoSource === 'youtube' && youtubeUrl && (
-            <iframe
-              className={styles.testimonial__iframe}
-              src={getYouTubeEmbedUrl(youtubeUrl)}
+          {youtubeId && (
+            <YouTubeFacade
+              videoId={youtubeId}
               title={`${name} - YouTube`}
-              allowFullScreen
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              className={styles.testimonial__iframe}
             />
           )}
 
