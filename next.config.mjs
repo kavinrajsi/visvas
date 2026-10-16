@@ -59,6 +59,9 @@ const nextConfig = {
   },
   async redirects() {
     return [
+      // Kumbabishekam event microsite was retired
+      { source: '/kumbabishekam', destination: '/about', permanent: true },
+      { source: '/kumbabishekam/:path*', destination: '/about', permanent: true },
       // Common WordPress patterns
       { source: '/wp-login.php', destination: '/', permanent: true },
       { source: '/wp-login', destination: '/', permanent: true },

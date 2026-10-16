@@ -1,4 +1,4 @@
-// Visvas brand marks, shared by the site header and the Kumbabishekam microsite header.
+// Visvas brand marks used by the site header.
 export const MobileLogo = () => (
   <svg
     width="215"
