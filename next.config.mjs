@@ -59,6 +59,8 @@ const nextConfig = {
   },
   async redirects() {
     return [
+      // Logo moved under /email-signature
+      { source: '/visvas-promoters-logo.png', destination: '/email-signature/visvas-promoters-logo.png', permanent: true },
       // Kumbabishekam event microsite was retired
       { source: '/kumbabishekam', destination: '/about', permanent: true },
       { source: '/kumbabishekam/:path*', destination: '/about', permanent: true },
