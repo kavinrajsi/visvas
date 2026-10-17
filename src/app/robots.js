@@ -6,11 +6,12 @@ export default function robots() {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/admin', '/api/', '/payload*'],
+        disallow: ['/admin', '/api/', '/payload*', '/email-signature/'],
       },
       {
         userAgent: ['GPTBot', 'ClaudeBot', 'PerplexityBot'],
         allow: ['/llms.txt', '/llms-full.txt', '/ai.txt'],
+        disallow: ['/email-signature/'],
       },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,

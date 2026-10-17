@@ -18,6 +18,11 @@ const nextConfig = {
   async headers() {
     return [
       {
+        // Signature templates and their images are for email clients, not search
+        source: '/email-signature/:path*',
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow, noarchive, nosnippet, noimageindex' }],
+      },
+      {
         source: '/(.*)',
         headers: [
           { key: 'X-Content-Type-Options', value: 'nosniff' },
