@@ -139,8 +139,17 @@ the conversion recorded nothing on this codebase. The site owner confirmed it co
 
 The orphaned trigger `Visvas - Whatsapp` is still in the container with no tag attached.
 
-Known gap left as-is for now: `Visvas _ contact Number` (same Ads account, label
-etPyCNuI7rsZEICzy90p) also never fires, because its trigger looks for `tel:9543224411` while
-the site renders `tel:+919543224411`. Fix the trigger or remove the tag (and the Conversion
-Linker, if no Google Ads conversions remain) once it is confirmed whether Google Ads
-conversions are still wanted.
+### Version 10 (23 Oct 2026): removed "Visvas _ contact Number"
+
+Removed the last Google Ads conversion tag, `Visvas _ contact Number` (Google Ads account
+11202124160, label etPyCNuI7rsZEICzy90p), added in 2024.
+
+Why: its trigger `Just Links` fired on clicks whose URL contained `tel:9543224411`. The site
+renders phone links as `tel:+919543224411`, so the condition never matched and the conversion
+recorded nothing on this codebase. The site owner chose removal over fixing the trigger.
+
+Left in the container for now, all harmless: the `Conversion Linker` tag (no conversion tags
+use it any more) and the three orphaned click triggers `WhatsApp Button`, `Visvas - Whatsapp`
+and `Just Links`. They can be deleted whenever convenient. If Google Ads conversions are wanted
+again, add fresh conversion tags with triggers that match `wa.me/919543224411` and
+`tel:+919543224411`.
