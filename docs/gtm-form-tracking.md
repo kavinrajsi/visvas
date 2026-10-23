@@ -148,8 +148,17 @@ Why: its trigger `Just Links` fired on clicks whose URL contained `tel:954322441
 renders phone links as `tel:+919543224411`, so the condition never matched and the conversion
 recorded nothing on this codebase. The site owner chose removal over fixing the trigger.
 
-Left in the container for now, all harmless: the `Conversion Linker` tag (no conversion tags
-use it any more) and the three orphaned click triggers `WhatsApp Button`, `Visvas - Whatsapp`
-and `Just Links`. They can be deleted whenever convenient. If Google Ads conversions are wanted
-again, add fresh conversion tags with triggers that match `wa.me/919543224411` and
-`tel:+919543224411`.
+### Version 11 (23 Oct 2026): removed the Conversion Linker and the orphaned click triggers
+
+Removed the legacy `Conversion Linker` tag and the three click triggers `WhatsApp Button`,
+`Visvas - Whatsapp` and `Just Links` that the deleted Google Ads tags had used.
+
+Why: the Conversion Linker only exists to store Google Ads click IDs in first-party cookies for
+Google Ads and Campaign Manager conversion tags. With no such tags left it did nothing. GA4 has
+its own attribution and never depended on it, and the site captures gclid/fbclid itself in
+`src/lib/analytics/attribution.js`. The three triggers had no tags attached.
+
+The container now holds only the GA4 Google tag, the eight form-tracking tags, their eight
+custom-event triggers and the 19 data layer variables. If Google Ads conversions are wanted
+again, add a Conversion Linker plus fresh conversion tags with triggers that match
+`wa.me/919543224411` and `tel:+919543224411`.
