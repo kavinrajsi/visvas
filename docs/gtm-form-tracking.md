@@ -127,7 +127,20 @@ Why:
 The orphaned trigger `WhatsApp Button` (Just Links, URL contains api.whatsapp.com) is still in the
 container with no tag attached and can be deleted at any time.
 
-Known gaps left as-is for now: the two Visvas Google Ads tags also never fire, because their
-triggers look for `wa.me/919965593344` (old number; the site uses 919543224411) and
-`tel:9543224411` (the site uses `tel:+919543224411`). Fix the triggers or remove the tags once
-it is confirmed whether Google Ads conversions are still wanted.
+### Version 9 (23 Oct 2026): removed "Visvas - Whatsapp link"
+
+Removed the Google Ads conversion tag `Visvas - Whatsapp link` (Google Ads account
+11202124160, label hEdeCN7B9LsZEICzy90p), added in 2024.
+
+Why: its trigger `Visvas - Whatsapp` fired on clicks whose URL contained
+`https://wa.me/919965593344`. That number is no longer used anywhere in the code or on the
+site; every WhatsApp link goes to `wa.me/919543224411`, so the trigger could never match and
+the conversion recorded nothing on this codebase. The site owner confirmed it could go.
+
+The orphaned trigger `Visvas - Whatsapp` is still in the container with no tag attached.
+
+Known gap left as-is for now: `Visvas _ contact Number` (same Ads account, label
+etPyCNuI7rsZEICzy90p) also never fires, because its trigger looks for `tel:9543224411` while
+the site renders `tel:+919543224411`. Fix the trigger or remove the tag (and the Conversion
+Linker, if no Google Ads conversions remain) once it is confirmed whether Google Ads
+conversions are still wanted.
