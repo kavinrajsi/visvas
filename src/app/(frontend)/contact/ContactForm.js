@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { getAttributionData } from '@/lib/analytics/attribution'
 import { getRecaptchaToken } from '@/lib/security/recaptchaClient'
 import { HONEYPOT_FIELD } from '@/lib/security/honeypot'
-import { trackFormSubmission } from '@/lib/gtm/events'
+import { useFormTracking } from '@/lib/gtm/useFormTracking'
 import FormSuccess from '@/app/(frontend)/components/form-success/FormSuccess'
 import styles from './ContactForm.module.scss'
 
@@ -46,6 +46,7 @@ export default function ContactForm({ heading = 'Contact Form', disclaimer = '',
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState(null)
   const [errors, setErrors] = useState({})
+  const tracking = useFormTracking('contact', { formName: 'contact_page_form' })
 
   const validateForm = (data) => {
     const nextErrors = {}
@@ -95,6 +96,7 @@ export default function ContactForm({ heading = 'Contact Form', disclaimer = '',
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target
+    if (name !== HONEYPOT_FIELD) tracking.trackStart(name)
     setFormData((prev) => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
@@ -112,6 +114,7 @@ export default function ContactForm({ heading = 'Contact Form', disclaimer = '',
     const validationErrors = validateForm(formData)
 
     if (Object.keys(validationErrors).length > 0) {
+      tracking.trackValidationError(validationErrors)
       setErrors(validationErrors)
       setMessage(null)
       return
@@ -120,6 +123,7 @@ export default function ContactForm({ heading = 'Contact Form', disclaimer = '',
     setLoading(true)
     setMessage(null)
     setErrors({})
+    tracking.trackSubmit(formData)
 
     try {
       const attribution = getAttributionData()
@@ -142,16 +146,7 @@ export default function ContactForm({ heading = 'Contact Form', disclaimer = '',
       if (result.destinations) console.table(result.destinations)
 
       if (result.success) {
-        trackFormSubmission('contact', {
-          name: formData.name,
-          email: formData.email,
-          mobile: formData.mobile,
-          budget: formData.budget,
-          whatsapp_opted: formData.whatsapp,
-          message_length: formData.message.length,
-          has_message: formData.message.trim().length > 0,
-          submission_time: new Date().toISOString(),
-        }, 'success')
+        tracking.trackSuccess(formData)
 
         setMessage({
           type: 'success',
@@ -162,22 +157,14 @@ export default function ContactForm({ heading = 'Contact Form', disclaimer = '',
         setFormData({
           name: '',
           mobile: '',
-          whatsapp: false,
+          whatsapp: true,
           email: '',
           budget: '',
           message: '',
           [HONEYPOT_FIELD]: '',
         })
       } else {
-        trackFormSubmission('contact', {
-          name: formData.name,
-          email: formData.email,
-          mobile: formData.mobile,
-          budget: formData.budget,
-          error_message: result.error || 'Unknown error',
-          filled_fields: Object.values(formData).filter(v => v && v.toString().trim()).length,
-          submission_time: new Date().toISOString(),
-        }, 'error')
+        tracking.trackError('server', result.error, formData, result.errors)
         const serverErrors = mapServerErrors(result.errors)
 
         if (Object.keys(serverErrors).length > 0) {
@@ -191,6 +178,7 @@ export default function ContactForm({ heading = 'Contact Form', disclaimer = '',
       }
     } catch (error) {
       console.error('Form submission error:', error)
+      tracking.trackError('network', error?.message, formData)
       setMessage({
         type: 'error',
         text: 'Network error. Please try again.',
@@ -248,21 +236,6 @@ export default function ContactForm({ heading = 'Contact Form', disclaimer = '',
           )}
         </div>
 
-        <div className={styles['contact-form__checkbox-group']}>
-          <input
-            type="checkbox"
-            id="whatsapp"
-            name="whatsapp"
-            checked={formData.whatsapp}
-            onChange={handleChange}
-            className={styles['contact-form__checkbox']}
-            aria-label="WhatsApp checkbox"
-          />
-          <label htmlFor="whatsapp" className={styles['contact-form__checkbox-label']}>
-            Do you have whatsapp activated on this number?
-          </label>
-        </div>
-
         <div className={styles['contact-form__field']}>
           <input
             type="email"
@@ -310,6 +283,21 @@ export default function ContactForm({ heading = 'Contact Form', disclaimer = '',
           rows="5"
           aria-label="Message"
         ></textarea>
+
+        <div className={styles['contact-form__checkbox-group']}>
+          <input
+            type="checkbox"
+            id="whatsapp"
+            name="whatsapp"
+            checked={formData.whatsapp}
+            onChange={handleChange}
+            className={styles['contact-form__checkbox']}
+            aria-label="WhatsApp checkbox"
+          />
+          <label htmlFor="whatsapp" className={styles['contact-form__checkbox-label']}>
+            Do you have whatsapp activated on this number?
+          </label>
+        </div>
 
         <input
           type="text"

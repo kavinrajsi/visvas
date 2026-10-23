@@ -38,7 +38,14 @@ export async function appendToSheet(sheetName, rows) {
 
     const { token } = await getJwtClient().getAccessToken()
 
-    const url = `${GOOGLE_SHEETS_CONFIG.baseUrl}/${GOOGLE_SHEETS_CONFIG.spreadsheetId}/values/${encodeURIComponent(sheetName)}:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS`
+    // Anchor the append range at column A. With a bare sheet name the API
+    // infers the "table" from the last row's filled cells, and rows that have
+    // blank middle cells (newsletter rows have no mobile/message) make each new
+    // row land a few columns further right than the previous one.
+    const width = Math.max(...rows.map((row) => row.length), 1)
+    const lastColumn = String.fromCharCode(64 + Math.min(width, 26))
+    const range = `${sheetName}!A:${lastColumn}`
+    const url = `${GOOGLE_SHEETS_CONFIG.baseUrl}/${GOOGLE_SHEETS_CONFIG.spreadsheetId}/values/${encodeURIComponent(range)}:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS`
 
     const response = await fetch(url, {
       method: 'POST',

@@ -209,6 +209,10 @@ Form submissions (enquiry, contact) flow through a unified pipeline:
 
 All storage backends fail gracefully if env vars absent (e.g., no Google Sheets API key → skip Sheets append, still save locally).
 
+### Analytics (GTM → GA4)
+
+Every form reports its lifecycle (`form_view`, `form_start`, `form_validation_error`, `form_submit`, `form_submission`, `form_abandon`) to the GTM dataLayer through `src/lib/gtm/useFormTracking.js`. Raw field values are never pushed. The event reference and the GTM/GA4 configuration needed to receive them are in [`docs/gtm-form-tracking.md`](docs/gtm-form-tracking.md).
+
 ## Security
 
 ### Rate Limiting

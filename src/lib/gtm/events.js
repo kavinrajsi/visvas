@@ -1,8 +1,10 @@
-// Push events to Google Tag Manager dataLayer
+// Push events to Google Tag Manager dataLayer.
+// The array is created on demand so pushes that happen before gtm.js loads
+// (e.g. a form_view on first paint) are queued and replayed by GTM.
 export function pushDataLayer(data) {
-  if (typeof window !== 'undefined' && window.dataLayer) {
-    window.dataLayer.push(data)
-  }
+  if (typeof window === 'undefined') return
+  window.dataLayer = window.dataLayer || []
+  window.dataLayer.push(data)
 }
 
 // Track page view with custom data
@@ -29,13 +31,41 @@ export function setPageType(pageType, additionalData = {}) {
   })
 }
 
-// Track form submission
+// Fields that must never reach the dataLayer. GA4 rejects personally
+// identifiable information, and GTM forwards everything we push, so raw
+// form values are replaced with presence flags before pushing.
+const PII_FIELDS = new Set(['name', 'email', 'mobile', 'phone', 'message', 'company'])
+
+export function sanitiseFormPayload(formData = {}) {
+  const safe = {}
+  for (const [key, value] of Object.entries(formData)) {
+    if (PII_FIELDS.has(key)) continue
+    if (key === 'whatsapp') {
+      safe.whatsapp_opted = Boolean(value)
+      continue
+    }
+    if (key === 'project') {
+      if (value) safe.project_name = value
+      continue
+    }
+    safe[key] = value
+  }
+  if ('message' in formData) {
+    const text = typeof formData.message === 'string' ? formData.message.trim() : ''
+    safe.has_message = text.length > 0
+    safe.message_length = text.length
+  }
+  return safe
+}
+
+// Track form submission outcome. `formData` may contain raw form values;
+// PII is stripped before the push.
 export function trackFormSubmission(formType, formData = {}, status = 'success') {
   pushDataLayer({
     event: 'form_submission',
     form_type: formType,
     form_status: status,
-    ...formData,
+    ...sanitiseFormPayload(formData),
   })
 }
 
