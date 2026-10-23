@@ -108,3 +108,26 @@ report on as event-scoped custom dimensions: `form_type`, `form_name`,
 6. Check GA4 → Reports → Realtime for `generate_lead`.
 
 In the browser console, `window.dataLayer` shows every pushed event.
+
+## Container changelog
+
+### Version 8 (23 Oct 2026): removed "TechSol - Ongoing Project WhatsApp Button 46409"
+
+Removed the Google Ads conversion tag `TechSol - Ongoing Project WhatsApp Button 46409`
+(conversion ID 6886537197, label CkBDCO3v4NMZEICzy90p), added in 2024 by a previous agency.
+
+Why:
+
+- Its trigger fired on clicks whose URL contained `https://api.whatsapp.com/`. Every WhatsApp
+  link on this site is built by `src/lib/whatsapp` as `https://wa.me/<number>?text=...`, so the
+  trigger could never match and the tag has not fired since the site moved to this codebase.
+- The conversion belongs to Google Ads account 6886537197, which is not the Visvas account
+  (11202124160) used by the other two conversion tags.
+
+The orphaned trigger `WhatsApp Button` (Just Links, URL contains api.whatsapp.com) is still in the
+container with no tag attached and can be deleted at any time.
+
+Known gaps left as-is for now: the two Visvas Google Ads tags also never fire, because their
+triggers look for `wa.me/919965593344` (old number; the site uses 919543224411) and
+`tel:9543224411` (the site uses `tel:+919543224411`). Fix the triggers or remove the tags once
+it is confirmed whether Google Ads conversions are still wanted.
