@@ -37,26 +37,36 @@ export default function EnquiryModal({ isOpen, projectName, onClose }) {
     active: isOpen,
   })
 
-  useEffect(() => {
+  // Adjust state when props change during render (not in an effect), per
+  // https://react.dev/learn/you-might-not-need-an-effect
+  const [prevProjectName, setPrevProjectName] = useState(projectName)
+  if (projectName !== prevProjectName) {
+    setPrevProjectName(projectName)
     setFormData((prev) => ({
       ...prev,
       project: projectName || '',
     }))
-  }, [projectName])
+  }
 
-  useEffect(() => {
+  // Fresh form each time the modal opens (clears previous success screen)
+  const [wasOpen, setWasOpen] = useState(isOpen)
+  if (isOpen !== wasOpen) {
+    setWasOpen(isOpen)
     if (isOpen) {
-      // Fresh form each time the modal opens (clears previous success screen)
       setMessage(null)
       setErrors({})
-      const handleEscape = (e) => {
-        if (e.key === 'Escape') {
-          onClose()
-        }
-      }
-      document.addEventListener('keydown', handleEscape)
-      return () => document.removeEventListener('keydown', handleEscape)
     }
+  }
+
+  useEffect(() => {
+    if (!isOpen) return undefined
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') {
+        onClose()
+      }
+    }
+    document.addEventListener('keydown', handleEscape)
+    return () => document.removeEventListener('keydown', handleEscape)
   }, [isOpen, onClose])
 
   const validateForm = () => {

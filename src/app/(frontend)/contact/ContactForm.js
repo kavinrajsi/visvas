@@ -157,7 +157,7 @@ export default function ContactForm({ heading = 'Contact Form', disclaimer = '',
         setFormData({
           name: '',
           mobile: '',
-          whatsapp: false,
+          whatsapp: true,
           email: '',
           budget: '',
           message: '',
