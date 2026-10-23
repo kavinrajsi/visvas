@@ -75,11 +75,14 @@ export async function sendAdminNotification(data) {
 export async function sendUserConfirmation(data) {
   if (!data.email) return { success: false, error: 'No user email provided' }
 
-  const html = formatUserEmail(data)
+  const isNewsletter = data.formType === 'newsletter'
+  const html = isNewsletter ? formatNewsletterEmail(data) : formatUserEmail(data)
 
   return sendEmail({
     to: data.email,
-    subject: `Confirmation: We received your inquiry`,
+    subject: isNewsletter
+      ? `You're subscribed to Visvas updates`
+      : `Confirmation: We received your inquiry`,
     html,
     bcc: process.env.ADMIN_EMAIL || undefined,
   })
@@ -140,6 +143,17 @@ function formatAdminEmail(data) {
     <pre>${htmlEscape(JSON.stringify(data.formData, null, 2))}</pre>
     <hr/>
     <p><strong>IP:</strong> ${htmlEscape(data.ip || 'Unknown')}</p>
+  `
+}
+
+function formatNewsletterEmail(data) {
+  return `
+    <p><strong>Hi ${htmlEscape(data.formData?.name || 'there')},</strong></p>
+    <p>Thank you for subscribing to Visvas updates.</p>
+    <p>You will hear from us when we publish new blog posts, project launches and offers.</p>
+    <p>If you did not sign up for this, you can ignore this email and we will not write again.</p>
+    <hr/>
+    <p>Best regards,<br/>Visvas Team</p>
   `
 }
 
