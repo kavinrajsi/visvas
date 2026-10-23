@@ -137,7 +137,7 @@ Removed the Google Ads conversion tag `TechSol - Ongoing Project WhatsApp Button
 Why:
 
 - Its trigger fired on clicks whose URL contained `https://api.whatsapp.com/`. Every WhatsApp
-  link on this site is built by `src/lib/whatsapp` as `https://wa.me/<number>?text=...`, so the
+  link on this site is built by `src/lib/contact/whatsapp.js` as `https://wa.me/<number>?text=...`, so the
   trigger could never match and the tag has not fired since the site moved to this codebase.
 - The conversion belongs to Google Ads account 6886537197, which is not the Visvas account
   (11202124160) used by the other two conversion tags.
