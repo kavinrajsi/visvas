@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
-import { trackFormSubmission } from '@/lib/gtm/events'
+import { useFormTracking } from '@/lib/gtm/useFormTracking'
 import { getAttributionData } from '@/lib/analytics/attribution'
 import { getRecaptchaToken } from '@/lib/security/recaptchaClient'
 import { HONEYPOT_FIELD } from '@/lib/security/honeypot'
@@ -30,6 +30,12 @@ export default function EnquiryModal({ isOpen, projectName, onClose }) {
   const [message, setMessage] = useState(null)
   const [errors, setErrors] = useState({})
   const modalRef = useRef(null)
+  // `active: isOpen` fires form_view on open and form_abandon on close-without-success
+  const tracking = useFormTracking('enquiry', {
+    formName: 'enquiry_modal',
+    projectName,
+    active: isOpen,
+  })
 
   useEffect(() => {
     setFormData((prev) => ({
@@ -92,6 +98,7 @@ export default function EnquiryModal({ isOpen, projectName, onClose }) {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target
+    if (name !== HONEYPOT_FIELD) tracking.trackStart(name)
     setFormData((prev) => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
@@ -111,6 +118,7 @@ export default function EnquiryModal({ isOpen, projectName, onClose }) {
 
     const newErrors = validateForm()
     if (Object.keys(newErrors).length > 0) {
+      tracking.trackValidationError(newErrors)
       setErrors(newErrors)
       setMessage({
         type: 'error',
@@ -120,6 +128,7 @@ export default function EnquiryModal({ isOpen, projectName, onClose }) {
     }
 
     setLoading(true)
+    tracking.trackSubmit(formData)
 
     try {
       const recaptchaToken = await getRecaptchaToken('enquiry')
@@ -139,7 +148,7 @@ export default function EnquiryModal({ isOpen, projectName, onClose }) {
       if (result.destinations) console.table(result.destinations)
 
       if (result.success) {
-        trackFormSubmission('enquiry', { ...formData }, 'success')
+        tracking.trackSuccess(formData)
         setMessage({
           type: 'success',
           text: 'Thank you! We will be in touch soon.',
@@ -155,7 +164,7 @@ export default function EnquiryModal({ isOpen, projectName, onClose }) {
           [HONEYPOT_FIELD]: '',
         })
       } else {
-        trackFormSubmission('enquiry', { ...formData }, 'error')
+        tracking.trackError('server', result.error, formData, result.errors)
         const serverErrors = result.errors || []
         setErrors(mapServerErrors(serverErrors))
         setMessage({
@@ -164,7 +173,7 @@ export default function EnquiryModal({ isOpen, projectName, onClose }) {
         })
       }
     } catch (err) {
-      trackFormSubmission('enquiry', { ...formData }, 'error')
+      tracking.trackError('network', err?.message, formData)
       setMessage({
         type: 'error',
         text: 'Network error. Please check your connection and try again.',
@@ -227,21 +236,6 @@ export default function EnquiryModal({ isOpen, projectName, onClose }) {
               disabled={loading}
             />
             {errors.mobile && <span className={styles['enquiry-modal__error']}>{errors.mobile}</span>}
-
-            <div className={styles['enquiry-modal__checkbox-group']}>
-              <input
-                type="checkbox"
-                id="whatsapp"
-                name="whatsapp"
-                checked={formData.whatsapp}
-                onChange={handleChange}
-                className={styles['enquiry-modal__checkbox']}
-                disabled={loading}
-              />
-              <label htmlFor="whatsapp" className={styles['enquiry-modal__checkbox-label']}>
-                Do you have whatsapp activated on this number?
-              </label>
-            </div>
           </div>
 
           <div className={styles['enquiry-modal__field']}>
@@ -286,6 +280,23 @@ export default function EnquiryModal({ isOpen, projectName, onClose }) {
                 {message.text}
               </p>
             )}
+          </div>
+
+          <div className={styles['enquiry-modal__field']}>
+            <div className={styles['enquiry-modal__checkbox-group']}>
+              <input
+                type="checkbox"
+                id="whatsapp"
+                name="whatsapp"
+                checked={formData.whatsapp}
+                onChange={handleChange}
+                className={styles['enquiry-modal__checkbox']}
+                disabled={loading}
+              />
+              <label htmlFor="whatsapp" className={styles['enquiry-modal__checkbox-label']}>
+                Do you have whatsapp activated on this number?
+              </label>
+            </div>
           </div>
 
           <p className={styles['enquiry-modal__disclaimer']}>

@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { getAttributionData } from '@/lib/analytics/attribution'
 import { getRecaptchaToken } from '@/lib/security/recaptchaClient'
 import { HONEYPOT_FIELD } from '@/lib/security/honeypot'
-import { trackFormSubmission } from '@/lib/gtm/events'
+import { useFormTracking } from '@/lib/gtm/useFormTracking'
 import FormSuccess from '@/app/(frontend)/components/form-success/FormSuccess'
 import styles from './ProjectEnquiryForm.module.scss'
 
@@ -23,6 +23,7 @@ export default function ProjectEnquiryForm({ projectName, brochureUrl }) {
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState(null)
   const [errors, setErrors] = useState({})
+  const tracking = useFormTracking('enquiry', { formName: 'project_enquiry_form', projectName })
 
   const validateForm = () => {
     const newErrors = {}
@@ -63,6 +64,7 @@ export default function ProjectEnquiryForm({ projectName, brochureUrl }) {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target
+    if (name !== HONEYPOT_FIELD) tracking.trackStart(name)
     setFormData((prev) => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
@@ -79,12 +81,14 @@ export default function ProjectEnquiryForm({ projectName, brochureUrl }) {
 
     const newErrors = validateForm()
     if (Object.keys(newErrors).length > 0) {
+      tracking.trackValidationError(newErrors)
       setErrors(newErrors)
       setMessage({ type: 'error', text: 'Please fix the errors above.' })
       return
     }
 
     setLoading(true)
+    tracking.trackSubmit(formData)
 
     try {
       const recaptchaToken = await getRecaptchaToken('enquiry')
@@ -104,7 +108,7 @@ export default function ProjectEnquiryForm({ projectName, brochureUrl }) {
       if (result.destinations) console.table(result.destinations)
 
       if (result.success) {
-        trackFormSubmission('enquiry', { ...formData }, 'success')
+        tracking.trackSuccess(formData)
         setMessage({ type: 'success' })
         setFormData({
           name: '',
@@ -117,12 +121,12 @@ export default function ProjectEnquiryForm({ projectName, brochureUrl }) {
           [HONEYPOT_FIELD]: '',
         })
       } else {
-        trackFormSubmission('enquiry', { ...formData }, 'error')
+        tracking.trackError('server', result.error, formData, result.errors)
         setErrors(mapServerErrors(result.errors || []))
         setMessage({ type: 'error', text: result.error || 'Failed to submit form. Please try again.' })
       }
-    } catch {
-      trackFormSubmission('enquiry', { ...formData }, 'error')
+    } catch (error) {
+      tracking.trackError('network', error?.message, formData)
       setMessage({ type: 'error', text: 'Network error. Please check your connection and try again.' })
     } finally {
       setLoading(false)
@@ -161,21 +165,6 @@ export default function ProjectEnquiryForm({ projectName, brochureUrl }) {
               disabled={loading}
             />
             {errors.mobile && <span className={styles['project-enquiry-form__error']}>{errors.mobile}</span>}
-
-            <div className={styles['project-enquiry-form__checkbox-group']}>
-              <input
-                type="checkbox"
-                id="project-enquiry-whatsapp"
-                name="whatsapp"
-                checked={formData.whatsapp}
-                onChange={handleChange}
-                className={styles['project-enquiry-form__checkbox']}
-                disabled={loading}
-              />
-              <label htmlFor="project-enquiry-whatsapp" className={styles['project-enquiry-form__checkbox-label']}>
-                Do you have whatsapp activated on this number?
-              </label>
-            </div>
           </div>
 
           <div className={styles['project-enquiry-form__field']}>
@@ -213,6 +202,23 @@ export default function ProjectEnquiryForm({ projectName, brochureUrl }) {
               className={styles['project-enquiry-form__textarea']}
               disabled={loading}
             />
+          </div>
+
+          <div className={styles['project-enquiry-form__field']}>
+            <div className={styles['project-enquiry-form__checkbox-group']}>
+              <input
+                type="checkbox"
+                id="project-enquiry-whatsapp"
+                name="whatsapp"
+                checked={formData.whatsapp}
+                onChange={handleChange}
+                className={styles['project-enquiry-form__checkbox']}
+                disabled={loading}
+              />
+              <label htmlFor="project-enquiry-whatsapp" className={styles['project-enquiry-form__checkbox-label']}>
+                Do you have whatsapp activated on this number?
+              </label>
+            </div>
           </div>
 
           <p className={styles['project-enquiry-form__disclaimer']}>

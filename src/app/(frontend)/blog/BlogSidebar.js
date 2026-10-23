@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { getAttributionData } from '@/lib/analytics/attribution'
 import { getRecaptchaToken } from '@/lib/security/recaptchaClient'
 import { HONEYPOT_FIELD } from '@/lib/security/honeypot'
-import { trackFormSubmission } from '@/lib/gtm/events'
+import { useFormTracking } from '@/lib/gtm/useFormTracking'
 import FormSuccess from '@/app/(frontend)/components/form-success/FormSuccess'
 import styles from './BlogSidebar.module.scss'
 
@@ -17,6 +17,7 @@ export default function BlogSidebar() {
   const [errors, setErrors] = useState({})
   const [message, setMessage] = useState(null)
   const [loading, setLoading] = useState(false)
+  const tracking = useFormTracking('newsletter', { formName: 'blog_newsletter_form' })
 
   const validateForm = (data) => {
     const nextErrors = {}
@@ -37,6 +38,7 @@ export default function BlogSidebar() {
 
   const handleChange = (event) => {
     const { name, value } = event.target
+    if (name !== HONEYPOT_FIELD) tracking.trackStart(name)
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -55,6 +57,7 @@ export default function BlogSidebar() {
     const validationErrors = validateForm(formData)
 
     if (Object.keys(validationErrors).length > 0) {
+      tracking.trackValidationError(validationErrors)
       setErrors(validationErrors)
       setMessage(null)
       return
@@ -63,6 +66,7 @@ export default function BlogSidebar() {
     setLoading(true)
     setMessage(null)
     setErrors({})
+    tracking.trackSubmit(formData)
 
     try {
       const attribution = getAttributionData()
@@ -85,11 +89,7 @@ export default function BlogSidebar() {
       if (result.destinations) console.table(result.destinations)
 
       if (result.success) {
-        trackFormSubmission('newsletter', {
-          name: formData.name,
-          email: formData.email,
-          submission_time: new Date().toISOString(),
-        }, 'success')
+        tracking.trackSuccess(formData)
 
         setMessage({
           type: 'success',
@@ -101,12 +101,7 @@ export default function BlogSidebar() {
           [HONEYPOT_FIELD]: '',
         })
       } else {
-        trackFormSubmission('newsletter', {
-          name: formData.name,
-          email: formData.email,
-          error_message: result.error || 'Unknown error',
-          submission_time: new Date().toISOString(),
-        }, 'error')
+        tracking.trackError('server', result.error, formData, result.errors)
 
         setMessage({
           type: 'error',
@@ -115,6 +110,7 @@ export default function BlogSidebar() {
       }
     } catch (error) {
       console.error('Form submission error:', error)
+      tracking.trackError('network', error?.message, formData)
       setMessage({
         type: 'error',
         text: 'Network error. Please try again.',
