@@ -53,7 +53,7 @@ src/
     api/getContactDetails.js  Phone, email, address with fallbacks
     richtext/, image/, gsap/, redirects/
 scripts/                      One-off and maintenance scripts (see section 9)
-docs/                         GTM guide and import file, CMS editor guide, content backup
+docs/                         CMS editor guide, content backup
 public/                       Static images, videos, email signature files
 payload.config.js             Payload setup: db, storage, email, collections, globals
 next.config.mjs               Headers, image hosts, redirects
@@ -167,11 +167,11 @@ Response shape: `{ success, message, id, degraded, fields, destinations }`. `des
 
 ### Tracking contract (GTM)
 
-- Form events come from `src/lib/gtm/useFormTracking.js`: `form_view`, `form_start`, `form_validation_error`, `form_submit`, `form_submission` (with `form_status` success or error), `form_abandon`. Every push carries `form_type`, `form_name`, `form_location` and, for project forms, `project_name`. The full key list is in [docs/gtm-form-tracking.md](docs/gtm-form-tracking.md).
+- Form events come from `src/lib/gtm/useFormTracking.js`: `form_view`, `form_start`, `form_validation_error`, `form_submit`, `form_submission` (with `form_status` success or error), `form_abandon`. Every push carries `form_type`, `form_name`, `form_location` and, for project forms, `project_name`. The full key list is in README.md section 5.
 - `sanitiseFormPayload` in `src/lib/gtm/events.js` strips name, email, mobile, phone, message and the honeypot before any push. Never push raw field values. Use presence flags.
 - Click events use `trackEvent` from `src/lib/gtm/events.js`. The ones that fire today: `whatsapp_click` (project sticky nav, mobile bar), `outbound_click` (Madarth link in the footer), `enquiry_form_visible` (modal opened).
 - GTM maps `form_submission` success to the GA4 events `generate_lead` (contact and enquiry) and `sign_up` (newsletter). Both are GA4 key events.
-- Every published GTM version needs plain-English notes in GTM (what it does, why, what changed) and a matching entry in the changelog section of `docs/gtm-form-tracking.md`.
+- Every published GTM version needs plain-English notes in GTM (what it does, why, what changed). The GTM version history is the change log; there is no copy in the repo.
 
 ### Where not to look
 
@@ -247,7 +247,7 @@ Run with `node --env-file=.env.local scripts/<file>` unless noted.
 - Edit `torExitNodes.js` or `payload-types.ts` by hand.
 - Add Tailwind or CSS-in-JS.
 - Use WordPress migration tooling. The migration is finished and the code was removed.
-- Publish a GTM version without plain-English notes and a changelog entry.
+- Publish a GTM version without plain-English notes.
 
 ## 9. Known issues (not yet fixed)
 

@@ -18,7 +18,7 @@ Hosting, in one sentence: the code lives on GitHub, Vercel builds and serves it 
 | If you are | Start with |
 |---|---|
 | A content editor (adding projects, posts, testimonials) | [docs/payload-guide/Visvas-CMS-Editor-Guide.html](docs/payload-guide/Visvas-CMS-Editor-Guide.html), a step-by-step guide with screenshots |
-| Marketing | Sections 5 and 6 below (tracking and the enquiry spreadsheet), then [docs/gtm-form-tracking.md](docs/gtm-form-tracking.md) |
+| Marketing | Sections 5 and 6 below (tracking and the enquiry spreadsheet) |
 | Sales or management | Sections 3 and 4 below (the visitor's journey and where enquiries go) |
 | A developer or an AI agent | [AGENTS.md](AGENTS.md) for the rules, then section 8 below to set up |
 
@@ -171,7 +171,7 @@ Personal data is never sent to GTM or GA4. Names, emails, phones and message tex
 
 GA4 only has data from 23 October 2026 onwards: the GTM container had no GA4 tag before that day. Both `generate_lead` and `sign_up` are key events, and GA4 has custom dimensions for form type, form name, form location, project name, error type and error fields, plus a funnel exploration "Form submission funnel (by project)".
 
-Full detail, the GTM setup steps and the change log of every container version: [docs/gtm-form-tracking.md](docs/gtm-form-tracking.md). The container can be re-imported from [docs/gtm-visvas-form-tracking.json](docs/gtm-visvas-form-tracking.json).
+The GTM container itself holds the setup: eight GA4 event tags, eight custom-event triggers and nineteen data layer variables in the "Form tracking" folder. Each published version carries notes saying what it does, why, and what changed, so the GTM version history is the change log.
 
 ## 6. The enquiry spreadsheet and its Dashboard
 
@@ -296,8 +296,6 @@ Pushing to the `main` branch on GitHub triggers a Vercel build and deploy. Envir
 |---|---|
 | [AGENTS.md](AGENTS.md) | Rules and facts for developers and AI agents |
 | [CLAUDE.md](CLAUDE.md) | Points to AGENTS.md plus notes for Claude Code |
-| [docs/gtm-form-tracking.md](docs/gtm-form-tracking.md) | Tracking events, GTM and GA4 setup, container change log |
-| [docs/gtm-visvas-form-tracking.json](docs/gtm-visvas-form-tracking.json) | GTM container import file |
 | [docs/payload-guide/](docs/payload-guide/) | The CMS editor guide and its screenshots |
 | [docs/backups/](docs/backups/) | Content of the retired Kumbabishekam page |
 
