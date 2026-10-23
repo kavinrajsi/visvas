@@ -111,6 +111,24 @@ In the browser console, `window.dataLayer` shows every pushed event.
 
 ## Container changelog
 
+Every version published from 23 Oct 2026 onwards carries a "why" plus a "what changed" in its
+GTM version notes (Versions, open the version, three-dot menu, Edit Notes). Keep that up for
+future versions so the container history explains itself.
+
+### Version 6 (23 Oct 2026): GA4 Google tag added, old WordPress form tag removed
+
+Why: the GA4 property G-GWG8S9E5MF had never received data because versions 1 to 5 (2024)
+contained no GA4 Google tag. Added `GA4 - Google Tag - visvas.in` on Initialization - All
+Pages. Deleted the old `Visvas - Forms` tag and `Form Submission - Visvas` trigger, which were
+written for the previous WordPress form markup and could not match the current forms.
+
+### Version 7 (23 Oct 2026): form tracking tags, triggers and variables
+
+Why: the site now pushes a dataLayer event for every form action (see the event reference
+above). Imported `docs/gtm-visvas-form-tracking.json`: eight GA4 event tags, eight custom-event
+triggers, nineteen `DLV - *` variables and the `Form tracking` folder. Success events map to
+the GA4 recommended events `generate_lead` (lead forms) and `sign_up` (newsletter).
+
 ### Version 8 (23 Oct 2026): removed "TechSol - Ongoing Project WhatsApp Button 46409"
 
 Removed the Google Ads conversion tag `TechSol - Ongoing Project WhatsApp Button 46409`
